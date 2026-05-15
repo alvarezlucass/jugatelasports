@@ -1,0 +1,84 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { UserProvider } from './contexts/UserContext';
+import { GameProvider } from './contexts/GameContext';
+import { Layout } from './components/layout/Layout';
+import { WorldCupLayout } from './components/layout/WorldCupLayout';
+import { Home } from './pages/Home';
+import { Profile } from './pages/Profile';
+import { PublicProfile } from './pages/PublicProfile';
+import { Register } from './pages/Register';
+import { Login } from './pages/Login';
+import { ForgotPassword } from './pages/ForgotPassword';
+import { NotifyMe } from './pages/NotifyMe';
+import { WorldCup } from './pages/WorldCup';
+import { Predictions } from './pages/Predictions';
+import { Rankings } from './pages/Rankings';
+import { GroupFixturePage } from './pages/GroupFixturePage';
+import { TeamSquadPage } from './pages/TeamSquadPage';
+import { VenuesPage } from './pages/VenuesPage';
+import { LeaguesTeaserPage } from './pages/LeaguesTeaserPage';
+import { BasketballTeaserPage } from './pages/BasketballTeaserPage';
+import { TennisTeaserPage } from './pages/TennisTeaserPage';
+import { F1TeaserPage } from './pages/F1TeaserPage';
+import { GroupDashboard } from './pages/GroupDashboard';
+import { GroupDetail } from './pages/GroupDetail';
+import { GroupModal } from './components/groups/GroupModal';
+import { History } from './pages/History';
+import { MatchPredictionPage } from './pages/MatchPredictionPage';
+import { LineupsPage } from './pages/LineupsPage';
+import { MarketPage } from './pages/MarketPage';
+import { StorePage } from './pages/StorePage';
+import { StoreAdminPage } from './pages/admin/StoreAdminPage';
+import MatchDetail from './pages/MatchDetail';
+import { IndustrialSim } from './pages/admin/IndustrialSim';
+import { ArgentinaHub } from './pages/ArgentinaHub';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <UserProvider>
+        <GameProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="home" element={<Home />} />
+              <Route path="leagues" element={<LeaguesTeaserPage />} />
+              <Route path="leagues/argentina" element={<ArgentinaHub />} />
+              <Route path="basketball" element={<BasketballTeaserPage />} />
+              <Route path="tennis" element={<TennisTeaserPage />} />
+              <Route path="f1" element={<F1TeaserPage />} />
+              <Route path="market" element={<MarketPage />} />
+              <Route path="lineups" element={<LineupsPage />} />
+              <Route path="rankings" element={<Rankings />} />
+              <Route path="store" element={<StorePage />} />
+              <Route path="admin/store" element={<StoreAdminPage />} />
+              <Route path="admin/sim" element={<IndustrialSim />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="profile/:userId" element={<PublicProfile />} />
+              <Route path="register" element={<Register />} />
+              <Route path="login" element={<Login />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="notify" element={<NotifyMe />} />
+              <Route path="worldcup" element={<WorldCupLayout />}>
+                <Route index element={<WorldCup />} />
+                <Route path="venues" element={<VenuesPage />} />
+                <Route path="group/:id" element={<GroupFixturePage />} />
+                <Route path="team/:teamName/squad" element={<TeamSquadPage />} />
+              </Route>
+              <Route path="groups" element={<GroupDashboard />} />
+              <Route path="groups/:id" element={<GroupDetail />} />
+              <Route path="groups/create" element={<><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="create" /></>} />
+              <Route path="groups/join" element={<><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="join" /></>} />
+              <Route path="predictions" element={<Predictions />} />
+              <Route path="predictions/match/:matchId" element={<MatchPredictionPage />} />
+              <Route path="match/:id" element={<MatchDetail />} />
+              <Route path="history" element={<History />} />
+            </Route>
+          </Routes>
+        </GameProvider>
+      </UserProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;

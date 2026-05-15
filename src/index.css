@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1D4ED8;
+  --color-primary-foreground: #FFFFFF;
+
+  --color-secondary: #0A0D14;
+  --color-secondary-foreground: #FFFFFF;
+
+  --color-accent: #3B82F6;
+  --color-accent-foreground: #FFFFFF;
+
+  --color-background: #07090E;
+  --color-foreground: #F8FAFC;
+
+  --color-card: #0F131A;
+  --color-card-foreground: #F8FAFC;
+
+  --color-popover: #0F131A;
+  --color-popover-foreground: #F8FAFC;
+
+  --color-muted: #1E293B;
+  --color-muted-foreground: #94A3B8;
+
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #FFFFFF;
+
+  --color-border: #1E293B;
+  --color-input: #1E293B;
+  --color-ring: #1D4ED8;
+
+  --radius-sm: 0.3rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom Utilities for Glassmorphism & Effects */
+@utility glass {
+  background: rgba(15, 19, 26, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@utility glass-card {
+  background: linear-gradient(145deg, rgba(15, 19, 26, 0.9) 0%, rgba(7, 9, 14, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@utility text-glow {
+  text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+@utility blue-glow {
+  box-shadow: 0 0 30px -5px rgba(59, 130, 246, 0.3);
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

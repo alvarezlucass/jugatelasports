@@ -1,0 +1,47 @@
+{
+    "tournament": {
+        "name": "FIFA World Cup 1990",
+        "host": "Italy",
+        "start_date": "1990-06-08",
+        "end_date": "1990-07-08"
+    },
+    "groups": {
+        "A": [
+            "Italy",
+            "Czechoslovakia",
+            "Austria",
+            "USA"
+        ],
+        "B": [
+            "Cameroon",
+            "Romania",
+            "Argentina",
+            "Soviet Union"
+        ],
+        "C": [
+            "Brazil",
+            "Costa Rica",
+            "Scotland",
+            "Sweden"
+        ],
+        "D": [
+            "West Germany",
+            "Yugoslavia",
+            "Colombia",
+            "United Arab Emirates"
+        ],
+        "E": [
+            "Spain",
+            "Belgium",
+            "Uruguay",
+            "South Korea"
+        ],
+        "F": [
+            "England",
+            "Republic of Ireland",
+            "Netherlands",
+            "Egypt"
+        ]
+    },
+    "matches": []
+}

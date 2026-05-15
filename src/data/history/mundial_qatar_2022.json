@@ -1,0 +1,1464 @@
+{
+  "mundial": {
+    "nombre": "Copa Mundial de la FIFA Qatar 2022",
+    "año": 2022,
+    "sede_pais": "Qatar",
+    "fecha_inicio": "2022-11-20",
+    "fecha_fin": "2022-12-18",
+    "campeon": "Argentina",
+    "subcampeon": "Francia",
+    "tercer_puesto": "Croacia",
+    "cuarto_puesto": "Marruecos",
+    "total_goles": 172,
+    "total_partidos": 64,
+    "goleador_torneo": {
+      "nombre": "Kylian Mbappé",
+      "pais": "Francia",
+      "goles": 8
+    },
+
+    "estadios": [
+      {
+        "id": "EST01",
+        "nombre": "Estadio Lusail",
+        "ciudad": "Lusail",
+        "capacidad": 88966,
+        "inauguracion": "2021-11-22",
+        "partidos_jugados": 10,
+        "partido_final": true
+      },
+      {
+        "id": "EST02",
+        "nombre": "Estadio Al Bayt",
+        "ciudad": "Al Khor",
+        "capacidad": 60000,
+        "inauguracion": "2021-10-30",
+        "partidos_jugados": 8,
+        "partido_final": false
+      },
+      {
+        "id": "EST03",
+        "nombre": "Estadio Al Thumama",
+        "ciudad": "Doha",
+        "capacidad": 44400,
+        "inauguracion": "2021-10-22",
+        "partidos_jugados": 8,
+        "partido_final": false
+      },
+      {
+        "id": "EST04",
+        "nombre": "Estadio Ahmad Bin Ali",
+        "ciudad": "Al Rayyan",
+        "capacidad": 44740,
+        "inauguracion": "2020-12-18",
+        "partidos_jugados": 8,
+        "partido_final": false
+      },
+      {
+        "id": "EST05",
+        "nombre": "Estadio Al Janoub",
+        "ciudad": "Al Wakrah",
+        "capacidad": 44325,
+        "inauguracion": "2019-05-16",
+        "partidos_jugados": 8,
+        "partido_final": false
+      },
+      {
+        "id": "EST06",
+        "nombre": "Estadio Education City",
+        "ciudad": "Al Rayyan",
+        "capacidad": 45350,
+        "inauguracion": "2020-06-15",
+        "partidos_jugados": 8,
+        "partido_final": false
+      },
+      {
+        "id": "EST07",
+        "nombre": "Estadio Khalifa Internacional",
+        "ciudad": "Doha",
+        "capacidad": 45857,
+        "inauguracion": "1976 (remodelado 2017)",
+        "partidos_jugados": 8,
+        "partido_final": false
+      },
+      {
+        "id": "EST08",
+        "nombre": "Estadio 974",
+        "ciudad": "Doha",
+        "capacidad": 44089,
+        "inauguracion": "2021-11-30",
+        "partidos_jugados": 6,
+        "partido_final": false
+      }
+    ],
+
+    "grupos": [
+      {
+        "grupo": "A",
+        "equipos": ["Qatar", "Ecuador", "Senegal", "Países Bajos"],
+        "clasificados": ["Países Bajos", "Senegal"]
+      },
+      {
+        "grupo": "B",
+        "equipos": ["Inglaterra", "Irán", "Estados Unidos", "Gales"],
+        "clasificados": ["Inglaterra", "Estados Unidos"]
+      },
+      {
+        "grupo": "C",
+        "equipos": ["Argentina", "Arabia Saudita", "México", "Polonia"],
+        "clasificados": ["Polonia", "Argentina"]
+      },
+      {
+        "grupo": "D",
+        "equipos": ["Francia", "Australia", "Dinamarca", "Túnez"],
+        "clasificados": ["Francia", "Australia"]
+      },
+      {
+        "grupo": "E",
+        "equipos": ["España", "Costa Rica", "Alemania", "Japón"],
+        "clasificados": ["Japón", "España"]
+      },
+      {
+        "grupo": "F",
+        "equipos": ["Bélgica", "Canadá", "Marruecos", "Croacia"],
+        "clasificados": ["Marruecos", "Croacia"]
+      },
+      {
+        "grupo": "G",
+        "equipos": ["Brasil", "Serbia", "Suiza", "Camerún"],
+        "clasificados": ["Brasil", "Suiza"]
+      },
+      {
+        "grupo": "H",
+        "equipos": ["Portugal", "Ghana", "Uruguay", "Corea del Sur"],
+        "clasificados": ["Portugal", "Corea del Sur"]
+      }
+    ],
+
+    "partidos": [
+      {
+        "id": "P001",
+        "fase": "Grupos",
+        "grupo": "A",
+        "fecha": "2022-11-20",
+        "hora": "17:00",
+        "estadio_id": "EST02",
+        "local": "Qatar",
+        "visitante": "Ecuador",
+        "resultado": { "local": 0, "visitante": 2 },
+        "goles": [
+          { "minuto": 16, "jugador": "Enner Valencia", "equipo": "Ecuador", "tipo": "penal" },
+          { "minuto": 31, "jugador": "Enner Valencia", "equipo": "Ecuador", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P002",
+        "fase": "Grupos",
+        "grupo": "B",
+        "fecha": "2022-11-21",
+        "hora": "13:00",
+        "estadio_id": "EST07",
+        "local": "Inglaterra",
+        "visitante": "Irán",
+        "resultado": { "local": 6, "visitante": 2 },
+        "goles": [
+          { "minuto": 35, "jugador": "Bukayo Saka", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 43, "jugador": "Jude Bellingham", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 62, "jugador": "Raheem Sterling", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 65, "jugador": "Marcus Rashford", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 71, "jugador": "Jack Grealish", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Bukayo Saka", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 65, "jugador": "Mehdi Taremi", "equipo": "Irán", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Mehdi Taremi", "equipo": "Irán", "tipo": "penal" }
+        ]
+      },
+      {
+        "id": "P003",
+        "fase": "Grupos",
+        "grupo": "A",
+        "fecha": "2022-11-21",
+        "hora": "16:00",
+        "estadio_id": "EST06",
+        "local": "Senegal",
+        "visitante": "Países Bajos",
+        "resultado": { "local": 0, "visitante": 2 },
+        "goles": [
+          { "minuto": 84, "jugador": "Cody Gakpo", "equipo": "Países Bajos", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Davy Klaassen", "equipo": "Países Bajos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P004",
+        "fase": "Grupos",
+        "grupo": "B",
+        "fecha": "2022-11-21",
+        "hora": "19:00",
+        "estadio_id": "EST04",
+        "local": "Estados Unidos",
+        "visitante": "Gales",
+        "resultado": { "local": 1, "visitante": 1 },
+        "goles": [
+          { "minuto": 36, "jugador": "Tim Weah", "equipo": "Estados Unidos", "tipo": "gol" },
+          { "minuto": 82, "jugador": "Gareth Bale", "equipo": "Gales", "tipo": "penal" }
+        ]
+      },
+      {
+        "id": "P005",
+        "fase": "Grupos",
+        "grupo": "C",
+        "fecha": "2022-11-22",
+        "hora": "13:00",
+        "estadio_id": "EST07",
+        "local": "Argentina",
+        "visitante": "Arabia Saudita",
+        "resultado": { "local": 1, "visitante": 2 },
+        "goles": [
+          { "minuto": 10, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "penal" },
+          { "minuto": 48, "jugador": "Salem Al-Dawsari", "equipo": "Arabia Saudita", "tipo": "gol" },
+          { "minuto": 53, "jugador": "Saleh Al-Shehri", "equipo": "Arabia Saudita", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P006",
+        "fase": "Grupos",
+        "grupo": "D",
+        "fecha": "2022-11-22",
+        "hora": "16:00",
+        "estadio_id": "EST05",
+        "local": "Dinamarca",
+        "visitante": "Túnez",
+        "resultado": { "local": 0, "visitante": 0 },
+        "goles": []
+      },
+      {
+        "id": "P007",
+        "fase": "Grupos",
+        "grupo": "C",
+        "fecha": "2022-11-22",
+        "hora": "19:00",
+        "estadio_id": "EST03",
+        "local": "México",
+        "visitante": "Polonia",
+        "resultado": { "local": 0, "visitante": 0 },
+        "goles": []
+      },
+      {
+        "id": "P008",
+        "fase": "Grupos",
+        "grupo": "D",
+        "fecha": "2022-11-22",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Francia",
+        "visitante": "Australia",
+        "resultado": { "local": 4, "visitante": 1 },
+        "goles": [
+          { "minuto": 9, "jugador": "Craig Goodwin", "equipo": "Australia", "tipo": "gol" },
+          { "minuto": 27, "jugador": "Adrien Rabiot", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 32, "jugador": "Olivier Giroud", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 68, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 71, "jugador": "Olivier Giroud", "equipo": "Francia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P009",
+        "fase": "Grupos",
+        "grupo": "E",
+        "fecha": "2022-11-23",
+        "hora": "13:00",
+        "estadio_id": "EST01",
+        "local": "Marruecos",
+        "visitante": "Croacia",
+        "resultado": { "local": 0, "visitante": 0 },
+        "goles": []
+      },
+      {
+        "id": "P010",
+        "fase": "Grupos",
+        "grupo": "E",
+        "fecha": "2022-11-23",
+        "hora": "16:00",
+        "estadio_id": "EST04",
+        "local": "Alemania",
+        "visitante": "Japón",
+        "resultado": { "local": 1, "visitante": 2 },
+        "goles": [
+          { "minuto": 33, "jugador": "Ilkay Gündogan", "equipo": "Alemania", "tipo": "penal" },
+          { "minuto": 75, "jugador": "Ritsu Doan", "equipo": "Japón", "tipo": "gol" },
+          { "minuto": 83, "jugador": "Takuma Asano", "equipo": "Japón", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P011",
+        "fase": "Grupos",
+        "grupo": "F",
+        "fecha": "2022-11-23",
+        "hora": "19:00",
+        "estadio_id": "EST06",
+        "local": "España",
+        "visitante": "Costa Rica",
+        "resultado": { "local": 7, "visitante": 0 },
+        "goles": [
+          { "minuto": 11, "jugador": "Dani Olmo", "equipo": "España", "tipo": "gol" },
+          { "minuto": 21, "jugador": "Marco Asensio", "equipo": "España", "tipo": "gol" },
+          { "minuto": 31, "jugador": "Ferran Torres", "equipo": "España", "tipo": "penal" },
+          { "minuto": 54, "jugador": "Ferran Torres", "equipo": "España", "tipo": "gol" },
+          { "minuto": 74, "jugador": "Gavi", "equipo": "España", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Carlos Soler", "equipo": "España", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Morata", "equipo": "España", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P012",
+        "fase": "Grupos",
+        "grupo": "F",
+        "fecha": "2022-11-23",
+        "hora": "22:00",
+        "estadio_id": "EST02",
+        "local": "Bélgica",
+        "visitante": "Canadá",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 44, "jugador": "Michy Batshuayi", "equipo": "Bélgica", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P013",
+        "fase": "Grupos",
+        "grupo": "G",
+        "fecha": "2022-11-24",
+        "hora": "13:00",
+        "estadio_id": "EST07",
+        "local": "Suiza",
+        "visitante": "Camerún",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 48, "jugador": "Breel Embolo", "equipo": "Suiza", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P014",
+        "fase": "Grupos",
+        "grupo": "G",
+        "fecha": "2022-11-24",
+        "hora": "16:00",
+        "estadio_id": "EST08",
+        "local": "Uruguay",
+        "visitante": "Corea del Sur",
+        "resultado": { "local": 0, "visitante": 0 },
+        "goles": []
+      },
+      {
+        "id": "P015",
+        "fase": "Grupos",
+        "grupo": "H",
+        "fecha": "2022-11-24",
+        "hora": "19:00",
+        "estadio_id": "EST03",
+        "local": "Portugal",
+        "visitante": "Ghana",
+        "resultado": { "local": 3, "visitante": 2 },
+        "goles": [
+          { "minuto": 65, "jugador": "Cristiano Ronaldo", "equipo": "Portugal", "tipo": "penal" },
+          { "minuto": 73, "jugador": "André Ayew", "equipo": "Ghana", "tipo": "gol" },
+          { "minuto": 78, "jugador": "João Félix", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 80, "jugador": "Rafael Leão", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 89, "jugador": "Osman Bukari", "equipo": "Ghana", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P016",
+        "fase": "Grupos",
+        "grupo": "H",
+        "fecha": "2022-11-24",
+        "hora": "22:00",
+        "estadio_id": "EST05",
+        "local": "Brasil",
+        "visitante": "Serbia",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 62, "jugador": "Richarlison", "equipo": "Brasil", "tipo": "gol" },
+          { "minuto": 73, "jugador": "Richarlison", "equipo": "Brasil", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P017",
+        "fase": "Grupos",
+        "grupo": "A",
+        "fecha": "2022-11-25",
+        "hora": "13:00",
+        "estadio_id": "EST03",
+        "local": "Qatar",
+        "visitante": "Senegal",
+        "resultado": { "local": 1, "visitante": 3 },
+        "goles": [
+          { "minuto": 41, "jugador": "Boulaye Dia", "equipo": "Senegal", "tipo": "gol" },
+          { "minuto": 48, "jugador": "Famara Diedhiou", "equipo": "Senegal", "tipo": "gol" },
+          { "minuto": 78, "jugador": "Mohammed Muntari", "equipo": "Qatar", "tipo": "gol" },
+          { "minuto": 84, "jugador": "Bambi Dieng", "equipo": "Senegal", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P018",
+        "fase": "Grupos",
+        "grupo": "A",
+        "fecha": "2022-11-25",
+        "hora": "16:00",
+        "estadio_id": "EST04",
+        "local": "Países Bajos",
+        "visitante": "Ecuador",
+        "resultado": { "local": 1, "visitante": 1 },
+        "goles": [
+          { "minuto": 6, "jugador": "Enner Valencia", "equipo": "Ecuador", "tipo": "gol" },
+          { "minuto": 49, "jugador": "Cody Gakpo", "equipo": "Países Bajos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P019",
+        "fase": "Grupos",
+        "grupo": "B",
+        "fecha": "2022-11-25",
+        "hora": "19:00",
+        "estadio_id": "EST02",
+        "local": "Gales",
+        "visitante": "Irán",
+        "resultado": { "local": 0, "visitante": 2 },
+        "goles": [
+          { "minuto": 98, "jugador": "Roozbeh Cheshmi", "equipo": "Irán", "tipo": "gol" },
+          { "minuto": 101, "jugador": "Ramin Rezaeian", "equipo": "Irán", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P020",
+        "fase": "Grupos",
+        "grupo": "B",
+        "fecha": "2022-11-25",
+        "hora": "22:00",
+        "estadio_id": "EST06",
+        "local": "Inglaterra",
+        "visitante": "Estados Unidos",
+        "resultado": { "local": 0, "visitante": 0 },
+        "goles": []
+      },
+      {
+        "id": "P021",
+        "fase": "Grupos",
+        "grupo": "D",
+        "fecha": "2022-11-26",
+        "hora": "13:00",
+        "estadio_id": "EST05",
+        "local": "Túnez",
+        "visitante": "Australia",
+        "resultado": { "local": 0, "visitante": 1 },
+        "goles": [
+          { "minuto": 23, "jugador": "Mitchell Duke", "equipo": "Australia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P022",
+        "fase": "Grupos",
+        "grupo": "C",
+        "fecha": "2022-11-26",
+        "hora": "16:00",
+        "estadio_id": "EST01",
+        "local": "Polonia",
+        "visitante": "Arabia Saudita",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 46, "jugador": "Piotr Zielinski", "equipo": "Polonia", "tipo": "gol" },
+          { "minuto": 82, "jugador": "Robert Lewandowski", "equipo": "Polonia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P023",
+        "fase": "Grupos",
+        "grupo": "D",
+        "fecha": "2022-11-26",
+        "hora": "19:00",
+        "estadio_id": "EST07",
+        "local": "Francia",
+        "visitante": "Dinamarca",
+        "resultado": { "local": 2, "visitante": 1 },
+        "goles": [
+          { "minuto": 68, "jugador": "Andreas Christensen", "equipo": "Dinamarca", "tipo": "gol" },
+          { "minuto": 86, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 88, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P024",
+        "fase": "Grupos",
+        "grupo": "C",
+        "fecha": "2022-11-26",
+        "hora": "22:00",
+        "estadio_id": "EST02",
+        "local": "Argentina",
+        "visitante": "México",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 64, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 87, "jugador": "Enzo Fernández", "equipo": "Argentina", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P025",
+        "fase": "Grupos",
+        "grupo": "F",
+        "fecha": "2022-11-27",
+        "hora": "13:00",
+        "estadio_id": "EST08",
+        "local": "Croacia",
+        "visitante": "Canadá",
+        "resultado": { "local": 4, "visitante": 1 },
+        "goles": [
+          { "minuto": 2, "jugador": "Alphonso Davies", "equipo": "Canadá", "tipo": "gol" },
+          { "minuto": 36, "jugador": "Andrej Kramaric", "equipo": "Croacia", "tipo": "gol" },
+          { "minuto": 44, "jugador": "Marko Livaja", "equipo": "Croacia", "tipo": "gol" },
+          { "minuto": 70, "jugador": "Andrej Kramaric", "equipo": "Croacia", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Lovro Majer", "equipo": "Croacia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P026",
+        "fase": "Grupos",
+        "grupo": "E",
+        "fecha": "2022-11-27",
+        "hora": "16:00",
+        "estadio_id": "EST05",
+        "local": "España",
+        "visitante": "Alemania",
+        "resultado": { "local": 1, "visitante": 1 },
+        "goles": [
+          { "minuto": 62, "jugador": "Álvaro Morata", "equipo": "España", "tipo": "gol" },
+          { "minuto": 83, "jugador": "Niklas Füllkrug", "equipo": "Alemania", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P027",
+        "fase": "Grupos",
+        "grupo": "F",
+        "fecha": "2022-11-27",
+        "hora": "19:00",
+        "estadio_id": "EST03",
+        "local": "Marruecos",
+        "visitante": "Bélgica",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 73, "jugador": "Abdelhamid Sabiri", "equipo": "Marruecos", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Zakaria Aboukhlal", "equipo": "Marruecos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P028",
+        "fase": "Grupos",
+        "grupo": "E",
+        "fecha": "2022-11-27",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Japón",
+        "visitante": "Costa Rica",
+        "resultado": { "local": 0, "visitante": 1 },
+        "goles": [
+          { "minuto": 81, "jugador": "Keysher Fuller", "equipo": "Costa Rica", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P029",
+        "fase": "Grupos",
+        "grupo": "H",
+        "fecha": "2022-11-28",
+        "hora": "13:00",
+        "estadio_id": "EST04",
+        "local": "Corea del Sur",
+        "visitante": "Ghana",
+        "resultado": { "local": 2, "visitante": 3 },
+        "goles": [
+          { "minuto": 24, "jugador": "Mohamed Salisu", "equipo": "Ghana", "tipo": "gol" },
+          { "minuto": 34, "jugador": "Jordan Ayew", "equipo": "Ghana", "tipo": "gol" },
+          { "minuto": 58, "jugador": "Gue-sung Cho", "equipo": "Corea del Sur", "tipo": "gol" },
+          { "minuto": 61, "jugador": "Gue-sung Cho", "equipo": "Corea del Sur", "tipo": "gol" },
+          { "minuto": 68, "jugador": "Mohammed Kudus", "equipo": "Ghana", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P030",
+        "fase": "Grupos",
+        "grupo": "G",
+        "fecha": "2022-11-28",
+        "hora": "16:00",
+        "estadio_id": "EST06",
+        "local": "Brasil",
+        "visitante": "Suiza",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 83, "jugador": "Casemiro", "equipo": "Brasil", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P031",
+        "fase": "Grupos",
+        "grupo": "G",
+        "fecha": "2022-11-28",
+        "hora": "19:00",
+        "estadio_id": "EST02",
+        "local": "Serbia",
+        "visitante": "Camerún",
+        "resultado": { "local": 3, "visitante": 3 },
+        "goles": [
+          { "minuto": 26, "jugador": "Strahinja Pavlovic", "equipo": "Serbia", "tipo": "gol" },
+          { "minuto": 29, "jugador": "Jean-Charles Castelletto", "equipo": "Camerún", "tipo": "gol" },
+          { "minuto": 44, "jugador": "Aleksandar Mitrovic", "equipo": "Serbia", "tipo": "gol" },
+          { "minuto": 63, "jugador": "Vincent Aboubakar", "equipo": "Camerún", "tipo": "gol" },
+          { "minuto": 66, "jugador": "Luka Jovic", "equipo": "Serbia", "tipo": "gol" },
+          { "minuto": 92, "jugador": "Eric Maxim Choupo-Moting", "equipo": "Camerún", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P032",
+        "fase": "Grupos",
+        "grupo": "H",
+        "fecha": "2022-11-28",
+        "hora": "22:00",
+        "estadio_id": "EST07",
+        "local": "Portugal",
+        "visitante": "Uruguay",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 54, "jugador": "Bruno Fernandes", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 92, "jugador": "Bruno Fernandes", "equipo": "Portugal", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P033",
+        "fase": "Grupos",
+        "grupo": "B",
+        "fecha": "2022-11-29",
+        "hora": "18:00",
+        "estadio_id": "EST03",
+        "local": "Gales",
+        "visitante": "Inglaterra",
+        "resultado": { "local": 0, "visitante": 3 },
+        "goles": [
+          { "minuto": 50, "jugador": "Phil Foden", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 68, "jugador": "Marcus Rashford", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 86, "jugador": "Marcus Rashford", "equipo": "Inglaterra", "tipo": "penal" }
+        ]
+      },
+      {
+        "id": "P034",
+        "fase": "Grupos",
+        "grupo": "B",
+        "fecha": "2022-11-29",
+        "hora": "18:00",
+        "estadio_id": "EST08",
+        "local": "Irán",
+        "visitante": "Estados Unidos",
+        "resultado": { "local": 0, "visitante": 1 },
+        "goles": [
+          { "minuto": 38, "jugador": "Christian Pulisic", "equipo": "Estados Unidos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P035",
+        "fase": "Grupos",
+        "grupo": "A",
+        "fecha": "2022-11-29",
+        "hora": "22:00",
+        "estadio_id": "EST04",
+        "local": "Ecuador",
+        "visitante": "Senegal",
+        "resultado": { "local": 1, "visitante": 2 },
+        "goles": [
+          { "minuto": 44, "jugador": "Ismaila Sarr", "equipo": "Senegal", "tipo": "penal" },
+          { "minuto": 67, "jugador": "Enner Valencia", "equipo": "Ecuador", "tipo": "gol" },
+          { "minuto": 70, "jugador": "Kalidou Koulibaly", "equipo": "Senegal", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P036",
+        "fase": "Grupos",
+        "grupo": "A",
+        "fecha": "2022-11-29",
+        "hora": "22:00",
+        "estadio_id": "EST02",
+        "local": "Países Bajos",
+        "visitante": "Qatar",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 26, "jugador": "Cody Gakpo", "equipo": "Países Bajos", "tipo": "gol" },
+          { "minuto": 49, "jugador": "Frenkie de Jong", "equipo": "Países Bajos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P037",
+        "fase": "Grupos",
+        "grupo": "D",
+        "fecha": "2022-11-30",
+        "hora": "18:00",
+        "estadio_id": "EST06",
+        "local": "Túnez",
+        "visitante": "Francia",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 58, "jugador": "Wahbi Khazri", "equipo": "Túnez", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P038",
+        "fase": "Grupos",
+        "grupo": "D",
+        "fecha": "2022-11-30",
+        "hora": "18:00",
+        "estadio_id": "EST07",
+        "local": "Australia",
+        "visitante": "Dinamarca",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 60, "jugador": "Mathew Leckie", "equipo": "Australia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P039",
+        "fase": "Grupos",
+        "grupo": "C",
+        "fecha": "2022-11-30",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Polonia",
+        "visitante": "Argentina",
+        "resultado": { "local": 0, "visitante": 2 },
+        "goles": [
+          { "minuto": 46, "jugador": "Mac Allister", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 67, "jugador": "Julián Álvarez", "equipo": "Argentina", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P040",
+        "fase": "Grupos",
+        "grupo": "C",
+        "fecha": "2022-11-30",
+        "hora": "22:00",
+        "estadio_id": "EST05",
+        "local": "Arabia Saudita",
+        "visitante": "México",
+        "resultado": { "local": 1, "visitante": 2 },
+        "goles": [
+          { "minuto": 48, "jugador": "Henry Martín", "equipo": "México", "tipo": "gol" },
+          { "minuto": 52, "jugador": "Salem Al-Dawsari", "equipo": "Arabia Saudita", "tipo": "gol" },
+          { "minuto": 56, "jugador": "Luis Chávez", "equipo": "México", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P041",
+        "fase": "Grupos",
+        "grupo": "F",
+        "fecha": "2022-12-01",
+        "hora": "18:00",
+        "estadio_id": "EST04",
+        "local": "Croacia",
+        "visitante": "Bélgica",
+        "resultado": { "local": 0, "visitante": 0 },
+        "goles": []
+      },
+      {
+        "id": "P042",
+        "fase": "Grupos",
+        "grupo": "F",
+        "fecha": "2022-12-01",
+        "hora": "18:00",
+        "estadio_id": "EST03",
+        "local": "Canadá",
+        "visitante": "Marruecos",
+        "resultado": { "local": 1, "visitante": 2 },
+        "goles": [
+          { "minuto": 4, "jugador": "Hakim Ziyech", "equipo": "Marruecos", "tipo": "gol" },
+          { "minuto": 23, "jugador": "Youssef En-Nesyri", "equipo": "Marruecos", "tipo": "gol" },
+          { "minuto": 40, "jugador": "Nayef Aguerd", "equipo": "Marruecos", "tipo": "en propia" },
+          { "minuto": 45, "jugador": "Anass Zaroury", "equipo": "Marruecos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P043",
+        "fase": "Grupos",
+        "grupo": "E",
+        "fecha": "2022-12-01",
+        "hora": "22:00",
+        "estadio_id": "EST08",
+        "local": "Japón",
+        "visitante": "España",
+        "resultado": { "local": 2, "visitante": 1 },
+        "goles": [
+          { "minuto": 11, "jugador": "Álvaro Morata", "equipo": "España", "tipo": "gol" },
+          { "minuto": 48, "jugador": "Ritsu Doan", "equipo": "Japón", "tipo": "gol" },
+          { "minuto": 51, "jugador": "Ao Tanaka", "equipo": "Japón", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P044",
+        "fase": "Grupos",
+        "grupo": "E",
+        "fecha": "2022-12-01",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Costa Rica",
+        "visitante": "Alemania",
+        "resultado": { "local": 2, "visitante": 4 },
+        "goles": [
+          { "minuto": 58, "jugador": "Serge Gnabry", "equipo": "Alemania", "tipo": "gol" },
+          { "minuto": 62, "jugador": "Kai Havertz", "equipo": "Alemania", "tipo": "gol" },
+          { "minuto": 70, "jugador": "Juan Pablo Vargas", "equipo": "Costa Rica", "tipo": "gol" },
+          { "minuto": 58, "jugador": "Niklas Füllkrug", "equipo": "Alemania", "tipo": "gol" },
+          { "minuto": 82, "jugador": "Yeltsin Tejeda", "equipo": "Costa Rica", "tipo": "gol" },
+          { "minuto": 89, "jugador": "Hannes Wolf", "equipo": "Alemania", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P045",
+        "fase": "Grupos",
+        "grupo": "G",
+        "fecha": "2022-12-02",
+        "hora": "18:00",
+        "estadio_id": "EST05",
+        "local": "Camerún",
+        "visitante": "Brasil",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 92, "jugador": "Vincent Aboubakar", "equipo": "Camerún", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P046",
+        "fase": "Grupos",
+        "grupo": "G",
+        "fecha": "2022-12-02",
+        "hora": "18:00",
+        "estadio_id": "EST02",
+        "local": "Serbia",
+        "visitante": "Suiza",
+        "resultado": { "local": 2, "visitante": 3 },
+        "goles": [
+          { "minuto": 20, "jugador": "Xherdan Shaqiri", "equipo": "Suiza", "tipo": "gol" },
+          { "minuto": 26, "jugador": "Breel Embolo", "equipo": "Suiza", "tipo": "gol" },
+          { "minuto": 44, "jugador": "Aleksandar Mitrovic", "equipo": "Serbia", "tipo": "gol" },
+          { "minuto": 48, "jugador": "Remo Freuler", "equipo": "Suiza", "tipo": "gol" },
+          { "minuto": 73, "jugador": "Dusan Tadic", "equipo": "Serbia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P047",
+        "fase": "Grupos",
+        "grupo": "H",
+        "fecha": "2022-12-02",
+        "hora": "22:00",
+        "estadio_id": "EST06",
+        "local": "Ghana",
+        "visitante": "Uruguay",
+        "resultado": { "local": 0, "visitante": 2 },
+        "goles": [
+          { "minuto": 26, "jugador": "Giorgian de Arrascaeta", "equipo": "Uruguay", "tipo": "gol" },
+          { "minuto": 32, "jugador": "Giorgian de Arrascaeta", "equipo": "Uruguay", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P048",
+        "fase": "Grupos",
+        "grupo": "H",
+        "fecha": "2022-12-02",
+        "hora": "22:00",
+        "estadio_id": "EST07",
+        "local": "Corea del Sur",
+        "visitante": "Portugal",
+        "resultado": { "local": 2, "visitante": 1 },
+        "goles": [
+          { "minuto": 5, "jugador": "Ricardo Horta", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 27, "jugador": "Kim Young-gwon", "equipo": "Corea del Sur", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Hwang Hee-chan", "equipo": "Corea del Sur", "tipo": "gol" }
+        ]
+      },
+
+      {
+        "id": "P049",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-03",
+        "hora": "18:00",
+        "estadio_id": "EST02",
+        "local": "Países Bajos",
+        "visitante": "Estados Unidos",
+        "resultado": { "local": 3, "visitante": 1 },
+        "goles": [
+          { "minuto": 10, "jugador": "Memphis Depay", "equipo": "Países Bajos", "tipo": "gol" },
+          { "minuto": 45, "jugador": "Daley Blind", "equipo": "Países Bajos", "tipo": "gol" },
+          { "minuto": 76, "jugador": "Haji Wright", "equipo": "Estados Unidos", "tipo": "gol" },
+          { "minuto": 81, "jugador": "Denzel Dumfries", "equipo": "Países Bajos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P050",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-03",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Argentina",
+        "visitante": "Australia",
+        "resultado": { "local": 2, "visitante": 1 },
+        "goles": [
+          { "minuto": 35, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 57, "jugador": "Julián Álvarez", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 77, "jugador": "Craig Goodwin", "equipo": "Australia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P051",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-04",
+        "hora": "18:00",
+        "estadio_id": "EST07",
+        "local": "Francia",
+        "visitante": "Polonia",
+        "resultado": { "local": 3, "visitante": 1 },
+        "goles": [
+          { "minuto": 74, "jugador": "Olivier Giroud", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 91, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 94, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 99, "jugador": "Robert Lewandowski", "equipo": "Polonia", "tipo": "penal" }
+        ]
+      },
+      {
+        "id": "P052",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-04",
+        "hora": "22:00",
+        "estadio_id": "EST03",
+        "local": "Inglaterra",
+        "visitante": "Senegal",
+        "resultado": { "local": 3, "visitante": 0 },
+        "goles": [
+          { "minuto": 38, "jugador": "Jordan Henderson", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 45, "jugador": "Harry Kane", "equipo": "Inglaterra", "tipo": "gol" },
+          { "minuto": 57, "jugador": "Bukayo Saka", "equipo": "Inglaterra", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P053",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-05",
+        "hora": "18:00",
+        "estadio_id": "EST05",
+        "local": "Japón",
+        "visitante": "Croacia",
+        "resultado": { "local": 1, "visitante": 1, "penales": { "local": 1, "visitante": 3 } },
+        "goles": [
+          { "minuto": 43, "jugador": "Daizen Maeda", "equipo": "Japón", "tipo": "gol" },
+          { "minuto": 55, "jugador": "Ivan Perisic", "equipo": "Croacia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P054",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-05",
+        "hora": "22:00",
+        "estadio_id": "EST06",
+        "local": "Brasil",
+        "visitante": "Corea del Sur",
+        "resultado": { "local": 4, "visitante": 1 },
+        "goles": [
+          { "minuto": 7, "jugador": "Vinicius Jr.", "equipo": "Brasil", "tipo": "gol" },
+          { "minuto": 13, "jugador": "Neymar", "equipo": "Brasil", "tipo": "gol" },
+          { "minuto": 29, "jugador": "Richarlison", "equipo": "Brasil", "tipo": "gol" },
+          { "minuto": 36, "jugador": "Lucas Paquetá", "equipo": "Brasil", "tipo": "gol" },
+          { "minuto": 76, "jugador": "Paik Seung-ho", "equipo": "Corea del Sur", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P055",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-06",
+        "hora": "18:00",
+        "estadio_id": "EST04",
+        "local": "Marruecos",
+        "visitante": "España",
+        "resultado": { "local": 0, "visitante": 0, "penales": { "local": 3, "visitante": 0 } },
+        "goles": []
+      },
+      {
+        "id": "P056",
+        "fase": "Octavos de Final",
+        "fecha": "2022-12-06",
+        "hora": "22:00",
+        "estadio_id": "EST08",
+        "local": "Portugal",
+        "visitante": "Suiza",
+        "resultado": { "local": 6, "visitante": 1 },
+        "goles": [
+          { "minuto": 17, "jugador": "Gonçalo Ramos", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 33, "jugador": "Manuel Akanji", "equipo": "Suiza", "tipo": "gol" },
+          { "minuto": 51, "jugador": "Gonçalo Ramos", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 55, "jugador": "Pepe", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 67, "jugador": "Raphaël Guerreiro", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 73, "jugador": "Gonçalo Ramos", "equipo": "Portugal", "tipo": "gol" },
+          { "minuto": 92, "jugador": "Rafael Leão", "equipo": "Portugal", "tipo": "gol" }
+        ]
+      },
+
+      {
+        "id": "P057",
+        "fase": "Cuartos de Final",
+        "fecha": "2022-12-09",
+        "hora": "18:00",
+        "estadio_id": "EST06",
+        "local": "Croacia",
+        "visitante": "Brasil",
+        "resultado": { "local": 1, "visitante": 1, "penales": { "local": 4, "visitante": 2 } },
+        "goles": [
+          { "minuto": 105, "jugador": "Neymar", "equipo": "Brasil", "tipo": "gol" },
+          { "minuto": 117, "jugador": "Bruno Petkovic", "equipo": "Croacia", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P058",
+        "fase": "Cuartos de Final",
+        "fecha": "2022-12-09",
+        "hora": "22:00",
+        "estadio_id": "EST07",
+        "local": "Países Bajos",
+        "visitante": "Argentina",
+        "resultado": { "local": 2, "visitante": 2, "penales": { "local": 3, "visitante": 4 } },
+        "goles": [
+          { "minuto": 35, "jugador": "Nahuel Molina", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 73, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "penal" },
+          { "minuto": 83, "jugador": "Wout Weghorst", "equipo": "Países Bajos", "tipo": "gol" },
+          { "minuto": 90, "jugador": "Wout Weghorst", "equipo": "Países Bajos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P059",
+        "fase": "Cuartos de Final",
+        "fecha": "2022-12-10",
+        "hora": "18:00",
+        "estadio_id": "EST02",
+        "local": "Marruecos",
+        "visitante": "Portugal",
+        "resultado": { "local": 1, "visitante": 0 },
+        "goles": [
+          { "minuto": 42, "jugador": "Youssef En-Nesyri", "equipo": "Marruecos", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P060",
+        "fase": "Cuartos de Final",
+        "fecha": "2022-12-10",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Inglaterra",
+        "visitante": "Francia",
+        "resultado": { "local": 1, "visitante": 2 },
+        "goles": [
+          { "minuto": 17, "jugador": "Aurélien Tchouaméni", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 54, "jugador": "Harry Kane", "equipo": "Inglaterra", "tipo": "penal" },
+          { "minuto": 78, "jugador": "Olivier Giroud", "equipo": "Francia", "tipo": "gol" }
+        ]
+      },
+
+      {
+        "id": "P061",
+        "fase": "Semifinales",
+        "fecha": "2022-12-13",
+        "hora": "22:00",
+        "estadio_id": "EST01",
+        "local": "Argentina",
+        "visitante": "Croacia",
+        "resultado": { "local": 3, "visitante": 0 },
+        "goles": [
+          { "minuto": 34, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "penal" },
+          { "minuto": 57, "jugador": "Julián Álvarez", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 69, "jugador": "Julián Álvarez", "equipo": "Argentina", "tipo": "gol" }
+        ]
+      },
+      {
+        "id": "P062",
+        "fase": "Semifinales",
+        "fecha": "2022-12-14",
+        "hora": "22:00",
+        "estadio_id": "EST02",
+        "local": "Francia",
+        "visitante": "Marruecos",
+        "resultado": { "local": 2, "visitante": 0 },
+        "goles": [
+          { "minuto": 5, "jugador": "Théo Hernández", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 79, "jugador": "Randal Kolo Muani", "equipo": "Francia", "tipo": "gol" }
+        ]
+      },
+
+      {
+        "id": "P063",
+        "fase": "Tercer Puesto",
+        "fecha": "2022-12-17",
+        "hora": "18:00",
+        "estadio_id": "EST07",
+        "local": "Croacia",
+        "visitante": "Marruecos",
+        "resultado": { "local": 2, "visitante": 1 },
+        "goles": [
+          { "minuto": 7, "jugador": "Josko Gvardiol", "equipo": "Croacia", "tipo": "gol" },
+          { "minuto": 9, "jugador": "Achraf Dari", "equipo": "Marruecos", "tipo": "gol" },
+          { "minuto": 42, "jugador": "Mislav Orsic", "equipo": "Croacia", "tipo": "gol" }
+        ]
+      },
+
+      {
+        "id": "P064",
+        "fase": "Final",
+        "fecha": "2022-12-18",
+        "hora": "18:00",
+        "estadio_id": "EST01",
+        "local": "Argentina",
+        "visitante": "Francia",
+        "resultado": { "local": 3, "visitante": 3, "penales": { "local": 4, "visitante": 2 } },
+        "goles": [
+          { "minuto": 23, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "penal" },
+          { "minuto": 36, "jugador": "Ángel Di María", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 80, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "penal" },
+          { "minuto": 81, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "gol" },
+          { "minuto": 108, "jugador": "Lionel Messi", "equipo": "Argentina", "tipo": "gol" },
+          { "minuto": 118, "jugador": "Kylian Mbappé", "equipo": "Francia", "tipo": "penal" }
+        ]
+      }
+    ],
+
+    "selecciones": [
+      {
+        "id": "SEL01",
+        "nombre": "Argentina",
+        "grupo": "C",
+        "confederacion": "CONMEBOL",
+        "clasificacion_final": 1,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Lionel Scaloni",
+          "asistente_1": "Pablo Aimar",
+          "asistente_2": "Walter Samuel",
+          "preparador_fisico": "Luis Martín"
+        },
+        "formacion_habitual": "4-3-3",
+        "jugadores": [
+          { "numero": 1, "nombre": "Franco Armani", "posicion": "Arquero", "club": "River Plate", "edad": 36 },
+          { "numero": 4, "nombre": "Gonzalo Montiel", "posicion": "Defensor", "club": "Sevilla", "edad": 25 },
+          { "numero": 13, "nombre": "Cristian Romero", "posicion": "Defensor", "club": "Tottenham", "edad": 24 },
+          { "numero": 19, "nombre": "Nicolás Otamendi", "posicion": "Defensor", "club": "Benfica", "edad": 34 },
+          { "numero": 8, "nombre": "Marcos Acuña", "posicion": "Defensor", "club": "Sevilla", "edad": 31 },
+          { "numero": 24, "nombre": "Enzo Fernández", "posicion": "Mediocampista", "club": "Benfica", "edad": 21 },
+          { "numero": 14, "nombre": "Exequiel Palacios", "posicion": "Mediocampista", "club": "Bayer Leverkusen", "edad": 24 },
+          { "numero": 20, "nombre": "Alexis Mac Allister", "posicion": "Mediocampista", "club": "Brighton", "edad": 23 },
+          { "numero": 11, "nombre": "Ángel Di María", "posicion": "Mediocampista/Delantero", "club": "Juventus", "edad": 34 },
+          { "numero": 9, "nombre": "Julián Álvarez", "posicion": "Delantero", "club": "Manchester City", "edad": 22 },
+          { "numero": 10, "nombre": "Lionel Messi", "posicion": "Delantero", "club": "PSG", "edad": 35, "capitan": true },
+          { "numero": 23, "nombre": "Emiliano Martínez", "posicion": "Arquero", "club": "Aston Villa", "edad": 30 },
+          { "numero": 3, "nombre": "Nicolás Tagliafico", "posicion": "Defensor", "club": "Olympique Lyon", "edad": 30 },
+          { "numero": 6, "nombre": "Germán Pezzella", "posicion": "Defensor", "club": "Real Betis", "edad": 31 },
+          { "numero": 26, "nombre": "Nahuel Molina", "posicion": "Defensor", "club": "Atlético de Madrid", "edad": 24 },
+          { "numero": 25, "nombre": "Lisandro Martínez", "posicion": "Defensor", "club": "Manchester United", "edad": 24 },
+          { "numero": 5, "nombre": "Leandro Paredes", "posicion": "Mediocampista", "club": "Juventus", "edad": 28 },
+          { "numero": 7, "nombre": "Rodrigo De Paul", "posicion": "Mediocampista", "club": "Atlético de Madrid", "edad": 28 },
+          { "numero": 18, "nombre": "Guido Rodríguez", "posicion": "Mediocampista", "club": "Real Betis", "edad": 28 },
+          { "numero": 15, "nombre": "Ángel Correa", "posicion": "Delantero", "club": "Atlético de Madrid", "edad": 27 },
+          { "numero": 22, "nombre": "Lautaro Martínez", "posicion": "Delantero", "club": "Internazionale", "edad": 25 },
+          { "numero": 12, "nombre": "Germán Carrizo", "posicion": "Arquero", "club": "Cádiz", "edad": 27 }
+        ]
+      },
+      {
+        "id": "SEL02",
+        "nombre": "Francia",
+        "grupo": "D",
+        "confederacion": "UEFA",
+        "clasificacion_final": 2,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Didier Deschamps",
+          "asistente_1": "Guy Stéphan",
+          "asistente_2": "Franck Raviot",
+          "preparador_fisico": "Grégory Dupont"
+        },
+        "formacion_habitual": "4-2-3-1",
+        "jugadores": [
+          { "numero": 1, "nombre": "Hugo Lloris", "posicion": "Arquero", "club": "Tottenham", "edad": 35, "capitan": true },
+          { "numero": 5, "nombre": "Jules Koundé", "posicion": "Defensor", "club": "Barcelona", "edad": 23 },
+          { "numero": 4, "nombre": "Raphaël Varane", "posicion": "Defensor", "club": "Manchester United", "edad": 29 },
+          { "numero": 17, "nombre": "Dayot Upamecano", "posicion": "Defensor", "club": "Bayern Munich", "edad": 24 },
+          { "numero": 22, "nombre": "Théo Hernández", "posicion": "Defensor", "club": "AC Milan", "edad": 25 },
+          { "numero": 13, "nombre": "N'Golo Kanté", "posicion": "Mediocampista", "club": "Chelsea", "edad": 31 },
+          { "numero": 8, "nombre": "Aurélien Tchouaméni", "posicion": "Mediocampista", "club": "Real Madrid", "edad": 22 },
+          { "numero": 14, "nombre": "Adrien Rabiot", "posicion": "Mediocampista", "club": "Juventus", "edad": 27 },
+          { "numero": 7, "nombre": "Antoine Griezmann", "posicion": "Mediocampista", "club": "Atlético de Madrid", "edad": 31 },
+          { "numero": 11, "nombre": "Ousmane Dembélé", "posicion": "Delantero", "club": "Barcelona", "edad": 25 },
+          { "numero": 10, "nombre": "Kylian Mbappé", "posicion": "Delantero", "club": "PSG", "edad": 23 },
+          { "numero": 9, "nombre": "Olivier Giroud", "posicion": "Delantero", "club": "AC Milan", "edad": 36 },
+          { "numero": 16, "nombre": "Mike Maignan", "posicion": "Arquero", "club": "AC Milan", "edad": 27 },
+          { "numero": 3, "nombre": "Presnel Kimpembe", "posicion": "Defensor", "club": "PSG", "edad": 27 },
+          { "numero": 6, "nombre": "Lucas Hernández", "posicion": "Defensor", "club": "Bayern Munich", "edad": 26 },
+          { "numero": 20, "nombre": "Kingsley Coman", "posicion": "Delantero", "club": "Bayern Munich", "edad": 26 },
+          { "numero": 12, "nombre": "Randal Kolo Muani", "posicion": "Delantero", "club": "Frankfurt", "edad": 23 },
+          { "numero": 21, "nombre": "Axel Disasi", "posicion": "Defensor", "club": "Monaco", "edad": 24 },
+          { "numero": 15, "nombre": "Marcus Thuram", "posicion": "Delantero", "club": "Borussia Mönchengladbach", "edad": 25 }
+        ]
+      },
+      {
+        "id": "SEL03",
+        "nombre": "Croacia",
+        "grupo": "F",
+        "confederacion": "UEFA",
+        "clasificacion_final": 3,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Zlatko Dalic",
+          "asistente_1": "Ivica Olić",
+          "asistente_2": "Mario Cvitanović"
+        },
+        "formacion_habitual": "4-3-3",
+        "jugadores": [
+          { "numero": 23, "nombre": "Dominik Livakovic", "posicion": "Arquero", "club": "Dinamo Zagreb", "edad": 27 },
+          { "numero": 2, "nombre": "Josip Juranovic", "posicion": "Defensor", "club": "Celtic", "edad": 27 },
+          { "numero": 6, "nombre": "Dejan Lovren", "posicion": "Defensor", "club": "Zenit", "edad": 33 },
+          { "numero": 5, "nombre": "Josko Gvardiol", "posicion": "Defensor", "club": "RB Leipzig", "edad": 20 },
+          { "numero": 3, "nombre": "Borna Sosa", "posicion": "Defensor", "club": "Stuttgart", "edad": 25 },
+          { "numero": 10, "nombre": "Luka Modric", "posicion": "Mediocampista", "club": "Real Madrid", "edad": 37, "capitan": true },
+          { "numero": 11, "nombre": "Marcelo Brozovic", "posicion": "Mediocampista", "club": "Internazionale", "edad": 29 },
+          { "numero": 8, "nombre": "Mateo Kovacic", "posicion": "Mediocampista", "club": "Chelsea", "edad": 28 },
+          { "numero": 4, "nombre": "Ivan Perisic", "posicion": "Mediocampista/Delantero", "club": "Tottenham", "edad": 33 },
+          { "numero": 17, "nombre": "Andrej Kramaric", "posicion": "Delantero", "club": "Hoffenheim", "edad": 31 },
+          { "numero": 18, "nombre": "Mislav Orsic", "posicion": "Delantero", "club": "Dinamo Zagreb", "edad": 30 }
+        ]
+      },
+      {
+        "id": "SEL04",
+        "nombre": "Marruecos",
+        "grupo": "F",
+        "confederacion": "CAF",
+        "clasificacion_final": 4,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Walid Regragui",
+          "asistente_1": "Rachid Taoussi"
+        },
+        "formacion_habitual": "4-1-4-1",
+        "jugadores": [
+          { "numero": 1, "nombre": "Yassine Bounou (Bono)", "posicion": "Arquero", "club": "Sevilla", "edad": 31 },
+          { "numero": 2, "nombre": "Achraf Hakimi", "posicion": "Defensor", "club": "PSG", "edad": 24 },
+          { "numero": 6, "nombre": "Romain Saïss", "posicion": "Defensor", "club": "Besiktas", "edad": 32, "capitan": true },
+          { "numero": 5, "nombre": "Nayef Aguerd", "posicion": "Defensor", "club": "West Ham", "edad": 26 },
+          { "numero": 3, "nombre": "Noussair Mazraoui", "posicion": "Defensor", "club": "Bayern Munich", "edad": 25 },
+          { "numero": 8, "nombre": "Azzedine Ounahi", "posicion": "Mediocampista", "club": "Angers", "edad": 22 },
+          { "numero": 4, "nombre": "Sofyan Amrabat", "posicion": "Mediocampista", "club": "Fiorentina", "edad": 26 },
+          { "numero": 11, "nombre": "Selim Amallah", "posicion": "Mediocampista", "club": "Standard Liège", "edad": 26 },
+          { "numero": 10, "nombre": "Hakim Ziyech", "posicion": "Mediocampista/Delantero", "club": "Chelsea", "edad": 29 },
+          { "numero": 15, "nombre": "Sofiane Boufal", "posicion": "Delantero", "club": "Angers", "edad": 29 },
+          { "numero": 19, "nombre": "Youssef En-Nesyri", "posicion": "Delantero", "club": "Sevilla", "edad": 25 }
+        ]
+      },
+      {
+        "id": "SEL05",
+        "nombre": "Brasil",
+        "grupo": "G",
+        "confederacion": "CONMEBOL",
+        "clasificacion_final": 8,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Tite",
+          "asistente_1": "Cleber Xavier",
+          "asistente_2": "César Sampaio"
+        },
+        "formacion_habitual": "4-2-3-1",
+        "jugadores": [
+          { "numero": 1, "nombre": "Alisson Becker", "posicion": "Arquero", "club": "Liverpool", "edad": 30 },
+          { "numero": 2, "nombre": "Danilo", "posicion": "Defensor", "club": "Juventus", "edad": 31 },
+          { "numero": 14, "nombre": "Éder Militão", "posicion": "Defensor", "club": "Real Madrid", "edad": 24 },
+          { "numero": 3, "nombre": "Thiago Silva", "posicion": "Defensor", "club": "Chelsea", "edad": 38, "capitan": true },
+          { "numero": 6, "nombre": "Alex Sandro", "posicion": "Defensor", "club": "Juventus", "edad": 31 },
+          { "numero": 5, "nombre": "Casemiro", "posicion": "Mediocampista", "club": "Manchester United", "edad": 30 },
+          { "numero": 8, "nombre": "Fred", "posicion": "Mediocampista", "club": "Manchester United", "edad": 29 },
+          { "numero": 11, "nombre": "Raphinha", "posicion": "Mediocampista/Delantero", "club": "Barcelona", "edad": 26 },
+          { "numero": 10, "nombre": "Neymar Jr.", "posicion": "Mediocampista/Delantero", "club": "PSG", "edad": 30 },
+          { "numero": 20, "nombre": "Vinicius Jr.", "posicion": "Delantero", "club": "Real Madrid", "edad": 22 },
+          { "numero": 9, "nombre": "Richarlison", "posicion": "Delantero", "club": "Tottenham", "edad": 25 }
+        ]
+      },
+      {
+        "id": "SEL06",
+        "nombre": "Portugal",
+        "grupo": "H",
+        "confederacion": "UEFA",
+        "clasificacion_final": 8,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Fernando Santos",
+          "asistente_1": "Tiago Lopes"
+        },
+        "formacion_habitual": "4-3-3",
+        "jugadores": [
+          { "numero": 1, "nombre": "Diogo Costa", "posicion": "Arquero", "club": "Porto", "edad": 23 },
+          { "numero": 2, "nombre": "João Cancelo", "posicion": "Defensor", "club": "Manchester City", "edad": 28 },
+          { "numero": 3, "nombre": "Pepe", "posicion": "Defensor", "club": "Porto", "edad": 39 },
+          { "numero": 4, "nombre": "Rúben Dias", "posicion": "Defensor", "club": "Manchester City", "edad": 25 },
+          { "numero": 5, "nombre": "Raphaël Guerreiro", "posicion": "Defensor", "club": "Borussia Dortmund", "edad": 28 },
+          { "numero": 8, "nombre": "João Moutinho", "posicion": "Mediocampista", "club": "Wolves", "edad": 36 },
+          { "numero": 16, "nombre": "Vitinha", "posicion": "Mediocampista", "club": "PSG", "edad": 22 },
+          { "numero": 11, "nombre": "João Félix", "posicion": "Mediocampista/Delantero", "club": "Atlético de Madrid", "edad": 23 },
+          { "numero": 8, "nombre": "Bruno Fernandes", "posicion": "Mediocampista", "club": "Manchester United", "edad": 28 },
+          { "numero": 17, "nombre": "Rafael Leão", "posicion": "Delantero", "club": "AC Milan", "edad": 23 },
+          { "numero": 7, "nombre": "Cristiano Ronaldo", "posicion": "Delantero", "club": "Manchester United", "edad": 37, "capitan": true },
+          { "numero": 9, "nombre": "Gonçalo Ramos", "posicion": "Delantero", "club": "Benfica", "edad": 21 }
+        ]
+      },
+      {
+        "id": "SEL07",
+        "nombre": "Países Bajos",
+        "grupo": "A",
+        "confederacion": "UEFA",
+        "clasificacion_final": 8,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Louis van Gaal",
+          "asistente_1": "Danny Blind",
+          "asistente_2": "Henk Fraser"
+        },
+        "formacion_habitual": "3-4-1-2",
+        "jugadores": [
+          { "numero": 1, "nombre": "Andries Noppert", "posicion": "Arquero", "club": "Heerenveen", "edad": 28 },
+          { "numero": 2, "nombre": "Denzel Dumfries", "posicion": "Defensor", "club": "Internazionale", "edad": 26 },
+          { "numero": 4, "nombre": "Virgil van Dijk", "posicion": "Defensor", "club": "Liverpool", "edad": 31, "capitan": true },
+          { "numero": 5, "nombre": "Nathan Aké", "posicion": "Defensor", "club": "Manchester City", "edad": 27 },
+          { "numero": 3, "nombre": "Matthijs de Ligt", "posicion": "Defensor", "club": "Bayern Munich", "edad": 23 },
+          { "numero": 8, "nombre": "Frenkie de Jong", "posicion": "Mediocampista", "club": "Barcelona", "edad": 25 },
+          { "numero": 6, "nombre": "Daley Blind", "posicion": "Mediocampista", "club": "Ajax", "edad": 32 },
+          { "numero": 15, "nombre": "Marten de Roon", "posicion": "Mediocampista", "club": "Atalanta", "edad": 31 },
+          { "numero": 7, "nombre": "Steven Bergwijn", "posicion": "Delantero", "club": "Ajax", "edad": 25 },
+          { "numero": 9, "nombre": "Memphis Depay", "posicion": "Delantero", "club": "Barcelona", "edad": 28 },
+          { "numero": 11, "nombre": "Cody Gakpo", "posicion": "Delantero", "club": "PSV", "edad": 23 }
+        ]
+      },
+      {
+        "id": "SEL08",
+        "nombre": "Inglaterra",
+        "grupo": "B",
+        "confederacion": "UEFA",
+        "clasificacion_final": 8,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Gareth Southgate",
+          "asistente_1": "Steve Holland"
+        },
+        "formacion_habitual": "4-3-3",
+        "jugadores": [
+          { "numero": 1, "nombre": "Jordan Pickford", "posicion": "Arquero", "club": "Everton", "edad": 28 },
+          { "numero": 2, "nombre": "Kyle Walker", "posicion": "Defensor", "club": "Manchester City", "edad": 32 },
+          { "numero": 5, "nombre": "John Stones", "posicion": "Defensor", "club": "Manchester City", "edad": 28 },
+          { "numero": 6, "nombre": "Harry Maguire", "posicion": "Defensor", "club": "Manchester United", "edad": 29 },
+          { "numero": 3, "nombre": "Luke Shaw", "posicion": "Defensor", "club": "Manchester United", "edad": 27 },
+          { "numero": 4, "nombre": "Declan Rice", "posicion": "Mediocampista", "club": "West Ham", "edad": 23 },
+          { "numero": 8, "nombre": "Jordan Henderson", "posicion": "Mediocampista", "club": "Liverpool", "edad": 32 },
+          { "numero": 22, "nombre": "Jude Bellingham", "posicion": "Mediocampista", "club": "Borussia Dortmund", "edad": 19 },
+          { "numero": 10, "nombre": "Raheem Sterling", "posicion": "Delantero", "club": "Chelsea", "edad": 27 },
+          { "numero": 9, "nombre": "Harry Kane", "posicion": "Delantero", "club": "Tottenham", "edad": 29, "capitan": true },
+          { "numero": 17, "nombre": "Bukayo Saka", "posicion": "Delantero", "club": "Arsenal", "edad": 21 },
+          { "numero": 11, "nombre": "Marcus Rashford", "posicion": "Delantero", "club": "Manchester United", "edad": 24 },
+          { "numero": 19, "nombre": "Mason Mount", "posicion": "Mediocampista", "club": "Chelsea", "edad": 23 },
+          { "numero": 7, "nombre": "Jack Grealish", "posicion": "Delantero", "club": "Manchester City", "edad": 27 },
+          { "numero": 20, "nombre": "Phil Foden", "posicion": "Mediocampista/Delantero", "club": "Manchester City", "edad": 22 }
+        ]
+      },
+      {
+        "id": "SEL09",
+        "nombre": "España",
+        "grupo": "E",
+        "confederacion": "UEFA",
+        "clasificacion_final": 16,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Luis Enrique",
+          "asistente_1": "Joaquín Valdés"
+        },
+        "formacion_habitual": "4-3-3",
+        "jugadores": [
+          { "numero": 1, "nombre": "Unai Simón", "posicion": "Arquero", "club": "Athletic Bilbao", "edad": 25 },
+          { "numero": 2, "nombre": "César Azpilicueta", "posicion": "Defensor", "club": "Chelsea", "edad": 33, "capitan": true },
+          { "numero": 4, "nombre": "Pau Torres", "posicion": "Defensor", "club": "Villarreal", "edad": 25 },
+          { "numero": 24, "nombre": "Aymeric Laporte", "posicion": "Defensor", "club": "Manchester City", "edad": 28 },
+          { "numero": 18, "nombre": "Jordi Alba", "posicion": "Defensor", "club": "Barcelona", "edad": 33 },
+          { "numero": 5, "nombre": "Sergio Busquets", "posicion": "Mediocampista", "club": "Barcelona", "edad": 34 },
+          { "numero": 16, "nombre": "Rodri", "posicion": "Mediocampista", "club": "Manchester City", "edad": 26 },
+          { "numero": 8, "nombre": "Koke", "posicion": "Mediocampista", "club": "Atlético de Madrid", "edad": 30 },
+          { "numero": 26, "nombre": "Pedri", "posicion": "Mediocampista", "club": "Barcelona", "edad": 20 },
+          { "numero": 6, "nombre": "Gavi", "posicion": "Mediocampista", "club": "Barcelona", "edad": 18 },
+          { "numero": 7, "nombre": "Álvaro Morata", "posicion": "Delantero", "club": "Atlético de Madrid", "edad": 30 },
+          { "numero": 11, "nombre": "Ferran Torres", "posicion": "Delantero", "club": "Barcelona", "edad": 22 },
+          { "numero": 10, "nombre": "Marco Asensio", "posicion": "Delantero", "club": "Real Madrid", "edad": 26 },
+          { "numero": 14, "nombre": "Dani Olmo", "posicion": "Mediocampista", "club": "RB Leipzig", "edad": 24 },
+          { "numero": 22, "nombre": "Pablo Sarabia", "posicion": "Delantero", "club": "Sporting CP", "edad": 30 },
+          { "numero": 21, "nombre": "Carlos Soler", "posicion": "Mediocampista", "club": "Valencia", "edad": 25 }
+        ]
+      },
+      {
+        "id": "SEL10",
+        "nombre": "Japón",
+        "grupo": "E",
+        "confederacion": "AFC",
+        "clasificacion_final": 16,
+        "cuerpo_tecnico": {
+          "director_tecnico": "Hajime Moriyasu",
+          "asistente_1": "Nobuhiro Ishizaki"
+        },
+        "formacion_habitual": "4-2-3-1",
+        "jugadores": [
+          { "numero": 12, "nombre": "Shuichi Gonda", "posicion": "Arquero", "club": "Shimizu S-Pulse", "edad": 29 },
+          { "numero": 2, "nombre": "Hiroki Sakai", "posicion": "Defensor", "club": "Urawa Reds", "edad": 32 },
+          { "numero": 3, "nombre": "Shogo Taniguchi", "posicion": "Defensor", "club": "Kawasaki Frontale", "edad": 30 },
+          { "numero": 22, "nombre": "Maya Yoshida", "posicion": "Defensor", "club": "Schalke", "edad": 34, "capitan": true },
+          { "numero": 5, "nombre": "Yuto Nagatomo", "posicion": "Defensor", "club": "FC Tokyo", "edad": 36 },
+          { "numero": 6, "nombre": "Wataru Endo", "posicion": "Mediocampista", "club": "Stuttgart", "edad": 29 },
+          { "numero": 17, "nombre": "Ao Tanaka", "posicion": "Mediocampista", "club": "Fortuna Düsseldorf", "edad": 24 },
+          { "numero": 8, "nombre": "Ritsu Doan", "posicion": "Mediocampista", "club": "SC Freiburg", "edad": 24 },
+          { "numero": 14, "nombre": "Junya Ito", "posicion": "Mediocampista", "club": "Stade de Reims", "edad": 29 },
+          { "numero": 9, "nombre": "Kaoru Mitoma", "posicion": "Delantero", "club": "Brighton", "edad": 25 },
+          { "numero": 15, "nombre": "Daizen Maeda", "posicion": "Delantero", "club": "Celtic", "edad": 24 },
+          { "numero": 18, "nombre": "Takuma Asano", "posicion": "Delantero", "club": "VfL Bochum", "edad": 28 }
+        ]
+      }
+    ],
+
+    "premios": {
+      "balon_de_oro": {
+        "jugador": "Lionel Messi",
+        "pais": "Argentina"
+      },
+      "bota_de_oro": {
+        "jugador": "Kylian Mbappé",
+        "pais": "Francia",
+        "goles": 8
+      },
+      "guante_de_oro": {
+        "jugador": "Emiliano Martínez",
+        "pais": "Argentina"
+      },
+      "mejor_jugador_joven": {
+        "jugador": "Enzo Fernández",
+        "pais": "Argentina"
+      },
+      "mejor_11": [
+        { "posicion": "Arquero", "jugador": "Emiliano Martínez", "pais": "Argentina" },
+        { "posicion": "Defensor", "jugador": "Achraf Hakimi", "pais": "Marruecos" },
+        { "posicion": "Defensor", "jugador": "Josko Gvardiol", "pais": "Croacia" },
+        { "posicion": "Defensor", "jugador": "Romain Saïss", "pais": "Marruecos" },
+        { "posicion": "Defensor", "jugador": "Théo Hernández", "pais": "Francia" },
+        { "posicion": "Mediocampista", "jugador": "Luka Modric", "pais": "Croacia" },
+        { "posicion": "Mediocampista", "jugador": "Sofyan Amrabat", "pais": "Marruecos" },
+        { "posicion": "Mediocampista", "jugador": "Enzo Fernández", "pais": "Argentina" },
+        { "posicion": "Delantero", "jugador": "Lionel Messi", "pais": "Argentina" },
+        { "posicion": "Delantero", "jugador": "Kylian Mbappé", "pais": "Francia" },
+        { "posicion": "Delantero", "jugador": "Julián Álvarez", "pais": "Argentina" }
+      ]
+    },
+
+    "tabla_goleadores_torneo": [
+      { "jugador": "Kylian Mbappé", "pais": "Francia", "goles": 8 },
+      { "jugador": "Lionel Messi", "pais": "Argentina", "goles": 7 },
+      { "jugador": "Olivier Giroud", "pais": "Francia", "goles": 4 },
+      { "jugador": "Julián Álvarez", "pais": "Argentina", "goles": 4 },
+      { "jugador": "Gonçalo Ramos", "pais": "Portugal", "goles": 3 },
+      { "jugador": "Marcus Rashford", "pais": "Inglaterra", "goles": 3 },
+      { "jugador": "Cody Gakpo", "pais": "Países Bajos", "goles": 3 },
+      { "jugador": "Enner Valencia", "pais": "Ecuador", "goles": 3 },
+      { "jugador": "Richarlison", "pais": "Brasil", "goles": 3 },
+      { "jugador": "Bukayo Saka", "pais": "Inglaterra", "goles": 3 }
+    ]
+  }
+}

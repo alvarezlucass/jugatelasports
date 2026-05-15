@@ -1,0 +1,412 @@
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, Trophy, Users, BarChart2, Clock, MapPin, Shield } from 'lucide-react';
+import { cn } from '../lib/utils';
+import { supabase } from '../lib/supabase';
+import { databaseService } from '../services/databaseService';
+import { AlertTriangle, Terminal, Play, CheckCircle2 } from 'lucide-react';
+import type { MatchLineup, MatchEvent, MatchStats, Player } from '../types';
+
+// Importación de componentes industriales
+import { TacticalPitch } from '../components/match/TacticalPitch';
+import { StaffPanel } from '../components/match/StaffPanel';
+import { AdvancedStatsPanel } from '../components/match/AdvancedStatsPanel';
+import { MatchTimeline } from '../components/match/MatchTimeline';
+import { PlayerDetailModal } from '../components/match/PlayerDetailModal';
+
+// Mocks mejorados para desarrollo visual (Mundial 2026 Style)
+const MOCK_MATCH = {
+    home: { id: 't1', name: 'Brasil', flag: '🇧🇷' },
+    away: { id: 't2', name: 'Argentina', flag: '🇦🇷' },
+    score: { home: 2, away: 1 },
+    time: 67,
+    venue: 'Mercedes-Benz Stadium',
+    city: 'Atlanta, USA'
+};
+
+const MOCK_LINEUP_HOME: MatchLineup = {
+    teamId: 't1',
+    formation: '4-3-3',
+    startXI: [
+        { player: { id: 'p1', name: 'Alisson' }, pos: 'GK', grid: '1:2' },
+        { player: { id: 'p2', name: 'Marquinhos' }, pos: 'DEF', grid: '2:1' },
+        { player: { id: 'p3', name: 'E. Militao' }, pos: 'DEF', grid: '2:3' },
+        { player: { id: 'p4', name: 'C. Augusto' }, pos: 'DEF', grid: '2:0.8' },
+        { player: { id: 'p5', name: 'Yan Couto' }, pos: 'DEF', grid: '2:3.2' },
+        { player: { id: 'p6', name: 'Casemiro' }, pos: 'MID', grid: '3:2' },
+        { player: { id: 'p7', name: 'Paquetá' }, pos: 'MID', grid: '3:1' },
+        { player: { id: 'p8', name: 'B. Guimarães' }, pos: 'MID', grid: '3:3' },
+        { player: { id: 'p9', name: 'Neymar Jr' }, pos: 'FWD', grid: '4:2' },
+        { player: { id: 'p10', name: 'Vinicius Jr' }, pos: 'FWD', grid: '4:1' },
+        { player: { id: 'p11', name: 'Richarlison' }, pos: 'FWD', grid: '4:3' },
+    ],
+    substitutes: [],
+    staff: [{ name: 'Dorival Júnior', role: 'Head Coach' }, { name: 'Lucas Silvestre', role: 'Assistant' }]
+};
+
+const MOCK_LINEUP_AWAY: MatchLineup = {
+    teamId: 't2',
+    formation: '4-4-2',
+    startXI: [
+        { player: { id: 'p101', name: 'E. Martínez' }, pos: 'GK', grid: '1:2' },
+        { player: { id: 'p102', name: 'C. Romero' }, pos: 'DEF', grid: '2:1.5' },
+        { player: { id: 'p103', name: 'N. Otamendi' }, pos: 'DEF', grid: '2:2.5' },
+        { player: { id: 'p104', name: 'N. Molina' }, pos: 'DEF', grid: '2:0.5' },
+        { player: { id: 'p105', name: 'N. Tagliafico' }, pos: 'DEF', grid: '2:3.5' },
+        { player: { id: 'p106', name: 'R. De Paul' }, pos: 'MID', grid: '3:1' },
+        { player: { id: 'p107', name: 'Enzo F.' }, pos: 'MID', grid: '3:2' },
+        { player: { id: 'p108', name: 'A. Mac Allister' }, pos: 'MID', grid: '3:3' },
+        { player: { id: 'p109', name: 'L. Messi' }, pos: 'FWD', grid: '4:1.5' },
+        { player: { id: 'p110', name: 'J. Álvarez' }, pos: 'FWD', grid: '4:2.5' },
+        { player: { id: 'p111', name: 'Á. Di María' }, pos: 'MID', grid: '3:4' },
+    ],
+    substitutes: [],
+    staff: [{ name: 'Lionel Scaloni', role: 'Head Coach' }, { name: 'Pablo Aimar', role: 'Assistant' }]
+};
+
+const MOCK_EVENTS: MatchEvent[] = [
+    { id: 'e1', time: 12, type: 'GOAL', teamId: 't1', player: { id: 'p10', name: 'Vinicius Jr' }, assistPlayer: { id: 'p9', name: 'Neymar Jr' }, detail: 'Gol' },
+    { id: 'e2', time: 34, type: 'CARD', teamId: 't2', player: { id: 'p106', name: 'R. De Paul' }, detail: 'Yellow Card' },
+    { id: 'e3', time: 45, type: 'GOAL', teamId: 't2', player: { id: 'p109', name: 'L. Messi' }, detail: 'Freekick Goal' },
+    { id: 'e4', time: 62, type: 'GOAL', teamId: 't1', player: { id: 'p11', name: 'Richarlison' }, assistPlayer: { id: 'p10', name: 'Vinicius Jr' }, detail: 'Header' },
+    { id: 'e5', time: 65, type: 'VAR', teamId: 't2', player: { id: 'p110', name: 'J. Álvarez' }, detail: 'Gol anulado por fuera de juego' },
+];
+
+const MOCK_STATS: MatchStats = {
+    possession: { home: 58, away: 42 },
+    shots: { home: 12, away: 8 },
+    shotsOnGoal: { home: 5, away: 3 },
+    passes: { home: 450, away: 310 },
+    corners: { home: 6, away: 2 }
+};
+
+const MatchDetail: React.FC = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<'SUMMARY' | 'LINEUPS' | 'STATS'>('SUMMARY');
+    const [activeLineup, setActiveLineup] = useState<'HOME' | 'AWAY'>('HOME');
+    const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+    const [matchData, setMatchData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [showDevTools, setShowDevTools] = useState(false);
+    const [simScore, setSimScore] = useState({ home: 0, away: 0 });
+    const [isSimulating, setIsSimulating] = useState(false);
+
+    React.useEffect(() => {
+        if (!id) return;
+
+        const loadData = async () => {
+            setLoading(true);
+            const { success, data } = await databaseService.fetchMatchDetail(id);
+            if (success && data) {
+                setMatchData(data);
+            }
+            setLoading(false);
+        };
+
+        loadData();
+
+        // Realtime Subscription
+        const channel = supabase
+            .channel(`match_${id}`)
+            .on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'matches', filter: `id=eq.${id}` },
+                (payload) => {
+                    console.log('Match Update Received:', payload.new);
+                    setMatchData(payload.new);
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#0A0D12] flex items-center justify-center">
+                <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+            </div>
+        );
+    }
+
+    if (!matchData) {
+        return (
+            <div className="min-h-screen bg-[#0A0D12] flex flex-col items-center justify-center p-6 text-center">
+                <Shield size={64} className="text-zinc-800 mb-6" />
+                <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">Partido no encontrado</h2>
+                <p className="text-zinc-500 mb-8">El ID del encuentro no es válido o ha expirado.</p>
+                <button onClick={() => navigate(-1)} className="px-8 py-3 bg-blue-600 rounded-2xl font-black uppercase tracking-widest text-[10px]">Volver</button>
+            </div>
+        );
+    }
+
+    // Mapping from DB data to Tactical UI
+    const score = { home: matchData.home_score || 0, away: matchData.away_score || 0 };
+    const tacticalMetadata = matchData.metadata || {};
+    const events = tacticalMetadata.events || MOCK_EVENTS;
+    const stats = tacticalMetadata.stats || MOCK_STATS;
+    const lineupHome = tacticalMetadata.lineup_home || MOCK_LINEUP_HOME;
+    const lineupAway = tacticalMetadata.lineup_away || MOCK_LINEUP_AWAY;
+
+    const handleSimulateResolution = async () => {
+        if (!id) return;
+        setIsSimulating(true);
+        const { success, processed } = await databaseService.resolveMatch(id, simScore.home, simScore.away);
+        if (success) {
+            alert(`¡Éxito! Partido resuelto. ${processed} predicciones procesadas.`);
+        } else {
+            alert('Error en la resolución. Verifica la consola.');
+        }
+        setIsSimulating(false);
+    };
+
+    return (
+        <div className="min-h-screen bg-[#0A0D12] text-white pb-20">
+            {/* Header / Scoreboard */}
+            <div className="relative h-72 overflow-hidden border-b border-white/5">
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-transparent" />
+                
+                <div className="relative z-10 p-6">
+                    <button onClick={() => navigate(-1)} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+                        <ChevronLeft size={24} />
+                    </button>
+
+                    <div className="mt-8 flex items-center justify-center gap-8 md:gap-16">
+                        <div className="text-center group">
+                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-2xl">
+                                <span className="text-4xl">{matchData.home_team_flag || '🏠'}</span>
+                            </div>
+                            <h2 className="font-black text-sm uppercase tracking-widest">{matchData.home_team}</h2>
+                        </div>
+
+                        <div className="text-center">
+                            <div className={cn(
+                                "backdrop-blur-md px-6 py-2 rounded-full border mb-4 inline-block",
+                                matchData.status === 'LIVE' ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/10"
+                            )}>
+                                <span className={cn(
+                                    "text-[10px] font-black uppercase tracking-[0.3em]",
+                                    matchData.status === 'LIVE' ? "text-red-500 animate-pulse" : "text-blue-400"
+                                )}>
+                                    {matchData.status === 'LIVE' ? 'En Vivo' : matchData.status === 'FINISHED' ? 'Finalizado' : 'Programado'}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <span className="text-5xl font-black md:text-7xl">{score.home}</span>
+                                <span className="text-xl md:text-3xl font-light text-white/30">:</span>
+                                <span className="text-5xl font-black md:text-7xl">{score.away}</span>
+                            </div>
+                            <div className="mt-4 text-zinc-500 font-bold text-xs flex items-center justify-center gap-2">
+                                <Clock size={12} className={cn("text-blue-500", matchData.status === 'LIVE' && "animate-pulse")} /> 
+                                {matchData.status === 'LIVE' ? `${matchData.minute || 0}'` : matchData.status === 'FINISHED' ? 'FT' : matchData.start_time.split('T')[1].substring(0, 5)}
+                            </div>
+                        </div>
+
+                        <div className="text-center group">
+                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-2xl">
+                                <span className="text-4xl">{matchData.away_team_flag || '✈️'}</span>
+                            </div>
+                            <h2 className="font-black text-sm uppercase tracking-widest">{matchData.away_team}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className="flex px-4 border-b border-white/5 overflow-x-auto no-scrollbar bg-black/40 backdrop-blur-md sticky top-0 z-40">
+                {[
+                    { id: 'SUMMARY', label: 'Resumen', icon: Clock },
+                    { id: 'LINEUPS', label: 'Alineación', icon: Users },
+                    { id: 'STATS', label: 'Estadísticas', icon: BarChart2 }
+                ].map(tab => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id as any)}
+                        className={cn(
+                            "flex items-center gap-2 px-8 py-5 border-b-2 transition-all shrink-0 uppercase text-[10px] font-black tracking-widest relative",
+                            activeTab === tab.id 
+                                ? "border-blue-500 text-white" 
+                                : "border-transparent text-zinc-500 hover:text-white"
+                        )}
+                    >
+                        {activeTab === tab.id && (
+                            <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-blue-500/5 -z-10" />
+                        )}
+                        <tab.icon size={14} />
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
+
+            {/* Tab Content */}
+            <div className="p-4 md:p-8 max-w-5xl mx-auto min-h-[600px]">
+                <AnimatePresence mode="wait">
+                    {activeTab === 'SUMMARY' && (
+                        <motion.div 
+                            key="tab-summary"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="space-y-8"
+                        >
+                            <div className="bg-white/5 rounded-2xl p-6 border border-white/5">
+                                <h3 className="text-xs font-black uppercase tracking-widest flex items-center gap-2 mb-6">
+                                    <MapPin size={14} className="text-blue-500" /> Detalle del Estadio
+                                </h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-4 bg-black/20 rounded-xl">
+                                        <p className="text-[9px] text-zinc-500 uppercase font-black tracking-widest">Sede</p>
+                                        <p className="text-sm font-bold mt-1">{tacticalMetadata.stadium || 'TBD'}</p>
+                                    </div>
+                                    <div className="p-4 bg-black/20 rounded-xl">
+                                        <p className="text-[9px] text-zinc-500 uppercase font-black tracking-widest">Ciudad</p>
+                                        <p className="text-sm font-bold mt-1">{tacticalMetadata.city || 'TBD'}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <MatchTimeline events={events} homeTeamId={matchData.home_team_id} />
+                        </motion.div>
+                    )}
+
+                    {activeTab === 'LINEUPS' && (
+                        <motion.div 
+                            key="tab-lineups"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="space-y-8"
+                        >
+                            {/* Lineup Selector */}
+                            <div className="flex bg-white/5 p-1 rounded-2xl w-full max-w-sm mx-auto border border-white/5">
+                                <button 
+                                    onClick={() => setActiveLineup('HOME')}
+                                    className={cn(
+                                        "flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                        activeLineup === 'HOME' ? "bg-blue-600 text-white shadow-lg" : "text-zinc-500 hover:text-white"
+                                    )}
+                                >
+                                    {matchData.home_team}
+                                </button>
+                                <button 
+                                    onClick={() => setActiveLineup('AWAY')}
+                                    className={cn(
+                                        "flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                        activeLineup === 'AWAY' ? "bg-white/20 text-white" : "text-zinc-500 hover:text-white"
+                                    )}
+                                >
+                                    {matchData.away_team}
+                                </button>
+                            </div>
+
+                            <TacticalPitch 
+                                lineup={activeLineup === 'HOME' ? lineupHome : lineupAway} 
+                                events={events}
+                                onPlayerClick={(id) => {
+                                    const allPlayers = [...lineupHome.startXI, ...lineupAway.startXI];
+                                    const p = allPlayers.find(s => s.player.id === id)?.player;
+                                    if (p) setSelectedPlayer(p);
+                                }}
+                            />
+
+                            <StaffPanel 
+                                homeStaff={lineupHome.staff} 
+                                awayStaff={lineupAway.staff}
+                                homeName={matchData.home_team}
+                                awayName={matchData.away_team}
+                            />
+                        </motion.div>
+                    )}
+
+                    {activeTab === 'STATS' && (
+                        <motion.div 
+                            key="tab-stats"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                        >
+                            <AdvancedStatsPanel stats={stats} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            <PlayerDetailModal 
+                isOpen={!!selectedPlayer} 
+                onClose={() => setSelectedPlayer(null)} 
+                player={selectedPlayer}
+            />
+
+            {/* Industrial Dev Simulation Toolbar */}
+            <div className="fixed bottom-6 left-6 z-50">
+                {!showDevTools ? (
+                    <button 
+                        onClick={() => setShowDevTools(true)}
+                        className="w-12 h-12 bg-zinc-900 border border-white/10 rounded-2xl flex items-center justify-center hover:bg-zinc-800 transition-colors shadow-2xl"
+                    >
+                        <Terminal size={20} className="text-zinc-500" />
+                    </button>
+                ) : (
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        className="bg-zinc-900 border border-white/10 p-6 rounded-[2rem] shadow-[0_0_50px_rgba(0,0,0,0.5)] w-80 space-y-4"
+                    >
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <AlertTriangle size={16} className="text-amber-500" />
+                                <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Dev Simulator</span>
+                            </div>
+                            <button onClick={() => setShowDevTools(false)} className="text-zinc-600 hover:text-white transition-colors">
+                                <CheckCircle2 size={16} />
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-tight">Set Final Result (3-2-1 Test)</p>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] text-zinc-600 uppercase font-bold">{matchData.home_team}</label>
+                                    <input 
+                                        type="number" 
+                                        value={simScore.home}
+                                        onChange={(e) => setSimScore(prev => ({ ...prev, home: parseInt(e.target.value) }))}
+                                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2 text-xl font-black focus:border-blue-500/50 outline-none transition-colors"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] text-zinc-600 uppercase font-bold">{matchData.away_team}</label>
+                                    <input 
+                                        type="number" 
+                                        value={simScore.away}
+                                        onChange={(e) => setSimScore(prev => ({ ...prev, away: parseInt(e.target.value) }))}
+                                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-2 text-xl font-black focus:border-blue-500/50 outline-none transition-colors"
+                                    />
+                                </div>
+                            </div>
+
+                            <button 
+                                onClick={handleSimulateResolution}
+                                disabled={isSimulating}
+                                className="w-full py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+                            >
+                                {isSimulating ? (
+                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                ) : (
+                                    <Play size={14} className="fill-current" />
+                                )}
+                                FORZAR CIERRE PARTIDO
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default MatchDetail;

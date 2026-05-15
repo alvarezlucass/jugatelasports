@@ -1,0 +1,964 @@
+{
+    "teams": [
+        {
+            "id": "team-arg",
+            "name": "Argentina",
+            "code": "ARG",
+            "flag": "https://media.api-sports.io/football/teams/26.png",
+            "coach": {
+                "name": "Lionel Scaloni",
+                "photo": "https://media.api-sports.io/football/coachs/44.png"
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Franco Armani",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/6075.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Gonzalo Montiel",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/6158.png"
+                },
+                {
+                    "number": 13,
+                    "name": "Cristian Romero",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/30784.png"
+                },
+                {
+                    "number": 19,
+                    "name": "Nicolás Otamendi",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/622.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Marcos Acuña",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/2691.png"
+                },
+                {
+                    "number": 24,
+                    "name": "Enzo Fernández",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/116117.png"
+                },
+                {
+                    "number": 14,
+                    "name": "Exequiel Palacios",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/6182.png"
+                },
+                {
+                    "number": 20,
+                    "name": "Alexis Mac Allister",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/47537.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Ángel Di María",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/184.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Julián Álvarez",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/54886.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Lionel Messi",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/154.png"
+                },
+                {
+                    "number": 23,
+                    "name": "Emiliano Martínez",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/20279.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Nicolás Tagliafico",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/2274.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Germán Pezzella",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/1578.png"
+                },
+                {
+                    "number": 26,
+                    "name": "Nahuel Molina",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/47547.png"
+                },
+                {
+                    "number": 25,
+                    "name": "Lisandro Martínez",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/20279.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Leandro Paredes",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/250.png"
+                },
+                {
+                    "number": 7,
+                    "name": "Rodrigo De Paul",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/218.png"
+                },
+                {
+                    "number": 18,
+                    "name": "Guido Rodríguez",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/2196.png"
+                },
+                {
+                    "number": 15,
+                    "name": "Ángel Correa",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/2288.png"
+                },
+                {
+                    "number": 22,
+                    "name": "Lautaro Martínez",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/20279.png"
+                },
+                {
+                    "number": 12,
+                    "name": "Germán Carrizo",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-fra",
+            "name": "Francia",
+            "code": "FRA",
+            "flag": "https://media.api-sports.io/football/teams/2.png",
+            "coach": {
+                "name": "Didier Deschamps",
+                "photo": "https://media.api-sports.io/football/coachs/14.png"
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Hugo Lloris",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/605.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Jules Koundé",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/2413.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Raphaël Varane",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/742.png"
+                },
+                {
+                    "number": 17,
+                    "name": "Dayot Upamecano",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/20556.png"
+                },
+                {
+                    "number": 22,
+                    "name": "Théo Hernández",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/22221.png"
+                },
+                {
+                    "number": 13,
+                    "name": "N'Golo Kanté",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Aurélien Tchouaméni",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/36671.png"
+                },
+                {
+                    "number": 14,
+                    "name": "Adrien Rabiot",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/615.png"
+                },
+                {
+                    "number": 7,
+                    "name": "Antoine Griezmann",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/219.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Ousmane Dembélé",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/215.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Kylian Mbappé",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/278.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Olivier Giroud",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/216.png"
+                },
+                {
+                    "number": 16,
+                    "name": "Mike Maignan",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Presnel Kimpembe",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Lucas Hernández",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/22221.png"
+                },
+                {
+                    "number": 20,
+                    "name": "Kingsley Coman",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/598.png"
+                },
+                {
+                    "number": 12,
+                    "name": "Randal Kolo Muani",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/23011.png"
+                },
+                {
+                    "number": 21,
+                    "name": "Axel Disasi",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/20697.png"
+                },
+                {
+                    "number": 15,
+                    "name": "Marcus Thuram",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/20694.png"
+                }
+            ]
+        },
+        {
+            "id": "team-cro",
+            "name": "Croacia",
+            "code": "CRO",
+            "flag": "https://media.api-sports.io/football/teams/3.png",
+            "coach": {
+                "name": "Zlatko Dalic",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 23,
+                    "name": "Dominik Livakovic",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "Josip Juranovic",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Dejan Lovren",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Josko Gvardiol",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Borna Sosa",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Luka Modric",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Marcelo Brozovic",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Mateo Kovacic",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Ivan Perisic",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 17,
+                    "name": "Andrej Kramaric",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 18,
+                    "name": "Mislav Orsic",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-mar",
+            "name": "Marruecos",
+            "code": "MAR",
+            "flag": "https://media.api-sports.io/football/teams/31.png",
+            "coach": {
+                "name": "Walid Regragui",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Yassine Bounou (Bono)",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "Achraf Hakimi",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Romain Saïss",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Nayef Aguerd",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Noussair Mazraoui",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Azzedine Ounahi",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Sofyan Amrabat",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Selim Amallah",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Hakim Ziyech",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 15,
+                    "name": "Sofiane Boufal",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 19,
+                    "name": "Youssef En-Nesyri",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-bra",
+            "name": "Brasil",
+            "code": "BRA",
+            "flag": "https://media.api-sports.io/football/teams/6.png",
+            "coach": {
+                "name": "Tite",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Alisson Becker",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "Danilo",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 14,
+                    "name": "Éder Militão",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Thiago Silva",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Alex Sandro",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Casemiro",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Fred",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Raphinha",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Neymar Jr.",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 20,
+                    "name": "Vinicius Jr.",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Richarlison",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-por",
+            "name": "Portugal",
+            "code": "POR",
+            "flag": "https://media.api-sports.io/football/teams/27.png",
+            "coach": {
+                "name": "Fernando Santos",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Diogo Costa",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "João Cancelo",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Pepe",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Rúben Dias",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Raphaël Guerreiro",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "João Moutinho",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 16,
+                    "name": "Vitinha",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "João Félix",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Bruno Fernandes",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 17,
+                    "name": "Rafael Leão",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 7,
+                    "name": "Cristiano Ronaldo",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Gonçalo Ramos",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-ned",
+            "name": "Países Bajos",
+            "code": "NED",
+            "flag": "https://media.api-sports.io/football/teams/1118.png",
+            "coach": {
+                "name": "Louis van Gaal",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Andries Noppert",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "Denzel Dumfries",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Virgil van Dijk",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Nathan Aké",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Matthijs de Ligt",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Frenkie de Jong",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Daley Blind",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 15,
+                    "name": "Marten de Roon",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 7,
+                    "name": "Steven Bergwijn",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Memphis Depay",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Cody Gakpo",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-eng",
+            "name": "Inglaterra",
+            "code": "ENG",
+            "flag": "https://media.api-sports.io/football/teams/10.png",
+            "coach": {
+                "name": "Gareth Southgate",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Jordan Pickford",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "Kyle Walker",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "John Stones",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Harry Maguire",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Luke Shaw",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Declan Rice",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Jordan Henderson",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 22,
+                    "name": "Jude Bellingham",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Raheem Sterling",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Harry Kane",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 17,
+                    "name": "Bukayo Saka",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Marcus Rashford",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 19,
+                    "name": "Mason Mount",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 7,
+                    "name": "Jack Grealish",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 20,
+                    "name": "Phil Foden",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-esp",
+            "name": "España",
+            "code": "ESP",
+            "flag": "https://media.api-sports.io/football/teams/9.png",
+            "coach": {
+                "name": "Luis Enrique",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 1,
+                    "name": "Unai Simón",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "César Azpilicueta",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 4,
+                    "name": "Pau Torres",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 24,
+                    "name": "Aymeric Laporte",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 18,
+                    "name": "Jordi Alba",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Sergio Busquets",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 16,
+                    "name": "Rodri",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Koke",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 26,
+                    "name": "Pedri",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Gavi",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 7,
+                    "name": "Álvaro Morata",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 11,
+                    "name": "Ferran Torres",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 10,
+                    "name": "Marco Asensio",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 14,
+                    "name": "Dani Olmo",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 22,
+                    "name": "Pablo Sarabia",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 21,
+                    "name": "Carlos Soler",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        },
+        {
+            "id": "team-jpn",
+            "name": "Japón",
+            "code": "JPN",
+            "flag": "https://media.api-sports.io/football/teams/12.png",
+            "coach": {
+                "name": "Hajime Moriyasu",
+                "photo": ""
+            },
+            "squad": [
+                {
+                    "number": 12,
+                    "name": "Shuichi Gonda",
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 2,
+                    "name": "Hiroki Sakai",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 3,
+                    "name": "Shogo Taniguchi",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 22,
+                    "name": "Maya Yoshida",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 5,
+                    "name": "Yuto Nagatomo",
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 6,
+                    "name": "Wataru Endo",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 17,
+                    "name": "Ao Tanaka",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 8,
+                    "name": "Ritsu Doan",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 14,
+                    "name": "Junya Ito",
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 9,
+                    "name": "Kaoru Mitoma",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 15,
+                    "name": "Daizen Maeda",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                },
+                {
+                    "number": 18,
+                    "name": "Takuma Asano",
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/default.png"
+                }
+            ]
+        }
+    ]
+}

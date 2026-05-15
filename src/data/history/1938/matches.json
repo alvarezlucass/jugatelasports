@@ -1,0 +1,89 @@
+{
+    "tournament": {
+        "name": "FIFA World Cup 1938",
+        "host": "France",
+        "start_date": "1938-06-04",
+        "end_date": "1938-06-19"
+    },
+    "matches": [
+        {
+            "id": 1,
+            "stage": "First Round",
+            "date": "1938-06-04",
+            "stadium": "Parc des Princes",
+            "city": "Paris",
+            "home": "Switzerland",
+            "away": "Germany",
+            "score": "1-1 (a.e.t.)",
+            "goals": [
+                "Josef Gauchel 29'",
+                "André Abegglen 43'"
+            ]
+        },
+        {
+            "id": 2,
+            "stage": "First Round (Replay)",
+            "date": "1938-06-09",
+            "stadium": "Parc des Princes",
+            "city": "Paris",
+            "home": "Switzerland",
+            "away": "Germany",
+            "score": "4-2",
+            "goals": [
+                "Eugen Walaschek 42'",
+                "Alfred Bickel 64'",
+                "André Abegglen 75', 78'",
+                "Wilhelm Hahnemann 8'",
+                "Ernst Lörtscher 22' (o.g.)"
+            ]
+        },
+        {
+            "id": 3,
+            "stage": "First Round",
+            "date": "1938-06-05",
+            "stadium": "Vélodrome Municipal",
+            "city": "Reims",
+            "home": "Hungary",
+            "away": "Dutch East Indies",
+            "score": "6-0",
+            "goals": [
+                "Vilmos Kohut 14'",
+                "Géza Toldi 16'",
+                "György Sárosi 25', 88'",
+                "Gyula Zsengellér 30', 67'"
+            ]
+        },
+        {
+            "id": 14,
+            "stage": "Final",
+            "date": "1938-06-19",
+            "stadium": "Stade Olympique de Colombes",
+            "city": "Paris",
+            "home": "Italy",
+            "away": "Hungary",
+            "score": "4-2",
+            "goals": [
+                {
+                    "team": "Italy",
+                    "player": "Gino Colaussi",
+                    "minute": "6, 35"
+                },
+                {
+                    "team": "Italy",
+                    "player": "Silvio Piola",
+                    "minute": "16, 82"
+                },
+                {
+                    "team": "Hungary",
+                    "player": "Pál Titkos",
+                    "minute": "8"
+                },
+                {
+                    "team": "Hungary",
+                    "player": "György Sárosi",
+                    "minute": "70"
+                }
+            ]
+        }
+    ]
+}

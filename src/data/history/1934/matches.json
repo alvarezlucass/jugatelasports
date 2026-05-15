@@ -1,0 +1,133 @@
+{
+    "tournament": {
+        "name": "FIFA World Cup 1934",
+        "host": "Italy",
+        "start_date": "1934-05-27",
+        "end_date": "1934-06-10"
+    },
+    "matches": [
+        {
+            "id": 1,
+            "stage": "Preliminary Round",
+            "date": "1934-05-27",
+            "stadium": "Stadio Littoriale",
+            "city": "Bologna",
+            "home": "Sweden",
+            "away": "Argentina",
+            "score": "3-2",
+            "goals": [
+                {
+                    "team": "Argentina",
+                    "player": "Belis",
+                    "minute": 4
+                },
+                {
+                    "team": "Sweden",
+                    "player": "Jonasson",
+                    "minute": 9
+                },
+                {
+                    "team": "Argentina",
+                    "player": "Galateo",
+                    "minute": 48
+                },
+                {
+                    "team": "Sweden",
+                    "player": "Jonasson",
+                    "minute": 67
+                },
+                {
+                    "team": "Sweden",
+                    "player": "Kroon",
+                    "minute": 79
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "stage": "Preliminary Round",
+            "date": "1934-05-27",
+            "stadium": "Stadio Benito Mussolini",
+            "city": "Turin",
+            "home": "Austria",
+            "away": "France",
+            "score": "3-2",
+            "extra_time": true,
+            "goals": [
+                {
+                    "team": "France",
+                    "player": "Nicolas",
+                    "minute": 18
+                },
+                {
+                    "team": "Austria",
+                    "player": "Sindelar",
+                    "minute": 44
+                },
+                {
+                    "team": "Austria",
+                    "player": "Schall",
+                    "minute": 93
+                },
+                {
+                    "team": "Austria",
+                    "player": "Bican",
+                    "minute": 109
+                },
+                {
+                    "team": "France",
+                    "player": "Verriest",
+                    "minute": 116,
+                    "penalty": true
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "stage": "Preliminary Round",
+            "date": "1934-05-27",
+            "stadium": "Stadio Giovanni Berta",
+            "city": "Florence",
+            "home": "Germany",
+            "away": "Belgium",
+            "score": "5-2",
+            "goals": [
+                {
+                    "team": "Germany",
+                    "player": "Kobierski",
+                    "minute": 25
+                },
+                {
+                    "team": "Belgium",
+                    "player": "Voorhoof",
+                    "minute": 29
+                },
+                {
+                    "team": "Belgium",
+                    "player": "Voorhoof",
+                    "minute": 43
+                },
+                {
+                    "team": "Germany",
+                    "player": "Siffling",
+                    "minute": 49
+                },
+                {
+                    "team": "Germany",
+                    "player": "Conen",
+                    "minute": 66
+                },
+                {
+                    "team": "Germany",
+                    "player": "Conen",
+                    "minute": 70
+                },
+                {
+                    "team": "Germany",
+                    "player": "Conen",
+                    "minute": 87
+                }
+            ]
+        }
+    ]
+}

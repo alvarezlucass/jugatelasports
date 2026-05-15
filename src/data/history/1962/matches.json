@@ -1,0 +1,35 @@
+{
+    "tournament": {
+        "name": "FIFA World Cup 1962",
+        "host": "Chile",
+        "start_date": "1962-05-30",
+        "end_date": "1962-06-17"
+    },
+    "groups": {
+        "1": [
+            "Soviet Union",
+            "Yugoslavia",
+            "Uruguay",
+            "Colombia"
+        ],
+        "2": [
+            "West Germany",
+            "Chile",
+            "Italy",
+            "Switzerland"
+        ],
+        "3": [
+            "Brazil",
+            "Czechoslovakia",
+            "Mexico",
+            "Spain"
+        ],
+        "4": [
+            "Hungary",
+            "England",
+            "Argentina",
+            "Bulgaria"
+        ]
+    },
+    "matches": []
+}

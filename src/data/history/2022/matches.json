@@ -1,0 +1,1075 @@
+{
+    "groups": {
+        "A": {
+            "standings": [
+                {
+                    "team": "Países Bajos",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 7,
+                    "gf": 5,
+                    "ga": 1,
+                    "gd": 4,
+                    "form": "W D W",
+                    "rank": 1
+                },
+                {
+                    "team": "Senegal",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 5,
+                    "ga": 4,
+                    "gd": 1,
+                    "form": "L W W",
+                    "rank": 2
+                },
+                {
+                    "team": "Ecuador",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 4,
+                    "ga": 3,
+                    "gd": 1,
+                    "form": "W D L",
+                    "rank": 3
+                },
+                {
+                    "team": "Qatar",
+                    "played": 3,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 3,
+                    "points": 0,
+                    "gf": 1,
+                    "ga": 7,
+                    "gd": -6,
+                    "form": "L L L",
+                    "rank": 4
+                }
+            ]
+        },
+        "B": {
+            "standings": [
+                {
+                    "team": "Inglaterra",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 7,
+                    "gf": 9,
+                    "ga": 2,
+                    "gd": 7,
+                    "form": "W D W",
+                    "rank": 1
+                },
+                {
+                    "team": "Estados Unidos",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 2,
+                    "lost": 0,
+                    "points": 5,
+                    "gf": 2,
+                    "ga": 1,
+                    "gd": 1,
+                    "form": "D D W",
+                    "rank": 2
+                },
+                {
+                    "team": "Irán",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 2,
+                    "points": 3,
+                    "gf": 4,
+                    "ga": 7,
+                    "gd": -3,
+                    "form": "L W L",
+                    "rank": 3
+                },
+                {
+                    "team": "Gales",
+                    "played": 3,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 2,
+                    "points": 1,
+                    "gf": 1,
+                    "ga": 6,
+                    "gd": -5,
+                    "form": "D L L",
+                    "rank": 4
+                }
+            ]
+        },
+        "C": {
+            "standings": [
+                {
+                    "team": "Argentina",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 5,
+                    "ga": 2,
+                    "gd": 3,
+                    "form": "L W W",
+                    "rank": 1
+                },
+                {
+                    "team": "Polonia",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 2,
+                    "ga": 2,
+                    "gd": 0,
+                    "form": "D W L",
+                    "rank": 2
+                },
+                {
+                    "team": "México",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 2,
+                    "ga": 3,
+                    "gd": -1,
+                    "form": "D L W",
+                    "rank": 3
+                },
+                {
+                    "team": "Arabia Saudita",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 2,
+                    "points": 3,
+                    "gf": 3,
+                    "ga": 5,
+                    "gd": -2,
+                    "form": "W L L",
+                    "rank": 4
+                }
+            ]
+        },
+        "D": {
+            "standings": [
+                {
+                    "team": "Francia",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 6,
+                    "ga": 3,
+                    "gd": 3,
+                    "form": "W W L",
+                    "rank": 1
+                },
+                {
+                    "team": "Australia",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 3,
+                    "ga": 4,
+                    "gd": -1,
+                    "form": "L W W",
+                    "rank": 2
+                },
+                {
+                    "team": "Túnez",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 1,
+                    "ga": 1,
+                    "gd": 0,
+                    "form": "D L W",
+                    "rank": 3
+                },
+                {
+                    "team": "Dinamarca",
+                    "played": 3,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 2,
+                    "points": 1,
+                    "gf": 1,
+                    "ga": 3,
+                    "gd": -2,
+                    "form": "D L L",
+                    "rank": 4
+                }
+            ]
+        },
+        "E": {
+            "standings": [
+                {
+                    "team": "Japón",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 4,
+                    "ga": 3,
+                    "gd": 1,
+                    "form": "W L W",
+                    "rank": 1
+                },
+                {
+                    "team": "Alemania",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 6,
+                    "ga": 5,
+                    "gd": 1,
+                    "form": "L D W",
+                    "rank": 2
+                },
+                {
+                    "team": "Costa Rica",
+                    "played": 2,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 3,
+                    "gf": 3,
+                    "ga": 4,
+                    "gd": -1,
+                    "form": "W L",
+                    "rank": 3
+                },
+                {
+                    "team": "Marruecos",
+                    "played": 1,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 1,
+                    "gf": 0,
+                    "ga": 0,
+                    "gd": 0,
+                    "form": "D",
+                    "rank": 4
+                },
+                {
+                    "team": "Croacia",
+                    "played": 1,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 1,
+                    "gf": 0,
+                    "ga": 0,
+                    "gd": 0,
+                    "form": "D",
+                    "rank": 5
+                },
+                {
+                    "team": "España",
+                    "played": 2,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 1,
+                    "gf": 2,
+                    "ga": 3,
+                    "gd": -1,
+                    "form": "D L",
+                    "rank": 6
+                }
+            ]
+        },
+        "F": {
+            "standings": [
+                {
+                    "team": "Marruecos",
+                    "played": 2,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 0,
+                    "points": 6,
+                    "gf": 4,
+                    "ga": 1,
+                    "gd": 3,
+                    "form": "W W",
+                    "rank": 1
+                },
+                {
+                    "team": "Croacia",
+                    "played": 2,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 4,
+                    "gf": 4,
+                    "ga": 1,
+                    "gd": 3,
+                    "form": "W D",
+                    "rank": 2
+                },
+                {
+                    "team": "Bélgica",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 1,
+                    "ga": 2,
+                    "gd": -1,
+                    "form": "W L D",
+                    "rank": 3
+                },
+                {
+                    "team": "España",
+                    "played": 1,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 0,
+                    "points": 3,
+                    "gf": 7,
+                    "ga": 0,
+                    "gd": 7,
+                    "form": "W",
+                    "rank": 4
+                },
+                {
+                    "team": "Canadá",
+                    "played": 3,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 3,
+                    "points": 0,
+                    "gf": 2,
+                    "ga": 7,
+                    "gd": -5,
+                    "form": "L L L",
+                    "rank": 5
+                },
+                {
+                    "team": "Costa Rica",
+                    "played": 1,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 0,
+                    "gf": 0,
+                    "ga": 7,
+                    "gd": -7,
+                    "form": "L",
+                    "rank": 6
+                }
+            ]
+        },
+        "G": {
+            "standings": [
+                {
+                    "team": "Suiza",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 4,
+                    "ga": 3,
+                    "gd": 1,
+                    "form": "W L W",
+                    "rank": 1
+                },
+                {
+                    "team": "Camerún",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 4,
+                    "gf": 4,
+                    "ga": 4,
+                    "gd": 0,
+                    "form": "L D W",
+                    "rank": 2
+                },
+                {
+                    "team": "Brasil",
+                    "played": 2,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 3,
+                    "gf": 1,
+                    "ga": 1,
+                    "gd": 0,
+                    "form": "W L",
+                    "rank": 3
+                },
+                {
+                    "team": "Uruguay",
+                    "played": 1,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 1,
+                    "gf": 0,
+                    "ga": 0,
+                    "gd": 0,
+                    "form": "D",
+                    "rank": 4
+                },
+                {
+                    "team": "Corea del Sur",
+                    "played": 1,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 0,
+                    "points": 1,
+                    "gf": 0,
+                    "ga": 0,
+                    "gd": 0,
+                    "form": "D",
+                    "rank": 5
+                },
+                {
+                    "team": "Serbia",
+                    "played": 2,
+                    "won": 0,
+                    "drawn": 1,
+                    "lost": 1,
+                    "points": 1,
+                    "gf": 5,
+                    "ga": 6,
+                    "gd": -1,
+                    "form": "D L",
+                    "rank": 6
+                }
+            ]
+        },
+        "H": {
+            "standings": [
+                {
+                    "team": "Portugal",
+                    "played": 3,
+                    "won": 2,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 6,
+                    "gf": 6,
+                    "ga": 4,
+                    "gd": 2,
+                    "form": "W W L",
+                    "rank": 1
+                },
+                {
+                    "team": "Brasil",
+                    "played": 1,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 0,
+                    "points": 3,
+                    "gf": 2,
+                    "ga": 0,
+                    "gd": 2,
+                    "form": "W",
+                    "rank": 2
+                },
+                {
+                    "team": "Corea del Sur",
+                    "played": 2,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 3,
+                    "gf": 4,
+                    "ga": 4,
+                    "gd": 0,
+                    "form": "L W",
+                    "rank": 3
+                },
+                {
+                    "team": "Uruguay",
+                    "played": 2,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 3,
+                    "gf": 2,
+                    "ga": 2,
+                    "gd": 0,
+                    "form": "L W",
+                    "rank": 4
+                },
+                {
+                    "team": "Ghana",
+                    "played": 3,
+                    "won": 1,
+                    "drawn": 0,
+                    "lost": 2,
+                    "points": 3,
+                    "gf": 5,
+                    "ga": 7,
+                    "gd": -2,
+                    "form": "L W L",
+                    "rank": 5
+                },
+                {
+                    "team": "Serbia",
+                    "played": 1,
+                    "won": 0,
+                    "drawn": 0,
+                    "lost": 1,
+                    "points": 0,
+                    "gf": 0,
+                    "ga": 2,
+                    "gd": -2,
+                    "form": "L",
+                    "rank": 6
+                }
+            ]
+        }
+    },
+    "knockout": [
+        {
+            "round": "Final",
+            "matches": [
+                {
+                    "id": 64,
+                    "homeTeam": "Argentina",
+                    "homeFlag": "https://media.api-sports.io/football/teams/26.png",
+                    "awayTeam": "Francia",
+                    "awayFlag": "https://media.api-sports.io/football/teams/2.png",
+                    "score": "3-3",
+                    "date": "2022-12-18T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "23'",
+                            "team": "home",
+                            "player": "Lionel Messi",
+                            "type": "PENALTY"
+                        },
+                        {
+                            "time": "36'",
+                            "team": "home",
+                            "player": "Ángel Di María",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "80'",
+                            "team": "away",
+                            "player": "Kylian Mbappé",
+                            "type": "PENALTY"
+                        },
+                        {
+                            "time": "81'",
+                            "team": "away",
+                            "player": "Kylian Mbappé",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "108'",
+                            "team": "home",
+                            "player": "Lionel Messi",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "118'",
+                            "team": "away",
+                            "player": "Kylian Mbappé",
+                            "type": "PENALTY"
+                        }
+                    ],
+                    "penalties": "4-2"
+                }
+            ]
+        },
+        {
+            "round": "Tercer Puesto",
+            "matches": [
+                {
+                    "id": 63,
+                    "homeTeam": "Croacia",
+                    "homeFlag": "https://media.api-sports.io/football/teams/3.png",
+                    "awayTeam": "Marruecos",
+                    "awayFlag": "https://media.api-sports.io/football/teams/31.png",
+                    "score": "2-1",
+                    "date": "2022-12-17T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "7'",
+                            "team": "home",
+                            "player": "Josko Gvardiol",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "9'",
+                            "team": "away",
+                            "player": "Achraf Dari",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "42'",
+                            "team": "home",
+                            "player": "Mislav Orsic",
+                            "type": "GOAL"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "round": "Semi-Finales",
+            "matches": [
+                {
+                    "id": 61,
+                    "homeTeam": "Argentina",
+                    "homeFlag": "https://media.api-sports.io/football/teams/26.png",
+                    "awayTeam": "Croacia",
+                    "awayFlag": "https://media.api-sports.io/football/teams/3.png",
+                    "score": "3-0",
+                    "date": "2022-12-13T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "34'",
+                            "team": "home",
+                            "player": "Lionel Messi",
+                            "type": "PENALTY"
+                        },
+                        {
+                            "time": "57'",
+                            "team": "home",
+                            "player": "Julián Álvarez",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "69'",
+                            "team": "home",
+                            "player": "Julián Álvarez",
+                            "type": "GOAL"
+                        }
+                    ]
+                },
+                {
+                    "id": 62,
+                    "homeTeam": "Francia",
+                    "homeFlag": "https://media.api-sports.io/football/teams/2.png",
+                    "awayTeam": "Marruecos",
+                    "awayFlag": "https://media.api-sports.io/football/teams/31.png",
+                    "score": "2-0",
+                    "date": "2022-12-14T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "5'",
+                            "team": "home",
+                            "player": "Théo Hernández",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "79'",
+                            "team": "home",
+                            "player": "Randal Kolo Muani",
+                            "type": "GOAL"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "round": "Cuartos de Final",
+            "matches": [
+                {
+                    "id": 57,
+                    "homeTeam": "Croacia",
+                    "homeFlag": "https://media.api-sports.io/football/teams/3.png",
+                    "awayTeam": "Brasil",
+                    "awayFlag": "https://media.api-sports.io/football/teams/6.png",
+                    "score": "1-1",
+                    "date": "2022-12-09T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "105'",
+                            "team": "away",
+                            "player": "Neymar",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "117'",
+                            "team": "home",
+                            "player": "Bruno Petkovic",
+                            "type": "GOAL"
+                        }
+                    ],
+                    "penalties": "4-2"
+                },
+                {
+                    "id": 58,
+                    "homeTeam": "Países Bajos",
+                    "homeFlag": "https://media.api-sports.io/football/teams/1118.png",
+                    "awayTeam": "Argentina",
+                    "awayFlag": "https://media.api-sports.io/football/teams/26.png",
+                    "score": "2-2",
+                    "date": "2022-12-09T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "35'",
+                            "team": "away",
+                            "player": "Nahuel Molina",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "73'",
+                            "team": "away",
+                            "player": "Lionel Messi",
+                            "type": "PENALTY"
+                        },
+                        {
+                            "time": "83'",
+                            "team": "home",
+                            "player": "Wout Weghorst",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "90'",
+                            "team": "home",
+                            "player": "Wout Weghorst",
+                            "type": "GOAL"
+                        }
+                    ],
+                    "penalties": "3-4"
+                },
+                {
+                    "id": 59,
+                    "homeTeam": "Marruecos",
+                    "homeFlag": "https://media.api-sports.io/football/teams/31.png",
+                    "awayTeam": "Portugal",
+                    "awayFlag": "https://media.api-sports.io/football/teams/27.png",
+                    "score": "1-0",
+                    "date": "2022-12-10T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "42'",
+                            "team": "home",
+                            "player": "Youssef En-Nesyri",
+                            "type": "GOAL"
+                        }
+                    ]
+                },
+                {
+                    "id": 60,
+                    "homeTeam": "Inglaterra",
+                    "homeFlag": "https://media.api-sports.io/football/teams/10.png",
+                    "awayTeam": "Francia",
+                    "awayFlag": "https://media.api-sports.io/football/teams/2.png",
+                    "score": "1-2",
+                    "date": "2022-12-10T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "17'",
+                            "team": "away",
+                            "player": "Aurélien Tchouaméni",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "54'",
+                            "team": "home",
+                            "player": "Harry Kane",
+                            "type": "PENALTY"
+                        },
+                        {
+                            "time": "78'",
+                            "team": "away",
+                            "player": "Olivier Giroud",
+                            "type": "GOAL"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "round": "Octavos de Final",
+            "matches": [
+                {
+                    "id": 49,
+                    "homeTeam": "Países Bajos",
+                    "homeFlag": "https://media.api-sports.io/football/teams/1118.png",
+                    "awayTeam": "Estados Unidos",
+                    "awayFlag": "https://media.api-sports.io/football/teams/2384.png",
+                    "score": "3-1",
+                    "date": "2022-12-03T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "10'",
+                            "team": "home",
+                            "player": "Memphis Depay",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "45'",
+                            "team": "home",
+                            "player": "Daley Blind",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "76'",
+                            "team": "away",
+                            "player": "Haji Wright",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "81'",
+                            "team": "home",
+                            "player": "Denzel Dumfries",
+                            "type": "GOAL"
+                        }
+                    ]
+                },
+                {
+                    "id": 50,
+                    "homeTeam": "Argentina",
+                    "homeFlag": "https://media.api-sports.io/football/teams/26.png",
+                    "awayTeam": "Australia",
+                    "awayFlag": "https://media.api-sports.io/football/teams/20.png",
+                    "score": "2-1",
+                    "date": "2022-12-03T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "35'",
+                            "team": "home",
+                            "player": "Lionel Messi",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "57'",
+                            "team": "home",
+                            "player": "Julián Álvarez",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "77'",
+                            "team": "away",
+                            "player": "Craig Goodwin",
+                            "type": "GOAL"
+                        }
+                    ]
+                },
+                {
+                    "id": 51,
+                    "homeTeam": "Francia",
+                    "homeFlag": "https://media.api-sports.io/football/teams/2.png",
+                    "awayTeam": "Polonia",
+                    "awayFlag": "https://media.api-sports.io/football/teams/24.png",
+                    "score": "3-1",
+                    "date": "2022-12-04T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "74'",
+                            "team": "home",
+                            "player": "Olivier Giroud",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "91'",
+                            "team": "home",
+                            "player": "Kylian Mbappé",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "94'",
+                            "team": "home",
+                            "player": "Kylian Mbappé",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "99'",
+                            "team": "away",
+                            "player": "Robert Lewandowski",
+                            "type": "PENALTY"
+                        }
+                    ]
+                },
+                {
+                    "id": 52,
+                    "homeTeam": "Inglaterra",
+                    "homeFlag": "https://media.api-sports.io/football/teams/10.png",
+                    "awayTeam": "Senegal",
+                    "awayFlag": "https://media.api-sports.io/football/teams/13.png",
+                    "score": "3-0",
+                    "date": "2022-12-04T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "38'",
+                            "team": "home",
+                            "player": "Jordan Henderson",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "45'",
+                            "team": "home",
+                            "player": "Harry Kane",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "57'",
+                            "team": "home",
+                            "player": "Bukayo Saka",
+                            "type": "GOAL"
+                        }
+                    ]
+                },
+                {
+                    "id": 53,
+                    "homeTeam": "Japón",
+                    "homeFlag": "https://media.api-sports.io/football/teams/12.png",
+                    "awayTeam": "Croacia",
+                    "awayFlag": "https://media.api-sports.io/football/teams/3.png",
+                    "score": "1-1",
+                    "date": "2022-12-05T18:00:00Z",
+                    "events": [
+                        {
+                            "time": "43'",
+                            "team": "home",
+                            "player": "Daizen Maeda",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "55'",
+                            "team": "away",
+                            "player": "Ivan Perisic",
+                            "type": "GOAL"
+                        }
+                    ],
+                    "penalties": "1-3"
+                },
+                {
+                    "id": 54,
+                    "homeTeam": "Brasil",
+                    "homeFlag": "https://media.api-sports.io/football/teams/6.png",
+                    "awayTeam": "Corea del Sur",
+                    "awayFlag": "https://media.api-sports.io/football/teams/17.png",
+                    "score": "4-1",
+                    "date": "2022-12-05T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "7'",
+                            "team": "home",
+                            "player": "Vinicius Jr.",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "13'",
+                            "team": "home",
+                            "player": "Neymar",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "29'",
+                            "team": "home",
+                            "player": "Richarlison",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "36'",
+                            "team": "home",
+                            "player": "Lucas Paquetá",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "76'",
+                            "team": "away",
+                            "player": "Paik Seung-ho",
+                            "type": "GOAL"
+                        }
+                    ]
+                },
+                {
+                    "id": 55,
+                    "homeTeam": "Marruecos",
+                    "homeFlag": "https://media.api-sports.io/football/teams/31.png",
+                    "awayTeam": "España",
+                    "awayFlag": "https://media.api-sports.io/football/teams/9.png",
+                    "score": "0-0",
+                    "date": "2022-12-06T18:00:00Z",
+                    "events": [],
+                    "penalties": "3-0"
+                },
+                {
+                    "id": 56,
+                    "homeTeam": "Portugal",
+                    "homeFlag": "https://media.api-sports.io/football/teams/27.png",
+                    "awayTeam": "Suiza",
+                    "awayFlag": "https://media.api-sports.io/football/teams/15.png",
+                    "score": "6-1",
+                    "date": "2022-12-06T22:00:00Z",
+                    "events": [
+                        {
+                            "time": "17'",
+                            "team": "home",
+                            "player": "Gonçalo Ramos",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "33'",
+                            "team": "away",
+                            "player": "Manuel Akanji",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "51'",
+                            "team": "home",
+                            "player": "Gonçalo Ramos",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "55'",
+                            "team": "home",
+                            "player": "Pepe",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "67'",
+                            "team": "home",
+                            "player": "Raphaël Guerreiro",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "73'",
+                            "team": "home",
+                            "player": "Gonçalo Ramos",
+                            "type": "GOAL"
+                        },
+                        {
+                            "time": "92'",
+                            "team": "home",
+                            "player": "Rafael Leão",
+                            "type": "GOAL"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

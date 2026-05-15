@@ -1,0 +1,284 @@
+import { supabase } from '../lib/supabase';
+import { WORLD_CUP_TEAMS_HISTORY, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
+
+export const databaseService = {
+    /**
+     * Sincroniza los datos estáticos de selecciones a la tabla 'teams' o similar.
+     * Nota: En el schema actual no hay tabla 'teams', por lo que usaremos metadata en matches
+     * o propondremos una tabla nueva si es necesario. Por ahora, sincronizaremos los partidos.
+     */
+    async syncWorldCupData() {
+        console.log('Iniciando sincronización de datos del Mundial...');
+
+        try {
+            // Sincronizar Partidos
+            const matchesToSync = WORLD_CUP_GROUP_MATCHES.map(m => ({
+                id: m.id,
+                league_id: 'world-cup-2026',
+                season: 2026,
+                home_team: m.homeTeam,
+                away_team: m.awayTeam,
+                start_time: `${m.date}T${m.time}:00Z`,
+                status: m.status.toUpperCase(),
+                home_score: m.homeScore || 0,
+                away_score: m.awayScore || 0,
+                metadata: {
+                    group: m.group,
+                    stadium: m.stadium,
+                    city: m.city,
+                    static_data: WORLD_CUP_TEAMS_HISTORY[m.homeTeam] || null
+                }
+            }));
+
+            const { error: matchError } = await supabase
+                .from('matches')
+                .upsert(matchesToSync, { onConflict: 'id' });
+
+            if (matchError) throw matchError;
+
+            console.log('Partidos sincronizados correctamente.');
+            return { success: true };
+        } catch (error) {
+            console.error('Error en sincronización:', error);
+            return { success: false, error };
+        }
+    },
+
+    /**
+     * Obtiene los detalles de un partido desde la DB, incluyendo metadata táctica.
+     */
+    async fetchMatchDetail(matchId: string) {
+        try {
+            const { data, error } = await supabase
+                .from('matches')
+                .select('*')
+                .eq('id', matchId)
+                .single();
+
+            if (error) throw error;
+            return { success: true, data };
+        } catch (error) {
+            console.error('Error al obtener detalle del partido:', error);
+            return { success: false, error };
+        }
+    },
+
+    /**
+     * Resuelve un partido y otorga puntos a todos los usuarios que predijeron.
+     * Basado en el motor 3-2-1.
+     */
+    /**
+     * Resuelve un partido y otorga puntos a todos los usuarios que predijeron.
+     * Basado en el motor 3-2-1.
+     */
+    async resolveMatch(matchId: string, homeScore: number, awayScore: number, definition: 'REGULAR' | 'EXTRA_TIME' | 'PENALTIES' = 'REGULAR') {
+        try {
+            console.log(`Resolviendo partido ${matchId}...`);
+            
+            // 1. Obtener todas las predicciones pendientes para este partido
+            const { data: predictions, error: predError } = await supabase
+                .from('predictions')
+                .select('*')
+                .eq('match_id', matchId)
+                .eq('status', 'PENDING');
+
+            if (predError) throw predError;
+
+            const { calculatePoints } = await import('../utils/pointsCalculator');
+
+            // 2. Procesar cada predicción
+            const results = [];
+            for (const pred of predictions) {
+                // Adaptar predicción de DB a la interfaz del calculador
+                const predData = {
+                    score: { home: pred.home_score_pred || 0, away: pred.away_score_pred || 0 },
+                    outcome: pred.selection as any,
+                    definition: (pred.advance_method || 'REGULAR') as any
+                };
+
+                const actualData = {
+                    score: { home: homeScore, away: awayScore },
+                    definition: definition
+                };
+
+                const pointResult = calculatePoints(
+                    predData,
+                    actualData,
+                    pred.advance_method !== 'REGULAR' 
+                );
+
+                // LOGICA DE BOOSTERS
+                let finalPoints = pointResult.points;
+                let refundAmount = 0;
+
+                if (pred.booster_id) {
+                    const { data: booster } = await supabase
+                        .from('store_items')
+                        .select('booster_effect')
+                        .eq('id', pred.booster_id)
+                        .single();
+                    
+                    if (booster?.booster_effect) {
+                        const effect = booster.booster_effect as any;
+                        if (effect.type === 'MULTIPLIER' && finalPoints > 0) {
+                            finalPoints *= effect.value;
+                        } else if (effect.type === 'REFUND' && finalPoints === 0) {
+                            refundAmount = Math.floor(pred.stake * effect.value);
+                        }
+                    }
+                }
+
+                if (finalPoints > 0 || refundAmount > 0) {
+                    // Obtener saldo y puntos actuales del perfil
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('total_balance, points')
+                        .eq('id', pred.user_id)
+                        .single();
+
+                    if (profile) {
+                        const creditedAmount = finalPoints + refundAmount;
+                        const newBalance = (profile.total_balance || 0) + creditedAmount;
+                        const newPoints = (profile.points || 0) + finalPoints;
+                        
+                        await supabase.from('profiles').update({ 
+                            total_balance: newBalance,
+                            points: newPoints 
+                        }).eq('id', pred.user_id);
+                        
+                        await supabase.from('transactions').insert({
+                            user_id: pred.user_id,
+                            type: refundAmount > 0 ? 'BET_REFUND' : 'BET_WIN',
+                            amount: creditedAmount,
+                            description: refundAmount > 0 
+                                ? `Reembolso Seguro: ${pred.stake} tokens (${matchId})`
+                                : `Puntos Prode: ${pointResult.description} (x2 Booster!) (${matchId})`,
+                            balance_after: newBalance,
+                            balance_type: refundAmount > 0 ? 'REDEEMABLE' : 'LOCKED'
+                        });
+
+                        // 2.a Registrar Actividad Social si ganó puntos significativos
+                        if (finalPoints >= 3) {
+                            await this.recordActivity(pred.user_id, 'MATCH_WON', {
+                                matchId: matchId,
+                                points: finalPoints,
+                                description: `${pointResult.description}${pred.booster_id ? ' (Boosted!)' : ''}`,
+                                score: `${homeScore}-${awayScore}`
+                            });
+                        }
+                    }
+                }
+
+                // Marcar predicción como resuelta
+                await supabase.from('predictions').update({
+                    status: finalPoints > 0 ? 'WON' : (refundAmount > 0 ? 'WON' : 'LOST'), // Refund se considera "no pérdida"
+                    points_won: finalPoints,
+                    updated_at: new Date().toISOString()
+                }).eq('id', pred.id);
+
+                results.push({ userId: pred.user_id, points: finalPoints });
+            }
+
+            // 3. Actualizar estado del partido
+            await supabase.from('matches').update({
+                status: 'FINISHED',
+                home_score: homeScore,
+                away_score: awayScore,
+                updated_at: new Date().toISOString()
+            }).eq('id', matchId);
+
+            return { success: true, processed: results.length, totalPoints: results.reduce((acc, r) => acc + r.points, 0) };
+        } catch (error) {
+            console.error('Error al resolver partido:', error);
+            return { success: false, error };
+        }
+    },
+
+    // --- SOCIAL SYSTEM ---
+    followUser: async (followerId: string, followedId: string) => {
+        const { error } = await supabase
+            .from('user_follows')
+            .insert({ follower_id: followerId, followed_id: followedId });
+        return { success: !error, error };
+    },
+
+    unfollowUser: async (followerId: string, followedId: string) => {
+        const { error } = await supabase
+            .from('user_follows')
+            .delete()
+            .eq('follower_id', followerId)
+            .eq('followed_id', followedId);
+        return { success: !error, error };
+    },
+
+    getFollowing: async (followerId: string) => {
+        const { data, error } = await supabase
+            .from('user_follows')
+            .select('followed_id')
+            .eq('follower_id', followerId);
+        return { data: data?.map(d => d.followed_id) || [], error };
+    },
+
+    // --- ACTIVITY FEED SYSTEM ---
+    recordActivity: async (userId: string, type: string, content: any, visibility: 'PUBLIC' | 'FOLLOWERS' = 'PUBLIC') => {
+        const { error } = await supabase
+            .from('user_activities')
+            .insert({
+                user_id: userId,
+                type,
+                content,
+                visibility
+            });
+        return { success: !error, error };
+    },
+
+    fetchActivities: async (userId?: string, listType: 'GLOBAL' | 'FOLLOWING' = 'GLOBAL') => {
+        let query = supabase
+            .from('user_activities')
+            .select('*, profiles(nickname, avatar_url, first_name)')
+            .order('created_at', { ascending: false })
+            .limit(40);
+
+        if (listType === 'FOLLOWING' && userId) {
+            const { data: following } = await supabase
+                .from('user_follows')
+                .select('followed_id')
+                .eq('follower_id', userId);
+            
+            const followedIds = following?.map(f => f.followed_id) || [];
+            if (followedIds.length > 0) {
+                query = query.in('user_id', [userId, ...followedIds]);
+            } else {
+                query = query.eq('user_id', userId); // Solo ver propias si no sigue a nadie
+            }
+        }
+
+        const { data, error } = await query;
+        return { data, error };
+    },
+
+    // --- MATCH CHAT SYSTEM ---
+    async addComment(matchId: string, userId: string, nickname: string, avatar: string, content: string) {
+        const { data, error } = await supabase
+            .from('match_comments')
+            .insert({
+                match_id: matchId,
+                user_id: userId,
+                user_nickname: nickname,
+                user_avatar: avatar,
+                content
+            })
+            .select()
+            .single();
+        return { success: !error, data, error };
+    },
+
+    async fetchComments(matchId: string) {
+        const { data, error } = await supabase
+            .from('match_comments')
+            .select('*')
+            .eq('match_id', matchId)
+            .order('created_at', { ascending: true });
+        return { data, error };
+    }
+};

@@ -1,0 +1,66 @@
+[
+  {
+    "year": 2022,
+    "host": "Qatar",
+    "winner": "Argentina",
+    "winnerFlag": "https://media.api-sports.io/football/teams/26.png",
+    "runnerUp": "Francia",
+    "runnerUpFlag": "https://media.api-sports.io/football/teams/2.png",
+    "score": "3-3",
+    "penalties": "4-2",
+    "mvp": "Lionel Messi"
+  },
+  {
+    "year": 2018,
+    "host": "Rusia",
+    "winner": "Francia",
+    "winnerFlag": "https://media.api-sports.io/football/teams/2.png",
+    "runnerUp": "Croacia",
+    "runnerUpFlag": "https://media.api-sports.io/football/teams/3.png",
+    "score": "4-2",
+    "mvp": "Luka Modrić"
+  },
+  {
+    "year": 2014,
+    "host": "Brasil",
+    "winner": "Alemania",
+    "winnerFlag": "https://media.api-sports.io/football/teams/25.png",
+    "runnerUp": "Argentina",
+    "runnerUpFlag": "https://media.api-sports.io/football/teams/26.png",
+    "score": "1-0",
+    "extraTime": true,
+    "mvp": "Lionel Messi"
+  },
+  {
+    "year": 2010,
+    "host": "Sudáfrica",
+    "winner": "España",
+    "winnerFlag": "https://media.api-sports.io/football/teams/9.png",
+    "runnerUp": "Países Bajos",
+    "runnerUpFlag": "https://media.api-sports.io/football/teams/1118.png",
+    "score": "1-0",
+    "extraTime": true,
+    "mvp": "Diego Forlán"
+  },
+  {
+    "year": 2006,
+    "host": "Alemania",
+    "winner": "Italia",
+    "winnerFlag": "https://media.api-sports.io/football/teams/768.png",
+    "runnerUp": "Francia",
+    "runnerUpFlag": "https://media.api-sports.io/football/teams/2.png",
+    "score": "1-1",
+    "penalties": "5-3",
+    "mvp": "Zinedine Zidane"
+  },
+  {
+    "year": 2002,
+    "host": "Corea del Sur / Japón",
+    "winner": "Brasil",
+    "winnerFlag": "https://media.api-sports.io/football/teams/6.png",
+    "runnerUp": "Alemania",
+    "runnerUpFlag": "https://media.api-sports.io/football/teams/25.png",
+    "score": "2-0",
+    "mvp": "Oliver Kahn"
+  }
+]

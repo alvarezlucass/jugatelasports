@@ -1,0 +1,3032 @@
+[
+  {
+    "region": "CONMEBOL",
+    "groups": [
+      {
+        "name": "Clasificación General",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Argentina",
+            "pj": 18,
+            "won": 12,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 31,
+            "goalsAgainst": 10,
+            "points": 38
+          },
+          {
+            "rank": 2,
+            "name": "Ecuador​",
+            "pj": 18,
+            "won": 8,
+            "drawn": 8,
+            "lost": 2,
+            "goalsFor": 14,
+            "goalsAgainst": 5,
+            "points": 29
+          },
+          {
+            "rank": 3,
+            "name": "Colombia",
+            "pj": 18,
+            "won": 7,
+            "drawn": 7,
+            "lost": 4,
+            "goalsFor": 28,
+            "goalsAgainst": 18,
+            "points": 28
+          },
+          {
+            "rank": 4,
+            "name": "Uruguay",
+            "pj": 18,
+            "won": 7,
+            "drawn": 7,
+            "lost": 4,
+            "goalsFor": 22,
+            "goalsAgainst": 12,
+            "points": 28
+          },
+          {
+            "rank": 5,
+            "name": "Brasil",
+            "pj": 18,
+            "won": 8,
+            "drawn": 4,
+            "lost": 6,
+            "goalsFor": 24,
+            "goalsAgainst": 17,
+            "points": 28
+          },
+          {
+            "rank": 6,
+            "name": "Paraguay",
+            "pj": 18,
+            "won": 7,
+            "drawn": 7,
+            "lost": 4,
+            "goalsFor": 14,
+            "goalsAgainst": 10,
+            "points": 28
+          },
+          {
+            "rank": 7,
+            "name": "Bolivia",
+            "pj": 18,
+            "won": 6,
+            "drawn": 2,
+            "lost": 10,
+            "goalsFor": 17,
+            "goalsAgainst": 35,
+            "points": 20
+          },
+          {
+            "rank": 8,
+            "name": "Venezuela",
+            "pj": 18,
+            "won": 4,
+            "drawn": 6,
+            "lost": 8,
+            "goalsFor": 18,
+            "goalsAgainst": 28,
+            "points": 18
+          },
+          {
+            "rank": 9,
+            "name": "Perú",
+            "pj": 18,
+            "won": 2,
+            "drawn": 6,
+            "lost": 10,
+            "goalsFor": 6,
+            "goalsAgainst": 21,
+            "points": 12
+          },
+          {
+            "rank": 10,
+            "name": "Chile",
+            "pj": 18,
+            "won": 2,
+            "drawn": 5,
+            "lost": 11,
+            "goalsFor": 9,
+            "goalsAgainst": 27,
+            "points": 11
+          },
+          {
+            "rank": 11,
+            "name": "0:3",
+            "pj": 1,
+            "won": 2,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 2,
+            "goalsAgainst": 2,
+            "points": 0
+          },
+          {
+            "rank": 12,
+            "name": "0:1",
+            "pj": 0,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 1,
+            "goalsAgainst": 4,
+            "points": 5
+          },
+          {
+            "rank": 13,
+            "name": "0:1",
+            "pj": 1,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 2,
+            "points": 1
+          },
+          {
+            "rank": 14,
+            "name": "2:1",
+            "pj": 2,
+            "won": 4,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 2,
+            "goalsAgainst": 0,
+            "points": 3
+          },
+          {
+            "rank": 15,
+            "name": "1:0",
+            "pj": 0,
+            "won": 1,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 1,
+            "points": 4
+          },
+          {
+            "rank": 16,
+            "name": "2:1",
+            "pj": 1,
+            "won": 1,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "points": 1
+          },
+          {
+            "rank": 17,
+            "name": "0:2",
+            "pj": 0,
+            "won": 0,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "points": 3
+          },
+          {
+            "rank": 18,
+            "name": "0:1",
+            "pj": 2,
+            "won": 3,
+            "drawn": 3,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 3,
+            "points": 3
+          },
+          {
+            "rank": 19,
+            "name": "1:1",
+            "pj": 1,
+            "won": 3,
+            "drawn": 3,
+            "lost": 0,
+            "goalsFor": 1,
+            "goalsAgainst": 1,
+            "points": 2
+          }
+        ]
+      },
+      {
+        "name": "Clasificación General (Tabla 2)",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Argentina",
+            "pj": 18,
+            "won": 12,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 31,
+            "goalsAgainst": 10,
+            "points": 38
+          },
+          {
+            "rank": 2,
+            "name": "Ecuador​",
+            "pj": 18,
+            "won": 8,
+            "drawn": 8,
+            "lost": 2,
+            "goalsFor": 14,
+            "goalsAgainst": 5,
+            "points": 29
+          },
+          {
+            "rank": 3,
+            "name": "Colombia",
+            "pj": 18,
+            "won": 7,
+            "drawn": 7,
+            "lost": 4,
+            "goalsFor": 28,
+            "goalsAgainst": 18,
+            "points": 28
+          },
+          {
+            "rank": 4,
+            "name": "Uruguay",
+            "pj": 18,
+            "won": 7,
+            "drawn": 7,
+            "lost": 4,
+            "goalsFor": 22,
+            "goalsAgainst": 12,
+            "points": 28
+          },
+          {
+            "rank": 5,
+            "name": "Brasil",
+            "pj": 18,
+            "won": 8,
+            "drawn": 4,
+            "lost": 6,
+            "goalsFor": 24,
+            "goalsAgainst": 17,
+            "points": 28
+          },
+          {
+            "rank": 6,
+            "name": "Paraguay",
+            "pj": 18,
+            "won": 7,
+            "drawn": 7,
+            "lost": 4,
+            "goalsFor": 14,
+            "goalsAgainst": 10,
+            "points": 28
+          },
+          {
+            "rank": 7,
+            "name": "Bolivia",
+            "pj": 18,
+            "won": 6,
+            "drawn": 2,
+            "lost": 10,
+            "goalsFor": 17,
+            "goalsAgainst": 35,
+            "points": 20
+          },
+          {
+            "rank": 8,
+            "name": "Venezuela",
+            "pj": 18,
+            "won": 4,
+            "drawn": 6,
+            "lost": 8,
+            "goalsFor": 18,
+            "goalsAgainst": 28,
+            "points": 18
+          },
+          {
+            "rank": 9,
+            "name": "Perú",
+            "pj": 18,
+            "won": 2,
+            "drawn": 6,
+            "lost": 10,
+            "goalsFor": 6,
+            "goalsAgainst": 21,
+            "points": 12
+          },
+          {
+            "rank": 10,
+            "name": "Chile",
+            "pj": 18,
+            "won": 2,
+            "drawn": 5,
+            "lost": 11,
+            "goalsFor": 9,
+            "goalsAgainst": 27,
+            "points": 11
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "region": "CONCACAF",
+    "groups": [
+      {
+        "name": "Grupo 1",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Honduras",
+            "pj": 4,
+            "won": 4,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 12,
+            "goalsAgainst": 2,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Bermudas",
+            "pj": 4,
+            "won": 2,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 9,
+            "goalsAgainst": 8,
+            "points": 7
+          },
+          {
+            "rank": 3,
+            "name": "Cuba",
+            "pj": 4,
+            "won": 2,
+            "drawn": 0,
+            "lost": 2,
+            "goalsFor": 6,
+            "goalsAgainst": 5,
+            "points": 6
+          },
+          {
+            "rank": 4,
+            "name": "Islas Caimán",
+            "pj": 4,
+            "won": 1,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 1,
+            "goalsAgainst": 9,
+            "points": 3
+          },
+          {
+            "rank": 5,
+            "name": "Antigua y Barbuda",
+            "pj": 4,
+            "won": 0,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 1,
+            "goalsAgainst": 5,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 2",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Costa Rica",
+            "pj": 4,
+            "won": 4,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 17,
+            "goalsAgainst": 1,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Trinidad y Tobago",
+            "pj": 4,
+            "won": 2,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 16,
+            "goalsAgainst": 7,
+            "points": 7
+          },
+          {
+            "rank": 3,
+            "name": "Granada",
+            "pj": 4,
+            "won": 2,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 11,
+            "goalsAgainst": 7,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "San Cristóbal y Nieves",
+            "pj": 4,
+            "won": 1,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 5,
+            "goalsAgainst": 13,
+            "points": 3
+          },
+          {
+            "rank": 5,
+            "name": "Bahamas",
+            "pj": 4,
+            "won": 0,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 1,
+            "goalsAgainst": 22,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 3",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Curazao",
+            "pj": 4,
+            "won": 4,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 15,
+            "goalsAgainst": 2,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Haití",
+            "pj": 4,
+            "won": 3,
+            "drawn": 0,
+            "lost": 1,
+            "goalsFor": 11,
+            "goalsAgainst": 7,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "Santa Lucía",
+            "pj": 4,
+            "won": 1,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 5,
+            "goalsAgainst": 9,
+            "points": 4
+          },
+          {
+            "rank": 4,
+            "name": "Aruba",
+            "pj": 4,
+            "won": 0,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 3,
+            "goalsAgainst": 10,
+            "points": 2
+          },
+          {
+            "rank": 5,
+            "name": "Barbados",
+            "pj": 4,
+            "won": 0,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 4,
+            "goalsAgainst": 10,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 4",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Panamá",
+            "pj": 4,
+            "won": 4,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 10,
+            "goalsAgainst": 1,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Nicaragua",
+            "pj": 4,
+            "won": 3,
+            "drawn": 0,
+            "lost": 1,
+            "goalsFor": 9,
+            "goalsAgainst": 4,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "Guyana",
+            "pj": 4,
+            "won": 2,
+            "drawn": 0,
+            "lost": 2,
+            "goalsFor": 6,
+            "goalsAgainst": 4,
+            "points": 6
+          },
+          {
+            "rank": 4,
+            "name": "Montserrat",
+            "pj": 4,
+            "won": 1,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 3,
+            "goalsAgainst": 10,
+            "points": 3
+          },
+          {
+            "rank": 5,
+            "name": "Belice",
+            "pj": 4,
+            "won": 0,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 1,
+            "goalsAgainst": 10,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 5",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Jamaica",
+            "pj": 4,
+            "won": 4,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 8,
+            "goalsAgainst": 2,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Guatemala",
+            "pj": 4,
+            "won": 3,
+            "drawn": 0,
+            "lost": 1,
+            "goalsFor": 13,
+            "goalsAgainst": 5,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "República Dominicana",
+            "pj": 4,
+            "won": 2,
+            "drawn": 0,
+            "lost": 2,
+            "goalsFor": 11,
+            "goalsAgainst": 5,
+            "points": 6
+          },
+          {
+            "rank": 4,
+            "name": "Dominica",
+            "pj": 4,
+            "won": 1,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 5,
+            "goalsAgainst": 14,
+            "points": 3
+          },
+          {
+            "rank": 5,
+            "name": "Islas Vírgenes Británicas",
+            "pj": 4,
+            "won": 0,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 0,
+            "goalsAgainst": 11,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 6",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Surinam",
+            "pj": 4,
+            "won": 3,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 10,
+            "goalsAgainst": 2,
+            "points": 10
+          },
+          {
+            "rank": 2,
+            "name": "El Salvador",
+            "pj": 4,
+            "won": 2,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 7,
+            "goalsAgainst": 2,
+            "points": 8
+          },
+          {
+            "rank": 3,
+            "name": "Puerto Rico",
+            "pj": 4,
+            "won": 2,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 10,
+            "goalsAgainst": 2,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "San Vicente y las Granadinas",
+            "pj": 4,
+            "won": 1,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 9,
+            "goalsAgainst": 9,
+            "points": 3
+          },
+          {
+            "rank": 5,
+            "name": "Anguila",
+            "pj": 4,
+            "won": 0,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 0,
+            "goalsAgainst": 21,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 7",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Panamá",
+            "pj": 6,
+            "won": 3,
+            "drawn": 3,
+            "lost": 0,
+            "goalsFor": 9,
+            "goalsAgainst": 4,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Surinam",
+            "pj": 6,
+            "won": 2,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 9,
+            "goalsAgainst": 6,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "Guatemala",
+            "pj": 6,
+            "won": 2,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 8,
+            "goalsAgainst": 7,
+            "points": 8
+          },
+          {
+            "rank": 4,
+            "name": "El Salvador",
+            "pj": 6,
+            "won": 1,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 2,
+            "goalsAgainst": 11,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 8",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Curazao",
+            "pj": 6,
+            "won": 3,
+            "drawn": 3,
+            "lost": 0,
+            "goalsFor": 13,
+            "goalsAgainst": 3,
+            "points": 12
+          },
+          {
+            "rank": 2,
+            "name": "Jamaica",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 11,
+            "goalsAgainst": 3,
+            "points": 11
+          },
+          {
+            "rank": 3,
+            "name": "Trinidad y Tobago",
+            "pj": 6,
+            "won": 1,
+            "drawn": 4,
+            "lost": 1,
+            "goalsFor": 7,
+            "goalsAgainst": 6,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "Bermudas",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 4,
+            "goalsAgainst": 23,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 9",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Haití",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 9,
+            "goalsAgainst": 6,
+            "points": 11
+          },
+          {
+            "rank": 2,
+            "name": "Honduras",
+            "pj": 6,
+            "won": 2,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 5,
+            "goalsAgainst": 2,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "Costa Rica",
+            "pj": 6,
+            "won": 1,
+            "drawn": 4,
+            "lost": 1,
+            "goalsFor": 8,
+            "goalsAgainst": 6,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "Nicaragua",
+            "pj": 6,
+            "won": 1,
+            "drawn": 1,
+            "lost": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 12,
+            "points": 4
+          }
+        ]
+      },
+      {
+        "name": "Grupo 10",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Jamaica",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 11,
+            "goalsAgainst": 3,
+            "points": 11
+          },
+          {
+            "rank": 2,
+            "name": "Surinam",
+            "pj": 6,
+            "won": 2,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 9,
+            "goalsAgainst": 6,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "Honduras",
+            "pj": 6,
+            "won": 2,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 5,
+            "goalsAgainst": 2,
+            "points": 9
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "region": "UEFA",
+    "groups": [
+      {
+        "name": "Grupo 1",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Alemania",
+            "pj": 6,
+            "won": 5,
+            "drawn": 0,
+            "lost": 1,
+            "goalsFor": 16,
+            "goalsAgainst": 3,
+            "points": 15
+          },
+          {
+            "rank": 2,
+            "name": "Eslovaquia",
+            "pj": 6,
+            "won": 4,
+            "drawn": 0,
+            "lost": 2,
+            "goalsFor": 6,
+            "goalsAgainst": 8,
+            "points": 12
+          },
+          {
+            "rank": 3,
+            "name": "Irlanda del Norte",
+            "pj": 6,
+            "won": 3,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 7,
+            "goalsAgainst": 6,
+            "points": 9
+          },
+          {
+            "rank": 4,
+            "name": "Luxemburgo",
+            "pj": 6,
+            "won": 0,
+            "drawn": 0,
+            "lost": 6,
+            "goalsFor": 1,
+            "goalsAgainst": 13,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 2",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Suiza",
+            "pj": 6,
+            "won": 4,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 14,
+            "goalsAgainst": 2,
+            "points": 14
+          },
+          {
+            "rank": 2,
+            "name": "Kosovo",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 6,
+            "goalsAgainst": 5,
+            "points": 11
+          },
+          {
+            "rank": 3,
+            "name": "Eslovenia",
+            "pj": 6,
+            "won": 0,
+            "drawn": 4,
+            "lost": 2,
+            "goalsFor": 3,
+            "goalsAgainst": 8,
+            "points": 4
+          },
+          {
+            "rank": 4,
+            "name": "Suecia",
+            "pj": 6,
+            "won": 0,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 12,
+            "points": 2
+          }
+        ]
+      },
+      {
+        "name": "Grupo 3",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Escocia",
+            "pj": 6,
+            "won": 4,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 13,
+            "goalsAgainst": 7,
+            "points": 13
+          },
+          {
+            "rank": 2,
+            "name": "Dinamarca",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 16,
+            "goalsAgainst": 7,
+            "points": 11
+          },
+          {
+            "rank": 3,
+            "name": "Grecia",
+            "pj": 6,
+            "won": 2,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 10,
+            "goalsAgainst": 12,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "Bielorrusia",
+            "pj": 6,
+            "won": 0,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 17,
+            "points": 2
+          }
+        ]
+      },
+      {
+        "name": "Grupo 4",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Francia",
+            "pj": 6,
+            "won": 5,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 16,
+            "goalsAgainst": 4,
+            "points": 16
+          },
+          {
+            "rank": 2,
+            "name": "Ucrania",
+            "pj": 6,
+            "won": 3,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 10,
+            "goalsAgainst": 11,
+            "points": 10
+          },
+          {
+            "rank": 3,
+            "name": "Islandia",
+            "pj": 6,
+            "won": 2,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 13,
+            "goalsAgainst": 11,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "Azerbaiyán",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 3,
+            "goalsAgainst": 16,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 5",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "España",
+            "pj": 6,
+            "won": 5,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 21,
+            "goalsAgainst": 2,
+            "points": 16
+          },
+          {
+            "rank": 2,
+            "name": "Turquía",
+            "pj": 6,
+            "won": 4,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 17,
+            "goalsAgainst": 12,
+            "points": 13
+          },
+          {
+            "rank": 3,
+            "name": "Georgia",
+            "pj": 6,
+            "won": 1,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 7,
+            "goalsAgainst": 15,
+            "points": 3
+          },
+          {
+            "rank": 4,
+            "name": "Bulgaria",
+            "pj": 6,
+            "won": 1,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 3,
+            "goalsAgainst": 19,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 6",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Portugal",
+            "pj": 6,
+            "won": 4,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 20,
+            "goalsAgainst": 7,
+            "points": 13
+          },
+          {
+            "rank": 2,
+            "name": "Irlanda",
+            "pj": 6,
+            "won": 3,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 9,
+            "goalsAgainst": 7,
+            "points": 10
+          },
+          {
+            "rank": 3,
+            "name": "Hungría",
+            "pj": 6,
+            "won": 2,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 11,
+            "goalsAgainst": 10,
+            "points": 8
+          },
+          {
+            "rank": 4,
+            "name": "Armenia",
+            "pj": 6,
+            "won": 1,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 3,
+            "goalsAgainst": 19,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 7",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Países Bajos",
+            "pj": 8,
+            "won": 6,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 27,
+            "goalsAgainst": 4,
+            "points": 20
+          },
+          {
+            "rank": 2,
+            "name": "Polonia",
+            "pj": 8,
+            "won": 5,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 14,
+            "goalsAgainst": 7,
+            "points": 17
+          },
+          {
+            "rank": 3,
+            "name": "Finlandia",
+            "pj": 8,
+            "won": 3,
+            "drawn": 1,
+            "lost": 4,
+            "goalsFor": 8,
+            "goalsAgainst": 14,
+            "points": 10
+          },
+          {
+            "rank": 4,
+            "name": "Malta",
+            "pj": 8,
+            "won": 1,
+            "drawn": 2,
+            "lost": 5,
+            "goalsFor": 4,
+            "goalsAgainst": 19,
+            "points": 5
+          },
+          {
+            "rank": 5,
+            "name": "Lituania",
+            "pj": 8,
+            "won": 0,
+            "drawn": 3,
+            "lost": 5,
+            "goalsFor": 6,
+            "goalsAgainst": 13,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 8",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Austria",
+            "pj": 8,
+            "won": 6,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 22,
+            "goalsAgainst": 4,
+            "points": 19
+          },
+          {
+            "rank": 2,
+            "name": "Bosnia y Herzegovina",
+            "pj": 8,
+            "won": 5,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 17,
+            "goalsAgainst": 7,
+            "points": 17
+          },
+          {
+            "rank": 3,
+            "name": "Rumania",
+            "pj": 8,
+            "won": 4,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 19,
+            "goalsAgainst": 10,
+            "points": 13
+          },
+          {
+            "rank": 4,
+            "name": "Chipre",
+            "pj": 8,
+            "won": 2,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 11,
+            "goalsAgainst": 11,
+            "points": 8
+          },
+          {
+            "rank": 5,
+            "name": "San Marino",
+            "pj": 8,
+            "won": 0,
+            "drawn": 0,
+            "lost": 8,
+            "goalsFor": 2,
+            "goalsAgainst": 39,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 9",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Noruega",
+            "pj": 8,
+            "won": 8,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 37,
+            "goalsAgainst": 5,
+            "points": 24
+          },
+          {
+            "rank": 2,
+            "name": "Italia",
+            "pj": 8,
+            "won": 6,
+            "drawn": 0,
+            "lost": 2,
+            "goalsFor": 21,
+            "goalsAgainst": 12,
+            "points": 18
+          },
+          {
+            "rank": 3,
+            "name": "Israel",
+            "pj": 8,
+            "won": 4,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 18,
+            "goalsAgainst": 20,
+            "points": 12
+          },
+          {
+            "rank": 4,
+            "name": "Estonia",
+            "pj": 8,
+            "won": 1,
+            "drawn": 1,
+            "lost": 6,
+            "goalsFor": 8,
+            "goalsAgainst": 21,
+            "points": 4
+          },
+          {
+            "rank": 5,
+            "name": "Moldavia",
+            "pj": 8,
+            "won": 0,
+            "drawn": 1,
+            "lost": 7,
+            "goalsFor": 5,
+            "goalsAgainst": 31,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 10",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Bélgica",
+            "pj": 8,
+            "won": 5,
+            "drawn": 3,
+            "lost": 0,
+            "goalsFor": 29,
+            "goalsAgainst": 7,
+            "points": 18
+          },
+          {
+            "rank": 2,
+            "name": "Gales",
+            "pj": 8,
+            "won": 5,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 21,
+            "goalsAgainst": 11,
+            "points": 16
+          },
+          {
+            "rank": 3,
+            "name": "Macedonia del Norte",
+            "pj": 8,
+            "won": 3,
+            "drawn": 4,
+            "lost": 1,
+            "goalsFor": 13,
+            "goalsAgainst": 10,
+            "points": 13
+          },
+          {
+            "rank": 4,
+            "name": "Kazajistán",
+            "pj": 8,
+            "won": 2,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 9,
+            "goalsAgainst": 13,
+            "points": 8
+          },
+          {
+            "rank": 5,
+            "name": "Liechtenstein",
+            "pj": 8,
+            "won": 0,
+            "drawn": 0,
+            "lost": 8,
+            "goalsFor": 0,
+            "goalsAgainst": 31,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 11",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Inglaterra",
+            "pj": 8,
+            "won": 8,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 22,
+            "goalsAgainst": 0,
+            "points": 24
+          },
+          {
+            "rank": 2,
+            "name": "Albania",
+            "pj": 8,
+            "won": 4,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 7,
+            "goalsAgainst": 5,
+            "points": 14
+          },
+          {
+            "rank": 3,
+            "name": "Serbia",
+            "pj": 8,
+            "won": 4,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 9,
+            "goalsAgainst": 10,
+            "points": 13
+          },
+          {
+            "rank": 4,
+            "name": "Letonia",
+            "pj": 8,
+            "won": 1,
+            "drawn": 2,
+            "lost": 5,
+            "goalsFor": 5,
+            "goalsAgainst": 15,
+            "points": 5
+          },
+          {
+            "rank": 5,
+            "name": "Andorra",
+            "pj": 8,
+            "won": 0,
+            "drawn": 1,
+            "lost": 7,
+            "goalsFor": 3,
+            "goalsAgainst": 16,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 12",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Croacia",
+            "pj": 8,
+            "won": 7,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 26,
+            "goalsAgainst": 4,
+            "points": 22
+          },
+          {
+            "rank": 2,
+            "name": "República Checa",
+            "pj": 8,
+            "won": 5,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 18,
+            "goalsAgainst": 8,
+            "points": 16
+          },
+          {
+            "rank": 3,
+            "name": "Islas Feroe",
+            "pj": 8,
+            "won": 4,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 11,
+            "goalsAgainst": 9,
+            "points": 12
+          },
+          {
+            "rank": 4,
+            "name": "Montenegro",
+            "pj": 8,
+            "won": 3,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 8,
+            "goalsAgainst": 17,
+            "points": 9
+          },
+          {
+            "rank": 5,
+            "name": "Gibraltar",
+            "pj": 8,
+            "won": 0,
+            "drawn": 0,
+            "lost": 8,
+            "goalsFor": 3,
+            "goalsAgainst": 28,
+            "points": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "region": "CAF",
+    "groups": [
+      {
+        "name": "Grupo 1",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Egipto",
+            "pj": 10,
+            "won": 8,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 20,
+            "goalsAgainst": 2,
+            "points": 26
+          },
+          {
+            "rank": 2,
+            "name": "Burkina Faso",
+            "pj": 10,
+            "won": 6,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 23,
+            "goalsAgainst": 8,
+            "points": 21
+          },
+          {
+            "rank": 3,
+            "name": "Sierra Leona",
+            "pj": 10,
+            "won": 4,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 12,
+            "goalsAgainst": 10,
+            "points": 15
+          },
+          {
+            "rank": 4,
+            "name": "Guinea-Bisáu",
+            "pj": 10,
+            "won": 2,
+            "drawn": 4,
+            "lost": 4,
+            "goalsFor": 8,
+            "goalsAgainst": 10,
+            "points": 10
+          },
+          {
+            "rank": 5,
+            "name": "Etiopía",
+            "pj": 10,
+            "won": 2,
+            "drawn": 3,
+            "lost": 5,
+            "goalsFor": 9,
+            "goalsAgainst": 14,
+            "points": 9
+          },
+          {
+            "rank": 6,
+            "name": "Yibuti",
+            "pj": 10,
+            "won": 0,
+            "drawn": 1,
+            "lost": 9,
+            "goalsFor": 5,
+            "goalsAgainst": 33,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 2",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Senegal",
+            "pj": 10,
+            "won": 7,
+            "drawn": 3,
+            "lost": 0,
+            "goalsFor": 22,
+            "goalsAgainst": 3,
+            "points": 24
+          },
+          {
+            "rank": 2,
+            "name": "República Democrática del Congo",
+            "pj": 10,
+            "won": 7,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 15,
+            "goalsAgainst": 6,
+            "points": 22
+          },
+          {
+            "rank": 3,
+            "name": "Sudán",
+            "pj": 10,
+            "won": 3,
+            "drawn": 4,
+            "lost": 3,
+            "goalsFor": 8,
+            "goalsAgainst": 6,
+            "points": 13
+          },
+          {
+            "rank": 4,
+            "name": "Togo",
+            "pj": 10,
+            "won": 1,
+            "drawn": 5,
+            "lost": 4,
+            "goalsFor": 5,
+            "goalsAgainst": 10,
+            "points": 8
+          },
+          {
+            "rank": 5,
+            "name": "Mauritania",
+            "pj": 10,
+            "won": 1,
+            "drawn": 4,
+            "lost": 5,
+            "goalsFor": 4,
+            "goalsAgainst": 13,
+            "points": 7
+          },
+          {
+            "rank": 6,
+            "name": "Sudán del Sur",
+            "pj": 10,
+            "won": 0,
+            "drawn": 5,
+            "lost": 5,
+            "goalsFor": 3,
+            "goalsAgainst": 19,
+            "points": 5
+          }
+        ]
+      },
+      {
+        "name": "Grupo 3",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Sudáfrica",
+            "pj": 10,
+            "won": 5,
+            "drawn": 3,
+            "lost": 2,
+            "goalsFor": 15,
+            "goalsAgainst": 9,
+            "points": 18
+          },
+          {
+            "rank": 2,
+            "name": "Nigeria",
+            "pj": 10,
+            "won": 4,
+            "drawn": 5,
+            "lost": 1,
+            "goalsFor": 15,
+            "goalsAgainst": 8,
+            "points": 17
+          },
+          {
+            "rank": 3,
+            "name": "Benín",
+            "pj": 10,
+            "won": 5,
+            "drawn": 2,
+            "lost": 3,
+            "goalsFor": 12,
+            "goalsAgainst": 11,
+            "points": 17
+          },
+          {
+            "rank": 4,
+            "name": "Lesoto",
+            "pj": 10,
+            "won": 3,
+            "drawn": 3,
+            "lost": 4,
+            "goalsFor": 9,
+            "goalsAgainst": 12,
+            "points": 12
+          },
+          {
+            "rank": 5,
+            "name": "Ruanda",
+            "pj": 10,
+            "won": 3,
+            "drawn": 2,
+            "lost": 5,
+            "goalsFor": 5,
+            "goalsAgainst": 9,
+            "points": 11
+          },
+          {
+            "rank": 6,
+            "name": "Zimbabue",
+            "pj": 10,
+            "won": 0,
+            "drawn": 5,
+            "lost": 5,
+            "goalsFor": 5,
+            "goalsAgainst": 12,
+            "points": 5
+          }
+        ]
+      },
+      {
+        "name": "Grupo 4",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Cabo Verde",
+            "pj": 10,
+            "won": 7,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 16,
+            "goalsAgainst": 8,
+            "points": 23
+          },
+          {
+            "rank": 2,
+            "name": "Camerún",
+            "pj": 10,
+            "won": 5,
+            "drawn": 4,
+            "lost": 1,
+            "goalsFor": 17,
+            "goalsAgainst": 5,
+            "points": 19
+          },
+          {
+            "rank": 3,
+            "name": "Libia",
+            "pj": 10,
+            "won": 4,
+            "drawn": 4,
+            "lost": 2,
+            "goalsFor": 12,
+            "goalsAgainst": 10,
+            "points": 16
+          },
+          {
+            "rank": 4,
+            "name": "Angola",
+            "pj": 10,
+            "won": 2,
+            "drawn": 6,
+            "lost": 2,
+            "goalsFor": 9,
+            "goalsAgainst": 8,
+            "points": 12
+          },
+          {
+            "rank": 5,
+            "name": "Mauricio",
+            "pj": 10,
+            "won": 1,
+            "drawn": 3,
+            "lost": 6,
+            "goalsFor": 7,
+            "goalsAgainst": 17,
+            "points": 6
+          },
+          {
+            "rank": 6,
+            "name": "Suazilandia Suazilandia",
+            "pj": 10,
+            "won": 0,
+            "drawn": 3,
+            "lost": 7,
+            "goalsFor": 6,
+            "goalsAgainst": 19,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 5",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Marruecos",
+            "pj": 8,
+            "won": 8,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 22,
+            "goalsAgainst": 2,
+            "points": 24
+          },
+          {
+            "rank": 2,
+            "name": "Níger",
+            "pj": 8,
+            "won": 5,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 11,
+            "goalsAgainst": 10,
+            "points": 15
+          },
+          {
+            "rank": 3,
+            "name": "Tanzania",
+            "pj": 8,
+            "won": 3,
+            "drawn": 1,
+            "lost": 4,
+            "goalsFor": 6,
+            "goalsAgainst": 7,
+            "points": 10
+          },
+          {
+            "rank": 4,
+            "name": "Zambia",
+            "pj": 8,
+            "won": 3,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 10,
+            "goalsAgainst": 10,
+            "points": 9
+          },
+          {
+            "rank": 5,
+            "name": "Congo",
+            "pj": 8,
+            "won": 0,
+            "drawn": 1,
+            "lost": 7,
+            "goalsFor": 4,
+            "goalsAgainst": 24,
+            "points": 1
+          },
+          {
+            "rank": 6,
+            "name": "Eritrea",
+            "pj": 0,
+            "won": 0,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 0,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 6",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Costa de Marfil",
+            "pj": 10,
+            "won": 8,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 25,
+            "goalsAgainst": 0,
+            "points": 26
+          },
+          {
+            "rank": 2,
+            "name": "Gabón",
+            "pj": 10,
+            "won": 8,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 22,
+            "goalsAgainst": 9,
+            "points": 25
+          },
+          {
+            "rank": 3,
+            "name": "Gambia",
+            "pj": 10,
+            "won": 4,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 27,
+            "goalsAgainst": 18,
+            "points": 13
+          },
+          {
+            "rank": 4,
+            "name": "Kenia",
+            "pj": 10,
+            "won": 3,
+            "drawn": 3,
+            "lost": 4,
+            "goalsFor": 18,
+            "goalsAgainst": 14,
+            "points": 12
+          },
+          {
+            "rank": 5,
+            "name": "Burundi",
+            "pj": 10,
+            "won": 3,
+            "drawn": 1,
+            "lost": 6,
+            "goalsFor": 13,
+            "goalsAgainst": 13,
+            "points": 10
+          },
+          {
+            "rank": 6,
+            "name": "Seychelles",
+            "pj": 10,
+            "won": 0,
+            "drawn": 0,
+            "lost": 10,
+            "goalsFor": 2,
+            "goalsAgainst": 53,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 7",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Argelia",
+            "pj": 10,
+            "won": 8,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 24,
+            "goalsAgainst": 8,
+            "points": 25
+          },
+          {
+            "rank": 2,
+            "name": "Uganda",
+            "pj": 10,
+            "won": 6,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 14,
+            "goalsAgainst": 9,
+            "points": 18
+          },
+          {
+            "rank": 3,
+            "name": "Mozambique",
+            "pj": 10,
+            "won": 6,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 14,
+            "goalsAgainst": 17,
+            "points": 18
+          },
+          {
+            "rank": 4,
+            "name": "Guinea",
+            "pj": 10,
+            "won": 4,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 11,
+            "goalsAgainst": 8,
+            "points": 15
+          },
+          {
+            "rank": 5,
+            "name": "Botsuana",
+            "pj": 10,
+            "won": 3,
+            "drawn": 1,
+            "lost": 6,
+            "goalsFor": 12,
+            "goalsAgainst": 16,
+            "points": 10
+          },
+          {
+            "rank": 6,
+            "name": "Somalia",
+            "pj": 10,
+            "won": 0,
+            "drawn": 1,
+            "lost": 9,
+            "goalsFor": 3,
+            "goalsAgainst": 20,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 8",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Túnez",
+            "pj": 10,
+            "won": 9,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 22,
+            "goalsAgainst": 0,
+            "points": 28
+          },
+          {
+            "rank": 2,
+            "name": "Namibia",
+            "pj": 10,
+            "won": 4,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 13,
+            "goalsAgainst": 10,
+            "points": 15
+          },
+          {
+            "rank": 3,
+            "name": "Liberia",
+            "pj": 10,
+            "won": 4,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 13,
+            "goalsAgainst": 11,
+            "points": 15
+          },
+          {
+            "rank": 4,
+            "name": "Malaui",
+            "pj": 10,
+            "won": 4,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 11,
+            "goalsAgainst": 10,
+            "points": 13
+          },
+          {
+            "rank": 5,
+            "name": "Guinea Ecuatorial",
+            "pj": 10,
+            "won": 3,
+            "drawn": 2,
+            "lost": 5,
+            "goalsFor": 8,
+            "goalsAgainst": 15,
+            "points": 11
+          },
+          {
+            "rank": 6,
+            "name": "Santo Tomé y Príncipe",
+            "pj": 10,
+            "won": 1,
+            "drawn": 0,
+            "lost": 9,
+            "goalsFor": 5,
+            "goalsAgainst": 26,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 9",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Ghana",
+            "pj": 10,
+            "won": 8,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 23,
+            "goalsAgainst": 6,
+            "points": 25
+          },
+          {
+            "rank": 2,
+            "name": "Madagascar",
+            "pj": 10,
+            "won": 6,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 17,
+            "goalsAgainst": 12,
+            "points": 19
+          },
+          {
+            "rank": 3,
+            "name": "Malí",
+            "pj": 10,
+            "won": 5,
+            "drawn": 3,
+            "lost": 2,
+            "goalsFor": 17,
+            "goalsAgainst": 6,
+            "points": 18
+          },
+          {
+            "rank": 4,
+            "name": "Comoras",
+            "pj": 10,
+            "won": 5,
+            "drawn": 0,
+            "lost": 5,
+            "goalsFor": 12,
+            "goalsAgainst": 13,
+            "points": 15
+          },
+          {
+            "rank": 5,
+            "name": "República Centroafricana",
+            "pj": 10,
+            "won": 2,
+            "drawn": 2,
+            "lost": 6,
+            "goalsFor": 11,
+            "goalsAgainst": 24,
+            "points": 8
+          },
+          {
+            "rank": 6,
+            "name": "Chad",
+            "pj": 10,
+            "won": 0,
+            "drawn": 1,
+            "lost": 9,
+            "goalsFor": 5,
+            "goalsAgainst": 24,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 10",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Gabón",
+            "pj": 8,
+            "won": 6,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 15,
+            "goalsAgainst": 9,
+            "points": 19
+          },
+          {
+            "rank": 2,
+            "name": "República Democrática del Congo",
+            "pj": 8,
+            "won": 5,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 10,
+            "goalsAgainst": 5,
+            "points": 16
+          },
+          {
+            "rank": 3,
+            "name": "Camerún",
+            "pj": 8,
+            "won": 4,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 14,
+            "goalsAgainst": 5,
+            "points": 15
+          },
+          {
+            "rank": 4,
+            "name": "Nigeria",
+            "pj": 8,
+            "won": 4,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 13,
+            "goalsAgainst": 6,
+            "points": 15
+          },
+          {
+            "rank": 5,
+            "name": "Burkina Faso",
+            "pj": 8,
+            "won": 4,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 13,
+            "goalsAgainst": 7,
+            "points": 15
+          },
+          {
+            "rank": 6,
+            "name": "Níger",
+            "pj": 8,
+            "won": 5,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 11,
+            "goalsAgainst": 10,
+            "points": 15
+          },
+          {
+            "rank": 7,
+            "name": "Madagascar",
+            "pj": 8,
+            "won": 4,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 11,
+            "goalsAgainst": 11,
+            "points": 13
+          },
+          {
+            "rank": 8,
+            "name": "Uganda",
+            "pj": 8,
+            "won": 4,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 11,
+            "goalsAgainst": 9,
+            "points": 12
+          },
+          {
+            "rank": 9,
+            "name": "Namibia",
+            "pj": 8,
+            "won": 2,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 8,
+            "goalsAgainst": 10,
+            "points": 9
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "region": "AFC",
+    "groups": [
+      {
+        "name": "Grupo 1",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Catar",
+            "pj": 6,
+            "won": 5,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 18,
+            "goalsAgainst": 3,
+            "points": 16
+          },
+          {
+            "rank": 2,
+            "name": "Kuwait",
+            "pj": 6,
+            "won": 2,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 6,
+            "goalsAgainst": 6,
+            "points": 7
+          },
+          {
+            "rank": 3,
+            "name": "India",
+            "pj": 6,
+            "won": 1,
+            "drawn": 2,
+            "lost": 3,
+            "goalsFor": 3,
+            "goalsAgainst": 7,
+            "points": 5
+          },
+          {
+            "rank": 4,
+            "name": "Afganistán",
+            "pj": 6,
+            "won": 1,
+            "drawn": 2,
+            "lost": 3,
+            "goalsFor": 3,
+            "goalsAgainst": 14,
+            "points": 5
+          }
+        ]
+      },
+      {
+        "name": "Grupo 2",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Japón",
+            "pj": 6,
+            "won": 6,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 24,
+            "goalsAgainst": 0,
+            "points": 18
+          },
+          {
+            "rank": 2,
+            "name": "Corea del Norte",
+            "pj": 6,
+            "won": 3,
+            "drawn": 0,
+            "lost": 3,
+            "goalsFor": 11,
+            "goalsAgainst": 7,
+            "points": 9
+          },
+          {
+            "rank": 3,
+            "name": "Siria",
+            "pj": 6,
+            "won": 2,
+            "drawn": 1,
+            "lost": 3,
+            "goalsFor": 9,
+            "goalsAgainst": 12,
+            "points": 7
+          },
+          {
+            "rank": 4,
+            "name": "Birmania",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 3,
+            "goalsAgainst": 28,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 3",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Corea del Sur",
+            "pj": 6,
+            "won": 5,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 20,
+            "goalsAgainst": 1,
+            "points": 16
+          },
+          {
+            "rank": 2,
+            "name": "China",
+            "pj": 6,
+            "won": 2,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 9,
+            "goalsAgainst": 9,
+            "points": 8
+          },
+          {
+            "rank": 3,
+            "name": "Tailandia",
+            "pj": 6,
+            "won": 2,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 9,
+            "goalsAgainst": 9,
+            "points": 8
+          },
+          {
+            "rank": 4,
+            "name": "Singapur",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 5,
+            "goalsAgainst": 24,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 4",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Omán",
+            "pj": 6,
+            "won": 4,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 11,
+            "goalsAgainst": 2,
+            "points": 13
+          },
+          {
+            "rank": 2,
+            "name": "Kirguistán",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 13,
+            "goalsAgainst": 7,
+            "points": 11
+          },
+          {
+            "rank": 3,
+            "name": "Malasia",
+            "pj": 6,
+            "won": 3,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 9,
+            "goalsAgainst": 9,
+            "points": 10
+          },
+          {
+            "rank": 4,
+            "name": "China Taipéi",
+            "pj": 6,
+            "won": 0,
+            "drawn": 0,
+            "lost": 6,
+            "goalsFor": 2,
+            "goalsAgainst": 17,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 5",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Irán",
+            "pj": 6,
+            "won": 4,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 16,
+            "goalsAgainst": 4,
+            "points": 14
+          },
+          {
+            "rank": 2,
+            "name": "Uzbekistán",
+            "pj": 6,
+            "won": 4,
+            "drawn": 2,
+            "lost": 0,
+            "goalsFor": 13,
+            "goalsAgainst": 4,
+            "points": 14
+          },
+          {
+            "rank": 3,
+            "name": "Turkmenistán",
+            "pj": 6,
+            "won": 0,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 14,
+            "points": 2
+          },
+          {
+            "rank": 4,
+            "name": "Hong Kong",
+            "pj": 6,
+            "won": 0,
+            "drawn": 2,
+            "lost": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 15,
+            "points": 2
+          }
+        ]
+      },
+      {
+        "name": "Grupo 6",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Irak",
+            "pj": 6,
+            "won": 6,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 17,
+            "goalsAgainst": 2,
+            "points": 18
+          },
+          {
+            "rank": 2,
+            "name": "Indonesia",
+            "pj": 6,
+            "won": 3,
+            "drawn": 1,
+            "lost": 2,
+            "goalsFor": 8,
+            "goalsAgainst": 8,
+            "points": 10
+          },
+          {
+            "rank": 3,
+            "name": "Vietnam",
+            "pj": 6,
+            "won": 2,
+            "drawn": 0,
+            "lost": 4,
+            "goalsFor": 6,
+            "goalsAgainst": 10,
+            "points": 6
+          },
+          {
+            "rank": 4,
+            "name": "Filipinas",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 3,
+            "goalsAgainst": 14,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 7",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Jordania",
+            "pj": 6,
+            "won": 4,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 16,
+            "goalsAgainst": 4,
+            "points": 13
+          },
+          {
+            "rank": 2,
+            "name": "Arabia Saudita",
+            "pj": 6,
+            "won": 4,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 12,
+            "goalsAgainst": 3,
+            "points": 13
+          },
+          {
+            "rank": 3,
+            "name": "Tayikistán",
+            "pj": 6,
+            "won": 2,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 11,
+            "goalsAgainst": 7,
+            "points": 8
+          },
+          {
+            "rank": 4,
+            "name": "Pakistán",
+            "pj": 6,
+            "won": 0,
+            "drawn": 0,
+            "lost": 6,
+            "goalsFor": 1,
+            "goalsAgainst": 26,
+            "points": 0
+          }
+        ]
+      },
+      {
+        "name": "Grupo 8",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Emiratos Árabes Unidos",
+            "pj": 6,
+            "won": 5,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 16,
+            "goalsAgainst": 2,
+            "points": 16
+          },
+          {
+            "rank": 2,
+            "name": "Baréin",
+            "pj": 6,
+            "won": 3,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 11,
+            "goalsAgainst": 3,
+            "points": 11
+          },
+          {
+            "rank": 3,
+            "name": "Yemen",
+            "pj": 6,
+            "won": 1,
+            "drawn": 2,
+            "lost": 3,
+            "goalsFor": 5,
+            "goalsAgainst": 9,
+            "points": 5
+          },
+          {
+            "rank": 4,
+            "name": "Nepal",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 2,
+            "goalsAgainst": 20,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 9",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Australia",
+            "pj": 6,
+            "won": 6,
+            "drawn": 0,
+            "lost": 0,
+            "goalsFor": 22,
+            "goalsAgainst": 0,
+            "points": 18
+          },
+          {
+            "rank": 2,
+            "name": "Palestina",
+            "pj": 6,
+            "won": 2,
+            "drawn": 2,
+            "lost": 2,
+            "goalsFor": 6,
+            "goalsAgainst": 6,
+            "points": 8
+          },
+          {
+            "rank": 3,
+            "name": "Líbano",
+            "pj": 6,
+            "won": 1,
+            "drawn": 3,
+            "lost": 2,
+            "goalsFor": 5,
+            "goalsAgainst": 8,
+            "points": 6
+          },
+          {
+            "rank": 4,
+            "name": "Bangladés",
+            "pj": 6,
+            "won": 0,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 1,
+            "goalsAgainst": 20,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 10",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Irán",
+            "pj": 10,
+            "won": 7,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 19,
+            "goalsAgainst": 8,
+            "points": 23
+          },
+          {
+            "rank": 2,
+            "name": "Uzbekistán",
+            "pj": 10,
+            "won": 6,
+            "drawn": 3,
+            "lost": 1,
+            "goalsFor": 14,
+            "goalsAgainst": 7,
+            "points": 21
+          },
+          {
+            "rank": 3,
+            "name": "Emiratos Árabes Unidos",
+            "pj": 10,
+            "won": 4,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 15,
+            "goalsAgainst": 8,
+            "points": 15
+          },
+          {
+            "rank": 4,
+            "name": "Catar",
+            "pj": 10,
+            "won": 4,
+            "drawn": 1,
+            "lost": 5,
+            "goalsFor": 17,
+            "goalsAgainst": 24,
+            "points": 13
+          },
+          {
+            "rank": 5,
+            "name": "Kirguistán",
+            "pj": 10,
+            "won": 2,
+            "drawn": 2,
+            "lost": 6,
+            "goalsFor": 12,
+            "goalsAgainst": 18,
+            "points": 8
+          },
+          {
+            "rank": 6,
+            "name": "Corea del Norte",
+            "pj": 10,
+            "won": 0,
+            "drawn": 3,
+            "lost": 7,
+            "goalsFor": 9,
+            "goalsAgainst": 21,
+            "points": 3
+          }
+        ]
+      },
+      {
+        "name": "Grupo 11",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Corea del Sur",
+            "pj": 10,
+            "won": 6,
+            "drawn": 4,
+            "lost": 0,
+            "goalsFor": 20,
+            "goalsAgainst": 7,
+            "points": 22
+          },
+          {
+            "rank": 2,
+            "name": "Jordania",
+            "pj": 10,
+            "won": 4,
+            "drawn": 4,
+            "lost": 2,
+            "goalsFor": 16,
+            "goalsAgainst": 8,
+            "points": 16
+          },
+          {
+            "rank": 3,
+            "name": "Irak",
+            "pj": 10,
+            "won": 4,
+            "drawn": 3,
+            "lost": 3,
+            "goalsFor": 9,
+            "goalsAgainst": 9,
+            "points": 15
+          },
+          {
+            "rank": 4,
+            "name": "Omán",
+            "pj": 10,
+            "won": 3,
+            "drawn": 2,
+            "lost": 5,
+            "goalsFor": 9,
+            "goalsAgainst": 14,
+            "points": 11
+          },
+          {
+            "rank": 5,
+            "name": "Palestina",
+            "pj": 10,
+            "won": 2,
+            "drawn": 4,
+            "lost": 4,
+            "goalsFor": 10,
+            "goalsAgainst": 13,
+            "points": 10
+          },
+          {
+            "rank": 6,
+            "name": "Kuwait",
+            "pj": 10,
+            "won": 0,
+            "drawn": 5,
+            "lost": 5,
+            "goalsFor": 7,
+            "goalsAgainst": 20,
+            "points": 5
+          }
+        ]
+      },
+      {
+        "name": "Grupo 12",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Japón",
+            "pj": 10,
+            "won": 7,
+            "drawn": 2,
+            "lost": 1,
+            "goalsFor": 30,
+            "goalsAgainst": 3,
+            "points": 23
+          },
+          {
+            "rank": 2,
+            "name": "Australia",
+            "pj": 10,
+            "won": 5,
+            "drawn": 4,
+            "lost": 1,
+            "goalsFor": 16,
+            "goalsAgainst": 7,
+            "points": 19
+          },
+          {
+            "rank": 3,
+            "name": "Arabia Saudita",
+            "pj": 10,
+            "won": 3,
+            "drawn": 4,
+            "lost": 3,
+            "goalsFor": 7,
+            "goalsAgainst": 8,
+            "points": 13
+          },
+          {
+            "rank": 4,
+            "name": "Indonesia",
+            "pj": 10,
+            "won": 3,
+            "drawn": 3,
+            "lost": 4,
+            "goalsFor": 9,
+            "goalsAgainst": 20,
+            "points": 12
+          },
+          {
+            "rank": 5,
+            "name": "China",
+            "pj": 10,
+            "won": 3,
+            "drawn": 0,
+            "lost": 7,
+            "goalsFor": 7,
+            "goalsAgainst": 20,
+            "points": 9
+          },
+          {
+            "rank": 6,
+            "name": "Baréin",
+            "pj": 10,
+            "won": 1,
+            "drawn": 3,
+            "lost": 6,
+            "goalsFor": 5,
+            "goalsAgainst": 16,
+            "points": 6
+          }
+        ]
+      },
+      {
+        "name": "Grupo 13",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Catar",
+            "pj": 2,
+            "won": 1,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 2,
+            "goalsAgainst": 1,
+            "points": 4
+          },
+          {
+            "rank": 2,
+            "name": "Emiratos Árabes Unidos",
+            "pj": 2,
+            "won": 1,
+            "drawn": 0,
+            "lost": 1,
+            "goalsFor": 3,
+            "goalsAgainst": 3,
+            "points": 3
+          },
+          {
+            "rank": 3,
+            "name": "Omán",
+            "pj": 2,
+            "won": 0,
+            "drawn": 1,
+            "lost": 1,
+            "goalsFor": 1,
+            "goalsAgainst": 2,
+            "points": 1
+          }
+        ]
+      },
+      {
+        "name": "Grupo 14",
+        "teams": [
+          {
+            "rank": 1,
+            "name": "Arabia Saudita",
+            "pj": 2,
+            "won": 1,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 3,
+            "goalsAgainst": 2,
+            "points": 4
+          },
+          {
+            "rank": 2,
+            "name": "Irak",
+            "pj": 2,
+            "won": 1,
+            "drawn": 1,
+            "lost": 0,
+            "goalsFor": 1,
+            "goalsAgainst": 0,
+            "points": 4
+          },
+          {
+            "rank": 3,
+            "name": "Indonesia",
+            "pj": 2,
+            "won": 0,
+            "drawn": 0,
+            "lost": 2,
+            "goalsFor": 2,
+            "goalsAgainst": 4,
+            "points": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "region": "OFC",
+    "groups": []
+  }
+]

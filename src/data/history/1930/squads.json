@@ -1,0 +1,1236 @@
+{
+    "year": 1930,
+    "teams": {
+        "Argentina": [
+            {
+                "position": "GK",
+                "name": "Ángel Bossio",
+                "club": "Talleres"
+            },
+            {
+                "position": "GK",
+                "name": "Juan Botasso",
+                "club": "Argentino de Quilmes"
+            },
+            {
+                "position": "DF",
+                "name": "Rodolfo Orlandini",
+                "club": "Estudiantil Porteño"
+            },
+            {
+                "position": "DF",
+                "name": "Alberto Chividini",
+                "club": "Estudiantil Porteño"
+            },
+            {
+                "position": "DF",
+                "name": "Adolfo Zumelzú",
+                "club": "Estudiantil Porteño"
+            },
+            {
+                "position": "DF",
+                "name": "José Della Torre",
+                "club": "Racing"
+            },
+            {
+                "position": "DF",
+                "name": "Juan Evaristo",
+                "club": "Sportivo Barracas"
+            },
+            {
+                "position": "DF",
+                "name": "Edmundo Piaggio",
+                "club": "Lanús"
+            },
+            {
+                "position": "DF",
+                "name": "Ramón Muttis",
+                "club": "Boca Juniors"
+            },
+            {
+                "position": "DF",
+                "name": "Fernando Paternoster",
+                "club": "Racing"
+            },
+            {
+                "position": "MF",
+                "name": "Luis Monti",
+                "club": "San Lorenzo"
+            },
+            {
+                "position": "MF",
+                "name": "Pedro Suárez",
+                "club": "Boca Juniors"
+            },
+            {
+                "position": "FW",
+                "name": "Alejandro Scopelli",
+                "club": "Estudiantes de La Plata"
+            },
+            {
+                "position": "FW",
+                "name": "Natalio Perinetti",
+                "club": "Racing"
+            },
+            {
+                "position": "FW",
+                "name": "Carlos Peucelle",
+                "club": "Sportivo Buenos Aires"
+            },
+            {
+                "position": "FW",
+                "name": "Mario Evaristo",
+                "club": "Boca Juniors"
+            },
+            {
+                "position": "FW",
+                "name": "Manuel Ferreira",
+                "club": "Estudiantes de La Plata"
+            },
+            {
+                "position": "FW",
+                "name": "Carlos Spadaro",
+                "club": "Lanús"
+            },
+            {
+                "position": "FW",
+                "name": "Guillermo Stábile",
+                "club": "Huracán"
+            },
+            {
+                "position": "FW",
+                "name": "Roberto Cherro",
+                "club": "Boca Juniors"
+            },
+            {
+                "position": "FW",
+                "name": "Francisco Varallo",
+                "club": "Gimnasia y Esgrima La Plata"
+            },
+            {
+                "position": "FW",
+                "name": "Attilio Demaría",
+                "club": "Gimnasia de La Plata"
+            }
+        ],
+        "Belgium": [
+            {
+                "position": "GK",
+                "name": "Arnold Badjou",
+                "club": "Daring Club de Bruxelles"
+            },
+            {
+                "position": "GK",
+                "name": "Jean De Bie",
+                "club": "Royal Racing Club de Bruxelles"
+            },
+            {
+                "position": "DF",
+                "name": "Theodore Nouwens",
+                "club": "RC de Malines"
+            },
+            {
+                "position": "DF",
+                "name": "Nic Hoydonckx",
+                "club": "FC Excelsior Hasselt"
+            },
+            {
+                "position": "DF",
+                "name": "Henri De Deken",
+                "club": "Royal Antwerp FC"
+            },
+            {
+                "position": "MF",
+                "name": "Jean De Clercq",
+                "club": "Royal Antwerp FC"
+            },
+            {
+                "position": "MF",
+                "name": "Pierre Braine",
+                "club": "Royal Beerschot AC"
+            },
+            {
+                "position": "MF",
+                "name": "Alexis Chantraine",
+                "club": "Royal FC Liegeois"
+            },
+            {
+                "position": "MF",
+                "name": "August Hellemans",
+                "club": "Royal FC Malinois"
+            },
+            {
+                "position": "FW",
+                "name": "Jan Diddens",
+                "club": "RC de Malines"
+            },
+            {
+                "position": "FW",
+                "name": "Gérard Delbeke",
+                "club": "Royal FC Brugeois"
+            },
+            {
+                "position": "FW",
+                "name": "Jacques Moeschal",
+                "club": "Royal Racing Club de Bruxelles"
+            },
+            {
+                "position": "FW",
+                "name": "Ferdinand Adams",
+                "club": "SC Anderlechtois"
+            },
+            {
+                "position": "FW",
+                "name": "André Saeys",
+                "club": "Royal CS Brugeois"
+            },
+            {
+                "position": "FW",
+                "name": "Louis Versyp",
+                "club": "Royal FC Brugeois"
+            },
+            {
+                "position": "FW",
+                "name": "Bernard Voorhoof",
+                "club": "Liersche Sportkring"
+            }
+        ],
+        "Bolivia": [
+            {
+                "position": "GK",
+                "name": "Miguel Murillo",
+                "club": "Club Bolívar"
+            },
+            {
+                "position": "GK",
+                "name": "Jesús Bermúdez",
+                "club": "Oruro Royal"
+            },
+            {
+                "position": "DF",
+                "name": "Luis Reyes Peñaranda",
+                "club": "Universitario La Paz"
+            },
+            {
+                "position": "DF",
+                "name": "Segundo Durandal",
+                "club": "CS San Jose Oruro"
+            },
+            {
+                "position": "DF",
+                "name": "Casiano Chavarría",
+                "club": "Calavera La Paz"
+            },
+            {
+                "position": "MF",
+                "name": "Renato Sáinz",
+                "club": "The Strongest"
+            },
+            {
+                "position": "MF",
+                "name": "Miguel Brito",
+                "club": "Oruro Royal"
+            },
+            {
+                "position": "MF",
+                "name": "Juan Argote",
+                "club": "Club Bolívar"
+            },
+            {
+                "position": "MF",
+                "name": "Constantino Noya",
+                "club": "Oruro Royal"
+            },
+            {
+                "position": "MF",
+                "name": "Diógenes Lara",
+                "club": "Club Bolívar"
+            },
+            {
+                "position": "MF",
+                "name": "Jorge Valderrama",
+                "club": "Oruro Royal"
+            },
+            {
+                "position": "FW",
+                "name": "Gumersindo Gómez",
+                "club": "Oruro Royal"
+            },
+            {
+                "position": "FW",
+                "name": "Rafael Méndez",
+                "club": "Universitario La Paz"
+            },
+            {
+                "position": "FW",
+                "name": "Eduardo Reyes Ortíz",
+                "club": "The Strongest"
+            },
+            {
+                "position": "FW",
+                "name": "René Fernández",
+                "club": "Alianza Oruro"
+            },
+            {
+                "position": "FW",
+                "name": "José Bustamante",
+                "club": "Litoral"
+            },
+            {
+                "position": "FW",
+                "name": "Mario Alborta",
+                "club": "Club Bolívar"
+            }
+        ],
+        "Brazil": [
+            {
+                "position": "GK",
+                "name": "Velloso",
+                "club": "Fluminense"
+            },
+            {
+                "position": "GK",
+                "name": "Joel",
+                "club": "América-RJ"
+            },
+            {
+                "position": "DF",
+                "name": "Brilhante",
+                "club": "Vasco da Gama"
+            },
+            {
+                "position": "DF",
+                "name": "Zé Luiz",
+                "club": "São Cristóvão"
+            },
+            {
+                "position": "DF",
+                "name": "Itália",
+                "club": "Vasco da Gama"
+            },
+            {
+                "position": "DF",
+                "name": "Oscarino",
+                "club": "Ypiranga Niterói"
+            },
+            {
+                "position": "MF",
+                "name": "Fernando",
+                "club": "Fluminense"
+            },
+            {
+                "position": "MF",
+                "name": "Hermógenes",
+                "club": "America-RJ"
+            },
+            {
+                "position": "MF",
+                "name": "Fausto",
+                "club": "Vasco da Gama"
+            },
+            {
+                "position": "MF",
+                "name": "Ivan Mariz",
+                "club": "Fluminense"
+            },
+            {
+                "position": "MF",
+                "name": "Pamplona",
+                "club": "Botafogo"
+            },
+            {
+                "position": "MF",
+                "name": "Fortes",
+                "club": "Fluminense"
+            },
+            {
+                "position": "FW",
+                "name": "Manoelzinho",
+                "club": "Ypiranga Niterói"
+            },
+            {
+                "position": "FW",
+                "name": "Nilo",
+                "club": "Botafogo"
+            },
+            {
+                "position": "FW",
+                "name": "Moderato",
+                "club": "Flamengo"
+            },
+            {
+                "position": "FW",
+                "name": "Carvalho Leite",
+                "club": "Botafogo"
+            },
+            {
+                "position": "FW",
+                "name": "Poly",
+                "club": "Americano"
+            },
+            {
+                "position": "FW",
+                "name": "Preguinho",
+                "club": "Fluminense"
+            },
+            {
+                "position": "FW",
+                "name": "Russinho",
+                "club": "Vasco da Gama"
+            },
+            {
+                "position": "FW",
+                "name": "Teóphilo",
+                "club": "São Cristóvão"
+            },
+            {
+                "position": "FW",
+                "name": "Benedicto",
+                "club": "Botafogo"
+            },
+            {
+                "position": "FW",
+                "name": "Araken",
+                "club": "Flamengo"
+            }
+        ],
+        "Chile": [
+            {
+                "position": "GK",
+                "name": "Roberto Cortés",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "GK",
+                "name": "Cesar Espinoza",
+                "club": "Santiago Wanderers"
+            },
+            {
+                "position": "DF",
+                "name": "Víctor Morales",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "DF",
+                "name": "Guillermo Riveros",
+                "club": "La Cruz Valparaiso"
+            },
+            {
+                "position": "DF",
+                "name": "Ernesto Chaparro",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "DF",
+                "name": "Ulises Poirier",
+                "club": "La Cruz Valparaiso"
+            },
+            {
+                "position": "MF",
+                "name": "Guillermo Saavedra",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "MF",
+                "name": "Arturo Torres",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "MF",
+                "name": "Casimiro Torres",
+                "club": "Everton"
+            },
+            {
+                "position": "MF",
+                "name": "Humberto Elgueta",
+                "club": "Santiago Wanderers"
+            },
+            {
+                "position": "FW",
+                "name": "Tomás Ojeda",
+                "club": "Boca Juniors Antofagasta"
+            },
+            {
+                "position": "FW",
+                "name": "Horacio Muñoz",
+                "club": "Arturo Fernández Vial"
+            },
+            {
+                "position": "FW",
+                "name": "Arturo Coddou",
+                "club": "Arturo Fernández Vial"
+            },
+            {
+                "position": "FW",
+                "name": "Carlos Schneeberger",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "FW",
+                "name": "Guillermo Subiabre",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "FW",
+                "name": "Juan Aguilera",
+                "club": "Audax Italiano"
+            },
+            {
+                "position": "FW",
+                "name": "Guillermo Arellano",
+                "club": "Colo-Colo"
+            },
+            {
+                "position": "FW",
+                "name": "Carlos Vidal",
+                "club": "Audax Italiano"
+            },
+            {
+                "position": "FW",
+                "name": "Eberardo Villalobos",
+                "club": "Rangers"
+            }
+        ],
+        "France": [
+            {
+                "position": "GK",
+                "name": "Alex Thépot",
+                "club": "Red Star Paris"
+            },
+            {
+                "position": "GK",
+                "name": "André Tassin",
+                "club": "Racing Club de France"
+            },
+            {
+                "position": "DF",
+                "name": "Marcel Capelle",
+                "club": "Racing Club de France"
+            },
+            {
+                "position": "DF",
+                "name": "Numa Andoire",
+                "club": "FC Antibes"
+            },
+            {
+                "position": "DF",
+                "name": "Étienne Mattler",
+                "club": "FC Sochaux"
+            },
+            {
+                "position": "MF",
+                "name": "Augustin Chantrel",
+                "club": "CASG Paris"
+            },
+            {
+                "position": "MF",
+                "name": "Jean Laurent",
+                "club": "FC Sochaux"
+            },
+            {
+                "position": "MF",
+                "name": "Marcel Pinel",
+                "club": "Red Star Paris"
+            },
+            {
+                "position": "MF",
+                "name": "Célestin Delmer",
+                "club": "Amiens AC"
+            },
+            {
+                "position": "MF",
+                "name": "Alexandre Villaplane",
+                "club": "Racing Club de France"
+            },
+            {
+                "position": "FW",
+                "name": "André Maschinot",
+                "club": "FC Sochaux"
+            },
+            {
+                "position": "FW",
+                "name": "Lucien Laurent",
+                "club": "FC Sochaux"
+            },
+            {
+                "position": "FW",
+                "name": "Marcel Langiller",
+                "club": "Excelsior AC Roubaix"
+            },
+            {
+                "position": "FW",
+                "name": "Edmond Delfour",
+                "club": "Racing Club de France"
+            },
+            {
+                "position": "FW",
+                "name": "Émile Veinante",
+                "club": "Racing Club de France"
+            },
+            {
+                "position": "FW",
+                "name": "Ernest Libérati",
+                "club": "Amiens AC"
+            }
+        ],
+        "Mexico": [
+            {
+                "position": "GK",
+                "name": "Isidoro Sota",
+                "club": "América"
+            },
+            {
+                "position": "GK",
+                "name": "Oscar Bonfiglio",
+                "club": "Marte"
+            },
+            {
+                "position": "DF",
+                "name": "Francisco Garza Gutiérrez",
+                "club": "América"
+            },
+            {
+                "position": "DF",
+                "name": "Manuel Rosas",
+                "club": "Atlante"
+            },
+            {
+                "position": "DF",
+                "name": "Rafael Garza Gutiérrez",
+                "club": "América"
+            },
+            {
+                "position": "MF",
+                "name": "Alfredo Sánchez",
+                "club": "América"
+            },
+            {
+                "position": "MF",
+                "name": "Felipe Rosas",
+                "club": "Atlante"
+            },
+            {
+                "position": "MF",
+                "name": "Raymundo Rodríguez",
+                "club": "Marte"
+            },
+            {
+                "position": "MF",
+                "name": "Efraín Amézcua",
+                "club": "Atlante"
+            },
+            {
+                "position": "FW",
+                "name": "Felipe Olivares",
+                "club": "Atlante"
+            },
+            {
+                "position": "FW",
+                "name": "Luis Pérez",
+                "club": "Necaxa"
+            },
+            {
+                "position": "FW",
+                "name": "Hilario López",
+                "club": "Marte"
+            },
+            {
+                "position": "FW",
+                "name": "Roberto Gayón",
+                "club": "América"
+            },
+            {
+                "position": "FW",
+                "name": "Jesús Castro",
+                "club": "Deportivo Mexico"
+            },
+            {
+                "position": "FW",
+                "name": "José Ruíz",
+                "club": "Necaxa"
+            },
+            {
+                "position": "FW",
+                "name": "Juan Carreño",
+                "club": "Atlante"
+            },
+            {
+                "position": "FW",
+                "name": "Dionisio Mejía",
+                "club": "Atlante"
+            }
+        ],
+        "Peru": [
+            {
+                "position": "GK",
+                "name": "Jorge Pardon",
+                "club": "Sporting Tabaco"
+            },
+            {
+                "position": "GK",
+                "name": "Juan Valdivieso",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "DF",
+                "name": "Antonio Maquilón",
+                "club": "Tarapacá Ferroviario"
+            },
+            {
+                "position": "DF",
+                "name": "Mario de las Casas",
+                "club": "Lawn Tennis de la Exposición"
+            },
+            {
+                "position": "DF",
+                "name": "Arturo Fernández",
+                "club": "Universitario de Deportes"
+            },
+            {
+                "position": "DF",
+                "name": "Alberto Soria",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "MF",
+                "name": "Plácido Galindo",
+                "club": "Universitario de Deportes"
+            },
+            {
+                "position": "MF",
+                "name": "Domingo García",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "MF",
+                "name": "Julio Quintana",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "MF",
+                "name": "Alberto Denegri",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "MF",
+                "name": "Eduardo Astengo",
+                "club": "Universitario de Deportes"
+            },
+            {
+                "position": "FW",
+                "name": "Demetrio Neyra",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "FW",
+                "name": "Pablo Pacheco",
+                "club": "Universitario de Deportes"
+            },
+            {
+                "position": "FW",
+                "name": "Julio Lores",
+                "club": "Association FBC"
+            },
+            {
+                "position": "FW",
+                "name": "Lizardo Rodríguez Nue",
+                "club": "Sport Progreso"
+            },
+            {
+                "position": "FW",
+                "name": "Jorge Sarmiento",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "FW",
+                "name": "José María Lavalle",
+                "club": "Alianza Lima"
+            },
+            {
+                "position": "FW",
+                "name": "Luis Souza Ferreira",
+                "club": "Universitario de Deportes"
+            },
+            {
+                "position": "FW",
+                "name": "Carlos Cillóniz",
+                "club": "Universitario de Deportes"
+            },
+            {
+                "position": "FW",
+                "name": "Alejandro Villanueva",
+                "club": "Alianza Lima"
+            }
+        ],
+        "Paraguay": [
+            {
+                "position": "GK",
+                "name": "Pedro Benítez",
+                "club": "Libertad"
+            },
+            {
+                "position": "GK",
+                "name": "Modesto Denis",
+                "club": "Nacional"
+            },
+            {
+                "position": "DF",
+                "name": "José Miracca",
+                "club": "Nacional"
+            },
+            {
+                "position": "DF",
+                "name": "Quiterio Olmedo",
+                "club": "Nacional"
+            },
+            {
+                "position": "DF",
+                "name": "Salvador Flores",
+                "club": "Cerro Porteño"
+            },
+            {
+                "position": "DF",
+                "name": "Eustacio Chamorro",
+                "club": "Presidente Hayes"
+            },
+            {
+                "position": "MF",
+                "name": "Francisco Aguirre",
+                "club": "Olimpia"
+            },
+            {
+                "position": "MF",
+                "name": "Eusebio Díaz",
+                "club": "Guaraní"
+            },
+            {
+                "position": "MF",
+                "name": "Santiago Benítez",
+                "club": "Olimpia"
+            },
+            {
+                "position": "MF",
+                "name": "Romildo Etcheverry",
+                "club": "Olimpia"
+            },
+            {
+                "position": "MF",
+                "name": "Diego Florentín",
+                "club": "River Plate"
+            },
+            {
+                "position": "MF",
+                "name": "Tranquilino Garcete",
+                "club": "Libertad"
+            },
+            {
+                "position": "FW",
+                "name": "Delfín Benítez Cáceres",
+                "club": "Libertad"
+            },
+            {
+                "position": "FW",
+                "name": "Aurelio González",
+                "club": "Olimpia"
+            },
+            {
+                "position": "FW",
+                "name": "Saguier Carreras",
+                "club": "Sportivo Luqueño"
+            },
+            {
+                "position": "FW",
+                "name": "Lino Nessi",
+                "club": "Libertad"
+            },
+            {
+                "position": "FW",
+                "name": "Diógenes Domínguez",
+                "club": "Sportivo Luqueño"
+            },
+            {
+                "position": "FW",
+                "name": "Amadeo Ortega",
+                "club": "River Plate"
+            },
+            {
+                "position": "FW",
+                "name": "Bernabé Rivera",
+                "club": "Sportivo Luqueño"
+            },
+            {
+                "position": "FW",
+                "name": "Gerardo Romero",
+                "club": "Libertad"
+            },
+            {
+                "position": "FW",
+                "name": "Luis Vargas Peña",
+                "club": "Olimpia"
+            },
+            {
+                "position": "FW",
+                "name": "Jacinto Villalba",
+                "club": "Cerro Porteño"
+            }
+        ],
+        "Romania": [
+            {
+                "position": "GK",
+                "name": "Samuel Zauber",
+                "club": "Maccabi Bucureşti"
+            },
+            {
+                "position": "GK",
+                "name": "Ion Lǎpuşneanu",
+                "club": "Sportul Studenţesc"
+            },
+            {
+                "position": "DF",
+                "name": "Iosif Czako",
+                "club": "UDR Reşiţa"
+            },
+            {
+                "position": "DF",
+                "name": "Rudolf Bürger",
+                "club": "Chinezul Timişoara"
+            },
+            {
+                "position": "DF",
+                "name": "Adalbert Steiner",
+                "club": "Chinezul Timişoara"
+            },
+            {
+                "position": "MF",
+                "name": "Alfred Eisenbeisser",
+                "club": "Dragoş Vodă Cernăuţi"
+            },
+            {
+                "position": "MF",
+                "name": "Emerich Vogl",
+                "club": "Juventus Bucureşti"
+            },
+            {
+                "position": "MF",
+                "name": "Corneliu Robe",
+                "club": "Olympia Bucureşti"
+            },
+            {
+                "position": "MF",
+                "name": "Ladislau Raffinsky",
+                "club": "Juventus Bucuresti"
+            },
+            {
+                "position": "FW",
+                "name": "Constantin Stanciu",
+                "club": "Venus Bucureşti"
+            },
+            {
+                "position": "FW",
+                "name": "Miklós Kovács",
+                "club": "Banatul Timişoara"
+            },
+            {
+                "position": "FW",
+                "name": "Ilie Subăşeanu",
+                "club": "Olympia Bucureşti"
+            },
+            {
+                "position": "FW",
+                "name": "Adalbert Deşu",
+                "club": "UDR Reşiţa"
+            },
+            {
+                "position": "FW",
+                "name": "Rudolf Wetzer",
+                "club": "Juventus Bucureşti"
+            },
+            {
+                "position": "FW",
+                "name": "Ştefan Barbu",
+                "club": "Gloria Arad"
+            }
+        ],
+        "USA": [
+            {
+                "position": "GK",
+                "name": "Jimmy Douglas",
+                "club": "New York Nationals"
+            },
+            {
+                "position": "DF",
+                "name": "Alexander Wood",
+                "club": "Detroit Holley Carburetor"
+            },
+            {
+                "position": "DF",
+                "name": "George Moorhouse",
+                "club": "New York Giants"
+            },
+            {
+                "position": "DF",
+                "name": "Frank Vaughn",
+                "club": "Ben Millers"
+            },
+            {
+                "position": "DF",
+                "name": "Raphael Tracey",
+                "club": "Ben Millers"
+            },
+            {
+                "position": "DF",
+                "name": "James Gentle",
+                "club": "Philadelphia Cricket Club"
+            },
+            {
+                "position": "DF",
+                "name": "Jimmy Gallagher",
+                "club": "New York Nationals"
+            },
+            {
+                "position": "MF",
+                "name": "Billy Gonsalves",
+                "club": "Fall River Marksmen"
+            },
+            {
+                "position": "MF",
+                "name": "Philip Slone",
+                "club": "New York Giants"
+            },
+            {
+                "position": "MF",
+                "name": "Jim Brown",
+                "club": "New York Giants"
+            },
+            {
+                "position": "MF",
+                "name": "Arnie Oliver",
+                "club": "Providence Gold Bugs"
+            },
+            {
+                "position": "MF",
+                "name": "Andy Auld",
+                "club": "Providence Gold Bugs"
+            },
+            {
+                "position": "FW",
+                "name": "Bert Patenaude",
+                "club": "Fall River Marksmen"
+            },
+            {
+                "position": "FW",
+                "name": "Tom Florie",
+                "club": "New Bedford Whalers"
+            },
+            {
+                "position": "FW",
+                "name": "Mike Bookie",
+                "club": "Cleveland Slavia"
+            },
+            {
+                "position": "FW",
+                "name": "Bart McGhee",
+                "club": "New York Nationals"
+            }
+        ],
+        "Uruguay": [
+            {
+                "position": "GK",
+                "name": "Enrique Ballestrero",
+                "club": "Rampla Juniors"
+            },
+            {
+                "position": "GK",
+                "name": "Miguel Capuccini",
+                "club": "Peñarol"
+            },
+            {
+                "position": "DF",
+                "name": "Emilio Recoba",
+                "club": "Nacional"
+            },
+            {
+                "position": "DF",
+                "name": "Ernesto Mascheroni",
+                "club": "Olimpia"
+            },
+            {
+                "position": "DF",
+                "name": "Domingo Tejera",
+                "club": "Montevideo Wanderers"
+            },
+            {
+                "position": "DF",
+                "name": "José Nasazzi",
+                "club": "Bella Vista"
+            },
+            {
+                "position": "MF",
+                "name": "José Andrade",
+                "club": "Nacional"
+            },
+            {
+                "position": "MF",
+                "name": "Lorenzo Fernández",
+                "club": "Peñarol"
+            },
+            {
+                "position": "MF",
+                "name": "Carlos Riolfo",
+                "club": "Peñarol"
+            },
+            {
+                "position": "MF",
+                "name": "Álvaro Gestido",
+                "club": "Peñarol"
+            },
+            {
+                "position": "MF",
+                "name": "Conduelo Píriz",
+                "club": "Nacional"
+            },
+            {
+                "position": "MF",
+                "name": "Ángel Melogno",
+                "club": "Bella Vista"
+            },
+            {
+                "position": "FW",
+                "name": "Pedro Petrone",
+                "club": "Nacional"
+            },
+            {
+                "position": "FW",
+                "name": "Héctor Castro",
+                "club": "Nacional"
+            },
+            {
+                "position": "FW",
+                "name": "Pedro Cea",
+                "club": "Nacional"
+            },
+            {
+                "position": "FW",
+                "name": "Santos Iriarte",
+                "club": "Racing Club"
+            },
+            {
+                "position": "FW",
+                "name": "Juan Carlos Calvo",
+                "club": "Miramar Misiones"
+            },
+            {
+                "position": "FW",
+                "name": "Pablo Dorado",
+                "club": "Bella Vista"
+            },
+            {
+                "position": "FW",
+                "name": "Zoilo Saldombide",
+                "club": "Nacional"
+            },
+            {
+                "position": "FW",
+                "name": "Héctor Scarone",
+                "club": "Nacional"
+            },
+            {
+                "position": "FW",
+                "name": "Peregrino Anselmo",
+                "club": "Peñarol"
+            },
+            {
+                "position": "FW",
+                "name": "Santos Urdinarán",
+                "club": "Nacional"
+            }
+        ],
+        "Yugoslavia": [
+            {
+                "position": "GK",
+                "name": "Milan Stojanović",
+                "club": "BSK Beograd"
+            },
+            {
+                "position": "GK",
+                "name": "Milovan Jakšić",
+                "club": "SK Soko"
+            },
+            {
+                "position": "DF",
+                "name": "Dragoslav Mihajlović",
+                "club": "BSK Beograd"
+            },
+            {
+                "position": "DF",
+                "name": "Dragomir Tošić",
+                "club": "BSK Beograd"
+            },
+            {
+                "position": "DF",
+                "name": "Milutin Ivković",
+                "club": "SK Soko"
+            },
+            {
+                "position": "MF",
+                "name": "Milorad Arsenijević",
+                "club": "SK Beograd"
+            },
+            {
+                "position": "MF",
+                "name": "Teofilo Spasojević",
+                "club": "Jugoslavija Beograd"
+            },
+            {
+                "position": "MF",
+                "name": "Momčilo Đokić",
+                "club": "Jugoslavija Beograd"
+            },
+            {
+                "position": "MF",
+                "name": "Ljubiša Stefanović",
+                "club": "FC Sète"
+            },
+            {
+                "position": "FW",
+                "name": "Blagoje Marjanović",
+                "club": "SK Beograd"
+            },
+            {
+                "position": "FW",
+                "name": "Branislav Sekulić",
+                "club": "SC Montpellier"
+            },
+            {
+                "position": "FW",
+                "name": "Dragutin Najdanović",
+                "club": "BSK Beograd"
+            },
+            {
+                "position": "FW",
+                "name": "Branislav Hrnjiček",
+                "club": "Jugoslavija Beograd"
+            },
+            {
+                "position": "FW",
+                "name": "Bozidar Marković",
+                "club": "Vojvodina Novi Sad"
+            },
+            {
+                "position": "FW",
+                "name": "Aleksandar Tirnanić",
+                "club": "BSK Beograd"
+            },
+            {
+                "position": "FW",
+                "name": "Ivan Bek",
+                "club": "FC Sète"
+            },
+            {
+                "position": "FW",
+                "name": "Đorđe Vujadinović",
+                "club": "BSK Beograd"
+            }
+        ]
+    }
+}

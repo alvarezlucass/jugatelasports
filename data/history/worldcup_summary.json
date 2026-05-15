@@ -1,0 +1,45 @@
+{
+  "league": {
+    "id": 1,
+    "name": "World Cup",
+    "type": "Cup",
+    "logo": "https://media.api-sports.io/football/leagues/1.png"
+  },
+  "country": {
+    "name": "World",
+    "code": null,
+    "flag": null
+  },
+  "seasons": [
+    {
+      "year": 2010,
+      "start": "2010-06-11",
+      "end": "2010-07-11",
+      "winner": null
+    },
+    {
+      "year": 2014,
+      "start": "2014-06-12",
+      "end": "2014-07-13",
+      "winner": null
+    },
+    {
+      "year": 2018,
+      "start": "2018-06-14",
+      "end": "2018-07-15",
+      "winner": null
+    },
+    {
+      "year": 2022,
+      "start": "2022-11-20",
+      "end": "2022-12-18",
+      "winner": null
+    },
+    {
+      "year": 2026,
+      "start": "2026-06-11",
+      "end": "2026-06-28",
+      "winner": null
+    }
+  ]
+}
