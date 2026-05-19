@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { useState } from 'react';
 import { ActivityFeed } from '../components/social/ActivityFeed';
-
+import { motion } from 'framer-motion';
 export const Home: React.FC = () => {
     const { user } = useUser();
     const [feedType, setFeedType] = useState<'GLOBAL' | 'FOLLOWING'>('GLOBAL');

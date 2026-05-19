@@ -16,18 +16,21 @@ export const Predictions: React.FC = () => {
     const [selectedOpponentId, setSelectedOpponentId] = useState<string | null>(null);
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
     const [viewingOpponent, setViewingOpponent] = useState<any | null>(null);
+    const [selectedLeague, setSelectedLeague] = useState<string>('128'); // Default to Liga Profesional
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
         const loadMatches = async () => {
             setMatchesLoading(true);
-            const data = await matchService.getMatches();
-            setMatches(data);
+            const data = await matchService.getMatches(selectedLeague);
+            // Filter out finished matches to only show upcoming and live ones
+            const upcomingMatches = data.filter(m => m.status !== 'finished');
+            setMatches(upcomingMatches);
             setMatchesLoading(false);
         };
         loadMatches();
-    }, []);
+    }, [selectedLeague]);
 
     // Handle pre-selected challenge from URL parameters
     useEffect(() => {
@@ -262,8 +265,27 @@ export const Predictions: React.FC = () => {
                             <h2 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] mb-2">{mode === 'GROUP' ? '2' : '3'}. Selecciona un enfrentamiento</h2>
                             <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Partidos Disponibles</h3>
                         </div>
-                        <div className="text-[10px] font-bold text-zinc-500 bg-white/5 px-4 py-2 rounded-full border border-white/5 uppercase tracking-widest">
-                            Temporada Mundial 2026
+                        
+                        {/* League Selector */}
+                        <div className="flex bg-[#0F131A] rounded-full p-1 border border-white/10">
+                            <button 
+                                onClick={() => setSelectedLeague('128')}
+                                className={cn(
+                                    "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
+                                    selectedLeague === '128' ? "bg-blue-600 text-white" : "text-zinc-500 hover:text-white"
+                                )}
+                            >
+                                Liga Profesional
+                            </button>
+                            <button 
+                                onClick={() => setSelectedLeague('world-cup-2026')}
+                                className={cn(
+                                    "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
+                                    selectedLeague === 'world-cup-2026' ? "bg-blue-600 text-white" : "text-zinc-500 hover:text-white"
+                                )}
+                            >
+                                Mundial 2026
+                            </button>
                         </div>
                     </div>
 

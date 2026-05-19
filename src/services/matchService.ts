@@ -2,11 +2,17 @@ import { supabase } from '../lib/supabase';
 import { type GroupMatch } from '../data/worldCupPersistence';
 
 export const matchService = {
-    async getMatches(): Promise<GroupMatch[]> {
-        const { data, error } = await supabase
+    async getMatches(leagueId?: string): Promise<GroupMatch[]> {
+        let query = supabase
             .from('matches')
             .select('*')
             .order('start_time', { ascending: true });
+
+        if (leagueId) {
+            query = query.eq('league_id', leagueId);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             console.error('Error fetching matches:', error.message);
@@ -20,11 +26,14 @@ export const matchService = {
         // Map DB fields to GroupMatch interface
         return data.map((m: any) => ({
             id: m.id,
-            group: m.metadata?.group || 'U',
+            league_id: m.league_id,
+            group: m.metadata?.group || m.metadata?.round || 'U',
             homeTeam: m.home_team,
             awayTeam: m.away_team,
+            homeTeamLogo: m.home_team_logo,
+            awayTeamLogo: m.away_team_logo,
             date: m.start_time.split('T')[0],
-            time: m.start_time.split('T')[1].substring(0, 5),
+            time: m.start_time.split('T')[1]?.substring(0, 5) || '00:00',
             stadium: m.metadata?.stadium || 'TBD',
             city: m.metadata?.city || 'TBD',
             status: this.mapStatus(m.status),

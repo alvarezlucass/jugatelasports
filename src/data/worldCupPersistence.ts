@@ -112,6 +112,8 @@ export interface GroupMatch {
     status: 'scheduled' | 'live' | 'finished';
     homeScore?: number;
     awayScore?: number;
+    homeTeamLogo?: string;
+    awayTeamLogo?: string;
     h2h?: {
         date: string;
         result: string;

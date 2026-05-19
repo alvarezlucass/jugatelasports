@@ -49,8 +49,8 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({ matches, o
                         {groupedMatches[date].map((match) => {
                             const homeData = getTeamStaticData(match.homeTeam);
                             const awayData = getTeamStaticData(match.awayTeam);
-                            const homeFlag = homeData ? `https://flagcdn.com/${homeData.id.toLowerCase().substring(0, 2)}.svg` : '';
-                            const awayFlag = awayData ? `https://flagcdn.com/${awayData.id.toLowerCase().substring(0, 2)}.svg` : '';
+                            const homeFlag = match.homeTeamLogo || (homeData ? `https://flagcdn.com/${homeData.id.toLowerCase().substring(0, 2)}.svg` : '');
+                            const awayFlag = match.awayTeamLogo || (awayData ? `https://flagcdn.com/${awayData.id.toLowerCase().substring(0, 2)}.svg` : '');
 
                             return (
                                 <div
