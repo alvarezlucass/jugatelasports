@@ -245,10 +245,10 @@ export const Profile: React.FC = () => {
 
     // Performance Data Calculation from Industrial Stats
     const performanceData = React.useMemo(() => {
-        if (!user.stats) return null;
+        if (!user || !user.stats) return null;
 
         // 1. Evolution from stats trend
-        const evolution = user.stats.performanceTrend.map((p, i) => ({
+        const evolution = (user.stats.performanceTrend || []).map((p: any, i: number) => ({
             match: i + 1,
             points: p.points,
             date: p.date
@@ -256,8 +256,8 @@ export const Profile: React.FC = () => {
 
         // 2. Distribution from stats counters
         const distribution = [
-            { name: 'Aciertos', value: user.stats.wonCount, color: '#10B981' },
-            { name: 'Fallos', value: user.stats.lostCount, color: '#EF4444' },
+            { name: 'Aciertos', value: user.stats.wonCount || 0, color: '#10B981' },
+            { name: 'Fallos', value: user.stats.lostCount || 0, color: '#EF4444' },
             { name: 'En Juego', value: userPredictions.filter(p => p.status === 'ACTIVE' || p.status === 'PENDING').length, color: '#F59E0B' }
         ];
 
@@ -283,16 +283,16 @@ export const Profile: React.FC = () => {
             .slice(0, 5);
 
         return { evolution, distribution, accuracyByTeam };
-    }, [user.stats, userPredictions]);
+    }, [user?.stats, userPredictions]);
 
 
     const receivedChallenges = pvpChallenges?.filter(c => c.targetId === user?.id) || [];
     const sentChallenges = pvpChallenges?.filter(c => c.creatorId === user?.id) || [];
 
     const totalPredictions = userPredictions.length;
-    const wonPredictions = user.stats?.wonCount || 0;
-    const lostPredictions = user.stats?.lostCount || 0;
-    const winRate = user.stats?.accuracy || 0;
+    const wonPredictions = user?.stats?.wonCount || 0;
+    const lostPredictions = user?.stats?.lostCount || 0;
+    const winRate = user?.stats?.accuracy || 0;
 
     // Efecto para auto-navegar al desafío preseleccionado desde una notificación
     useEffect(() => {
