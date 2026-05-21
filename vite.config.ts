@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['Escudo.jpg', 'Logo.jpg', 'Logo 2.jpg', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: 'Prode App',
-        short_name: 'Prode',
+        name: 'Jugatela Sports',
+        short_name: 'Jugatela',
         description: 'Juega y predice resultados deportivos',
         theme_color: '#0a0a0a',
         background_color: '#0a0a0a',

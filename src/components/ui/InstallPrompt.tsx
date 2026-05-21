@@ -97,7 +97,7 @@ export const InstallPrompt = () => {
                     ) : (
                         <div className="space-y-3">
                             <p className="text-xs font-medium text-zinc-400 leading-relaxed">
-                                Descarga <strong className="text-white">Jugatela Sports</strong> en tu dispositivo para competir en el Prode con mayor fluidez y notificaciones activas.
+                                Descarga <strong className="text-white">Jugatela Sports</strong> en tu dispositivo para competir en las predicciones con mayor fluidez y notificaciones activas.
                             </p>
                             <button
                                 onClick={handleInstallClick}

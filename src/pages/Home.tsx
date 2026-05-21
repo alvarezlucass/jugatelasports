@@ -203,7 +203,7 @@ export const Home: React.FC = () => {
             <div className="pt-8">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2 mb-8">
                     <div className="space-y-1">
-                        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">Comunidad Prode</h2>
+                        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">Comunidad Jugatela</h2>
                         <p className="text-zinc-500 font-bold text-xs uppercase tracking-[0.2em]">Lo que está pasando ahora</p>
                     </div>
                     

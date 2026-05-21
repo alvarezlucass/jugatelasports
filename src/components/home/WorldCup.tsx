@@ -28,7 +28,7 @@ export const WorldCup: React.FC = () => {
                             </h2>
 
                             <p className="text-lg text-muted-foreground max-w-xl leading-relaxed mb-8">
-                                Prepárate para el evento más grande del fútbol. Crea tu prode del mundial, compite con amigos y demuestra quién sabe más.
+                                Prepárate para el evento más grande del fútbol. Arma tus predicciones del mundial, compite con amigos y demuestra quién sabe más.
                             </p>
 
                             <button onClick={() => navigate('/worldcup')} className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-amber-600/20 transition-all hover:scale-105 active:scale-95">
