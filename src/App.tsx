@@ -17,9 +17,9 @@ import { GroupFixturePage } from './pages/GroupFixturePage';
 import { TeamSquadPage } from './pages/TeamSquadPage';
 import { VenuesPage } from './pages/VenuesPage';
 import { LeaguesTeaserPage } from './pages/LeaguesTeaserPage';
-import { BasketballTeaserPage } from './pages/BasketballTeaserPage';
-import { TennisTeaserPage } from './pages/TennisTeaserPage';
-import { F1TeaserPage } from './pages/F1TeaserPage';
+import { BasketballHub } from './pages/BasketballHub';
+import { TennisHub } from './pages/TennisHub';
+import { F1Hub } from './pages/F1Hub';
 import { GroupDashboard } from './pages/GroupDashboard';
 import { GroupDetail } from './pages/GroupDetail';
 import { GroupModal } from './components/groups/GroupModal';
@@ -31,7 +31,7 @@ import { StorePage } from './pages/StorePage';
 import { StoreAdminPage } from './pages/admin/StoreAdminPage';
 import MatchDetail from './pages/MatchDetail';
 import { IndustrialSim } from './pages/admin/IndustrialSim';
-import { ArgentinaHub } from './pages/ArgentinaHub';
+import { GenericLeagueHub } from './pages/GenericLeagueHub';
 
 function App() {
   return (
@@ -43,10 +43,10 @@ function App() {
               <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
               <Route path="leagues" element={<LeaguesTeaserPage />} />
-              <Route path="leagues/argentina" element={<ArgentinaHub />} />
-              <Route path="basketball" element={<BasketballTeaserPage />} />
-              <Route path="tennis" element={<TennisTeaserPage />} />
-              <Route path="f1" element={<F1TeaserPage />} />
+              <Route path="leagues/:leagueId" element={<GenericLeagueHub />} />
+              <Route path="basketball" element={<BasketballHub />} />
+              <Route path="tennis" element={<TennisHub />} />
+              <Route path="f1" element={<F1Hub />} />
               <Route path="market" element={<MarketPage />} />
               <Route path="lineups" element={<LineupsPage />} />
               <Route path="rankings" element={<Rankings />} />

@@ -5,7 +5,7 @@ import { WORLD_CUP_GROUP_MATCHES } from '../src/data/worldCupPersistence';
 dotenv.config();
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY; // Using anon key, might need service role if RLS is strict
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
     console.error('Missing Supabase URL or Key in .env');
@@ -14,13 +14,31 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+const ADMIN_EMAIL = 'admin@jugatelasports.com';
+const ADMIN_PASSWORD = '@Marte2026';
+
+async function authenticateAsAdmin() {
+    console.log('Authenticating as admin...');
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: ADMIN_EMAIL,
+        password: ADMIN_PASSWORD,
+    });
+    if (error) {
+        console.error('Failed to authenticate as admin:', error.message);
+        process.exit(1);
+    } else {
+        console.log('Successfully authenticated as Admin.');
+    }
+}
+
 async function seedMatches() {
+    await authenticateAsAdmin();
     console.log('Starting match seeding...');
     
     const formattedMatches = WORLD_CUP_GROUP_MATCHES.map(m => ({
         id: m.id,
-        league_id: 'worldcup2026',
-        season: '2026',
+        league_id: 'world-cup-2026',
+        season: 2026, // season is integer in public.matches
         home_team: m.homeTeam,
         away_team: m.awayTeam,
         start_time: `${m.date}T${m.time}:00Z`,
@@ -41,12 +59,10 @@ async function seedMatches() {
 
     if (error) {
         console.error('Error seeding matches:', error);
-        if (error.code === '42501') {
-            console.log('RLS Policy denied. You might need the Service Role Key to seed data.');
-        }
     } else {
         console.log('Successfully seeded matches:', formattedMatches.length);
     }
 }
 
 seedMatches();
+

@@ -14,12 +14,16 @@ interface ProfileCompletionModalProps {
     isOpen: boolean;
     userName?: string;
     onComplete: (data: ProfileCompletionData) => Promise<void>;
+    onClose?: () => void;
+    onSignOut?: () => void;
 }
 
 export const ProfileCompletionModal: React.FC<ProfileCompletionModalProps> = ({
     isOpen,
     userName,
-    onComplete
+    onComplete,
+    onClose,
+    onSignOut
 }) => {
     const [formData, setFormData] = useState<ProfileCompletionData>({
         firstName: '',
@@ -73,6 +77,15 @@ export const ProfileCompletionModal: React.FC<ProfileCompletionModalProps> = ({
 
             {/* Modal */}
             <div className="relative w-full max-w-md bg-[#0F131A] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+                {onClose && (
+                    <button 
+                        onClick={onClose}
+                        className="absolute top-6 right-6 z-20 p-1.5 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+                        title="Completar más tarde"
+                    >
+                        <X className="w-4 h-4" />
+                    </button>
+                )}
                 {/* Gradient Header */}
                 <div className="relative bg-gradient-to-br from-blue-600/20 to-indigo-800/20 p-8 border-b border-white/5">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
@@ -216,6 +229,16 @@ export const ProfileCompletionModal: React.FC<ProfileCompletionModalProps> = ({
                             </>
                         )}
                     </button>
+
+                    {onSignOut && (
+                        <button
+                            onClick={onSignOut}
+                            disabled={loading}
+                            className="w-full py-3 bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white font-black text-[10px] uppercase tracking-widest rounded-2xl transition-all flex items-center justify-center gap-2"
+                        >
+                            Cerrar Sesión
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

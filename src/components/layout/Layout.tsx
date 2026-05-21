@@ -13,17 +13,18 @@ import { CategoryFAB } from './CategoryFAB';
 import { ProfileCompletionModal } from '../modals/ProfileCompletionModal';
 
 export const Layout: React.FC = () => {
-    const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile } = useUser();
+    const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile, signOut } = useUser();
     const location = useLocation();
     
     const [isBonusOpen, setIsBonusOpen] = useState(false);
+    const [dismissCompletionModal, setDismissCompletionModal] = useState(false);
     
     const anyBonusAvailable = dailyBonusAvailable || videoBonusAvailable || socialBonusAvailable;
 
     // Mostrar modal de completar perfil SOLO para usuarios OAuth sin datos obligatorios
     // No se muestra en las rutas de Auth para no interrumpir el flujo normal
     const isAuthRoute = ['/login', '/register', '/forgot-password'].includes(location.pathname);
-    const showCompletionModal = !isAuthRoute && !!user && !profileIsComplete;
+    const showCompletionModal = !isAuthRoute && !!user && !profileIsComplete && !dismissCompletionModal;
 
     const isWorldCup = location.pathname === '/worldcup';
     const isHome = location.pathname === '/' || location.pathname === '/home';
@@ -155,6 +156,11 @@ export const Layout: React.FC = () => {
                 onComplete={async (data) => {
                     const { error } = await updateProfile(data);
                     if (error) throw error;
+                }}
+                onClose={() => setDismissCompletionModal(true)}
+                onSignOut={async () => {
+                    await signOut();
+                    setDismissCompletionModal(false);
                 }}
             />
         </div >

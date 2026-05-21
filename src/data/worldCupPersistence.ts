@@ -195,12 +195,12 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm54', group: 'I', homeTeam: 'Senegal', awayTeam: 'Irak', date: '2026-06-29', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
 
     // Grupo J - Argentina, Argelia, Austria, Jordania
-    { id: 'm55', group: 'J', homeTeam: 'Argentina', awayTeam: 'Argelia', date: '2026-06-20', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
-    { id: 'm56', group: 'J', homeTeam: 'Austria', awayTeam: 'Jordania', date: '2026-06-20', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
-    { id: 'm57', group: 'J', homeTeam: 'Argentina', awayTeam: 'Austria', date: '2026-06-25', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
-    { id: 'm58', group: 'J', homeTeam: 'Argelia', awayTeam: 'Jordania', date: '2026-06-25', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
-    { id: 'm59', group: 'J', homeTeam: 'Jordania', awayTeam: 'Argentina', date: '2026-06-30', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
-    { id: 'm60', group: 'J', homeTeam: 'Argelia', awayTeam: 'Austria', date: '2026-06-30', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
+    { id: 'm55', group: 'J', homeTeam: 'Argentina', awayTeam: 'Argelia', date: '2026-06-16', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
+    { id: 'm56', group: 'J', homeTeam: 'Austria', awayTeam: 'Jordania', date: '2026-06-16', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
+    { id: 'm57', group: 'J', homeTeam: 'Argentina', awayTeam: 'Austria', date: '2026-06-22', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
+    { id: 'm58', group: 'J', homeTeam: 'Argelia', awayTeam: 'Jordania', date: '2026-06-22', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
+    { id: 'm59', group: 'J', homeTeam: 'Jordania', awayTeam: 'Argentina', date: '2026-06-27', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
+    { id: 'm60', group: 'J', homeTeam: 'Argelia', awayTeam: 'Austria', date: '2026-06-27', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
 
     // Grupo K - Portugal, RD Congo, Uzbekistán, Colombia
     { id: 'm61', group: 'K', homeTeam: 'Portugal', awayTeam: 'RD Congo', date: '2026-06-21', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },

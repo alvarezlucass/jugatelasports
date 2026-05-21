@@ -19,7 +19,7 @@ export const LeaguesTeaserPage: React.FC = () => {
             color: 'from-sky-400/90 to-blue-800/90',
             image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000&auto=format&fit=crop', // Estadio conceptual
             icon: Shield,
-            path: '/leagues/argentina',
+            path: '/leagues/lpf',
         },
         {
             id: 'ucl',
@@ -28,6 +28,7 @@ export const LeaguesTeaserPage: React.FC = () => {
             color: 'from-blue-700/90 to-indigo-900/90',
             image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Coupe_des_clubs_champions_europ%C3%A9ens.png/800px-Coupe_des_clubs_champions_europ%C3%A9ens.png',
             icon: Trophy,
+            path: '/leagues/ucl',
         },
         {
             id: 'premier',
@@ -36,6 +37,7 @@ export const LeaguesTeaserPage: React.FC = () => {
             color: 'from-purple-700/90 to-pink-900/90',
             image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Premier_League_Trophy.jpeg/800px-Premier_League_Trophy.jpeg',
             icon: Shield,
+            path: '/leagues/premier',
         },
         {
             id: 'libertadores',
@@ -44,6 +46,7 @@ export const LeaguesTeaserPage: React.FC = () => {
             color: 'from-amber-600/90 to-yellow-900/90',
             image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Copa_Libertadores.png/800px-Copa_Libertadores.png',
             icon: Globe,
+            path: '/leagues/libertadores',
         },
         {
             id: 'laliga',
@@ -52,6 +55,7 @@ export const LeaguesTeaserPage: React.FC = () => {
             color: 'from-red-700/90 to-orange-900/90',
             image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Trofeo_La_Liga.jpg/800px-Trofeo_La_Liga.jpg',
             icon: Star,
+            path: '/leagues/laliga',
         },
     ];
 
@@ -101,25 +105,25 @@ export const LeaguesTeaserPage: React.FC = () => {
                 <section className="relative overflow-hidden rounded-[3rem] bg-[#0F131A] border border-white/5 p-8 md:p-16 text-center md:text-left shadow-2xl">
                     <div className="absolute top-0 right-0 w-full md:w-2/3 h-full bg-gradient-to-l from-indigo-600/20 via-blue-900/10 to-transparent pointer-events-none" />
                     <div className="relative z-10 max-w-3xl space-y-8 flex flex-col md:block items-center">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-[10px] font-black text-indigo-400 border border-indigo-500/20 uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(99,102,241,0.2)] animate-pulse">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-[10px] font-black text-indigo-400 border border-indigo-500/20 uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(99,102,241,0.2)]">
                             <Activity size={12} />
-                            En Desarrollo Activo
+                            Ecosistema Activo
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter uppercase">
-                            Preparando el <br />
+                            El Fútbol de <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600">
-                                Fútbol de Élite
+                                Élite Está Aquí
                             </span>
                         </h1>
                         <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
-                            Estamos construyendo la infraestructura definitiva para que predigas fecha tras fecha en los torneos más competitivos del planeta. 
+                            Predice fecha tras fecha en los torneos de clubes más competitivos y prestigiosos del planeta. Sigue posiciones en tiempo real, consulta planteles y demuestra tus conocimientos.
                         </p>
                         
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                            <Link to="/notify" className="px-8 py-4 bg-indigo-600 text-white font-black rounded-full text-sm uppercase tracking-wider hover:bg-indigo-500 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(79,70,229,0.4)] flex items-center justify-center gap-2">
-                                <Bell size={18} />
-                                Activar Notificaciones
-                            </Link>
+                            <button onClick={() => navigate('/leagues/lpf')} className="px-8 py-4 bg-indigo-600 text-white font-black rounded-full text-sm uppercase tracking-wider hover:bg-indigo-500 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(79,70,229,0.4)] flex items-center justify-center gap-2">
+                                <Trophy size={18} />
+                                Jugar Liga Profesional
+                            </button>
                         </div>
                     </div>
                     {/* Background Graphic */}

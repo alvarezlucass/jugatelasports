@@ -1,21 +1,50 @@
 import { useEffect, useState } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download, X, Share, Plus } from 'lucide-react';
 
 export const InstallPrompt = () => {
     const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
     const [showPrompt, setShowPrompt] = useState(false);
+    const [isIOS, setIsIOS] = useState(false);
 
     useEffect(() => {
-        const handler = (e: any) => {
+        // 1. Detectar si ya está en modo standalone (PWA instalada y ejecutándose)
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                             (window.navigator as any).standalone;
+        
+        if (isStandalone) {
+            return;
+        }
+
+        // 2. Verificar si el usuario ya desestimó el prompt anteriormente
+        const isDismissed = localStorage.getItem('pwa_prompt_dismissed') === 'true';
+        if (isDismissed) {
+            return;
+        }
+
+        // 3. Detectar si el dispositivo es iOS (iPhone/iPad/iPod)
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        const ios = /iphone|ipad|ipod/.test(userAgent);
+        setIsIOS(ios);
+
+        // 4. Configurar eventos para navegadores basados en Chromium
+        const handleBeforeInstall = (e: any) => {
             e.preventDefault();
             setDeferredPrompt(e);
             setShowPrompt(true);
         };
 
-        window.addEventListener('beforeinstallprompt', handler);
+        window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+
+        // 5. Para iOS: Mostrar el prompt automáticamente después de 4 segundos si no está instalado
+        if (ios) {
+            const timer = setTimeout(() => {
+                setShowPrompt(true);
+            }, 4000);
+            return () => clearTimeout(timer);
+        }
 
         return () => {
-            window.removeEventListener('beforeinstallprompt', handler);
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
         };
     }, []);
 
@@ -29,27 +58,60 @@ export const InstallPrompt = () => {
         setDeferredPrompt(null);
     };
 
+    const handleDismiss = () => {
+        localStorage.setItem('pwa_prompt_dismissed', 'true');
+        setShowPrompt(false);
+    };
+
     if (!showPrompt) return null;
 
     return (
-        <div className="fixed bottom-24 left-4 right-4 z-50 bg-background/80 backdrop-blur-xl border border-primary/20 p-4 rounded-xl shadow-2xl animate-in slide-in-from-bottom-10 fade-in duration-500">
+        <div className="fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:w-96 z-50 bg-[#131822]/95 backdrop-blur-xl border border-primary/20 p-5 rounded-[2rem] shadow-2xl shadow-black/50 animate-in slide-in-from-bottom-10 fade-in duration-500">
             <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1">Instalar App</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                        Agrega Jugatela Sports a tu inicio para una mejor experiencia y jugar sin conexión.
-                    </p>
-                    <button
-                        onClick={handleInstallClick}
-                        className="bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primary/90 transition-colors"
-                    >
-                        <Download className="w-4 h-4" />
-                        Instalar
-                    </button>
+                <div className="flex-1 space-y-3">
+                    <div className="flex items-center gap-2">
+                        <div className="p-2 bg-primary/10 rounded-xl">
+                            <Download className="w-5 h-5 text-primary" />
+                        </div>
+                        <h3 className="font-black text-sm uppercase tracking-wider text-white">Instalar App</h3>
+                    </div>
+                    
+                    {isIOS ? (
+                        <div className="space-y-3">
+                            <p className="text-xs font-medium text-zinc-400 leading-relaxed">
+                                Agrega <strong className="text-white">Jugatela Sports</strong> a tu pantalla de inicio para una experiencia inmersiva y acceso rápido:
+                            </p>
+                            <div className="bg-white/5 border border-white/5 p-3 rounded-2xl space-y-2 text-[11px] text-zinc-300 font-bold">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-primary/20 text-primary text-[10px] font-black">1</span>
+                                    <span>Presiona el botón de compartir</span>
+                                    <Share className="w-3.5 h-3.5 text-zinc-400 inline" />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-primary/20 text-primary text-[10px] font-black">2</span>
+                                    <span>Selecciona <strong className="text-white">"Agregar a inicio"</strong></span>
+                                    <Plus className="w-3.5 h-3.5 text-zinc-400 inline" />
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            <p className="text-xs font-medium text-zinc-400 leading-relaxed">
+                                Descarga <strong className="text-white">Jugatela Sports</strong> en tu dispositivo para competir en el Prode con mayor fluidez y notificaciones activas.
+                            </p>
+                            <button
+                                onClick={handleInstallClick}
+                                className="w-full bg-primary hover:bg-primary-hover text-white text-xs font-black uppercase tracking-widest py-3 rounded-xl transition-all shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:scale-[1.02] flex items-center justify-center gap-2"
+                            >
+                                <Download className="w-4 h-4" />
+                                Instalar ahora
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <button
-                    onClick={() => setShowPrompt(false)}
-                    className="text-muted-foreground hover:text-foreground p-1"
+                    onClick={handleDismiss}
+                    className="text-zinc-500 hover:text-white p-1 hover:bg-white/5 rounded-lg transition-colors shrink-0"
                 >
                     <X className="w-5 h-5" />
                 </button>

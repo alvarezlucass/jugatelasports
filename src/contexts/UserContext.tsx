@@ -24,7 +24,7 @@ interface UserContextType {
 
     // Métodos de economía (ahora interactuan con DB o validan localmente)
     addTokens: (amount: number, reason: string) => Promise<void>; 
-    spendTokens: (amount: number, reason: string) => Promise<boolean>;
+    spendTokens: (amount: number, reason: string, txType?: 'BET_LOCKED' | 'REWARD_REDEEM') => Promise<any>;
     canAfford: (amount: number) => boolean;
     redeemReward: (reward: Reward) => Promise<void>;
 
@@ -464,13 +464,17 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
-    const spendTokens = async (amount: number, reason: string): Promise<string | null> => {
+    const spendTokens = async (
+        amount: number, 
+        reason: string, 
+        txType: 'BET_LOCKED' | 'REWARD_REDEEM' = 'BET_LOCKED'
+    ): Promise<string | null> => {
         if (!user || user.tokens < amount || !session) return null;
 
         const newTotal = user.tokens - amount;
         const { data, error } = await supabase.from('transactions').insert({
             user_id: user.id,
-            type: 'WITHDRAWAL',
+            type: txType,
             amount: -amount,
             description: reason,
             balance_after: newTotal
@@ -487,7 +491,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const canAfford = (amount: number) => (user?.tokens || 0) >= amount;
 
     const redeemReward = async (reward: Reward) => {
-        await spendTokens(reward.cost, `Canje: ${reward.name}`);
+        await spendTokens(reward.cost, `Canje: ${reward.name}`, 'REWARD_REDEEM');
     };
 
     // Challenges Logic
@@ -559,7 +563,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Store Logic
     const purchaseItem = async (item: StoreItem): Promise<{ success: boolean; transactionId?: string }> => {
         if (!user || !session) return { success: false };
-        const transactionId = await spendTokens(item.price, `Compra: ${item.name}`);
+        const transactionId = await spendTokens(item.price, `Compra: ${item.name}`, 'REWARD_REDEEM');
         if (transactionId) {
             await supabase.from('user_inventory').upsert({
                 user_id: user.id,
