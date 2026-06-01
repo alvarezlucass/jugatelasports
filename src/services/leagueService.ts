@@ -10,7 +10,7 @@ export const leagueService = {
     async syncTeams(leagueId: string, apiLeagueId: number) {
         console.log(`Sincronizando equipos para league_id: ${leagueId}...`);
         try {
-            const data = await fetchFootballData('teams', { league: apiLeagueId.toString(), season: '2024' });
+            const data = await fetchFootballData('teams', { league: apiLeagueId.toString(), season: '2026' });
             
             if (!data || !data.response) throw new Error('No se recibió respuesta de la API');
 
@@ -39,7 +39,7 @@ export const leagueService = {
             const relations = teamsToSync.map((t: any) => ({
                 league_id: leagueId,
                 team_id: t.id,
-                season: 2024
+                season: 2026
             }));
 
             const { error: relError } = await supabase
@@ -58,7 +58,7 @@ export const leagueService = {
     /**
      * Sincroniza la tabla de posiciones (Standings)
      */
-    async syncStandings(leagueId: string, apiLeagueId: number, season: number = 2024) {
+    async syncStandings(leagueId: string, apiLeagueId: number, season: number = 2026) {
         try {
             const data = await fetchFootballData('standings', { 
                 league: apiLeagueId.toString(), 
@@ -67,10 +67,13 @@ export const leagueService = {
 
             if (!data || !data.response || data.response.length === 0) return { success: false };
 
-            const standingsGroups = data.response[0].league.standings;
-            const flatStandings = standingsGroups.flat();
+            const filteredGroups = data.response[0].league.standings.filter((arr: any) => {
+                const g = arr[0]?.group || '';
+                if (g.includes('Anual') || g.includes('Promedio')) return false;
+                return true;
+            });
             
-            const standingsToSync = flatStandings.map((s: any) => ({
+            const standingsToSync = filteredGroups.flat().map((s: any) => ({
                 league_id: leagueId,
                 season: season,
                 team_id: s.team.id,

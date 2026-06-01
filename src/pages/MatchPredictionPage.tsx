@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info, Sparkles, Lock, Eye, Coins, TrendingUp } from 'lucide-react';
+import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info, Sparkles, Lock, Eye, Coins, TrendingUp, RefreshCw } from 'lucide-react';
 import { WORLD_CUP_GROUP_MATCHES, getTeamStaticData, WORLD_CUP_VENUES, getTeamFlagUrl } from '../data/worldCupPersistence';
 import { PredictionForm } from '../components/competition/PredictionForm';
 import { MatchChat } from '../components/social/MatchChat';
@@ -158,15 +158,15 @@ export const MatchPredictionPage: React.FC = () => {
 
     const handleUnlockOracle = async () => {
         if (!userId || !matchId) return;
-        if (userBalance < 10) {
-            alert('❌ Saldo insuficiente. Necesitas 10 tokens para desbloquear al Oráculo.');
+        if (userBalance < 50) {
+            alert('❌ Saldo insuficiente. Necesitas 50 tokens para desbloquear al Oráculo.');
             return;
         }
         setUnlocking(true);
-        const { success } = await databaseService.unlockAiPrediction(matchId, userId, 10);
+        const { success } = await databaseService.unlockAiPrediction(matchId, userId, 50);
         if (success) {
             setUnlocked(true);
-            setUserBalance(prev => prev - 10);
+            setUserBalance(prev => prev - 50);
             // Refresh match details to make sure we have the latest data
             const { success: refreshSuccess, data: refreshData } = await databaseService.fetchMatchDetail(matchId);
             if (refreshSuccess && refreshData) {
@@ -367,35 +367,61 @@ export const MatchPredictionPage: React.FC = () => {
                                     )}
                                 </div>
 
-                                {!unlocked ? (
-                                    <div className="text-center py-6 px-4 space-y-4 bg-gradient-to-b from-white/[0.02] to-transparent rounded-2xl border border-white/[0.03]">
-                                        <Lock size={32} className="mx-auto text-violet-500/50 animate-bounce" />
-                                        <div className="space-y-1">
-                                            <p className="text-xs font-bold text-zinc-300">¿Quieres conocer la probabilidad y consejos de la IA?</p>
-                                            <p className="text-[9px] text-zinc-500">Desbloquea el análisis de probabilidades 1X2 y comparativa de atributos.</p>
+                                {!match.ai_prediction ? (
+                                    <div className="text-center py-6 opacity-60 space-y-2">
+                                        <Eye size={24} className="mx-auto text-zinc-600" />
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">El Oráculo no tiene predicción lista para este partido.</p>
+                                    </div>
+                                ) : !unlocked ? (
+                                    <div className="flex flex-col items-center justify-center py-12 text-center relative overflow-hidden bg-[#131822] rounded-3xl border border-white/5">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
+                                        <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
+                                        
+                                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-6 relative z-10 border border-white/10">
+                                            <Lock size={32} className="text-zinc-400" />
                                         </div>
+                                        <h3 className="text-2xl font-black uppercase tracking-wider mb-2 text-white relative z-10">Oráculo Bloqueado</h3>
+                                        <p className="text-zinc-400 max-w-md mx-auto mb-4 relative z-10 font-medium">
+                                            Descubre la predicción oficial calculada por nuestra Inteligencia Artificial.
+                                        </p>
+                                        
+                                        <div className="flex flex-col gap-2 text-left bg-black/30 border border-white/5 rounded-2xl p-4 mb-8 max-w-sm w-full mx-auto relative z-10">
+                                            <p className="text-xs text-zinc-300 font-bold uppercase tracking-widest border-b border-white/5 pb-2 mb-2 text-center text-blue-400">El modelo analiza:</p>
+                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Últimos 10 partidos y forma actual</span></div>
+                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Historial directo (H2H)</span></div>
+                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Efectividad de ataque y defensa</span></div>
+                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Clasificación y estadísticas avanzadas</span></div>
+                                        </div>
+
                                         <button
                                             onClick={handleUnlockOracle}
-                                            disabled={unlocking}
-                                            className="mx-auto px-6 py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-violet-500/20 transition-all active:scale-95"
+                                            disabled={unlocking || userBalance < 50}
+                                            className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl font-black uppercase tracking-widest text-white shadow-xl hover:shadow-blue-500/25 transition-all overflow-hidden flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed z-10"
                                         >
+                                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                                             {unlocking ? (
-                                                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                <>
+                                                    <RefreshCw className="animate-spin" size={20} />
+                                                    <span>Procesando...</span>
+                                                </>
                                             ) : (
-                                                <Coins size={12} />
+                                                <>
+                                                    <Eye size={20} />
+                                                    <span>Revelar Predicción</span>
+                                                    <span className="bg-black/30 px-3 py-1 rounded-lg text-sm flex items-center gap-1.5 ml-2">
+                                                        50 <Coins size={14} className="text-yellow-400" />
+                                                    </span>
+                                                </>
                                             )}
-                                            Desbloquear por 10 Tokens
                                         </button>
-                                        <p className="text-[8px] text-zinc-600 font-bold uppercase tracking-wider">Tu Saldo actual: {userBalance} tokens</p>
+                                        {userBalance < 50 && (
+                                            <p className="text-red-400 text-xs font-bold mt-4 uppercase tracking-widest relative z-10">
+                                                Saldo insuficiente (tienes {userBalance} tokens)
+                                            </p>
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="space-y-6">
-                                        {!match.ai_prediction ? (
-                                            <div className="text-center py-6 opacity-60 space-y-2">
-                                                <Eye size={24} className="mx-auto text-zinc-600" />
-                                                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">El Oráculo no tiene predicción lista para este partido.</p>
-                                            </div>
-                                        ) : (
                                             <div className="space-y-5">
                                                 {/* Consejo destacado */}
                                                 <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl flex gap-3 items-start">
@@ -471,7 +497,6 @@ export const MatchPredictionPage: React.FC = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                        )}
                                     </div>
                                 )}
                             </div>

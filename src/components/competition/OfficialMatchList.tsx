@@ -14,6 +14,7 @@ interface OfficialMatchListProps {
 
 const LEAGUE_NAMES: Record<string, string> = {
     'lpf': 'Liga Profesional',
+    'copa-lpf': 'Copa de la LPF',
     'libertadores': 'Copa Libertadores',
     'sudamericana': 'Copa Sudamericana',
     'ucl': 'Champions League',

@@ -43,7 +43,7 @@ const LEAGUE_CONFIGS: Record<string, {
         colorClass: 'text-sky-400',
         gradientFromTo: 'from-sky-600/20 to-indigo-900/40 border-sky-500/10',
         logoUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Liga_Profesional_de_F%C3%BAtbol_%28Argentina%29_logo.svg/800px-Liga_Profesional_de_F%C3%BAtbol_%28Argentina%29_logo.svg.png',
-        description: 'Sigue a los 28 clubes, predice cada fecha y compite por el trono local en el sistema de predicciones más avanzado de Argentina.',
+        description: 'Sigue a los 30 clubes, predice cada fecha y compite por el trono local en el sistema de predicciones más avanzado de Argentina.',
         bannerIcon: Shield
     },
     ucl: {

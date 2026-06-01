@@ -272,6 +272,7 @@ export const Predictions: React.FC = () => {
                             {[
                                 { id: 'all', name: 'Todas' },
                                 { id: 'world-cup-2026', name: 'Mundial 2026' },
+                                { id: 'copa-lpf', name: 'Copa de la LPF' },
                                 { id: 'lpf', name: 'Liga Profesional' },
                                 { id: 'libertadores', name: 'Libertadores' },
                                 { id: 'ucl', name: 'UCL' },
