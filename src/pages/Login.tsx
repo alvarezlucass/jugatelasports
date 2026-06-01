@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, ShieldCheck, Mail, Lock, Chrome } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
 
 export const Login: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { signInWithGoogle, signInWithEmail, user } = useUser();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -15,9 +16,10 @@ export const Login: React.FC = () => {
     // Redirect if logged in
     useEffect(() => {
         if (user) {
-            navigate('/');
+            const redirectUrl = location.state?.from || '/';
+            navigate(redirectUrl, { replace: true });
         }
-    }, [user, navigate]);
+    }, [user, navigate, location.state]);
 
     const handleEmailLogin = async () => {
         setLoading(true);
@@ -32,6 +34,18 @@ export const Login: React.FC = () => {
                 : (err.message || 'Error al iniciar sesión'));
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        setError('');
+        try {
+            const from = location.state?.from || '/';
+            sessionStorage.setItem('oauth_redirect_from', from);
+            await signInWithGoogle();
+        } catch (err: any) {
+            console.error('Google login error:', err);
+            setError('Error al iniciar sesión con Google');
         }
     };
 
@@ -74,7 +88,7 @@ export const Login: React.FC = () => {
                         {/* Social Login */}
                         <div className="space-y-3">
                             <button
-                                onClick={signInWithGoogle}
+                                onClick={handleGoogleLogin}
                                 className="w-full py-4 bg-white text-black hover:bg-zinc-200 rounded-2xl font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
                             >
                                 <Chrome size={18} /> Continuar con Google
@@ -146,7 +160,11 @@ export const Login: React.FC = () => {
                 <div className="text-center space-y-4">
                     <p className="text-zinc-500 font-bold text-xs uppercase tracking-widest">
                         ¿No tienes cuenta?{' '}
-                        <Link to="/register" className="text-white hover:text-blue-500 transition-colors">
+                        <Link 
+                            to="/register" 
+                            state={{ from: location.state?.from }}
+                            className="text-white hover:text-blue-500 transition-colors"
+                        >
                             Regístrate ahora
                         </Link>
                     </p>

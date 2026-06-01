@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getTeamFlagUrl } from '../data/worldCupPersistence';
 
 export const History: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'glory' | 'my-predictions'>('glory');
@@ -117,39 +118,55 @@ export const History: React.FC = () => {
                                         >
                                             {/* Status Badge */}
                                             <div className="absolute top-4 right-4">
-                                                <span className="flex items-center gap-1 text-[8px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-white/5 rounded-full text-zinc-500">
-                                                    <Clock size={10} /> Pendiente
+                                                <span className={cn(
+                                                    "flex items-center gap-1 text-[8px] font-black uppercase tracking-[0.2em] px-2 py-1 rounded-full",
+                                                    pred.status === 'WON' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 
+                                                    pred.status === 'LOST' ? 'bg-red-500/10 text-red-500 border border-red-500/20' : 
+                                                    'bg-white/5 text-zinc-500 border border-white/5'
+                                                )}>
+                                                    <Clock size={10} /> {pred.status === 'WON' ? 'Acierto' : pred.status === 'LOST' ? 'Fallido' : 'Pendiente'}
                                                 </span>
                                             </div>
 
                                             <div className="space-y-6">
                                                 <div className="flex items-center justify-between gap-4">
-                                                    <div className="flex-1 flex flex-col items-center gap-2">
-                                                        <div className="w-12 h-8 rounded bg-white/5 overflow-hidden border border-white/10">
-                                                            <img src={`https://flagcdn.com/w80/${pred.matchId.split('-')[0].toLowerCase()}.png`} className="w-full h-full object-cover" alt="" />
-                                                        </div>
-                                                        <span className="text-[10px] font-black uppercase tracking-tighter text-white truncate w-full text-center">
-                                                            {pred.matchId.split('-')[0]}
-                                                        </span>
-                                                    </div>
-                                                    
-                                                    <div className="flex flex-col items-center">
-                                                        <div className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-2">
-                                                            <span>{pred.exactScore?.home ?? '?'}</span>
-                                                            <span className="text-zinc-700">-</span>
-                                                            <span>{pred.exactScore?.away ?? '?'}</span>
-                                                        </div>
-                                                        <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest mt-1">Tu Score</span>
-                                                    </div>
+                                                    {(() => {
+                                                        const homeName = pred.matchDetails?.homeTeam || pred.matchId.split('-')[0];
+                                                        const awayName = pred.matchDetails?.awayTeam || pred.matchId.split('-')[1] || 'Visitante';
+                                                        const homeFlag = getTeamFlagUrl(homeName);
+                                                        const awayFlag = getTeamFlagUrl(awayName);
 
-                                                    <div className="flex-1 flex flex-col items-center gap-2">
-                                                        <div className="w-12 h-8 rounded bg-white/5 overflow-hidden border border-white/10">
-                                                            <img src={`https://flagcdn.com/w80/${pred.matchId.split('-')[1].toLowerCase()}.png`} className="w-full h-full object-cover" alt="" />
-                                                        </div>
-                                                        <span className="text-[10px] font-black uppercase tracking-tighter text-white truncate w-full text-center">
-                                                            {pred.matchId.split('-')[1]}
-                                                        </span>
-                                                    </div>
+                                                        return (
+                                                            <>
+                                                                <div className="flex-1 flex flex-col items-center gap-2 overflow-hidden">
+                                                                    <div className="w-12 h-8 rounded bg-white/5 overflow-hidden border border-white/10 shrink-0">
+                                                                        <img src={homeFlag} className="w-full h-full object-cover" alt="" />
+                                                                    </div>
+                                                                    <span className="text-[10px] font-black uppercase tracking-tighter text-white truncate w-full text-center">
+                                                                        {homeName}
+                                                                    </span>
+                                                                </div>
+                                                                
+                                                                <div className="flex flex-col items-center shrink-0">
+                                                                    <div className="text-2xl font-black text-white italic tracking-tighter flex items-center gap-2">
+                                                                        <span>{pred.exactScore?.home ?? '?'}</span>
+                                                                        <span className="text-zinc-700">-</span>
+                                                                        <span>{pred.exactScore?.away ?? '?'}</span>
+                                                                    </div>
+                                                                    <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest mt-1">Tu Score</span>
+                                                                </div>
+
+                                                                <div className="flex-1 flex flex-col items-center gap-2 overflow-hidden">
+                                                                    <div className="w-12 h-8 rounded bg-white/5 overflow-hidden border border-white/10 shrink-0">
+                                                                        <img src={awayFlag} className="w-full h-full object-cover" alt="" />
+                                                                    </div>
+                                                                    <span className="text-[10px] font-black uppercase tracking-tighter text-white truncate w-full text-center">
+                                                                        {awayName}
+                                                                    </span>
+                                                                </div>
+                                                            </>
+                                                        );
+                                                    })()}
                                                 </div>
 
                                                 <div className="pt-4 border-t border-white/5 flex items-center justify-between text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
@@ -157,7 +174,7 @@ export const History: React.FC = () => {
                                                         <TrendingUp size={12} className="text-blue-500" />
                                                         Puntos en Juego
                                                     </div>
-                                                    <span className="text-white font-black">150 Pts</span>
+                                                    <span className="text-white font-black">{pred.stake} Pts</span>
                                                 </div>
                                             </div>
 

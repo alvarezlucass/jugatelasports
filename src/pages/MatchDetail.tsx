@@ -81,6 +81,43 @@ const MOCK_STATS: MatchStats = {
     corners: { home: 6, away: 2 }
 };
 
+const getLeagueDisplayName = (leagueId: string | number | undefined) => {
+    if (!leagueId) return 'Torneo Oficial';
+    const id = leagueId.toString();
+    switch (id) {
+        case '1': case 'world-cup-2026': return 'FIFA World Cup 2026';
+        case '128': case 'lpf': return 'Liga Profesional Argentina';
+        case '129': case 'primera-nacional': return 'Primera Nacional (Arg)';
+        case '130': case 'copa-argentina': return 'Copa Argentina';
+        case '2': case 'ucl': return 'UEFA Champions League';
+        case '39': case 'premier': return 'Premier League (Ing)';
+        case '13': case 'libertadores': return 'Copa CONMEBOL Libertadores';
+        case '140': case 'laliga': return 'La Liga (Esp)';
+        case '135': case 'serie-a': return 'Serie A (Ita)';
+        case '78': case 'bundesliga': return 'Bundesliga (Ale)';
+        case '61': case 'ligue1': return 'Ligue 1 (Fra)';
+        case '3': case 'uel': return 'UEFA Europa League';
+        case '94': case 'primeira-liga': return 'Primeira Liga (Por)';
+        case '71': case 'brasileirao': return 'Brasileirão (Bra)';
+        case '262': case 'ligamx': return 'Liga MX (Mex)';
+        case '239': case 'primera-a-colombia': return 'Categoría Primera A (Col)';
+        case '265': case 'primera-chile': return 'Primera División de Chile';
+        case '268': case 'primera-uruguay': return 'Primera División de Uruguay';
+        case '11': case 'sudamericana': return 'Copa CONMEBOL Sudamericana';
+        default: return `Liga ID: ${leagueId}`;
+    }
+};
+
+const formatMatchDate = (timeStr: string) => {
+    if (!timeStr) return '';
+    try {
+        const date = new Date(timeStr);
+        return date.toLocaleDateString('es-ES', {
+            weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+        });
+    } catch (e) { return timeStr; }
+};
+
 const MatchDetail: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -107,22 +144,14 @@ const MatchDetail: React.FC = () => {
 
         loadData();
 
-        // Realtime Subscription
         const channel = supabase
             .channel(`match_${id}`)
-            .on(
-                'postgres_changes',
-                { event: 'UPDATE', schema: 'public', table: 'matches', filter: `id=eq.${id}` },
-                (payload) => {
-                    console.log('Match Update Received:', payload.new);
-                    setMatchData(payload.new);
-                }
-            )
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'matches', filter: `id=eq.${id}` }, (payload) => {
+                setMatchData(payload.new);
+            })
             .subscribe();
 
-        return () => {
-            supabase.removeChannel(channel);
-        };
+        return () => { supabase.removeChannel(channel); };
     }, [id]);
 
     if (loading) {
@@ -138,77 +167,167 @@ const MatchDetail: React.FC = () => {
             <div className="min-h-screen bg-[#0A0D12] flex flex-col items-center justify-center p-6 text-center">
                 <Shield size={64} className="text-zinc-800 mb-6" />
                 <h2 className="text-2xl font-black uppercase tracking-tighter mb-2">Partido no encontrado</h2>
-                <p className="text-zinc-500 mb-8">El ID del encuentro no es válido o ha expirado.</p>
                 <button onClick={() => navigate(-1)} className="px-8 py-3 bg-blue-600 rounded-2xl font-black uppercase tracking-widest text-[10px]">Volver</button>
             </div>
         );
     }
 
-    // Mapping from DB data to Tactical UI
-    const score = { home: matchData.home_score || 0, away: matchData.away_score || 0 };
+    const score = { home: matchData.home_score ?? 0, away: matchData.away_score ?? 0 };
     const tacticalMetadata = matchData.metadata || {};
-    const events = tacticalMetadata.events || MOCK_EVENTS;
-    const stats = tacticalMetadata.stats || MOCK_STATS;
-    const lineupHome = tacticalMetadata.lineup_home || MOCK_LINEUP_HOME;
-    const lineupAway = tacticalMetadata.lineup_away || MOCK_LINEUP_AWAY;
+    const events = tacticalMetadata.events || null;
+    const stats = tacticalMetadata.stats || null;
+    const lineupHome = tacticalMetadata.lineup_home || null;
+    const lineupAway = tacticalMetadata.lineup_away || null;
+
+    const getSelectedPlayerStats = (playerId: any) => {
+        const pEvents = events || [];
+        const cleanId = (val: any) => val ? String(val).trim() : '';
+        const targetId = cleanId(playerId);
+
+        console.log("=== Debugging Player Stats ===");
+        console.log("Target Player ID:", targetId);
+        console.log("Match Events Count:", pEvents.length);
+
+        const goals = pEvents.filter((e: any) => {
+            const isMatch = e.type === 'GOAL' && 
+                            cleanId(e.player?.id) === targetId && 
+                            !e.detail?.toLowerCase().includes('own goal') &&
+                            !e.detail?.toLowerCase().includes('contra');
+            if (isMatch) {
+                console.log("Found GOAL event match for player:", e);
+            }
+            return isMatch;
+        }).length;
+
+        const assists = pEvents.filter((e: any) => {
+            const isMatch = e.type === 'GOAL' && cleanId(e.assistPlayer?.id) === targetId;
+            if (isMatch) {
+                console.log("Found ASSIST event match for player:", e);
+            }
+            return isMatch;
+        }).length;
+
+        const yellowCards = pEvents.filter((e: any) => {
+            const isMatch = e.type === 'CARD' && 
+                            cleanId(e.player?.id) === targetId && 
+                            (e.detail?.toLowerCase().includes('yellow') || e.detail?.toLowerCase().includes('amarilla'));
+            if (isMatch) {
+                console.log("Found YELLOW CARD event match for player:", e);
+            }
+            return isMatch;
+        }).length;
+
+        const redCards = pEvents.filter((e: any) => {
+            const isMatch = e.type === 'CARD' && 
+                            cleanId(e.player?.id) === targetId && 
+                            (e.detail?.toLowerCase().includes('red') || e.detail?.toLowerCase().includes('roja'));
+            if (isMatch) {
+                console.log("Found RED CARD event match for player:", e);
+            }
+            return isMatch;
+        }).length;
+
+        let rating = 6.0 + (goals * 1.5) + (assists * 0.8) - (yellowCards * 0.5) - (redCards * 1.5);
+        if (goals === 0 && assists === 0 && yellowCards === 0 && redCards === 0) {
+            rating = 6.8;
+        }
+        rating = Math.max(3.0, Math.min(10.0, rating));
+
+        console.log("Final Computed Stats:", { goals, assists, yellowCards, redCards, rating });
+        return { goals, assists, yellowCards, redCards, rating };
+    };
 
     const handleSimulateResolution = async () => {
         if (!id) return;
         setIsSimulating(true);
         const { success, processed } = await databaseService.resolveMatch(id, simScore.home, simScore.away);
-        if (success) {
-            alert(`¡Éxito! Partido resuelto. ${processed} predicciones procesadas.`);
-        } else {
-            alert('Error en la resolución. Verifica la consola.');
-        }
+        if (success) { alert(`¡Éxito! ${processed} predicciones procesadas.`); }
         setIsSimulating(false);
     };
 
     return (
         <div className="min-h-screen bg-[#0A0D12] text-white pb-20">
-            {/* Header / Scoreboard */}
-            <div className="relative h-72 overflow-hidden border-b border-white/5">
+            <div className="relative h-80 overflow-hidden border-b border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-transparent" />
-                
                 <div className="relative z-10 p-6">
-                    <button onClick={() => navigate(-1)} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
-                        <ChevronLeft size={24} />
-                    </button>
+                    <div className="flex justify-between items-center mb-2">
+                        <button onClick={() => navigate(-1)} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+                            <ChevronLeft size={24} />
+                        </button>
+                        <div className="flex flex-col items-end">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 bg-blue-500/10 px-3.5 py-1.5 rounded-full border border-blue-500/20">
+                                {getLeagueDisplayName(matchData.league_id)}
+                            </span>
+                            {matchData.season && (
+                                <span className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest mt-1 mr-1">
+                                    Temporada {matchData.season}
+                                </span>
+                            )}
+                        </div>
+                    </div>
 
-                    <div className="mt-8 flex items-center justify-center gap-8 md:gap-16">
+                    <div className="mt-4 flex items-center justify-center gap-8 md:gap-16">
                         <div className="text-center group">
-                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-2xl">
-                                <span className="text-4xl">{matchData.home_team_flag || '🏠'}</span>
+                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden">
+                                {matchData.home_team_logo ? (
+                                    <img 
+                                        src={matchData.home_team_logo} 
+                                        alt={matchData.home_team} 
+                                        className="w-full h-full object-contain" 
+                                    />
+                                ) : (
+                                    <span className="text-4xl">{matchData.home_team_flag || '🏠'}</span>
+                                )}
                             </div>
                             <h2 className="font-black text-sm uppercase tracking-widest">{matchData.home_team}</h2>
                         </div>
 
                         <div className="text-center">
-                            <div className={cn(
-                                "backdrop-blur-md px-6 py-2 rounded-full border mb-4 inline-block",
-                                matchData.status === 'LIVE' ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/10"
-                            )}>
-                                <span className={cn(
-                                    "text-[10px] font-black uppercase tracking-[0.3em]",
-                                    matchData.status === 'LIVE' ? "text-red-500 animate-pulse" : "text-blue-400"
-                                )}>
+                            <div className={cn("backdrop-blur-md px-6 py-2 rounded-full border mb-4 inline-block", matchData.status === 'LIVE' ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/10")}>
+                                <span className={cn("text-[10px] font-black uppercase tracking-[0.3em]", matchData.status === 'LIVE' ? "text-red-500 animate-pulse" : "text-blue-400")}>
                                     {matchData.status === 'LIVE' ? 'En Vivo' : matchData.status === 'FINISHED' ? 'Finalizado' : 'Programado'}
                                 </span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <span className="text-5xl font-black md:text-7xl">{score.home}</span>
-                                <span className="text-xl md:text-3xl font-light text-white/30">:</span>
-                                <span className="text-5xl font-black md:text-7xl">{score.away}</span>
+                                {matchData.status === 'FINISHED' || matchData.status === 'LIVE' ? (
+                                    <>
+                                        <span className="text-5xl font-black md:text-7xl">{score.home}</span>
+                                        <span className="text-xl md:text-3xl font-light text-white/30">:</span>
+                                        <span className="text-5xl font-black md:text-7xl">{score.away}</span>
+                                    </>
+                                ) : (
+                                    <span className="text-2xl font-black text-zinc-400 bg-white/5 border border-white/10 px-6 py-2 rounded-2xl tracking-widest uppercase">VS</span>
+                                )}
                             </div>
-                            <div className="mt-4 text-zinc-500 font-bold text-xs flex items-center justify-center gap-2">
-                                <Clock size={12} className={cn("text-blue-500", matchData.status === 'LIVE' && "animate-pulse")} /> 
-                                {matchData.status === 'LIVE' ? `${matchData.minute || 0}'` : matchData.status === 'FINISHED' ? 'FT' : matchData.start_time.split('T')[1].substring(0, 5)}
+                            <div className="mt-4 text-zinc-500 font-bold text-xs flex flex-col items-center justify-center gap-1.5">
+                                <div className="flex items-center gap-2">
+                                    <Clock size={12} className={cn("text-blue-500", matchData.status === 'LIVE' && "animate-pulse")} /> 
+                                    {matchData.status === 'LIVE' ? `${matchData.minute || 0}'` : matchData.status === 'FINISHED' ? 'FT' : matchData.start_time ? matchData.start_time.split('T')[1].substring(0, 5) : ''}
+                                </div>
+                                {matchData.start_time && (
+                                    <div className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.1em] mt-1 text-center bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                                        {formatMatchDate(matchData.start_time)}
+                                    </div>
+                                )}
+                                {matchData.metadata?.round && (
+                                    <div className="text-[9px] text-zinc-500 font-black uppercase tracking-widest mt-0.5 text-center">
+                                        {matchData.metadata.round}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
                         <div className="text-center group">
-                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-2xl">
-                                <span className="text-4xl">{matchData.away_team_flag || '✈️'}</span>
+                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden">
+                                {matchData.away_team_logo ? (
+                                    <img 
+                                        src={matchData.away_team_logo} 
+                                        alt={matchData.away_team} 
+                                        className="w-full h-full object-contain" 
+                                    />
+                                ) : (
+                                    <span className="text-4xl">{matchData.away_team_flag || '✈️'}</span>
+                                )}
                             </div>
                             <h2 className="font-black text-sm uppercase tracking-widest">{matchData.away_team}</h2>
                         </div>
@@ -269,7 +388,7 @@ const MatchDetail: React.FC = () => {
                                 </div>
                             </div>
 
-                            <MatchTimeline events={events} homeTeamId={matchData.home_team_id} />
+                            <MatchTimeline events={events || []} homeTeamId={matchData.home_team_id} />
                         </motion.div>
                     )}
 
@@ -281,44 +400,304 @@ const MatchDetail: React.FC = () => {
                             exit={{ opacity: 0, y: -10 }}
                             className="space-y-8"
                         >
-                            {/* Lineup Selector */}
-                            <div className="flex bg-white/5 p-1 rounded-2xl w-full max-w-sm mx-auto border border-white/5">
-                                <button 
-                                    onClick={() => setActiveLineup('HOME')}
-                                    className={cn(
-                                        "flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                                        activeLineup === 'HOME' ? "bg-blue-600 text-white shadow-lg" : "text-zinc-500 hover:text-white"
-                                    )}
-                                >
-                                    {matchData.home_team}
-                                </button>
-                                <button 
-                                    onClick={() => setActiveLineup('AWAY')}
-                                    className={cn(
-                                        "flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                                        activeLineup === 'AWAY' ? "bg-white/20 text-white" : "text-zinc-500 hover:text-white"
-                                    )}
-                                >
-                                    {matchData.away_team}
-                                </button>
-                            </div>
+                            {lineupHome && lineupAway && lineupHome.startXI && lineupAway.startXI ? (
+                                <div className="max-w-3xl mx-auto space-y-12">
+                                    
+                                    {/* Titulares Header */}
+                                    <div className="text-center">
+                                        <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-blue-400">Alineación Titular</h3>
+                                        <div className="h-[2px] w-12 bg-blue-500 mx-auto mt-2 rounded-full" />
+                                    </div>
 
-                            <TacticalPitch 
-                                lineup={activeLineup === 'HOME' ? lineupHome : lineupAway} 
-                                events={events}
-                                onPlayerClick={(id) => {
-                                    const allPlayers = [...lineupHome.startXI, ...lineupAway.startXI];
-                                    const p = allPlayers.find(s => s.player.id === id)?.player;
-                                    if (p) setSelectedPlayer(p);
-                                }}
-                            />
+                                    {/* Starting XI by position */}
+                                    {(() => {
+                                        const groupPos = (list: any[]) => {
+                                            const gk = list.filter(p => p.pos === 'GK');
+                                            const def = list.filter(p => p.pos === 'DEF');
+                                            const mid = list.filter(p => p.pos === 'MID');
+                                            const fwd = list.filter(p => p.pos === 'FWD');
+                                            return { gk, def, mid, fwd };
+                                        };
 
-                            <StaffPanel 
-                                homeStaff={lineupHome.staff} 
-                                awayStaff={lineupAway.staff}
-                                homeName={matchData.home_team}
-                                awayName={matchData.away_team}
-                            />
+                                        const homeXI = groupPos(lineupHome.startXI);
+                                        const awayXI = groupPos(lineupAway.startXI);
+
+                                        const renderSection = (title: string, homeList: any[], awayList: any[]) => {
+                                            const maxLen = Math.max(homeList.length, awayList.length);
+                                            return (
+                                                <div className="space-y-4">
+                                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 border-b border-white/5 pb-2 text-center md:text-left">{title}</h4>
+                                                    <div className="space-y-3">
+                                                        {[...Array(maxLen)].map((_, i) => {
+                                                            const homePlayer = homeList[i];
+                                                            const awayPlayer = awayList[i];
+
+                                                            const getPlayerEvents = (playerId: string) => {
+                                                                return (events || []).filter(e => e.player?.id === playerId);
+                                                            };
+
+                                                            const renderPlayer = (slot: any, side: 'home' | 'away') => {
+                                                                if (!slot) return <div className="flex-1" />;
+                                                                
+                                                                const pEvents = getPlayerEvents(slot.player.id);
+                                                                const goals = pEvents.filter(e => e.type === 'GOAL');
+                                                                const cards = pEvents.filter(e => e.type === 'CARD');
+                                                                const isSub = (events || []).find(e => e.type === 'SUB' && (e.player?.id === slot.player.id || e.assistPlayer?.id === slot.player.id));
+                                                                const subMin = isSub ? isSub.time : null;
+                                                                const isSubIn = isSub && isSub.assistPlayer?.id === slot.player.id;
+
+                                                                const photoUrl = `https://media.api-sports.io/football/players/${slot.player.id}.png`;
+
+                                                                return (
+                                                                    <div 
+                                                                        onClick={() => {
+                                                                            setSelectedPlayer({ 
+                                                                                id: slot.player.id, 
+                                                                                name: slot.player.name, 
+                                                                                photo: photoUrl,
+                                                                                number: slot.number,
+                                                                                position: slot.pos
+                                                                            } as any);
+                                                                        }}
+                                                                        className={cn(
+                                                                            "flex-1 flex items-center gap-3.5 p-3 bg-[#131822] border border-white/10 rounded-2xl hover:border-blue-500/30 hover:bg-white/[0.03] transition-all cursor-pointer group",
+                                                                            side === 'away' && "flex-row-reverse text-right"
+                                                                        )}
+                                                                    >
+                                                                        {/* Photo */}
+                                                                        <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                                                                            <img 
+                                                                                src={photoUrl} 
+                                                                                alt="" 
+                                                                                className="w-full h-full object-cover" 
+                                                                                onError={(e) => {
+                                                                                    (e.target as any).src = `https://api.dicebear.com/7.x/initials/svg?seed=${slot.player.name}`;
+                                                                                }}
+                                                                            />
+                                                                        </div>
+
+                                                                        {/* Name & details */}
+                                                                        <div className="flex-1 min-w-0">
+                                                                            <div className={cn("flex items-center gap-2", side === 'away' && "flex-row-reverse")}>
+                                                                                <p className="text-xs md:text-sm font-extrabold text-white group-hover:text-blue-400 transition-colors truncate">{slot.player.name}</p>
+                                                                                {slot.number && (
+                                                                                    <span className="text-[9px] text-zinc-500 font-bold bg-white/5 px-1.5 py-0.5 rounded">
+                                                                                        {slot.number}
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
+                                                                            
+                                                                            {/* Badges/cards/goals */}
+                                                                            <div className={cn("flex items-center gap-2 mt-1", side === 'away' && "flex-row-reverse")}>
+                                                                                {goals.map((g, gi) => (
+                                                                                    <span key={gi} className="text-[10px] animate-bounce" title="Gol">⚽</span>
+                                                                                ))}
+                                                                                {cards.map((c, ci) => (
+                                                                                    <div 
+                                                                                        key={ci} 
+                                                                                        className={cn(
+                                                                                            "w-2.5 h-3.5 rounded-sm shadow-sm",
+                                                                                            c.detail.includes('Yellow') ? "bg-yellow-400" : "bg-red-500"
+                                                                                        )} 
+                                                                                        title={c.detail}
+                                                                                    />
+                                                                                ))}
+                                                                                {subMin && (
+                                                                                    <span className={cn(
+                                                                                        "text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5",
+                                                                                        isSubIn ? "text-emerald-400 bg-emerald-500/10" : "text-amber-400 bg-amber-500/10"
+                                                                                    )}>
+                                                                                        {isSubIn ? '↑' : '↓'} {subMin}'
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            };
+
+                                                            return (
+                                                                <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                                    {renderPlayer(homePlayer, 'home')}
+                                                                    {renderPlayer(awayPlayer, 'away')}
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            );
+                                        };
+
+                                        return (
+                                            <div className="space-y-8">
+                                                {renderSection("Porteros", homeXI.gk, awayXI.gk)}
+                                                {renderSection("Defensores", homeXI.def, awayXI.def)}
+                                                {renderSection("Mediocampistas", homeXI.mid, awayXI.mid)}
+                                                {renderSection("Delanteros", homeXI.fwd, awayXI.fwd)}
+                                            </div>
+                                        );
+                                    })()}
+
+                                    {/* Suplentes Header */}
+                                    <div className="text-center pt-6">
+                                        <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-zinc-400">Suplentes</h3>
+                                        <div className="h-[2px] w-12 bg-zinc-600 mx-auto mt-2 rounded-full" />
+                                    </div>
+
+                                    {/* Substitutes */}
+                                    {(() => {
+                                        const homeSubs = lineupHome.substitutes || [];
+                                        const awaySubs = lineupAway.substitutes || [];
+                                        const maxLen = Math.max(homeSubs.length, awaySubs.length);
+
+                                        return (
+                                            <div className="space-y-3">
+                                                {[...Array(maxLen)].map((_, i) => {
+                                                    const homePlayer = homeSubs[i];
+                                                    const awayPlayer = awaySubs[i];
+
+                                                    const getPlayerEvents = (playerId: string) => {
+                                                        return (events || []).filter(e => e.player?.id === playerId);
+                                                    };
+
+                                                    const renderPlayer = (slot: any, side: 'home' | 'away') => {
+                                                        if (!slot) return <div className="flex-1" />;
+                                                        
+                                                        const pEvents = getPlayerEvents(slot.player.id);
+                                                        const goals = pEvents.filter(e => e.type === 'GOAL');
+                                                        const cards = pEvents.filter(e => e.type === 'CARD');
+                                                        const isSub = (events || []).find(e => e.type === 'SUB' && (e.player?.id === slot.player.id || e.assistPlayer?.id === slot.player.id));
+                                                        const subMin = isSub ? isSub.time : null;
+                                                        const isSubIn = isSub && isSub.assistPlayer?.id === slot.player.id;
+
+                                                        const photoUrl = `https://media.api-sports.io/football/players/${slot.player.id}.png`;
+
+                                                        return (
+                                                            <div 
+                                                                onClick={() => {
+                                                                    setSelectedPlayer({ 
+                                                                        id: slot.player.id, 
+                                                                        name: slot.player.name, 
+                                                                        photo: photoUrl,
+                                                                        number: slot.number,
+                                                                        position: slot.pos 
+                                                                    } as any);
+                                                                }}
+                                                                className={cn(
+                                                                    "flex-1 flex items-center gap-3.5 p-3 bg-[#131822]/60 border border-white/5 rounded-2xl hover:border-blue-500/20 hover:bg-white/[0.02] transition-all cursor-pointer group",
+                                                                    side === 'away' && "flex-row-reverse text-right"
+                                                                )}
+                                                            >
+                                                                {/* Photo */}
+                                                                <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                                                                    <img 
+                                                                        src={photoUrl} 
+                                                                        alt="" 
+                                                                        className="w-full h-full object-cover" 
+                                                                        onError={(e) => {
+                                                                            (e.target as any).src = `https://api.dicebear.com/7.x/initials/svg?seed=${slot.player.name}`;
+                                                                        }}
+                                                                    />
+                                                                </div>
+
+                                                                {/* Name & details */}
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className={cn("flex items-center gap-2", side === 'away' && "flex-row-reverse")}>
+                                                                        <p className="text-xs md:text-sm font-bold text-white group-hover:text-blue-400 transition-colors truncate">{slot.player.name}</p>
+                                                                        {slot.number && (
+                                                                            <span className="text-[9px] text-zinc-500 font-bold bg-white/5 px-1.5 py-0.5 rounded">
+                                                                                {slot.number}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                    
+                                                                    {/* Details */}
+                                                                    <div className={cn("flex items-center gap-1.5 mt-1", side === 'away' && "flex-row-reverse")}>
+                                                                        <span className="text-[9px] text-zinc-500 uppercase">
+                                                                            {slot.pos === 'GK' ? 'Portero' : slot.pos === 'DEF' ? 'Defensor' : slot.pos === 'MID' ? 'Mediocampista' : 'Delantero'}
+                                                                        </span>
+                                                                        {goals.map((g, gi) => (
+                                                                            <span key={gi} className="text-[10px] animate-bounce" title="Gol">⚽</span>
+                                                                        ))}
+                                                                        {cards.map((c, ci) => (
+                                                                            <div 
+                                                                                key={ci} 
+                                                                                className={cn(
+                                                                                    "w-2.5 h-3.5 rounded-sm shadow-sm",
+                                                                                    c.detail.includes('Yellow') ? "bg-yellow-400" : "bg-red-500"
+                                                                                )} 
+                                                                                title={c.detail}
+                                                                            />
+                                                                        ))}
+                                                                        {subMin && (
+                                                                            <span className={cn(
+                                                                                "text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5",
+                                                                                isSubIn ? "text-emerald-400 bg-emerald-500/10" : "text-amber-400 bg-amber-500/10"
+                                                                            )}>
+                                                                                {isSubIn ? '↑' : '↓'} {subMin}'
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    };
+
+                                                    return (
+                                                        <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                            {renderPlayer(homePlayer, 'home')}
+                                                            {renderPlayer(awayPlayer, 'away')}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    })()}
+
+                                    {/* Staff / Coaches */}
+                                    {(() => {
+                                        const homeCoach = lineupHome.staff?.find(s => s.role.toLowerCase().includes('coach') || s.role.toLowerCase().includes('técnico'));
+                                        const awayCoach = lineupAway.staff?.find(s => s.role.toLowerCase().includes('coach') || s.role.toLowerCase().includes('técnico'));
+                                        
+                                        if (!homeCoach && !awayCoach) return null;
+
+                                        return (
+                                            <div className="space-y-2 pt-6">
+                                                <h4 className="text-[10px] font-black uppercase tracking-wider text-zinc-500 border-b border-white/5 pb-2 text-center md:text-left">Director Técnico</h4>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    {homeCoach ? (
+                                                        <div className="flex items-center gap-3 p-3 bg-[#131822] border border-white/10 rounded-2xl">
+                                                            <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 overflow-hidden flex items-center justify-center text-zinc-400 font-bold shrink-0">DT</div>
+                                                            <div>
+                                                                <p className="text-xs md:text-sm font-black text-white">{homeCoach.name}</p>
+                                                                <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Cuerpo Técnico</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : <div />}
+                                                    {awayCoach ? (
+                                                        <div className="flex items-center gap-3 p-3 bg-[#131822] border border-white/10 rounded-2xl flex-row-reverse text-right">
+                                                            <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 overflow-hidden flex items-center justify-center text-zinc-400 font-bold shrink-0">DT</div>
+                                                            <div>
+                                                                <p className="text-xs md:text-sm font-black text-white">{awayCoach.name}</p>
+                                                                <p className="text-[9px] text-zinc-500 font-bold uppercase tracking-wider">Cuerpo Técnico</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : <div />}
+                                                </div>
+                                            </div>
+                                        );
+                                    })()}
+
+                                </div>
+                            ) : (
+                                <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-12 text-center flex flex-col items-center justify-center">
+                                    <Users size={48} className="text-zinc-700 mb-4" />
+                                    <h4 className="text-sm font-black uppercase tracking-widest text-zinc-400">Alineaciones no confirmadas</h4>
+                                    <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mt-2 max-w-md">
+                                        Las alineaciones oficiales de los equipos suelen confirmarse entre 45 y 60 minutos antes del inicio del partido.
+                                    </p>
+                                </div>
+                            )}
                         </motion.div>
                     )}
 
@@ -329,7 +708,17 @@ const MatchDetail: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                         >
-                            <AdvancedStatsPanel stats={stats} />
+                            {stats ? (
+                                <AdvancedStatsPanel stats={stats} homeLogo={matchData.home_team_logo} awayLogo={matchData.away_team_logo} />
+                            ) : (
+                                <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-12 text-center flex flex-col items-center justify-center">
+                                    <BarChart2 size={48} className="text-zinc-700 mb-4" />
+                                    <h4 className="text-sm font-black uppercase tracking-widest text-zinc-400">Estadísticas no disponibles</h4>
+                                    <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mt-2 max-w-md">
+                                        Las estadísticas detalladas en tiempo real se habilitarán una vez comience el encuentro.
+                                    </p>
+                                </div>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -339,6 +728,7 @@ const MatchDetail: React.FC = () => {
                 isOpen={!!selectedPlayer} 
                 onClose={() => setSelectedPlayer(null)} 
                 player={selectedPlayer}
+                stats={selectedPlayer ? getSelectedPlayerStats(selectedPlayer.id) : undefined}
             />
 
             {/* Industrial Dev Simulation Toolbar */}

@@ -9,7 +9,8 @@ import {
     Calendar,
     MapPin,
     Activity,
-    Clock
+    Clock,
+    Zap
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { leagueService } from '../../services/leagueService';
@@ -160,9 +161,9 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
                                             <div className="h-px bg-white/5 flex-1" />
                                         </div>
                                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                            {players.map(player => (
+                                            {players.map((player, idx) => (
                                                 <div 
-                                                    key={player.id} 
+                                                    key={`${player.id}-${idx}`} 
                                                     className="group relative bg-[#181E29] border border-white/5 rounded-2xl p-4 hover:border-sky-500/30 transition-all hover:-translate-y-1 overflow-hidden"
                                                 >
                                                     <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-white/5 to-transparent rounded-bl-[2rem]" />
@@ -196,7 +197,7 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
                         </div>
                     ) : activeTab === 'staff' ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {details.coaches.map(coach => (
+                            {details.coaches.slice().sort((a, b) => b.id - a.id).slice(0, 1).map(coach => (
                                 <div key={coach.id} className="bg-[#181E29] border border-white/5 rounded-[2.5rem] p-8 flex items-center gap-8 shadow-xl">
                                     <div className="w-32 h-32 rounded-3xl overflow-hidden border-2 border-sky-500/20 shrink-0">
                                         <img src={coach.photo} alt="" className="w-full h-full object-cover" />

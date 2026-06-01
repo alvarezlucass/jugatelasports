@@ -49,7 +49,17 @@ async function seedMatches() {
             group: m.group,
             stadium: m.stadium,
             city: m.city,
-            h2h: m.h2h || []
+            h2h: m.h2h || [],
+            ai_prediction: {
+                prediction: Math.random() > 0.5 ? '1' : '2',
+                confidence: Math.floor(Math.random() * 40 + 60), // 60-99
+                analysis: 'La IA ha detectado una ventaja táctica significativa en el mediocampo basada en el rendimiento histórico de ambos equipos en torneos internacionales. Las métricas sugieren un partido de alta intensidad con probabilidades de goles tardíos.',
+                comparison: {
+                    form: { home: `${Math.floor(Math.random() * 30 + 60)}%`, away: `${Math.floor(Math.random() * 30 + 50)}%` },
+                    att: { home: `${Math.floor(Math.random() * 40 + 50)}%`, away: `${Math.floor(Math.random() * 40 + 50)}%` },
+                    def: { home: `${Math.floor(Math.random() * 40 + 50)}%`, away: `${Math.floor(Math.random() * 40 + 50)}%` }
+                }
+            }
         }
     }));
 

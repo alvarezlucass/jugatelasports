@@ -101,7 +101,7 @@ export const ProfileCompletionModal: React.FC<ProfileCompletionModalProps> = ({
                                 <span className="text-[9px] font-black text-blue-400 uppercase tracking-[0.2em]">Un paso más</span>
                             </div>
                             <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-                                ¡Bienvenido{userName ? `, ${userName.split(' ')[0]}` : ''}!
+                                {`¡Bienvenido${userName ? `, ${userName.split(' ')[0]}` : ''}!`}
                             </h2>
                             <p className="text-zinc-400 text-xs font-medium mt-1 max-w-[280px] mx-auto">
                                 Para participar en Jugátela Sports necesitamos verificar tu identidad.
@@ -220,12 +220,12 @@ export const ProfileCompletionModal: React.FC<ProfileCompletionModalProps> = ({
                         {loading ? (
                             <>
                                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                Guardando...
+                                <span>Guardando...</span>
                             </>
                         ) : (
                             <>
                                 <Check className="w-4 h-4" />
-                                Activar Mi Cuenta
+                                <span>Activar Mi Cuenta</span>
                             </>
                         )}
                     </button>

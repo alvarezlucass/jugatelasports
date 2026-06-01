@@ -16,17 +16,18 @@ export const Predictions: React.FC = () => {
     const [selectedOpponentId, setSelectedOpponentId] = useState<string | null>(null);
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
     const [viewingOpponent, setViewingOpponent] = useState<any | null>(null);
-    const [selectedLeague, setSelectedLeague] = useState<string>('128'); // Default to Liga Profesional
+    const [selectedLeague, setSelectedLeague] = useState<string>('all'); // Default to Todas
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
         const loadMatches = async () => {
             setMatchesLoading(true);
-            const data = await matchService.getMatches(selectedLeague);
-            // Filter out finished matches to only show upcoming and live ones
-            const upcomingMatches = data.filter(m => m.status !== 'finished');
-            setMatches(upcomingMatches);
+            const data = await matchService.getMatches(
+                selectedLeague === 'all' ? undefined : selectedLeague,
+                { upcomingOnly: true, daysLimit: 30 }
+            );
+            setMatches(data);
             setMatchesLoading(false);
         };
         loadMatches();
@@ -267,25 +268,27 @@ export const Predictions: React.FC = () => {
                         </div>
                         
                         {/* League Selector */}
-                        <div className="flex bg-[#0F131A] rounded-full p-1 border border-white/10">
-                            <button 
-                                onClick={() => setSelectedLeague('128')}
-                                className={cn(
-                                    "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
-                                    selectedLeague === '128' ? "bg-blue-600 text-white" : "text-zinc-500 hover:text-white"
-                                )}
-                            >
-                                Liga Profesional
-                            </button>
-                            <button 
-                                onClick={() => setSelectedLeague('world-cup-2026')}
-                                className={cn(
-                                    "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all",
-                                    selectedLeague === 'world-cup-2026' ? "bg-blue-600 text-white" : "text-zinc-500 hover:text-white"
-                                )}
-                            >
-                                Mundial 2026
-                            </button>
+                        <div className="flex bg-[#0F131A] rounded-full p-1 border border-white/10 overflow-x-auto max-w-full no-scrollbar shrink-0 gap-1">
+                            {[
+                                { id: 'all', name: 'Todas' },
+                                { id: 'world-cup-2026', name: 'Mundial 2026' },
+                                { id: 'lpf', name: 'Liga Profesional' },
+                                { id: 'libertadores', name: 'Libertadores' },
+                                { id: 'ucl', name: 'UCL' },
+                                { id: 'premier', name: 'Premier League' },
+                                { id: 'laliga', name: 'La Liga' }
+                            ].map((lg) => (
+                                <button 
+                                    key={lg.id}
+                                    onClick={() => setSelectedLeague(lg.id)}
+                                    className={cn(
+                                        "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap",
+                                        selectedLeague === lg.id ? "bg-blue-600 text-white" : "text-zinc-500 hover:text-white"
+                                    )}
+                                >
+                                    {lg.name}
+                                </button>
+                            ))}
                         </div>
                     </div>
 

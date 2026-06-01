@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { User as UserIcon, Settings, LogOut, Wallet, ChevronRight, Trophy, Zap, Star, X } from 'lucide-react';
+import { User as UserIcon, Settings, LogOut, Wallet, ChevronRight, Trophy, Zap, Star, X, RefreshCw } from 'lucide-react';
 import { databaseService } from '../services/databaseService';
 import { cn } from '../lib/utils';
 import { fireVictoryConfetti } from '../utils/confetti';
@@ -234,7 +234,7 @@ const ChallengeCard: React.FC<{
 };
 
 export const Profile: React.FC = () => {
-    const { user, transactions, userPredictions, pvpChallenges, acceptPvpChallenge, rejectPvpChallenge, cancelPvpChallenge, resolvePvpChallenge, signOut, storeItems } = useUser();
+    const { user, loading, transactions, userPredictions, pvpChallenges, acceptPvpChallenge, rejectPvpChallenge, cancelPvpChallenge, resolvePvpChallenge, signOut, storeItems } = useUser();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -242,6 +242,13 @@ export const Profile: React.FC = () => {
     const [activeTab, setActiveTab] = React.useState<'SOCIAL' | 'PREDICTIONS' | 'PVP' | 'PERFORMANCE' | 'ACTIVITY'>('PREDICTIONS');
     const [pvpView, setPvpView] = React.useState<'SUMMARY' | 'RECEIVED' | 'SENT'>('SUMMARY');
     const [showRulesModal, setShowRulesModal] = React.useState(false);
+
+    // Redirect to login if user is not logged in after loading finishes
+    useEffect(() => {
+        if (!loading && !user) {
+            navigate('/login', { state: { from: '/profile' } });
+        }
+    }, [user, loading, navigate]);
 
     // Performance Data Calculation from Industrial Stats
     const performanceData = React.useMemo(() => {
@@ -283,16 +290,16 @@ export const Profile: React.FC = () => {
             .slice(0, 5);
 
         return { evolution, distribution, accuracyByTeam };
-    }, [user?.stats, userPredictions]);
+    }, [user, userPredictions]);
 
 
     const receivedChallenges = pvpChallenges?.filter(c => c.targetId === user?.id) || [];
     const sentChallenges = pvpChallenges?.filter(c => c.creatorId === user?.id) || [];
 
     const totalPredictions = userPredictions.length;
-    const wonPredictions = user?.stats?.wonCount || 0;
-    const lostPredictions = user?.stats?.lostCount || 0;
-    const winRate = user?.stats?.accuracy || 0;
+    const wonPredictions = user && user.stats ? (user.stats.wonCount || 0) : 0;
+    const lostPredictions = user && user.stats ? (user.stats.lostCount || 0) : 0;
+    const winRate = user && user.stats ? (user.stats.accuracy || 0) : 0;
 
     // Efecto para auto-navegar al desafío preseleccionado desde una notificación
     useEffect(() => {
@@ -340,17 +347,14 @@ export const Profile: React.FC = () => {
         setSyncing(false);
     };
 
-    if (!user) return (
-        <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center space-y-6 animate-in fade-in duration-700">
-            <div className="w-20 h-20 bg-white/5 rounded-[2rem] flex items-center justify-center border border-white/10">
-                <UserIcon size={32} className="text-zinc-600" />
-            </div>
-            <div className="space-y-2">
-                <h3 className="text-2xl font-black text-white uppercase tracking-tighter italic">Acceso Restringido</h3>
-                <p className="text-zinc-500 font-bold text-xs uppercase tracking-widest">Inicia sesión para ver tu perfil de jugador</p>
-            </div>
+    if (loading) return (
+        <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center space-y-4 animate-in fade-in duration-500">
+            <RefreshCw size={40} className="text-blue-500 animate-spin opacity-25" />
+            <p className="text-zinc-500 font-bold text-xs uppercase tracking-widest">Cargando perfil...</p>
         </div>
     );
+
+    if (!user) return null;
 
     return (
         <div className="max-w-4xl mx-auto pb-24 space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -555,7 +559,11 @@ export const Profile: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-bottom-4 duration-500">
                         {userPredictions.length > 0 ? (
                             userPredictions.map(pred => (
-                                <div key={pred.id} className="bg-[#121820] rounded-[2.5rem] p-6 border border-white/5 hover:border-blue-500/20 transition-all flex flex-col gap-6 group">
+                                <div 
+                                    key={pred.id} 
+                                    onClick={() => navigate(`/match/${pred.matchId}`)}
+                                    className="bg-[#121820] rounded-[2.5rem] p-6 border border-white/5 hover:border-blue-500/20 hover:scale-[1.01] transition-all flex flex-col gap-6 group cursor-pointer"
+                                >
                                     <div className="flex justify-between items-center">
                                         <div className="flex items-center gap-2">
                                             <div className={cn(

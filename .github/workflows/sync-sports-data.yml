@@ -1,0 +1,51 @@
+name: Sync Sports Data
+
+on:
+  schedule:
+    # Run every 30 minutes to update live scores and fixtures
+    - cron: '*/30 * * * *'
+    # Run a full sync (with standings and teams) once a day at 04:00 UTC
+    - cron: '0 4 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+    inputs:
+      sync_mode:
+        description: 'Sync Mode'
+        required: true
+        default: 'fixtures-only'
+        type: choice
+        options:
+          - fixtures-only
+          - all-data
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Sync Script (Fixtures only)
+        if: github.event_name == 'schedule' && github.event.schedule == '*/30 * * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.sync_mode == 'fixtures-only')
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_API_FOOTBALL_KEY: ${{ secrets.VITE_API_FOOTBALL_KEY }}
+        run: node scripts/syncSupabaseFromApi.mjs
+
+      - name: Run Full Sync Script (Matches, Standings & Teams)
+        if: github.event_name == 'schedule' && github.event.schedule == '0 4 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.sync_mode == 'all-data')
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_API_FOOTBALL_KEY: ${{ secrets.VITE_API_FOOTBALL_KEY }}
+        run: node scripts/syncSupabaseFromApi.mjs --all

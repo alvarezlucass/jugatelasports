@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info } from 'lucide-react';
-import { WORLD_CUP_GROUP_MATCHES, getTeamStaticData, WORLD_CUP_VENUES } from '../data/worldCupPersistence';
+import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info, Sparkles, Lock, Eye, Coins, TrendingUp } from 'lucide-react';
+import { WORLD_CUP_GROUP_MATCHES, getTeamStaticData, WORLD_CUP_VENUES, getTeamFlagUrl } from '../data/worldCupPersistence';
 import { PredictionForm } from '../components/competition/PredictionForm';
 import { MatchChat } from '../components/social/MatchChat';
+import { databaseService } from '../services/databaseService';
+import { supabase } from '../lib/supabase';
 
 
 export const MatchPredictionPage: React.FC = () => {
@@ -14,14 +16,52 @@ export const MatchPredictionPage: React.FC = () => {
     const qHome = queryParams.get('home');
     const qAway = queryParams.get('away');
 
-    const match = useMemo(() => {
+    const [match, setMatch] = useState<any | null>(null);
+    const [loadingMatch, setLoadingMatch] = useState(true);
+
+    // Oracle / AI Prediction States
+    const [userId, setUserId] = useState<string | null>(null);
+    const [unlocked, setUnlocked] = useState(false);
+    const [userBalance, setUserBalance] = useState<number>(0);
+    const [unlocking, setUnlocking] = useState(false);
+
+    useEffect(() => {
+        if (!matchId) return;
+
+        // Fetch User Session and Balance
+        const initUserSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+                setUserId(session.user.id);
+                // Check if already unlocked
+                const { unlocked } = await databaseService.isPredictionUnlocked(matchId, session.user.id);
+                setUnlocked(unlocked);
+                
+                // Fetch current user balance
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('total_balance')
+                    .eq('id', session.user.id)
+                    .single();
+                
+                if (profile) {
+                    setUserBalance(Number(profile.total_balance));
+                }
+            }
+        };
+
+        initUserSession();
+
         const staticMatch = WORLD_CUP_GROUP_MATCHES.find(m => m.id === matchId);
-        if (staticMatch) return staticMatch;
-        
-        // Dynamic match from bracket
+        if (staticMatch) {
+            setMatch(staticMatch);
+            setLoadingMatch(false);
+            return;
+        }
+
         if (qHome && qAway) {
-            return {
-                id: matchId!,
+            setMatch({
+                id: matchId,
                 homeTeam: qHome,
                 awayTeam: qAway,
                 group: 'Eliminatorias',
@@ -31,22 +71,142 @@ export const MatchPredictionPage: React.FC = () => {
                 city: 'New York/New Jersey',
                 status: 'scheduled' as const,
                 h2h: []
-            };
+            });
+            setLoadingMatch(false);
+            return;
         }
-        return null;
+
+        const DB_TO_SPANISH_TEAM_NAME: Record<string, string> = {
+            "Germany": "Alemania",
+            "Saudi Arabia": "Arabia Saudita",
+            "Algeria": "Argelia",
+            "Argentina": "Argentina",
+            "Australia": "Australia",
+            "Austria": "Austria",
+            "Belgium": "Bélgica",
+            "Bosnia & Herzegovina": "Bosnia",
+            "Brazil": "Brasil",
+            "Cape Verde Islands": "Cabo Verde",
+            "Canada": "Canadá",
+            "Colombia": "Colombia",
+            "South Korea": "Corea del Sur",
+            "Ivory Coast": "Costa de Marfil",
+            "Croatia": "Croacia",
+            "Curaçao": "Curazao",
+            "Ecuador": "Ecuador",
+            "Egypt": "Egipto",
+            "Scotland": "Escocia",
+            "Spain": "España",
+            "France": "Francia",
+            "Ghana": "Ghana",
+            "Haiti": "Haití",
+            "Iraq": "Irak",
+            "Iran": "Irán",
+            "England": "Inglaterra",
+            "Japan": "Japón",
+            "Jordan": "Jordania",
+            "Morocco": "Marruecos",
+            "Mexico": "México",
+            "Norway": "Noruega",
+            "New Zealand": "Nueva Zelanda",
+            "Netherlands": "Países Bajos",
+            "Panama": "Panamá",
+            "Paraguay": "Paraguay",
+            "Portugal": "Portugal",
+            "Qatar": "Qatar",
+            "Congo DR": "RD Congo",
+            "Czech Republic": "República Checa",
+            "Senegal": "Senegal",
+            "South Africa": "Sudáfrica",
+            "Sweden": "Suecia",
+            "Switzerland": "Suiza",
+            "Tunisia": "Túnez",
+            "Turkey": "Turquía",
+            "Uruguay": "Uruguay",
+            "USA": "USA",
+            "Uzbekistan": "Uzbekistán"
+        };
+
+        const fetchMatch = async () => {
+            setLoadingMatch(true);
+            const { success, data } = await databaseService.fetchMatchDetail(matchId);
+            if (success && data) {
+                setMatch({
+                    id: data.id,
+                    league_id: data.league_id,
+                    group: data.metadata?.group || data.metadata?.round || 'General',
+                    homeTeam: DB_TO_SPANISH_TEAM_NAME[data.home_team] || data.home_team,
+                    awayTeam: DB_TO_SPANISH_TEAM_NAME[data.away_team] || data.away_team,
+                    homeTeamLogo: data.home_team_logo,
+                    awayTeamLogo: data.away_team_logo,
+                    date: data.start_time.split('T')[0],
+                    time: data.start_time.split('T')[1]?.substring(0, 5) || '00:00',
+                    stadium: data.metadata?.stadium || 'Estadio',
+                    city: data.metadata?.city || 'Ciudad',
+                    status: data.status.toLowerCase() === 'finished' ? 'finished' : data.status.toLowerCase() === 'live' ? 'live' : 'scheduled',
+                    h2h: data.metadata?.h2h || [],
+                    ai_prediction: data.metadata?.ai_prediction || null
+                });
+            } else {
+                setMatch(null);
+            }
+            setLoadingMatch(false);
+        };
+
+        fetchMatch();
     }, [matchId, qHome, qAway]);
+
+    const handleUnlockOracle = async () => {
+        if (!userId || !matchId) return;
+        if (userBalance < 10) {
+            alert('❌ Saldo insuficiente. Necesitas 10 tokens para desbloquear al Oráculo.');
+            return;
+        }
+        setUnlocking(true);
+        const { success } = await databaseService.unlockAiPrediction(matchId, userId, 10);
+        if (success) {
+            setUnlocked(true);
+            setUserBalance(prev => prev - 10);
+            // Refresh match details to make sure we have the latest data
+            const { success: refreshSuccess, data: refreshData } = await databaseService.fetchMatchDetail(matchId);
+            if (refreshSuccess && refreshData) {
+                setMatch(prev => ({
+                    ...prev,
+                    ai_prediction: refreshData.metadata?.ai_prediction || null
+                }));
+            }
+        } else {
+            alert('❌ Ocurrió un error al desbloquear al Oráculo. Por favor intenta de nuevo.');
+        }
+        setUnlocking(false);
+    };
 
     const homeTeam = useMemo(() => match ? getTeamStaticData(match.homeTeam) : null, [match]);
     const awayTeam = useMemo(() => match ? getTeamStaticData(match.awayTeam) : null, [match]);
     const venue = useMemo(() => match ? WORLD_CUP_VENUES.find(v => v.name === match.stadium) : null, [match]);
 
+    const homeFlag = useMemo(() => {
+        if (match?.homeTeamLogo) return match.homeTeamLogo;
+        return getTeamFlagUrl(match?.homeTeam || '');
+    }, [match]);
 
+    const awayFlag = useMemo(() => {
+        if (match?.awayTeamLogo) return match.awayTeamLogo;
+        return getTeamFlagUrl(match?.awayTeam || '');
+    }, [match]);
 
     // Opponent logic
-    // const { opponents } = useUser(); // Using queryParam opponentId directly if needed
     const opponentId = queryParams.get('opponentId');
     const selectedMode = queryParams.get('mode') as 'MACHINE' | 'OPPONENT' | 'GROUP';
 
+
+    if (loadingMatch) {
+        return (
+            <div className="min-h-screen bg-[#0A0D12] flex items-center justify-center">
+                <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+            </div>
+        );
+    }
 
     if (!match) {
         return (
@@ -88,7 +248,7 @@ export const MatchPredictionPage: React.FC = () => {
                                     className="flex flex-col items-center gap-4 group cursor-pointer"
                                 >
                                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
-                                        <img src={`https://flagcdn.com/${homeTeam?.id.toLowerCase().substring(0, 2)}.svg`} alt="" className="w-full h-full object-cover" />
+                                        <img src={homeFlag} alt="" className="w-full h-full object-cover" />
                                     </div>
                                     <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center group-hover:text-blue-400 transition-colors">{match.homeTeam}</h3>
                                 </div>
@@ -100,7 +260,7 @@ export const MatchPredictionPage: React.FC = () => {
                                     className="flex flex-col items-center gap-4 group cursor-pointer"
                                 >
                                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
-                                        <img src={`https://flagcdn.com/${awayTeam?.id.toLowerCase().substring(0, 2)}.svg`} alt="" className="w-full h-full object-cover" />
+                                        <img src={awayFlag} alt="" className="w-full h-full object-cover" />
                                     </div>
                                     <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center group-hover:text-blue-400 transition-colors">{match.awayTeam}</h3>
                                 </div>
@@ -158,27 +318,162 @@ export const MatchPredictionPage: React.FC = () => {
                                 <Info size={14} className="text-blue-500" /> Datos de las Selecciones
                             </h4>
                             <div className="flex flex-col gap-3 flex-1">
-                                {[homeTeam, awayTeam].map((team: any, idx: number) => (
+                                {[
+                                    { name: match.homeTeam, team: homeTeam, flag: homeFlag, continent: homeTeam?.continent || 'América' },
+                                    { name: match.awayTeam, team: awayTeam, flag: awayFlag, continent: awayTeam?.continent || 'América' }
+                                ].map((item: any, idx: number) => (
                                     <div 
                                         key={idx} 
-                                        onClick={() => team && navigate(`/worldcup/team/${encodeURIComponent(team.name)}/squad`)}
+                                        onClick={() => navigate(`/worldcup/team/${encodeURIComponent(item.name)}/squad`)}
                                         className="bg-[#0F131A]/40 border border-white/5 rounded-[1.5rem] p-4 flex items-center justify-between flex-1 cursor-pointer hover:border-blue-500/30 hover:bg-white/[0.05] transition-all group"
                                     >
                                         <div className="flex items-center gap-3">
                                             <div className="w-8 h-8 rounded-full border border-white/10 overflow-hidden group-hover:scale-110 transition-transform">
-                                                <img src={`https://flagcdn.com/${team?.id.toLowerCase().substring(0, 2)}.svg`} alt="" className="w-full h-full object-cover" />
+                                                <img src={item.flag} alt="" className="w-full h-full object-cover" />
                                             </div>
                                             <div>
-                                                <div className="text-[10px] font-black text-white uppercase group-hover:text-blue-400 transition-colors">{team?.name}</div>
-                                                <div className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">{team?.continent}</div>
+                                                <div className="text-[10px] font-black text-white uppercase group-hover:text-blue-400 transition-colors">{item.name}</div>
+                                                <div className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">{item.continent}</div>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-xl font-black text-blue-500 italic">#{team?.fifaRanking || '--'}</div>
+                                            <div className="text-xl font-black text-blue-500 italic">#{item.team?.fifaRanking || '--'}</div>
                                             <div className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Ranking FIFA</div>
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* El Oráculo: AI Predictions */}
+                    <div className="pt-4">
+                        <div className="relative overflow-hidden rounded-[2.5rem] p-0.5 bg-gradient-to-r from-violet-600/30 via-indigo-600/30 to-blue-500/30">
+                            <div className="bg-[#0F131A] rounded-[2.4rem] p-6 md:p-8 border border-white/5 space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-violet-600/10 flex items-center justify-center text-violet-400">
+                                            <Sparkles size={20} className="animate-pulse" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xs font-black uppercase tracking-widest text-white">El Oráculo de IA</h3>
+                                            <p className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest">Predicciones avanzadas del motor de inteligencia artificial</p>
+                                        </div>
+                                    </div>
+                                    {unlocked && (
+                                        <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-[8px] font-black uppercase tracking-widest">
+                                            Desbloqueado
+                                        </span>
+                                    )}
+                                </div>
+
+                                {!unlocked ? (
+                                    <div className="text-center py-6 px-4 space-y-4 bg-gradient-to-b from-white/[0.02] to-transparent rounded-2xl border border-white/[0.03]">
+                                        <Lock size={32} className="mx-auto text-violet-500/50 animate-bounce" />
+                                        <div className="space-y-1">
+                                            <p className="text-xs font-bold text-zinc-300">¿Quieres conocer la probabilidad y consejos de la IA?</p>
+                                            <p className="text-[9px] text-zinc-500">Desbloquea el análisis de probabilidades 1X2 y comparativa de atributos.</p>
+                                        </div>
+                                        <button
+                                            onClick={handleUnlockOracle}
+                                            disabled={unlocking}
+                                            className="mx-auto px-6 py-3 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-violet-500/20 transition-all active:scale-95"
+                                        >
+                                            {unlocking ? (
+                                                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            ) : (
+                                                <Coins size={12} />
+                                            )}
+                                            Desbloquear por 10 Tokens
+                                        </button>
+                                        <p className="text-[8px] text-zinc-600 font-bold uppercase tracking-wider">Tu Saldo actual: {userBalance} tokens</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-6">
+                                        {!match.ai_prediction ? (
+                                            <div className="text-center py-6 opacity-60 space-y-2">
+                                                <Eye size={24} className="mx-auto text-zinc-600" />
+                                                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">El Oráculo no tiene predicción lista para este partido.</p>
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-5">
+                                                {/* Consejo destacado */}
+                                                <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl flex gap-3 items-start">
+                                                    <Trophy size={18} className="text-amber-500 shrink-0 mt-0.5" />
+                                                    <div>
+                                                        <div className="text-[9px] font-black text-amber-500 uppercase tracking-widest">Consejo del Oráculo</div>
+                                                        <p className="text-xs font-bold text-zinc-200 mt-1">{match.ai_prediction.advice}</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Probabilidades de Ganar */}
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center justify-between text-[9px] font-black text-zinc-400 uppercase tracking-wider px-1">
+                                                        <span>Probabilidades</span>
+                                                        <span className="flex items-center gap-1"><TrendingUp size={10} /> Análisis 1X2</span>
+                                                    </div>
+                                                    <div className="grid grid-cols-3 gap-2">
+                                                        <div className="p-3 bg-blue-500/5 border border-blue-500/10 rounded-xl text-center">
+                                                            <p className="text-[9px] text-blue-400 font-black uppercase tracking-wider">Local</p>
+                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction.percent.home || '33%'}</p>
+                                                        </div>
+                                                        <div className="p-3 bg-zinc-500/5 border border-zinc-500/10 rounded-xl text-center">
+                                                            <p className="text-[9px] text-zinc-400 font-black uppercase tracking-wider">Empate</p>
+                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction.percent.draw || '33%'}</p>
+                                                        </div>
+                                                        <div className="p-3 bg-purple-500/5 border border-purple-500/10 rounded-xl text-center">
+                                                            <p className="text-[9px] text-purple-400 font-black uppercase tracking-wider">Visita</p>
+                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction.percent.away || '33%'}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Comparativa de Atributos */}
+                                                {match.ai_prediction.comparison && (
+                                                    <div className="space-y-3 bg-black/25 rounded-2xl p-4 border border-white/5">
+                                                        <p className="text-[9px] font-black text-zinc-500 uppercase tracking-wider">Comparativa Cara a Cara</p>
+                                                        
+                                                        {/* Barra de Forma */}
+                                                        <div className="space-y-1">
+                                                            <div className="flex justify-between text-[9px] font-bold text-zinc-400">
+                                                                <span>Forma Reciente ({match.ai_prediction.comparison.form.home})</span>
+                                                                <span>Forma Reciente ({match.ai_prediction.comparison.form.away})</span>
+                                                            </div>
+                                                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden flex">
+                                                                <div className="bg-blue-500 h-full" style={{ width: match.ai_prediction.comparison.form.home }} />
+                                                                <div className="bg-purple-500 h-full flex-1" />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Barra de Ataque */}
+                                                        <div className="space-y-1">
+                                                            <div className="flex justify-between text-[9px] font-bold text-zinc-400">
+                                                                <span>Poder de Ataque ({match.ai_prediction.comparison.att.home})</span>
+                                                                <span>Poder de Ataque ({match.ai_prediction.comparison.att.away})</span>
+                                                            </div>
+                                                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden flex">
+                                                                <div className="bg-blue-500 h-full" style={{ width: match.ai_prediction.comparison.att.home }} />
+                                                                <div className="bg-purple-500 h-full flex-1" />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Barra de Defensa */}
+                                                        <div className="space-y-1">
+                                                            <div className="flex justify-between text-[9px] font-bold text-zinc-400">
+                                                                <span>Seguridad Defensiva ({match.ai_prediction.comparison.def.home})</span>
+                                                                <span>Seguridad Defensiva ({match.ai_prediction.comparison.def.away})</span>
+                                                            </div>
+                                                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden flex">
+                                                                <div className="bg-blue-500 h-full" style={{ width: match.ai_prediction.comparison.def.home }} />
+                                                                <div className="bg-purple-500 h-full flex-1" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

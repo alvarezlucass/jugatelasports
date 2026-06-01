@@ -52,6 +52,21 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
             midLower.includes('third');
     }, [matchId]);
 
+    const isLocked = useMemo(() => {
+        if (!matchDetailsData) return false;
+        if (matchDetailsData.status === 'live' || matchDetailsData.status === 'finished') {
+            return true;
+        }
+        if (matchDetailsData.startTime) {
+            const matchTime = new Date(matchDetailsData.startTime).getTime();
+            const now = Date.now();
+            const diffMs = matchTime - now;
+            // Lock if start time is less than 5 minutes (300,000 ms) from now
+            return diffMs < 300000;
+        }
+        return false;
+    }, [matchDetailsData]);
+
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
@@ -525,6 +540,18 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
             </div>
 
             <div className="space-y-4">
+                {isLocked && (
+                    <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-start gap-3 animate-in fade-in duration-300">
+                        <span className="text-base">🔒</span>
+                        <div>
+                            <div className="text-[10px] font-black uppercase tracking-wider text-red-400">Predicciones Cerradas</div>
+                            <p className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5 leading-relaxed">
+                                Las jugadas cierran 5 minutos antes del inicio del partido.
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em] px-2">1. Elige el Resultado</h4>
                 <div className={cn("grid gap-3", isKnockout ? "grid-cols-2" : "grid-cols-3")}>
                     {(['HOME', 'DRAW', 'AWAY'] as const).map((opt) => {
@@ -534,7 +561,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                             <button
                                 key={opt}
                                 onClick={() => setSelection(opt)}
-                                disabled={isSimulating || !!simulationResult}
+                                disabled={isSimulating || !!simulationResult || isLocked}
                                 className={cn(
                                     "py-4 rounded-2xl border font-black text-[10px] uppercase tracking-widest transition-all active:scale-95",
                                     selection === opt
@@ -558,6 +585,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                                 key={m}
                                 type="button"
                                 onClick={() => setAdvanceMethod(m)}
+                                disabled={isSimulating || !!simulationResult || isLocked}
                                 className={cn(
                                     "px-4 py-3 rounded-xl border flex flex-col items-center gap-2 transition-all flex-1 max-w-[100px]",
                                     advanceMethod === m
@@ -586,7 +614,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                             onChange={(e) => setHomeScore(e.target.value)}
                             placeholder="0"
                             className="w-20 h-20 rounded-[1.5rem] bg-[#1A1F26] border border-white/10 text-center text-4xl font-black text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-zinc-800"
-                            disabled={isSimulating || !!simulationResult}
+                            disabled={isSimulating || !!simulationResult || isLocked}
                         />
                         <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-blue-600 rounded text-[8px] font-black text-white uppercase opacity-0 group-hover:opacity-100 transition-opacity">LCL</div>
                     </div>
@@ -599,7 +627,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                             onChange={(e) => setAwayScore(e.target.value)}
                             placeholder="0"
                             className="w-20 h-20 rounded-[1.5rem] bg-[#1A1F26] border border-white/10 text-center text-4xl font-black text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-zinc-800"
-                            disabled={isSimulating || !!simulationResult}
+                            disabled={isSimulating || !!simulationResult || isLocked}
                         />
                         <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-blue-600 rounded text-[8px] font-black text-white uppercase opacity-0 group-hover:opacity-100 transition-opacity">VST</div>
                     </div>
@@ -646,7 +674,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                                         };
                                         handleItemSelect(selectedItem?.id === storeItemDetails.id ? null : betItemEquivalent);
                                     }}
-                                    disabled={isSimulating || !!simulationResult}
+                                    disabled={isSimulating || !!simulationResult || isLocked}
                                     className={cn(
                                         "flex-none w-32 p-4 rounded-2xl border transition-all relative overflow-hidden group snap-start flex flex-col items-center justify-between",
                                         selectedItem?.id === storeItemDetails.id
@@ -730,6 +758,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                                         if (isSelected) setSelectedBooster(null);
                                         else setSelectedBooster({ id: storeItem.id, name: storeItem.name, multiplier });
                                     }}
+                                    disabled={isSimulating || !!simulationResult || isLocked}
                                     className={cn(
                                         "px-4 py-3 rounded-2xl flex items-center gap-3 transition-all border relative",
                                         isSelected
@@ -887,10 +916,12 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         }
                         handleSimulate();
                     }}
-                    disabled={!selection || homeScore === '' || awayScore === '' || stake === '' || isSimulating || (localMode !== 'GROUP' && !rival) || (localMode === 'GROUP' && !localGroupId)}
+                    disabled={isLocked || !selection || homeScore === '' || awayScore === '' || stake === '' || isSimulating || (localMode !== 'GROUP' && !rival) || (localMode === 'GROUP' && !localGroupId)}
                     className="w-full py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed text-white font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
                 >
-                    {isSimulating ? (
+                    {isLocked ? (
+                        'Predicciones Cerradas'
+                    ) : isSimulating ? (
                         <span className="flex items-center justify-center gap-3">
                             <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                             Procesando...

@@ -62,8 +62,15 @@ export const PlayerDetailModal: React.FC<PlayerDetailModalProps> = ({ isOpen, on
                                     <div className="flex-1">
                                         <h3 className="text-2xl font-black text-white leading-tight">{player.name}</h3>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <div className="bg-blue-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full">ESTRELLA</div>
-                                            <span className="text-zinc-400 text-xs font-bold uppercase tracking-widest">N 10 • FWD</span>
+                                            <div className="bg-blue-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                                                {player.position === 'GK' ? 'PORTERO' : 
+                                                 player.position === 'DEF' ? 'DEFENSOR' : 
+                                                 player.position === 'MID' ? 'MEDIOCAMPISTA' : 
+                                                 player.position === 'FWD' ? 'DELANTERO' : 'JUGADOR'}
+                                            </div>
+                                            <span className="text-zinc-400 text-xs font-bold uppercase tracking-widest">
+                                                {player.number ? `N ${player.number}` : 'N/A'} • {player.position || 'FWD'}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

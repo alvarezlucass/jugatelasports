@@ -2,12 +2,98 @@ import { Trophy, Target, CircleDot, Flag, Zap, Star, PlayCircle, Globe, ArrowRig
 import { useUser } from '../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import { ActivityFeed } from '../components/social/ActivityFeed';
 import { motion } from 'framer-motion';
 export const Home: React.FC = () => {
     const { user } = useUser();
     const [feedType, setFeedType] = useState<'GLOBAL' | 'FOLLOWING'>('GLOBAL');
+
+    const [upcomingMatches, setUpcomingMatches] = useState<any[]>([]);
+    const [userPredictionCount, setUserPredictionCount] = useState<number>(0);
+    const [loadingWidgets, setLoadingWidgets] = useState<boolean>(true);
+
+    const getStartOfWeek = () => {
+        const today = new Date();
+        const day = today.getDay();
+        const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+        const start = new Date(today.setDate(diff));
+        start.setHours(0, 0, 0, 0);
+        return start.toISOString();
+    };
+
+    const formatWidgetDate = (timeStr: string) => {
+        if (!timeStr) return '';
+        try {
+            const date = new Date(timeStr);
+            return date.toLocaleDateString('es-ES', {
+                day: 'numeric', month: 'short'
+            }).toUpperCase();
+        } catch (e) { return ''; }
+    };
+
+    useEffect(() => {
+        const fetchWidgetData = async () => {
+            try {
+                // 1. Fetch next 3 upcoming future matches (after current time)
+                const nowIso = new Date().toISOString();
+                let { data: matches, error: matchesError } = await supabase
+                    .from('matches')
+                    .select('*')
+                    .eq('status', 'UPCOMING')
+                    .gte('start_time', nowIso)
+                    .order('start_time', { ascending: true })
+                    .limit(3);
+
+                // Fallback: If no future upcoming matches are found, grab the closest upcoming matches (even if start_time is in the past)
+                if ((!matches || matches.length === 0) && !matchesError) {
+                    const { data: fallbackMatches, error: fallbackError } = await supabase
+                        .from('matches')
+                        .select('*')
+                        .eq('status', 'UPCOMING')
+                        .order('start_time', { ascending: false })
+                        .limit(3);
+                    if (!fallbackError && fallbackMatches) {
+                        matches = fallbackMatches.reverse();
+                    }
+                }
+
+                if (!matchesError && matches) {
+                    setUpcomingMatches(matches);
+                }
+
+                // 2. Fetch user weekly predictions count
+                if (user?.id) {
+                    const startOfWeek = getStartOfWeek();
+                    const { count, error: countError } = await supabase
+                        .from('predictions')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', user.id)
+                        .gte('created_at', startOfWeek);
+
+                    if (!countError && count !== null) {
+                        setUserPredictionCount(count);
+                    } else {
+                        // Fallback
+                        const { data: allPreds } = await supabase
+                            .from('predictions')
+                            .select('match_id')
+                            .eq('user_id', user.id);
+                        if (allPreds) {
+                            setUserPredictionCount(allPreds.length);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching widget data:", err);
+            } finally {
+                setLoadingWidgets(false);
+            }
+        };
+
+        fetchWidgetData();
+    }, [user?.id]);
 
     const categories = [
         { 
@@ -22,13 +108,33 @@ export const Home: React.FC = () => {
         },
         { 
             id: 'lpf', 
-            name: 'Liga Profesional', 
-            subtitle: 'Fútbol Argentino', 
-            status: 'teaser', 
+            name: 'Ligas Argentinas', 
+            subtitle: 'LPF, Copa Argentina y Nac.', 
+            status: 'live', 
             bgGradient: 'from-sky-600/90 to-blue-900/90', 
             image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=800&auto=format&fit=crop",
             icon: Shield, 
-            link: '/leagues' 
+            link: '/leagues?region=argentina' 
+        },
+        { 
+            id: 'europe', 
+            name: 'Ligas Europeas', 
+            subtitle: 'Champions, Premier y LaLiga', 
+            status: 'live', 
+            bgGradient: 'from-indigo-800/90 to-blue-950/90', 
+            image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800",
+            icon: Trophy, 
+            link: '/leagues?region=europe' 
+        },
+        { 
+            id: 'america', 
+            name: 'Ligas Americanas', 
+            subtitle: 'Libertadores, Brasileirão y más', 
+            status: 'live', 
+            bgGradient: 'from-amber-600/90 to-yellow-950/90', 
+            image: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?auto=format&fit=crop&q=80&w=800",
+            icon: Globe, 
+            link: '/leagues?region=america' 
         },
         { 
             id: 'nba', 
@@ -59,9 +165,8 @@ export const Home: React.FC = () => {
             image: "https://images.unsplash.com/photo-1510006721543-b2daecf2b1d6?auto=format&fit=crop&q=80&w=800",
             icon: Flag, 
             link: '/f1' 
-        },
+        }
     ];
-
 
     return (
         <div className="flex flex-col min-h-screen pb-24 space-y-8 animate-in fade-in duration-700">
@@ -111,7 +216,7 @@ export const Home: React.FC = () => {
                 </div>
 
                 {/* Teaser Ligas Europeas */}
-                <Link to="/leagues" className="group lg:w-1/3 relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-indigo-900/50 to-blue-900/20 border border-blue-500/20 p-8 flex flex-col justify-between hover:border-blue-500/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] transition-all duration-500 active:scale-[0.99] cursor-pointer">
+                <Link to="/leagues?region=europe" className="group lg:w-1/3 relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-indigo-900/50 to-blue-900/20 border border-blue-500/20 p-8 flex flex-col justify-between hover:border-blue-500/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] transition-all duration-500 active:scale-[0.99] cursor-pointer">
                     <div className="space-y-4 z-10 relative">
                         <div className="inline-flex px-3 py-1 rounded-full bg-white/10 text-[8px] font-black text-white uppercase tracking-[0.2em]"> Expandiendo Fronteras </div>
                         <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter leading-[0.9]">
@@ -242,28 +347,80 @@ export const Home: React.FC = () => {
                                 Haz 5 predicciones esta semana para ganar un multiplicador X2.
                             </p>
                             <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
-                                <div className="bg-amber-500 h-full w-[60%]" />
+                                <div 
+                                    className="bg-amber-500 h-full transition-all duration-500" 
+                                    style={{ width: `${Math.min(100, (userPredictionCount / 5) * 100)}%` }}
+                                />
                             </div>
                             <div className="flex justify-between mt-2 text-[10px] font-black text-amber-500/50 uppercase tracking-widest">
-                                <span>3 / 5</span>
-                                <span>60%</span>
+                                <span>{userPredictionCount} / 5</span>
+                                <span>{Math.min(100, Math.round((userPredictionCount / 5) * 100))}%</span>
                             </div>
                         </div>
 
-                        {/* Top Creators Teaser */}
-                        <div className="rounded-[2.5rem] bg-zinc-900/40 border border-white/5 p-8 space-y-4">
-                            <h4 className="text-xs font-black text-zinc-500 uppercase tracking-widest">Próximos Partidos TOP</h4>
-                            <div className="space-y-4">
-                               <div className="flex items-center justify-between p-3 bg-white/5 rounded-2xl">
-                                   <span className="text-[10px] font-black text-white uppercase italic">ARG vs BRA</span>
-                                   <span className="text-[10px] font-bold text-zinc-500">22 JUNIO</span>
-                               </div>
-                               <div className="flex items-center justify-between p-3 bg-white/5 rounded-2xl">
-                                   <span className="text-[10px] font-black text-white uppercase italic">GER vs ESP</span>
-                                   <span className="text-[10px] font-bold text-zinc-500">24 JUNIO</span>
-                               </div>
+                        {/* Top Upcoming Matches */}
+                        {upcomingMatches.length > 0 && (
+                            <div className="rounded-[2.5rem] bg-zinc-900/40 border border-white/5 p-6 space-y-5">
+                                <h4 className="text-xs font-black text-zinc-500 uppercase tracking-[0.2em] text-center border-b border-white/5 pb-3">Próximos Partidos</h4>
+                                <div className="space-y-4">
+                                   {upcomingMatches.map((match) => (
+                                       <Link 
+                                           key={match.id}
+                                           to={`/predictions/match/${match.id}`}
+                                           className="block p-5 bg-gradient-to-br from-[#121620] to-[#0A0D14] hover:from-blue-950/20 hover:to-indigo-950/20 border border-white/5 hover:border-blue-500/30 rounded-[2.2rem] transition-all group relative overflow-hidden shadow-md"
+                                       >
+                                           {/* Hover glow effect */}
+                                           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                                           
+                                           <div className="flex items-center justify-between gap-2 mb-3 relative z-10">
+                                               {/* Home Team */}
+                                               <div className="flex flex-col items-center flex-1 min-w-0">
+                                                   <div className="w-10 h-10 bg-white/[0.02] rounded-xl flex items-center justify-center p-1.5 border border-white/5 group-hover:scale-105 transition-transform">
+                                                       {match.home_team_logo ? (
+                                                           <img src={match.home_team_logo} className="w-full h-full object-contain" alt="" />
+                                                       ) : (
+                                                           <span className="text-xl">{match.home_team_flag || '🏠'}</span>
+                                                       )}
+                                                   </div>
+                                                   <span className="text-[10px] font-black text-zinc-300 group-hover:text-white transition-colors text-center mt-1.5 truncate w-full">
+                                                       {match.home_team}
+                                                   </span>
+                                               </div>
+
+                                               {/* VS Indicator */}
+                                               <div className="flex flex-col items-center shrink-0">
+                                                   <span className="text-[8px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20 uppercase tracking-widest">
+                                                       VS
+                                                   </span>
+                                                   <span className="text-[8px] font-bold text-zinc-500 mt-1 uppercase tracking-widest whitespace-nowrap">
+                                                       {formatWidgetDate(match.start_time)}
+                                                   </span>
+                                               </div>
+
+                                               {/* Away Team */}
+                                               <div className="flex flex-col items-center flex-1 min-w-0">
+                                                   <div className="w-10 h-10 bg-white/[0.02] rounded-xl flex items-center justify-center p-1.5 border border-white/5 group-hover:scale-105 transition-transform">
+                                                       {match.away_team_logo ? (
+                                                           <img src={match.away_team_logo} className="w-full h-full object-contain" alt="" />
+                                                       ) : (
+                                                           <span className="text-xl">{match.away_team_flag || '✈️'}</span>
+                                                       )}
+                                                   </div>
+                                                   <span className="text-[10px] font-black text-zinc-300 group-hover:text-white transition-colors text-center mt-1.5 truncate w-full">
+                                                       {match.away_team}
+                                                   </span>
+                                               </div>
+                                           </div>
+
+                                           {/* Prediction Call To Action */}
+                                           <div className="w-full py-2 bg-blue-600 group-hover:bg-blue-500 rounded-xl text-[9px] font-black uppercase tracking-widest text-center text-white transition-colors relative z-10 shadow-lg group-hover:shadow-blue-500/20">
+                                               PRONOSTICAR AHORA
+                                           </div>
+                                       </Link>
+                                   ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>

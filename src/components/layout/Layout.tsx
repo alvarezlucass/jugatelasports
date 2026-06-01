@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Settings, Zap, Medal, Store, Users, Gift } from 'lucide-react';
 import { TokenWallet } from '../ui/TokenWallet';
 import { cn } from '../../lib/utils';
@@ -15,6 +15,18 @@ import { ProfileCompletionModal } from '../modals/ProfileCompletionModal';
 export const Layout: React.FC = () => {
     const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile, signOut } = useUser();
     const location = useLocation();
+    const navigate = useNavigate();
+
+    // OAuth Post-Redirect Redirection Handler
+    useEffect(() => {
+        if (user) {
+            const redirectUrl = sessionStorage.getItem('oauth_redirect_from');
+            if (redirectUrl) {
+                sessionStorage.removeItem('oauth_redirect_from');
+                navigate(redirectUrl, { replace: true });
+            }
+        }
+    }, [user, navigate]);
     
     const [isBonusOpen, setIsBonusOpen] = useState(false);
     const [dismissCompletionModal, setDismissCompletionModal] = useState(false);

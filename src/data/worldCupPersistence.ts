@@ -119,6 +119,7 @@ export interface GroupMatch {
         result: string;
         competition: string;
     }[];
+    metadata?: any;
 }
 
 export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
@@ -223,6 +224,79 @@ export const getGroupMatches = (groupLetter: string): GroupMatch[] => {
     return WORLD_CUP_GROUP_MATCHES.filter(m => m.group === groupLetter);
 };
 
+export const getTeamFlagUrl = (teamIdOrName: string): string => {
+    if (!teamIdOrName) return 'https://media.api-sports.io/football/teams/unknown.png';
+    const key = teamIdOrName.trim();
+    const flagMap: Record<string, string> = {
+        "Argentina": "ar", "ARG": "ar",
+        "México": "mx", "Mexico": "mx", "MEX": "mx",
+        "Brasil": "br", "Brazil": "br", "BRA": "br",
+        "España": "es", "Spain": "es", "ESP": "es", "SPA": "es",
+        "USA": "us",
+        "Canadá": "ca", "Canada": "ca", "CAN": "ca",
+        "Francia": "fr", "France": "fr", "FRA": "fr",
+        "Alemania": "de", "Germany": "de", "GER": "de",
+        "Corea del Sur": "kr", "South Korea": "kr", "KOR": "kr",
+        "República Checa": "cz", "Czech Republic": "cz", "CZE": "cz",
+        "Sudáfrica": "za", "South Africa": "za", "RSA": "za", "SOU": "za",
+        "Australia": "au", "AUS": "au",
+        "Arabia Saudita": "sa", "Saudi Arabia": "sa", "KSA": "sa", "SAU": "sa",
+        "Bosnia": "ba", "Bosnia & Herzegovina": "ba", "BIH": "ba", "BOS": "ba",
+        "Qatar": "qa", "QAT": "qa",
+        "Suiza": "ch", "Switzerland": "ch", "SUI": "ch", "SWI": "ch",
+        "Haití": "ht", "Haiti": "ht", "HAI": "ht",
+        "Marruecos": "ma", "Morocco": "ma", "MAR": "ma", "MOR": "ma",
+        "Escocia": "gb-sct", "Scotland": "gb-sct", "SCO": "gb-sct",
+        "Paraguay": "py", "PAR": "py",
+        "Turquía": "tr", "Turkey": "tr", "Türkiye": "tr", "TUR": "tr",
+        "Curazao": "cw", "Curaçao": "cw", "CUW": "cw", "CUR": "cw",
+        "Ecuador": "ec", "ECU": "ec",
+        "Costa de Marfil": "ci", "Ivory Coast": "ci", "CIV": "ci", "IVO": "ci",
+        "Países Bajos": "nl", "Netherlands": "nl", "NED": "nl", "NET": "nl",
+        "Japón": "jp", "Japan": "jp", "JPN": "jp", "JAP": "jp",
+        "Suecia": "se", "Sweden": "se", "SWE": "se",
+        "Túnez": "tn", "Tunisia": "tn", "TUN": "tn",
+        "Bélgica": "be", "Belgium": "be", "BEL": "be",
+        "Egipto": "eg", "Egypt": "eg", "EGY": "eg",
+        "Irán": "ir", "Iran": "ir", "IRN": "ir", "IRA": "ir",
+        "Nueva Zelanda": "nz", "New Zealand": "nz", "NZL": "nz", "ZEA": "nz",
+        "Cabo Verde": "cv", "Cape Verde Islands": "cv", "CPV": "cv", "CAP": "cv",
+        "Uruguay": "uy", "URU": "uy",
+        "Noruega": "no", "Norway": "no", "NOR": "no",
+        "Senegal": "sn", "SEN": "sn",
+        "Irak": "iq", "Iraq": "iq", "IRQ": "iq",
+        "Argelia": "dz", "Algeria": "dz", "ALG": "dz",
+        "Austria": "at", "AUT": "at",
+        "Jordania": "jo", "Jordan": "jo", "JOR": "jo",
+        "Portugal": "pt", "POR": "pt",
+        "RD Congo": "cd", "Congo DR": "cd", "COD": "cd", "CON": "cd",
+        "Uzbekistán": "uz", "Uzbekistan": "uz", "UZB": "uz",
+        "Colombia": "co", "COL": "co",
+        "Inglaterra": "gb-eng", "England": "gb-eng", "ENG": "gb-eng",
+        "Croacia": "hr", "Croatia": "hr", "CRO": "hr",
+        "Ghana": "gh", "GHA": "gh",
+        "Panamá": "pa", "Panama": "pa", "PAN": "pa",
+        "Dinamarca": "dk", "Danimarca": "dk",
+        "Grecia": "gr", "Italia": "it", "Chile": "cl", "Nigeria": "ng"
+    };
+
+    // Try direct match
+    if (flagMap[key]) return `https://flagcdn.com/${flagMap[key]}.svg`;
+    
+    // Try uppercase match
+    const upperKey = key.toUpperCase();
+    if (flagMap[upperKey]) return `https://flagcdn.com/${flagMap[upperKey]}.svg`;
+    
+    // Try substring matching for fuzzy names
+    for (const [name, code] of Object.entries(flagMap)) {
+        if (key.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(key.toLowerCase())) {
+            return `https://flagcdn.com/${code}.svg`;
+        }
+    }
+    
+    return 'https://media.api-sports.io/football/teams/unknown.png';
+};
+
 export const getTeamMatches = (teamName: string): GroupMatch[] => {
     return WORLD_CUP_GROUP_MATCHES.filter(m => m.homeTeam === teamName || m.awayTeam === teamName);
 };
@@ -234,11 +308,10 @@ export const getGroupStandings = (letter: string, predictions: any[] = []) => {
     if (teams.length === 0) return [];
 
     const standings = teams.map((teamName) => {
-        const history = WORLD_CUP_TEAMS_HISTORY[teamName];
         const stats = {
             id: `${letter}-${teamName}`,
             name: teamName,
-            flag: `https://flagcdn.com/${history?.id.toLowerCase().substring(0, 2) || 'un'}.svg`,
+            flag: getTeamFlagUrl(teamName),
             pj: 0,
             gf: 0,
             gc: 0,

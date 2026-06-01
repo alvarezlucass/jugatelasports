@@ -7,6 +7,7 @@ import {
     Car, 
     Zap, 
     Activity, 
+    Shield,
     X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -26,23 +27,31 @@ const CATEGORIES: CategoryOption[] = [
         id: 'worldcup', 
         label: 'Copa Mundo 2026', 
         icon: Trophy, 
-        path: '/predictions', 
+        path: '/worldcup', 
         color: 'bg-blue-600',
         glow: 'shadow-blue-500/20'
     },
     { 
-        id: 'ucl', 
-        label: 'Champions League', 
+        id: 'argentina', 
+        label: 'Ligas Argentinas', 
+        icon: Shield, 
+        path: '/leagues?region=argentina', 
+        color: 'bg-sky-600',
+        glow: 'shadow-sky-500/20'
+    },
+    { 
+        id: 'europe', 
+        label: 'Ligas Europeas', 
         icon: Zap, 
-        path: '/leagues', 
+        path: '/leagues?region=europe', 
         color: 'bg-indigo-600',
         glow: 'shadow-indigo-500/20'
     },
     { 
-        id: 'libertadores', 
-        label: 'Libertadores', 
+        id: 'america', 
+        label: 'Ligas Americanas', 
         icon: Globe, 
-        path: '/leagues', 
+        path: '/leagues?region=america', 
         color: 'bg-amber-600',
         glow: 'shadow-amber-500/20'
     },

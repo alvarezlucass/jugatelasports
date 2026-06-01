@@ -36,9 +36,10 @@ export const BottomNavigation = () => {
                                     <Icon className={cn("w-5 h-5", isActive && "fill-primary/20")} strokeWidth={isActive ? 2.5 : 2} />
                                 </div>
                                 <span className="text-[10px] font-medium">{label}</span>
-                                {isActive && (
-                                    <span className="absolute -top-px left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-b-full shadow-[0_2px_8px_rgba(var(--primary),0.5)]" />
-                                )}
+                                <span className={cn(
+                                    "absolute -top-px left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-b-full shadow-[0_2px_8px_rgba(var(--primary),0.5)] transition-all duration-300",
+                                    isActive ? "opacity-100 scale-100" : "opacity-0 scale-0 pointer-events-none"
+                                )} />
                             </>
                         )}
                     </NavLink>

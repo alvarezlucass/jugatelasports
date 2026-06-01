@@ -54,8 +54,8 @@ export const TacticalPitch: React.FC<TacticalPitchProps> = ({ lineup, events, on
                         onClick={() => onPlayerClick?.(slot.player.id)}
                         className="absolute -translate-x-1/2 -translate-y-1/2 text-center z-20 cursor-pointer group"
                         style={{
-                            top: `${(parseInt(slot.grid?.split(':')[0] || '0') * 20)}%`,
-                            left: `${(parseInt(slot.grid?.split(':')[1] || '0') * 25)}%`,
+                            top: `${(parseFloat(slot.grid?.split(':')[0] || '0') * 20)}%`,
+                            left: `${(parseFloat(slot.grid?.split(':')[1] || '0') * 25)}%`,
                         }}
                     >
                         <div className="relative">

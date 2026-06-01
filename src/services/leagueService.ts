@@ -67,9 +67,10 @@ export const leagueService = {
 
             if (!data || !data.response || data.response.length === 0) return { success: false };
 
-            const standingsRaw = data.response[0].league.standings[0];
+            const standingsGroups = data.response[0].league.standings;
+            const flatStandings = standingsGroups.flat();
             
-            const standingsToSync = standingsRaw.map((s: any) => ({
+            const standingsToSync = flatStandings.map((s: any) => ({
                 league_id: leagueId,
                 season: season,
                 team_id: s.team.id,
@@ -82,6 +83,7 @@ export const leagueService = {
                 goals_for: s.all.goals.for,
                 goals_against: s.all.goals.against,
                 form: s.form,
+                group_name: s.group,
                 updated_at: new Date().toISOString()
             }));
 
@@ -241,19 +243,42 @@ export const leagueService = {
     },
 
     /**
-     * Obtiene las posiciones desde la DB
+     * Obtiene las posiciones desde la DB para la temporada más reciente
      */
-    async getStandings(leagueId: string, season: number = 2024) {
-        const { data, error } = await supabase
-            .from('standings')
-            .select(`
-                *,
-                teams (name, logo)
-            `)
-            .eq('league_id', leagueId)
-            .eq('season', season)
-            .order('rank', { ascending: true });
+    async getStandings(leagueId: string, season?: number) {
+        let targetSeason = season;
         
-        return { data, error };
+        try {
+            if (!targetSeason) {
+                // Buscar la temporada más reciente en la base de datos para esta liga
+                const { data: seasonData } = await supabase
+                    .from('standings')
+                    .select('season')
+                    .eq('league_id', leagueId)
+                    .order('season', { ascending: false })
+                    .limit(1);
+                
+                if (seasonData && seasonData.length > 0) {
+                    targetSeason = seasonData[0].season;
+                } else {
+                    targetSeason = 2026; // fallback por defecto
+                }
+            }
+
+            const { data, error } = await supabase
+                .from('standings')
+                .select(`
+                    *,
+                    teams (name, logo)
+                `)
+                .eq('league_id', leagueId)
+                .eq('season', targetSeason)
+                .order('rank', { ascending: true });
+            
+            return { data, error, season: targetSeason };
+        } catch (err) {
+            console.error('Error fetching standings:', err);
+            return { data: [], error: err, season: targetSeason || 2026 };
+        }
     }
 };

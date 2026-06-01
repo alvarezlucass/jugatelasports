@@ -32,6 +32,7 @@ import { StoreAdminPage } from './pages/admin/StoreAdminPage';
 import MatchDetail from './pages/MatchDetail';
 import { IndustrialSim } from './pages/admin/IndustrialSim';
 import { GenericLeagueHub } from './pages/GenericLeagueHub';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 function App() {
   return (
@@ -53,7 +54,7 @@ function App() {
               <Route path="store" element={<StorePage />} />
               <Route path="admin/store" element={<StoreAdminPage />} />
               <Route path="admin/sim" element={<IndustrialSim />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="profile/:userId" element={<PublicProfile />} />
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
@@ -65,14 +66,14 @@ function App() {
                 <Route path="group/:id" element={<GroupFixturePage />} />
                 <Route path="team/:teamName/squad" element={<TeamSquadPage />} />
               </Route>
-              <Route path="groups" element={<GroupDashboard />} />
-              <Route path="groups/:id" element={<GroupDetail />} />
-              <Route path="groups/create" element={<><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="create" /></>} />
-              <Route path="groups/join" element={<><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="join" /></>} />
-              <Route path="predictions" element={<Predictions />} />
-              <Route path="predictions/match/:matchId" element={<MatchPredictionPage />} />
+              <Route path="groups" element={<ProtectedRoute><GroupDashboard /></ProtectedRoute>} />
+              <Route path="groups/:id" element={<ProtectedRoute><GroupDetail /></ProtectedRoute>} />
+              <Route path="groups/create" element={<ProtectedRoute><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="create" /></ProtectedRoute>} />
+              <Route path="groups/join" element={<ProtectedRoute><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="join" /></ProtectedRoute>} />
+              <Route path="predictions" element={<ProtectedRoute><Predictions /></ProtectedRoute>} />
+              <Route path="predictions/match/:matchId" element={<ProtectedRoute><MatchPredictionPage /></ProtectedRoute>} />
               <Route path="match/:id" element={<MatchDetail />} />
-              <Route path="history" element={<History />} />
+              <Route path="history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             </Route>
           </Routes>
         </GameProvider>

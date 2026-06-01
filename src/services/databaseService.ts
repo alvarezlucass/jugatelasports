@@ -280,5 +280,61 @@ export const databaseService = {
             .eq('match_id', matchId)
             .order('created_at', { ascending: true });
         return { data, error };
+    },
+
+    // --- EXPANSION: ORACLE & TOP PERFORMERS ---
+    async isPredictionUnlocked(matchId: string, userId: string) {
+        try {
+            const { data, error } = await supabase
+                .from('unlocked_ai_predictions')
+                .select('id')
+                .eq('match_id', matchId)
+                .eq('user_id', userId)
+                .maybeSingle();
+
+            if (error) throw error;
+            return { success: true, unlocked: !!data };
+        } catch (error) {
+            console.error('Error checking if prediction is unlocked:', error);
+            return { success: false, unlocked: false, error };
+        }
+    },
+
+    async unlockAiPrediction(matchId: string, userId: string, cost: number = 10) {
+        try {
+            const { data, error } = await supabase
+                .rpc('unlock_ai_prediction', {
+                    p_user_id: userId,
+                    p_match_id: matchId,
+                    p_cost: cost
+                });
+
+            if (error) throw error;
+            return { success: !!data };
+        } catch (error) {
+            console.error('Error unlocking AI prediction:', error);
+            return { success: false, error };
+        }
+    },
+
+    async fetchTopPerformers(leagueId: string, season: number = 2026) {
+        try {
+            const { data, error } = await supabase
+                .from('top_performers')
+                .select('*')
+                .eq('league_id', leagueId)
+                .eq('season', season)
+                .order('rank', { ascending: true });
+
+            if (error) throw error;
+            
+            const scorers = data.filter(p => p.type === 'GOALS');
+            const assists = data.filter(p => p.type === 'ASSISTS');
+            
+            return { success: true, scorers, assists };
+        } catch (error) {
+            console.error('Error fetching top performers:', error);
+            return { success: false, error, scorers: [], assists: [] };
+        }
     }
 };

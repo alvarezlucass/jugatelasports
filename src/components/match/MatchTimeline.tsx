@@ -9,9 +9,9 @@ interface MatchTimelineProps {
     homeTeamId: string;
 }
 
-export const MatchTimeline: React.FC<MatchTimelineProps> = ({ events, homeTeamId }) => {
+export const MatchTimeline: React.FC<MatchTimelineProps> = ({ events = [], homeTeamId }) => {
     // Ordenar eventos por tiempo descendente
-    const sortedEvents = [...events].sort((a, b) => b.time - a.time);
+    const sortedEvents = [...(events || [])].sort((a, b) => b.time - a.time);
 
     const getEventIcon = (type: MatchEvent['type'], detail: string) => {
         switch (type) {

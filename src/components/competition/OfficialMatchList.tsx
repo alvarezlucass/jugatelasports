@@ -2,14 +2,36 @@ import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
-import { type GroupMatch, getTeamStaticData } from '../../data/worldCupPersistence';
+import { type GroupMatch, getTeamStaticData, getTeamFlagUrl } from '../../data/worldCupPersistence';
 import { BarChart2, Shield } from 'lucide-react';
 
 interface OfficialMatchListProps {
     matches: (GroupMatch & { league_id?: string })[];
     onMatchClick?: (matchId: string) => void;
     showGroupLink?: boolean;
+    leagueBadge?: string;
 }
+
+const LEAGUE_NAMES: Record<string, string> = {
+    'lpf': 'Liga Profesional',
+    'libertadores': 'Copa Libertadores',
+    'sudamericana': 'Copa Sudamericana',
+    'ucl': 'Champions League',
+    'premier': 'Premier League',
+    'laliga': 'La Liga',
+    'world-cup-2026': 'Mundial 2026',
+    'serie-a': 'Serie A',
+    'bundesliga': 'Bundesliga',
+    'ligue1': 'Ligue 1',
+    'primeira-liga': 'Primeira Liga',
+    'brasileirao': 'Brasileirão',
+    'ligamx': 'Liga MX',
+    'primera-a-colombia': 'Primera A Colombia',
+    'primera-chile': 'Primera División Chile',
+    'primera-uruguay': 'Primera División Uruguay',
+    'primera-nacional': 'Primera Nacional',
+    'copa-argentina': 'Copa Argentina'
+};
 
 const formatRound = (round: string, leagueId?: string) => {
     if (!round) return '';
@@ -39,7 +61,8 @@ const formatRound = (round: string, leagueId?: string) => {
 export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({ 
     matches, 
     onMatchClick,
-    showGroupLink = true 
+    showGroupLink = true,
+    leagueBadge
 }) => {
     const navigate = useNavigate();
     // Group matches by date
@@ -53,6 +76,34 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
     }, {} as Record<string, (GroupMatch & { league_id?: string })[]>);
 
     const sortedDates = Object.keys(groupedMatches).sort();
+
+    if (matches.length === 0) {
+        return (
+            <div className="p-12 text-center text-zinc-400 bg-black/20 rounded-[2.5rem] relative overflow-hidden m-4">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
+                
+                <div className="mx-auto mb-6 w-16 h-16 rounded-full bg-white/5 flex items-center justify-center relative z-10 border border-white/10">
+                    <BarChart2 size={32} className="text-blue-500/50" />
+                </div>
+                <h3 className="text-lg md:text-xl font-black uppercase tracking-wider mb-3 text-white relative z-10">No hay partidos disponibles</h3>
+                <p className="text-sm font-medium text-zinc-400 max-w-md mx-auto mb-8 relative z-10">
+                    Actualmente no hay partidos programados para este filtro en los próximos días. Intenta seleccionar otra competición.
+                </p>
+                
+                <div className="inline-block p-1 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 relative z-10">
+                    <button 
+                        onClick={() => navigate('/notify')}
+                        className="flex items-center gap-3 px-6 py-4 bg-[#0A0D12] rounded-xl hover:bg-white/5 transition-all border border-white/10 group shadow-xl"
+                    >
+                        <span className="text-sm font-black text-white uppercase tracking-wider">
+                            Avisarme cuando haya partidos
+                        </span>
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full space-y-12 py-8">
@@ -81,8 +132,8 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                         {groupedMatches[date].map((match) => {
                             const homeData = getTeamStaticData(match.homeTeam);
                             const awayData = getTeamStaticData(match.awayTeam);
-                            const homeFlag = match.homeTeamLogo || (homeData ? `https://flagcdn.com/${homeData.id.toLowerCase().substring(0, 2)}.svg` : '');
-                            const awayFlag = match.awayTeamLogo || (awayData ? `https://flagcdn.com/${awayData.id.toLowerCase().substring(0, 2)}.svg` : '');
+                            const homeFlag = match.homeTeamLogo || getTeamFlagUrl(match.homeTeam);
+                            const awayFlag = match.awayTeamLogo || getTeamFlagUrl(match.awayTeam);
 
                             return (
                                 <div
@@ -108,9 +159,25 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                                                 </div>
                                             </div>
 
-                                            {/* Time */}
-                                            <div className="shrink-0 text-lg md:text-3xl font-black text-white tabular-nums bg-white/5 px-2 py-0.5 rounded-lg md:bg-transparent md:px-0">
-                                                {match.time}
+                                            {/* Time or Score */}
+                                            <div className="shrink-0 text-lg md:text-3xl font-black text-white tabular-nums bg-white/5 px-3 py-1 rounded-lg md:bg-transparent md:px-0 flex flex-col items-center justify-center">
+                                                {match.status === 'finished' || match.status === 'live' ? (
+                                                    <div className="flex flex-col items-center">
+                                                        <span className="text-xl md:text-4xl font-extrabold text-white tracking-tighter">
+                                                            {match.homeScore !== undefined && match.homeScore !== null ? match.homeScore : 0} - {match.awayScore !== undefined && match.awayScore !== null ? match.awayScore : 0}
+                                                        </span>
+                                                        {match.status === 'finished' && match.metadata?.penalty_home !== undefined && match.metadata?.penalty_home !== null && (
+                                                            <span className="text-[9px] md:text-xs font-black text-amber-500 uppercase tracking-wider mt-1 bg-amber-500/10 px-2 py-0.5 rounded-full">
+                                                                ({match.metadata.penalty_home} - {match.metadata.penalty_away} Pen)
+                                                            </span>
+                                                        )}
+                                                        {match.status === 'live' && (
+                                                            <span className="text-[8px] font-black text-emerald-400 uppercase tracking-widest animate-pulse mt-0.5">En Vivo</span>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    match.time
+                                                )}
                                             </div>
 
                                             {/* Away Team */}
@@ -131,6 +198,17 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
 
                                         {/* Match Info Subtitle */}
                                         <div className="mt-2 md:mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[8px] md:text-[10px] font-medium text-zinc-500 uppercase tracking-widest text-center">
+                                            {leagueBadge ? (
+                                                <>
+                                                    <span className="text-blue-400 font-black px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20">{leagueBadge}</span>
+                                                    <span className="w-1 h-1 rounded-full bg-zinc-700 hidden md:inline" />
+                                                </>
+                                            ) : match.league_id && LEAGUE_NAMES[match.league_id] ? (
+                                                <>
+                                                    <span className="text-blue-400 font-black px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20">{LEAGUE_NAMES[match.league_id]}</span>
+                                                    <span className="w-1 h-1 rounded-full bg-zinc-700 hidden md:inline" />
+                                                </>
+                                            ) : null}
                                             <span>{formatRound(match.group, match.league_id)}</span>
                                             <span className="hidden md:inline w-1 h-1 rounded-full bg-zinc-700" />
                                             <span className="hidden md:inline text-zinc-400">{match.stadium} ({match.city})</span>

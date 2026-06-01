@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Check, Mail, User, Calendar, Phone, Lock, ArrowLeft, Eye, EyeOff, Shield } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useUser } from '../contexts/UserContext';
@@ -8,14 +8,16 @@ type Step = 1 | 2 | 3;
 
 export const Register: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { signInWithGoogle, signUpWithEmail, resendEmailConfirmation, user } = useUser();
 
     // Redirect if logged in
     useEffect(() => {
         if (user) {
-            navigate('/');
+            const redirectUrl = location.state?.from || '/';
+            navigate(redirectUrl, { replace: true });
         }
-    }, [user, navigate]);
+    }, [user, navigate, location.state]);
 
     const [step, setStep] = useState<Step>(1);
 
@@ -160,7 +162,11 @@ export const Register: React.FC = () => {
                     <p className="text-sm text-muted-foreground">Una vez confirmado, podrás ingresar a tu cuenta.</p>
 
                     <div className="space-y-3">
-                        <Link to="/login" className="block w-full py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all shadow-lg shadow-primary/20">
+                        <Link 
+                            to="/login" 
+                            state={{ from: location.state?.from }}
+                            className="block w-full py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl transition-all shadow-lg shadow-primary/20"
+                        >
                             Ir a Iniciar Sesión
                         </Link>
 
@@ -552,7 +558,11 @@ export const Register: React.FC = () => {
                 <div className="mt-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
                     <p className="text-muted-foreground font-medium text-sm">
                         ¿Ya tienes cuenta?{' '}
-                        <Link to="/login" className="text-primary font-bold hover:underline">
+                        <Link 
+                            to="/login" 
+                            state={{ from: location.state?.from }}
+                            className="text-primary font-bold hover:underline"
+                        >
                             Ingresa aquí
                         </Link>
                     </p>
