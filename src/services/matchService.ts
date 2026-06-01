@@ -2,7 +2,7 @@ import { supabase } from '../lib/supabase';
 import { type GroupMatch } from '../data/worldCupPersistence';
 
 export const matchService = {
-    async getMatches(leagueId?: string, options?: { upcomingOnly?: boolean; daysLimit?: number }): Promise<GroupMatch[]> {
+    async getMatches(leagueId?: string, options?: { upcomingOnly?: boolean; daysLimit?: number; season?: number }): Promise<GroupMatch[]> {
         let query = supabase
             .from('matches')
             .select('*')
@@ -11,6 +11,10 @@ export const matchService = {
         if (leagueId) {
             // league_id in DB uses dbId strings (e.g., 'lpf', 'ucl', 'world-cup-2026')
             query = query.eq('league_id', leagueId);
+        }
+
+        if (options?.season) {
+            query = query.eq('season', options.season);
         }
 
         if (options?.upcomingOnly) {

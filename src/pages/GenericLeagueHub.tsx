@@ -329,10 +329,10 @@ export const GenericLeagueHub: React.FC = () => {
         setLoading(true);
         try {
             if (activeTab === 'fixtures') {
-                const data = await matchService.getMatches(config.dbLeagueIdForMatches);
-                // Filter matches to only show 2026 (simulated active season)
-                const activeMatches = (data || []).filter(m => m.date.startsWith('2026'));
-                const finalMatches = activeMatches.length > 0 ? activeMatches : data || [];
+                const euroLeagues = [2, 39, 140, 3, 135, 78, 61, 94];
+                const activeSeason = euroLeagues.includes(config.apiLeagueId) ? 2025 : 2026;
+                const data = await matchService.getMatches(config.dbLeagueIdForMatches, { season: activeSeason });
+                const finalMatches = data || [];
                 setMatches(finalMatches);
 
                 // Group matches by round to find unique rounds
