@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { cn } from '../../lib/utils'; // Keep if used for className later or remove if strict
 import type { Match } from '../../types';
+import { useTeamModal } from '../../context/TeamModalContext';
 
 interface MatchListRowProps {
     match: Match;
@@ -9,6 +9,7 @@ interface MatchListRowProps {
 }
 
 export const MatchListRow: React.FC<MatchListRowProps> = ({ match, onPredictClick }) => {
+    const { openTeamModal } = useTeamModal();
     const isLive = match.status === 'LIVE';
     const isKnockout = match.id.startsWith('R32') || 
                        match.id.startsWith('R16') || 
@@ -26,7 +27,12 @@ export const MatchListRow: React.FC<MatchListRowProps> = ({ match, onPredictClic
                 <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-[3] min-w-0 justify-end">
                     <span className="font-bold text-xs md:text-sm lg:text-base text-right hidden md:block leading-snug truncate max-w-[120px] md:max-w-none">{match.homeTeam.name.toUpperCase()}</span>
                     <span className="font-bold text-xs md:hidden">{match.homeTeam.shortName}</span>
-                    <img src={match.homeTeam.logo} alt={match.homeTeam.name} className="w-8 h-8 md:w-10 md:h-10 object-contain flex-none bg-white/5 rounded-lg p-1" />
+                    <img 
+                        src={match.homeTeam.logo} 
+                        alt={match.homeTeam.name} 
+                        className="w-8 h-8 md:w-10 md:h-10 object-contain flex-none bg-white/5 rounded-lg p-1 cursor-pointer hover:scale-110 hover:border-blue-500/50 transition-all" 
+                        onClick={(e) => { e.stopPropagation(); openTeamModal(parseInt(match.homeTeam.id)); }}
+                    />
                 </div>
 
                 {/* Status / Score */}
@@ -54,7 +60,12 @@ export const MatchListRow: React.FC<MatchListRowProps> = ({ match, onPredictClic
 
                 {/* Away Team */}
                 <div className="flex items-center gap-2 md:gap-3 flex-1 md:flex-[3] min-w-0">
-                    <img src={match.awayTeam.logo} alt={match.awayTeam.name} className="w-8 h-8 md:w-10 md:h-10 object-contain flex-none bg-white/5 rounded-lg p-1" />
+                    <img 
+                        src={match.awayTeam.logo} 
+                        alt={match.awayTeam.name} 
+                        className="w-8 h-8 md:w-10 md:h-10 object-contain flex-none bg-white/5 rounded-lg p-1 cursor-pointer hover:scale-110 hover:border-blue-500/50 transition-all" 
+                        onClick={(e) => { e.stopPropagation(); openTeamModal(parseInt(match.awayTeam.id)); }}
+                    />
                     <span className="font-bold text-xs md:text-sm lg:text-base hidden md:block leading-snug truncate max-w-[120px] md:max-w-none">{match.awayTeam.name.toUpperCase()}</span>
                     <span className="font-bold text-xs md:hidden">{match.awayTeam.shortName}</span>
                 </div>

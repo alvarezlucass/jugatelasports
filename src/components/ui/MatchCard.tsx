@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Clock, Coins } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useTeamModal } from '../../context/TeamModalContext';
 
 interface MatchCardProps {
     match: Match;
@@ -14,6 +15,7 @@ interface MatchCardProps {
 
 export const MatchCard: React.FC<MatchCardProps> = ({ match, onPredict, type = 'upcoming', stake = 500 }) => {
     const isMarket = type === 'market';
+    const { openTeamModal } = useTeamModal();
 
     return (
         <div className="group relative bg-card border border-border/50 rounded-3xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
@@ -51,7 +53,10 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onPredict, type = '
                 <div className="flex justify-between items-center mb-6">
                     {/* Home Team */}
                     <div className="flex flex-col items-center gap-3 w-1/3">
-                        <div className="w-16 h-16 rounded-full bg-muted/30 p-3 ring-1 ring-border shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        <div 
+                            className="w-16 h-16 rounded-full bg-muted/30 p-3 ring-1 ring-border shadow-inner group-hover:scale-110 transition-transform duration-300 cursor-pointer hover:ring-blue-500/50"
+                            onClick={(e) => { e.stopPropagation(); if(type !== 'challenge') openTeamModal(parseInt(match.homeTeam.id)); }}
+                        >
                             {type === 'challenge'
                                 ? <div className="w-full h-full rounded-full bg-gray-500 flex items-center justify-center text-xs">You</div>
                                 : <img src={match.homeTeam.logo} alt={match.homeTeam.name} className="w-full h-full object-contain" />
@@ -76,7 +81,10 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, onPredict, type = '
 
                     {/* Away Team */}
                     <div className="flex flex-col items-center gap-3 w-1/3">
-                        <div className="w-16 h-16 rounded-full bg-muted/30 p-3 ring-1 ring-border shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        <div 
+                            className="w-16 h-16 rounded-full bg-muted/30 p-3 ring-1 ring-border shadow-inner group-hover:scale-110 transition-transform duration-300 cursor-pointer hover:ring-blue-500/50"
+                            onClick={(e) => { e.stopPropagation(); if(type !== 'challenge') openTeamModal(parseInt(match.awayTeam.id)); }}
+                        >
                             {type === 'challenge'
                                 ? <div className="w-full h-full rounded-full bg-gray-500 flex items-center justify-center text-xs">Opp</div>
                                 : <img src={match.awayTeam.logo} alt={match.awayTeam.name} className="w-full h-full object-contain" />

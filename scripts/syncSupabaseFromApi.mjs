@@ -143,13 +143,13 @@ async function syncFixtureDetails(fixtureId) {
         teamId: lineups[0].team.id.toString(),
         formation: lineups[0].formation,
         startXI: (lineups[0].startXI || []).map(item => ({
-            player: { id: item.player.id.toString(), name: item.player.name },
+            player: { id: item.player.id?.toString() || '', name: item.player.name },
             pos: mapPos(item.player.pos),
             grid: item.player.grid || '3:2',
             number: item.player.number
         })),
         substitutes: (lineups[0].substitutes || []).map(item => ({
-            player: { id: item.player.id.toString(), name: item.player.name },
+            player: { id: item.player.id?.toString() || '', name: item.player.name },
             pos: mapPos(item.player.pos),
             grid: '0:0',
             number: item.player.number
@@ -161,13 +161,13 @@ async function syncFixtureDetails(fixtureId) {
         teamId: lineups[1].team.id.toString(),
         formation: lineups[1].formation,
         startXI: (lineups[1].startXI || []).map(item => ({
-            player: { id: item.player.id.toString(), name: item.player.name },
+            player: { id: item.player.id?.toString() || '', name: item.player.name },
             pos: mapPos(item.player.pos),
             grid: item.player.grid || '3:2',
             number: item.player.number
         })),
         substitutes: (lineups[1].substitutes || []).map(item => ({
-            player: { id: item.player.id.toString(), name: item.player.name },
+            player: { id: item.player.id?.toString() || '', name: item.player.name },
             pos: mapPos(item.player.pos),
             grid: '0:0',
             number: item.player.number

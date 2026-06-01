@@ -20,7 +20,7 @@ import { useUser } from '../contexts/UserContext';
 import { leagueService } from '../services/leagueService';
 import { matchService } from '../services/matchService';
 import { OfficialMatchList } from '../components/competition/OfficialMatchList';
-import { TeamDetailsModal } from '../components/modals/TeamDetailsModal';
+import { useTeamModal } from '../context/TeamModalContext';
 
 const LEAGUE_CONFIGS: Record<string, {
     name: string;
@@ -311,11 +311,10 @@ export const GenericLeagueHub: React.FC = () => {
     const [matches, setMatches] = useState<any[]>([]);
     const [rounds, setRounds] = useState<string[]>([]);
     const [selectedRound, setSelectedRound] = useState<string>('');
+    const { openTeamModal } = useTeamModal();
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
     const [syncProgress, setSyncProgress] = useState({ current: 0, total: 0 });
-    const [selectedTeam, setSelectedTeam] = useState<any>(null);
-    const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
     // Default to 'lpf' if parameter is not in configs
     const currentLeagueKey = leagueId && LEAGUE_CONFIGS[leagueId] ? leagueId : 'lpf';
@@ -441,11 +440,6 @@ export const GenericLeagueHub: React.FC = () => {
             setSyncing(false);
             setSyncProgress({ current: 0, total: 0 });
         }
-    };
-
-    const openTeamDetails = (team: any) => {
-        setSelectedTeam(team);
-        setIsDetailsOpen(true);
     };
 
     const BannerIcon = config.bannerIcon;
@@ -734,7 +728,7 @@ export const GenericLeagueHub: React.FC = () => {
                                                                                 <td className="px-4 py-4.5">
                                                                                     <div 
                                                                                         className="flex items-center gap-3 cursor-pointer group/team"
-                                                                                        onClick={() => openTeamDetails(s.teams)}
+                                                                                        onClick={() => openTeamModal(parseInt(s.teams?.id))}
                                                                                     >
                                                                                         <div className="w-8 h-8 rounded-xl bg-white/5 p-1 flex items-center justify-center border-2 border-white/10 group-hover/team:scale-105 group-hover/team:border-blue-500/40 transition-all shadow-md">
                                                                                             <img src={s.teams?.logo} alt="" className="w-full h-full object-contain" onError={(e) => { (e.target as any).src = 'https://media.api-sports.io/football/teams/unknown.png'; }} />
@@ -810,7 +804,7 @@ export const GenericLeagueHub: React.FC = () => {
                                                                 <td className="px-6 py-5">
                                                                     <div 
                                                                         className="flex items-center gap-4 cursor-pointer group/team"
-                                                                        onClick={() => openTeamDetails(s.teams)}
+                                                                        onClick={() => openTeamModal(parseInt(s.teams?.id))}
                                                                     >
                                                                         <div className="w-10 h-10 rounded-2xl bg-white/5 p-1.5 flex items-center justify-center border-2 border-white/10 group-hover/team:scale-105 group-hover/team:border-blue-500/40 transition-all shadow-md">
                                                                             <img src={s.teams?.logo} alt="" className="w-full h-full object-contain" onError={(e) => { (e.target as any).src = 'https://media.api-sports.io/football/teams/unknown.png'; }} />
@@ -867,7 +861,7 @@ export const GenericLeagueHub: React.FC = () => {
                                 teams.map((team) => (
                                     <button 
                                         key={team.id}
-                                        onClick={() => openTeamDetails(team)}
+                                        onClick={() => openTeamModal(parseInt(team.id))}
                                         className="bg-[#131822] border border-white/5 rounded-[1.5rem] p-6 hover:border-blue-500/30 hover:-translate-y-1 transition-all group shadow-xl"
                                     >
                                         <div className="w-16 h-16 mx-auto mb-4 bg-white/5 rounded-2xl p-3 flex items-center justify-center group-hover:bg-blue-500/10 transition-colors">
@@ -900,12 +894,6 @@ export const GenericLeagueHub: React.FC = () => {
                     </div>
                 </section>
             </main>
-
-            <TeamDetailsModal
-                isOpen={isDetailsOpen}
-                onClose={() => setIsDetailsOpen(false)}
-                team={selectedTeam}
-            />
         </div>
     );
 };

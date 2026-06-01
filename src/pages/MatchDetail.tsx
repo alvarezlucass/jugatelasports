@@ -5,6 +5,7 @@ import { ChevronLeft, Trophy, Users, BarChart2, Clock, MapPin, Shield } from 'lu
 import { cn } from '../lib/utils';
 import { supabase } from '../lib/supabase';
 import { databaseService } from '../services/databaseService';
+import { useTeamModal } from '../context/TeamModalContext';
 import { AlertTriangle, Terminal, Play, CheckCircle2 } from 'lucide-react';
 import type { MatchLineup, MatchEvent, MatchStats, Player } from '../types';
 
@@ -124,6 +125,7 @@ const MatchDetail: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'SUMMARY' | 'LINEUPS' | 'STATS'>('SUMMARY');
     const [activeLineup, setActiveLineup] = useState<'HOME' | 'AWAY'>('HOME');
     const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+    const { openTeamModal } = useTeamModal();
     const [matchData, setMatchData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [showDevTools, setShowDevTools] = useState(false);
@@ -318,7 +320,10 @@ const MatchDetail: React.FC = () => {
                         </div>
 
                         <div className="text-center group">
-                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden">
+                            <div 
+                                className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden cursor-pointer hover:border-blue-500/30 transition-all"
+                                onClick={(e) => { e.stopPropagation(); openTeamModal(matchData.away_team_id); }}
+                            >
                                 {matchData.away_team_logo ? (
                                     <img 
                                         src={matchData.away_team_logo} 
@@ -714,9 +719,15 @@ const MatchDetail: React.FC = () => {
                                 <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-12 text-center flex flex-col items-center justify-center">
                                     <BarChart2 size={48} className="text-zinc-700 mb-4" />
                                     <h4 className="text-sm font-black uppercase tracking-widest text-zinc-400">Estadísticas no disponibles</h4>
-                                    <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mt-2 max-w-md">
-                                        Las estadísticas detalladas en tiempo real se habilitarán una vez comience el encuentro.
-                                    </p>
+                                    {matchData.status === 'UPCOMING' ? (
+                                        <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mt-2 max-w-md">
+                                            Las estadísticas detalladas en tiempo real se habilitarán una vez comience el encuentro.
+                                        </p>
+                                    ) : (
+                                        <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mt-2 max-w-md">
+                                            Las estadísticas de este partido se están sincronizando con el proveedor oficial.
+                                        </p>
+                                    )}
                                 </div>
                             )}
                         </motion.div>

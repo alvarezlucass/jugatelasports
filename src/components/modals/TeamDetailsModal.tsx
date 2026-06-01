@@ -14,18 +14,20 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { leagueService } from '../../services/leagueService';
+import { supabase } from '../../lib/supabase';
 
 interface TeamDetailsModalProps {
     isOpen: boolean;
     onClose: () => void;
-    team: any;
+    teamId: string | number | null;
 }
 
 export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
     isOpen,
     onClose,
-    team
+    teamId
 }) => {
+    const [team, setTeam] = useState<any>(null);
     const [activeTab, setActiveTab] = useState<'squad' | 'staff' | 'history'>('squad');
     const [details, setDetails] = useState<{ players: any[], coaches: any[], trophies: any[] }>({
         players: [],
@@ -35,16 +37,36 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (isOpen && team) {
+        if (isOpen && teamId) {
             loadDetails();
+        } else if (!isOpen) {
+            setTeam(null);
+            setDetails({ players: [], coaches: [], trophies: [] });
+            setActiveTab('squad');
         }
-    }, [isOpen, team]);
+    }, [isOpen, teamId]);
 
     const loadDetails = async () => {
         setLoading(true);
-        const data = await leagueService.getTeamFullDetails(team.id);
-        setDetails(data);
-        setLoading(false);
+        try {
+            // Fetch basic team info
+            const { data: teamData } = await supabase
+                .from('teams')
+                .select('*')
+                .eq('id', teamId?.toString())
+                .single();
+            
+            if (teamData) {
+                setTeam(teamData);
+                // Fetch deep details
+                const data = await leagueService.getTeamFullDetails(parseInt(teamId!.toString()));
+                setDetails(data);
+            }
+        } catch (error) {
+            console.error("Error loading team details:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (!isOpen || !team) return null;

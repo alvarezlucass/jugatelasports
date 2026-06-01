@@ -34,14 +34,17 @@ import { IndustrialSim } from './pages/admin/IndustrialSim';
 import { GenericLeagueHub } from './pages/GenericLeagueHub';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
+import { TeamModalProvider } from './context/TeamModalContext';
+
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
         <GameProvider>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
+          <TeamModalProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
               <Route path="leagues" element={<LeaguesTeaserPage />} />
               <Route path="leagues/:leagueId" element={<GenericLeagueHub />} />
@@ -75,7 +78,8 @@ function App() {
               <Route path="match/:id" element={<MatchDetail />} />
               <Route path="history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             </Route>
-          </Routes>
+            </Routes>
+          </TeamModalProvider>
         </GameProvider>
       </UserProvider>
     </BrowserRouter>
