@@ -453,15 +453,15 @@ export const MatchPredictionPage: React.FC = () => {
                                                     <div className="grid grid-cols-3 gap-2">
                                                         <div className="p-3 bg-blue-500/5 border border-blue-500/10 rounded-xl text-center">
                                                             <p className="text-[9px] text-blue-400 font-black uppercase tracking-wider">Local</p>
-                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction.percent.home || '33%'}</p>
+                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction?.percent?.home || '33%'}</p>
                                                         </div>
                                                         <div className="p-3 bg-zinc-500/5 border border-zinc-500/10 rounded-xl text-center">
                                                             <p className="text-[9px] text-zinc-400 font-black uppercase tracking-wider">Empate</p>
-                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction.percent.draw || '33%'}</p>
+                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction?.percent?.draw || '33%'}</p>
                                                         </div>
                                                         <div className="p-3 bg-purple-500/5 border border-purple-500/10 rounded-xl text-center">
                                                             <p className="text-[9px] text-purple-400 font-black uppercase tracking-wider">Visita</p>
-                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction.percent.away || '33%'}</p>
+                                                            <p className="text-lg font-black text-white mt-1">{match.ai_prediction?.percent?.away || '33%'}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -541,6 +541,7 @@ export const MatchPredictionPage: React.FC = () => {
                                         matchId={match.id}
                                         mode={selectedMode || 'MACHINE'}
                                         opponentId={opponentId}
+                                        matchStatus={match.status}
                                     />
                                 </div>
                             </div>

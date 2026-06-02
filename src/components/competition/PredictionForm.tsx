@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Bot, ShoppingBag, Gift, ChevronLeft, ChevronRight, Zap, Users, Plus, Timer, Target } from 'lucide-react';
+import { Bot, ShoppingBag, Gift, ChevronLeft, ChevronRight, Zap, Users, Plus, Timer, Target, X } from 'lucide-react';
 import { useUser } from '../../contexts/UserContext';
 import { calculatePoints } from '../../utils/pointsCalculator';
 import { cn } from '../../lib/utils';
@@ -12,9 +12,10 @@ interface PredictionFormProps {
     matchId: string;
     mode: 'MACHINE' | 'OPPONENT' | 'GROUP';
     opponentId?: string | null;
+    matchStatus?: string;
 }
 
-export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, opponentId }) => {
+export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, opponentId, matchStatus }) => {
     const { user, session, opponents, canAfford, spendTokens, addTokens, refreshProfile, addLocalPrediction, useItem, createPvpChallenge, storeItems } = useUser();
     const { getMatch } = useGame();
     const [localOpponentId, setLocalOpponentId] = useState<string | null>(opponentId || null);
@@ -32,6 +33,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
     const [selectedItem, setSelectedItem] = useState<{id: string, name: string, tokenValue: number} | null>(null);
     const [advanceMethod, setAdvanceMethod] = useState<'REGULAR' | 'EXTRA' | 'PENALTIES'>('REGULAR');
     const [challengeSent, setChallengeSent] = useState(false);
+    const [isItemModalOpen, setIsItemModalOpen] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const queryParams = new URLSearchParams(window.location.search);
@@ -134,11 +136,6 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
             return;
         }
 
-        if (isAIOpponent && stakeAmount > 100) {
-            alert('El límite para jugar contra la IA es de 100 tokens.');
-            return;
-        }
-
         if (!canAfford(stakeAmount)) {
             alert('¡No tienes suficientes tokens para esta jugada!');
             return;
@@ -205,7 +202,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
 
         // Guardar en Supabase via predictionService
         if (user && session) {
-            await predictionService.savePrediction({
+            const saveRes = await predictionService.savePrediction({
                 matchId: matchId,
                 userId: user.id,
                 homeScore: parseInt(homeScore),
@@ -215,13 +212,27 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                 opponentId: rival ? rival.id : undefined,
                 wagerItemId: selectedItem ? selectedItem.id : undefined,
                 boosterId: selectedBooster ? selectedBooster.id : undefined,
-                advanceMethod: isKnockout ? advanceMethod : 'REGULAR'
+                advanceMethod: isKnockout ? advanceMethod : 'REGULAR',
+                mockMatchDetails: matchDetailsData ? {
+                    homeTeam: typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam?.name || 'Local',
+                    awayTeam: typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam?.name || 'Visita',
+                    date: matchDetailsData.date || new Date().toISOString().split('T')[0]
+                } : undefined
             });
+
+            if (!saveRes.success) {
+                // Reembolsar tokens porque falló la base de datos
+                await addTokens(stakeAmount, `Reembolso por jugada cancelada`);
+                setIsSimulating(false);
+                alert('Ocurrió un error al procesar tu jugada. Por favor, intenta nuevamente. Tus tokens han sido devueltos.');
+                return;
+            }
         }
 
         // Si el partido es futuro, no simulamos resultado aleatorio
         // Detectar partidos de llaves o programados
-        const isScheduled = matchDetailsData?.status === 'scheduled' || isKnockout;
+        const effStatus = matchStatus || matchDetailsData?.status;
+        const isScheduled = effStatus === 'scheduled' || effStatus?.toLowerCase() === 'upcoming' || effStatus?.toLowerCase() === 'not_started' || isKnockout;
 
         if (isScheduled) {
             setTimeout(() => {
@@ -262,9 +273,9 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                 aiPredictionStr = ` (La IA eligió ${aiPred.selection === 'HOME' ? 'Local' : aiPred.selection === 'AWAY' ? 'Visitante' : 'Empate'} ${aiPred.homeScore}-${aiPred.awayScore})`;
 
                 const aiResult = calculatePoints(
-                    { home: aiPred.homeScore, away: aiPred.awayScore },
-                    { home: actualHome, away: actualAway },
-                    aiPred.selection
+                    { score: { home: aiPred.homeScore, away: aiPred.awayScore }, outcome: aiPred.selection },
+                    { score: { home: actualHome, away: actualAway }, definition: 'REGULAR' },
+                    isKnockout
                 );
 
                 // Si ambos eligieron lo mismo en selection Y ambos puntuaron > 0, es Push
@@ -532,8 +543,6 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                             {rival.id === 'ai-profe' && "El Profe analiza probabilidades y equipos basados en el Ranking FIFA. Si empatan en la predicción exacta, se considera 'Push'."}
                             {rival.id === 'ai-contra' && "El Contra siempre elegirá el resultado opuesto a ti de forma instantánea. Si eliges empate, elegirá aleatoriamente."}
                             {rival.id === 'ai-loco' && "La Suerte es Loca. Esta IA elegirá un resultado (Local, Empate, Visitante) de forma 100% aleatoria."}
-                            <br />
-                            <span className="text-blue-400 font-bold mt-1 inline-block">Monto máximo contra IA: 100 Tokens.</span>
                         </p>
                     </div>
                 )}
@@ -563,10 +572,10 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                                 onClick={() => setSelection(opt)}
                                 disabled={isSimulating || !!simulationResult || isLocked}
                                 className={cn(
-                                    "py-4 rounded-2xl border font-black text-[10px] uppercase tracking-widest transition-all active:scale-95",
+                                    "py-6 rounded-2xl border font-black text-sm uppercase tracking-widest transition-all active:scale-95 shadow-sm",
                                     selection === opt
                                         ? "bg-blue-600 border-blue-400 text-white shadow-lg shadow-blue-600/20"
-                                        : "bg-[#1A1F26] border-white/5 text-zinc-500 hover:border-white/20"
+                                        : "bg-[#1A1F26] border-white/5 text-zinc-400 hover:border-white/20 hover:text-white hover:bg-white/[0.02]"
                                 )}
                             >
                                 {opt === 'HOME' ? 'LOCAL' : opt === 'DRAW' ? 'EMPATE' : 'VISITANTE'}
@@ -634,7 +643,8 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                 </div>
             </div>
 
-            {!isAIOpponent && (<div className="space-y-4">
+            {/* Especias section temporarily disabled */}
+            {false && !isAIOpponent && (<div className="space-y-4">
                 <div className="flex justify-between px-2">
                     <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">3. Jugar por "Especias" (Opcional)</h4>
                     <button
@@ -719,7 +729,8 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                 </div>
             </div>)}
 
-            {/* Boosters Section */}
+            {/* Boosters Section temporarily disabled */}
+            {false && (
             <div className="space-y-4 pt-4 border-t border-white/5 mt-4 px-2">
                 <div className="flex justify-between items-center">
                     <h4 className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em] flex items-center gap-2">
@@ -784,25 +795,54 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                     )}
                 </div>
             </div>
+            )}
 
-
-
-            <div className="space-y-3">
-                <div className="flex justify-between px-2">
+            <div className="space-y-3 pt-4 border-t border-white/5 mt-4 px-2">
+                <div className="flex justify-between px-2 mb-2">
                     <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
                         {selectedItem && !isAIOpponent ? 'Depósito en Garantía (Tokens)' : 'Inversión (Tokens)'}
                     </label>
                     <span className="text-[9px] font-bold text-zinc-700 uppercase">
-                        {isAIOpponent ? 'Min 5 - Max 100' : 'Min 5'}
+                        Min 5
                     </span>
                 </div>
+
+                <div className="flex flex-wrap gap-2 mb-3">
+                    {[5, 10, 50, 100, 500].map(amount => (
+                        <button
+                            key={amount}
+                            type="button"
+                            onClick={() => {
+                                setStake(amount.toString());
+                                setSelectedItem(null);
+                            }}
+                            disabled={isSimulating || !!simulationResult || isLocked}
+                            className="flex-1 py-3 rounded-xl bg-[#1A1F26] border border-white/10 text-white font-black text-sm uppercase tracking-widest hover:bg-blue-600/20 hover:border-blue-500/30 transition-all focus:outline-none shadow-sm"
+                        >
+                            {amount}
+                        </button>
+                    ))}
+                    {!isAIOpponent && (
+                        <button
+                            type="button"
+                            onClick={() => setIsItemModalOpen(true)}
+                            disabled={isSimulating || !!simulationResult || isLocked}
+                            className="flex-1 py-3 rounded-xl bg-blue-600 border border-blue-500 text-white font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all focus:outline-none shadow-sm flex items-center justify-center gap-1.5 min-w-[100px]"
+                        >
+                            <Gift size={16} /> PREMIO
+                        </button>
+                    )}
+                </div>
+
                 <div className="relative">
                     <input
-                        type="number"
-                        min="5"
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         value={stake}
                         onChange={(e) => {
-                            setStake(e.target.value);
+                            const val = e.target.value.replace(/[^0-9]/g, '');
+                            setStake(val);
                             setSelectedItem(null); // Clear item if manually changing stake
                         }}
                         placeholder="Monto a jugar"
@@ -933,6 +973,65 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         </div>
                     )}
                 </button>
+            )}
+
+            {isItemModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+                    <div className="bg-[#0F131A] rounded-[2rem] p-6 max-w-md w-full border border-white/10 shadow-2xl relative">
+                        <button onClick={() => setIsItemModalOpen(false)} className="absolute top-4 right-4 text-zinc-500 hover:text-white">
+                            <X size={20} />
+                        </button>
+                        <h3 className="text-xl font-black text-white uppercase tracking-tighter mb-4">Objetos Disponibles</h3>
+                        
+                        <div className="grid grid-cols-2 gap-3 max-h-[60vh] overflow-y-auto pr-2">
+                            {storeItems.filter(si => si.category === 'especias').map((storeItemDetails) => {
+                                const isAffordable = canAfford(storeItemDetails.price);
+
+                                return (
+                                    <div key={`modal-store-${storeItemDetails.id}`} className="relative">
+                                        <button
+                                            onClick={() => {
+                                                if (!isAffordable) return;
+                                                const betItemEquivalent = {
+                                                    id: storeItemDetails.id,
+                                                    name: storeItemDetails.name,
+                                                    tokenValue: storeItemDetails.price
+                                                };
+                                                handleItemSelect(betItemEquivalent);
+                                                setIsItemModalOpen(false);
+                                            }}
+                                            disabled={!isAffordable}
+                                            className={cn(
+                                                "w-full p-6 rounded-2xl border transition-all flex flex-col items-center gap-3 relative",
+                                                isAffordable
+                                                    ? "bg-[#1A1F26] border-white/5 hover:border-blue-500/50 hover:bg-blue-500/10 cursor-pointer"
+                                                    : "bg-red-500/5 border-red-500/20 opacity-75 cursor-not-allowed"
+                                            )}
+                                        >
+                                            <div className="text-4xl mb-1 mt-2">
+                                                {storeItemDetails.icon === 'Wine' ? '🍷' : storeItemDetails.icon === 'Flame' ? '🥩' : '🍺'}
+                                            </div>
+                                            <div className="text-sm font-black text-white uppercase text-center leading-tight">{storeItemDetails.name}</div>
+                                            <div className={cn("text-xs font-bold uppercase", isAffordable ? "text-blue-400" : "text-red-400")}>{storeItemDetails.price} TKNS</div>
+                                        </button>
+                                        
+                                        {!isAffordable && (
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0A0D12]/80 rounded-2xl backdrop-blur-[2px] opacity-0 hover:opacity-100 transition-opacity">
+                                                <div className="text-[10px] font-black text-red-400 uppercase mb-3">Tokens Insuficientes</div>
+                                                <button
+                                                    onClick={() => window.location.href = '/tienda'}
+                                                    className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black text-[10px] uppercase tracking-widest rounded-xl shadow-xl transition-transform hover:scale-105 active:scale-95"
+                                                >
+                                                    Conseguir Tokens
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
