@@ -35,12 +35,15 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
         trophies: []
     });
     const [loading, setLoading] = useState(true);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     useEffect(() => {
         if (isOpen) {
+            setErrorMsg(null);
             if (!teamId || isNaN(Number(teamId))) {
                 setLoading(false);
                 setTeam(null);
+                setErrorMsg(`ID de equipo inválido recibido: ${teamId}`);
                 return;
             }
             loadDetails();
@@ -63,19 +66,28 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
                 
             const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
             
-            const { data: teamData } = await Promise.race([fetchPromise, timeoutPromise]) as any;
+            const { data: teamData, error: dbError } = await Promise.race([fetchPromise, timeoutPromise]) as any;
             
+            if (dbError) {
+                console.error("DB Error:", dbError);
+                setErrorMsg(`Error de DB: ${dbError.message || dbError.code}`);
+            }
+
             if (teamData) {
                 setTeam(teamData);
                 // Fetch deep details with timeout
                 const detailsPromise = leagueService.getTeamFullDetails(parseInt(teamId!.toString()));
                 const detailsData = await Promise.race([detailsPromise, timeoutPromise]) as any;
                 setDetails(detailsData);
+            } else if (!dbError) {
+                setErrorMsg(`El equipo ID ${teamId} no existe en la base de datos.`);
             }
         } catch (error: any) {
             console.error("Error loading team details (Timeout o Network):", error);
             if (error.message === 'Timeout') {
-                alert("La conexión está tardando demasiado. Asegúrate de desactivar AdBlock o React DevTools y recarga la página.");
+                setErrorMsg("TIMEOUT: La conexión tardó más de 5 segundos. Una extensión de tu navegador está bloqueando la conexión a la base de datos.");
+            } else {
+                setErrorMsg(`Exception: ${error.message}`);
             }
         } finally {
             setLoading(false);
@@ -105,7 +117,14 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
                         <X size={32} />
                     </div>
                     <h3 className="text-white font-black text-xl mb-2">Equipo no encontrado</h3>
-                    <p className="text-zinc-500 text-sm mb-6">No se pudieron cargar los detalles de este equipo. Es posible que no estén disponibles en la base de datos.</p>
+                    <p className="text-zinc-500 text-sm mb-4">No se pudieron cargar los detalles de este equipo. Es posible que no estén disponibles en la base de datos.</p>
+                    
+                    {errorMsg && (
+                        <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-lg mb-6 text-left">
+                            <p className="text-red-400 text-xs font-mono break-words">{errorMsg}</p>
+                        </div>
+                    )}
+
                     <button 
                         onClick={onClose}
                         className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition-colors w-full"

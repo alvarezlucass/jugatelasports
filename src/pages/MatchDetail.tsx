@@ -270,15 +270,23 @@ const MatchDetail: React.FC = () => {
 
                     <div className="mt-4 flex items-center justify-center gap-8 md:gap-16">
                         <div className="text-center group">
-                            <div className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden">
+                            <div 
+                                className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden cursor-pointer hover:border-blue-500/30 transition-all"
+                                onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    const homeId = matchData.metadata?.home_id || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined);
+                                    if (homeId) openTeamModal(parseInt(homeId as string));
+                                    else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
+                                }}
+                            >
                                 {matchData.home_team_logo ? (
                                     <img 
                                         src={matchData.home_team_logo} 
                                         alt={matchData.home_team} 
-                                        className="w-full h-full object-contain" 
+                                        className="w-full h-full object-contain group-hover:scale-110 transition-transform" 
                                     />
                                 ) : (
-                                    <span className="text-4xl">{matchData.home_team_flag || '🏠'}</span>
+                                    <span className="text-4xl group-hover:scale-110 transition-transform">{matchData.home_team_flag || '🏠'}</span>
                                 )}
                             </div>
                             <h2 className="font-black text-sm uppercase tracking-widest">{matchData.home_team}</h2>
@@ -322,16 +330,21 @@ const MatchDetail: React.FC = () => {
                         <div className="text-center group">
                             <div 
                                 className="w-20 h-20 md:w-24 md:h-24 bg-white/5 rounded-3xl p-4 border border-white/10 flex items-center justify-center mb-4 shadow-2xl overflow-hidden cursor-pointer hover:border-blue-500/30 transition-all"
-                                onClick={(e) => { e.stopPropagation(); openTeamModal(matchData.away_team_id); }}
+                                onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    const awayId = matchData.metadata?.away_id || (matchData.away_team_logo ? matchData.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined);
+                                    if (awayId) openTeamModal(parseInt(awayId as string));
+                                    else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
+                                }}
                             >
                                 {matchData.away_team_logo ? (
                                     <img 
                                         src={matchData.away_team_logo} 
                                         alt={matchData.away_team} 
-                                        className="w-full h-full object-contain" 
+                                        className="w-full h-full object-contain group-hover:scale-110 transition-transform" 
                                     />
                                 ) : (
-                                    <span className="text-4xl">{matchData.away_team_flag || '✈️'}</span>
+                                    <span className="text-4xl group-hover:scale-110 transition-transform">{matchData.away_team_flag || '✈️'}</span>
                                 )}
                             </div>
                             <h2 className="font-black text-sm uppercase tracking-widest">{matchData.away_team}</h2>
