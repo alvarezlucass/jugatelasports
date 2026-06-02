@@ -4,6 +4,7 @@ import { es } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 import { type GroupMatch, getTeamStaticData, getTeamFlagUrl } from '../../data/worldCupPersistence';
 import { BarChart2, Shield } from 'lucide-react';
+import { useTeamModal } from '../../context/TeamModalContext';
 
 interface OfficialMatchListProps {
     matches: (GroupMatch & { league_id?: string })[];
@@ -66,6 +67,7 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
     leagueBadge
 }) => {
     const navigate = useNavigate();
+    const { openTeamModal } = useTeamModal();
     // Group matches by date
     const groupedMatches = matches.reduce((acc, match) => {
         const date = match.date;
@@ -151,7 +153,10 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                                                     <span className="hidden md:inline">{match.homeTeam}</span>
                                                     <span className="md:hidden">{homeData?.id || match.homeTeam.substring(0, 3).toUpperCase()}</span>
                                                 </span>
-                                                <div className="w-6 h-4 md:w-10 md:h-7 rounded-sm border border-white/10 overflow-hidden shrink-0 shadow-sm group-hover:border-blue-500/50 transition-colors flex items-center justify-center bg-zinc-900/50">
+                                                <div 
+                                                    className="w-6 h-4 md:w-10 md:h-7 rounded-sm border border-white/10 overflow-hidden shrink-0 shadow-sm group-hover:border-blue-500/50 transition-colors flex items-center justify-center bg-zinc-900/50 cursor-pointer hover:scale-110"
+                                                    onClick={(e) => { e.stopPropagation(); if (match.homeTeamId) openTeamModal(parseInt(match.homeTeamId)); }}
+                                                >
                                                     {homeFlag ? (
                                                         <img src={homeFlag} alt={match.homeTeam} className="w-full h-full object-cover" />
                                                     ) : (
@@ -183,7 +188,10 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
 
                                             {/* Away Team */}
                                             <div className="flex-1 flex items-center justify-start gap-2 md:gap-4 overflow-hidden">
-                                                <div className="w-6 h-4 md:w-10 md:h-7 rounded-sm border border-white/10 overflow-hidden shrink-0 shadow-sm group-hover:border-blue-500/50 transition-colors flex items-center justify-center bg-zinc-900/50">
+                                                <div 
+                                                    className="w-6 h-4 md:w-10 md:h-7 rounded-sm border border-white/10 overflow-hidden shrink-0 shadow-sm group-hover:border-blue-500/50 transition-colors flex items-center justify-center bg-zinc-900/50 cursor-pointer hover:scale-110"
+                                                    onClick={(e) => { e.stopPropagation(); if (match.awayTeamId) openTeamModal(parseInt(match.awayTeamId)); }}
+                                                >
                                                     {awayFlag ? (
                                                         <img src={awayFlag} alt={match.awayTeam} className="w-full h-full object-cover" />
                                                     ) : (

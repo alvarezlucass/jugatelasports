@@ -53,6 +53,8 @@ export const matchService = {
                 awayTeam: m.away_team,
                 homeTeamLogo: m.home_team_logo,
                 awayTeamLogo: m.away_team_logo,
+                homeTeamId: m.metadata?.home_id || (m.home_team_logo ? m.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
+                awayTeamId: m.metadata?.away_id || (m.away_team_logo ? m.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
                 date,
                 time,
                 startTime: m.start_time,

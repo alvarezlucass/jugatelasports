@@ -28,7 +28,7 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
     teamId
 }) => {
     const [team, setTeam] = useState<any>(null);
-    const [activeTab, setActiveTab] = useState<'squad' | 'staff' | 'history'>('squad');
+    const [activeTab, setActiveTab] = useState<'squad' | 'staff' | 'history'>('history');
     const [details, setDetails] = useState<{ players: any[], coaches: any[], trophies: any[] }>({
         players: [],
         coaches: [],
@@ -42,34 +42,75 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
         } else if (!isOpen) {
             setTeam(null);
             setDetails({ players: [], coaches: [], trophies: [] });
-            setActiveTab('squad');
+            setActiveTab('history');
         }
     }, [isOpen, teamId]);
 
     const loadDetails = async () => {
         setLoading(true);
         try {
-            // Fetch basic team info
-            const { data: teamData } = await supabase
+            // Agregamos un timeout de 5 segundos para evitar que extensiones bloqueen la promesa eternamente
+            const fetchPromise = supabase
                 .from('teams')
                 .select('*')
-                .eq('id', teamId?.toString())
+                .eq('id', teamId)
                 .single();
+                
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
+            
+            const { data: teamData } = await Promise.race([fetchPromise, timeoutPromise]) as any;
             
             if (teamData) {
                 setTeam(teamData);
-                // Fetch deep details
-                const data = await leagueService.getTeamFullDetails(parseInt(teamId!.toString()));
-                setDetails(data);
+                // Fetch deep details with timeout
+                const detailsPromise = leagueService.getTeamFullDetails(parseInt(teamId!.toString()));
+                const detailsData = await Promise.race([detailsPromise, timeoutPromise]) as any;
+                setDetails(detailsData);
             }
-        } catch (error) {
-            console.error("Error loading team details:", error);
+        } catch (error: any) {
+            console.error("Error loading team details (Timeout o Network):", error);
+            if (error.message === 'Timeout') {
+                alert("La conexión está tardando demasiado. Asegúrate de desactivar AdBlock o React DevTools y recarga la página.");
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    if (!isOpen || !team) return null;
+    if (!isOpen) return null;
+
+    if (loading) {
+        return (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
+                <div className="relative text-white flex flex-col items-center">
+                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin shadow-[0_0_15px_rgba(37,99,235,0.5)]" />
+                    <p className="mt-4 text-xs font-bold animate-pulse tracking-widest uppercase text-blue-400">Cargando expediente...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!team) {
+        return (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={onClose} />
+                <div className="relative bg-[#0F131A] border border-white/10 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
+                    <div className="w-16 h-16 bg-red-500/20 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-red-500/30">
+                        <X size={32} />
+                    </div>
+                    <h3 className="text-white font-black text-xl mb-2">Equipo no encontrado</h3>
+                    <p className="text-zinc-500 text-sm mb-6">No se pudieron cargar los detalles de este equipo. Es posible que no estén disponibles en la base de datos.</p>
+                    <button 
+                        onClick={onClose}
+                        className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition-colors w-full"
+                    >
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     const primaryColor = team.colors?.primary || '#74ACDF';
 

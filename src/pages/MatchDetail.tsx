@@ -393,7 +393,7 @@ const MatchDetail: React.FC = () => {
                                 </div>
                             </div>
 
-                            <MatchTimeline events={events || []} homeTeamId={matchData.home_team_id} />
+                            <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} />
                         </motion.div>
                     )}
 

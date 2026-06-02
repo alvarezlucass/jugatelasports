@@ -105,6 +105,8 @@ export interface GroupMatch {
     group: string;
     homeTeam: string;
     awayTeam: string;
+    homeTeamId?: string;
+    awayTeamId?: string;
     date: string;
     time: string;
     stadium: string;
