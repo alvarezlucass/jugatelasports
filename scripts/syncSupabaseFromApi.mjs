@@ -140,7 +140,7 @@ async function syncFixtureDetails(fixtureId) {
     };
     
     const lineup_home = lineups && lineups[0] ? {
-        teamId: lineups[0].team.id.toString(),
+        teamId: lineups[0].team.id?.toString() || '',
         formation: lineups[0].formation,
         startXI: (lineups[0].startXI || []).map(item => ({
             player: { id: item.player.id?.toString() || '', name: item.player.name },
@@ -158,7 +158,7 @@ async function syncFixtureDetails(fixtureId) {
     } : null;
 
     const lineup_away = lineups && lineups[1] ? {
-        teamId: lineups[1].team.id.toString(),
+        teamId: lineups[1].team.id?.toString() || '',
         formation: lineups[1].formation,
         startXI: (lineups[1].startXI || []).map(item => ({
             player: { id: item.player.id?.toString() || '', name: item.player.name },
