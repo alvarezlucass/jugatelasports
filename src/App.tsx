@@ -33,6 +33,7 @@ import MatchDetail from './pages/MatchDetail';
 import { IndustrialSim } from './pages/admin/IndustrialSim';
 import { GenericLeagueHub } from './pages/GenericLeagueHub';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { TeamProfile } from './pages/TeamProfile';
 
 import { TeamModalProvider } from './context/TeamModalContext';
 
@@ -76,6 +77,7 @@ function App() {
               <Route path="predictions" element={<ProtectedRoute><Predictions /></ProtectedRoute>} />
               <Route path="predictions/match/:matchId" element={<ProtectedRoute><MatchPredictionPage /></ProtectedRoute>} />
               <Route path="match/:id" element={<MatchDetail />} />
+              <Route path="team/:id" element={<TeamProfile />} />
               <Route path="history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             </Route>
             </Routes>

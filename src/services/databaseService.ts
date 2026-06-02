@@ -56,7 +56,12 @@ export const databaseService = {
                 .single();
 
             if (error) throw error;
-            return { success: true, data };
+            
+            // Enhancing with dynamic H2H and Oracle prediction
+            const { enhanceMatchWithDynamicData } = await import('./predictionEngine');
+            const enhancedData = await enhanceMatchWithDynamicData(data);
+
+            return { success: true, data: enhancedData };
         } catch (error) {
             console.error('Error al obtener detalle del partido:', error);
             return { success: false, error };
