@@ -5,12 +5,14 @@ import { WORLD_CUP_GROUP_MATCHES, getTeamStaticData, WORLD_CUP_VENUES, getTeamFl
 import { PredictionForm } from '../components/competition/PredictionForm';
 import { MatchChat } from '../components/social/MatchChat';
 import { databaseService } from '../services/databaseService';
+import { useTeamModal } from '../context/TeamModalContext';
 import { supabase } from '../lib/supabase';
 
 
 export const MatchPredictionPage: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
     const navigate = useNavigate();
+    const { openTeamModal } = useTeamModal();
 
     const queryParams = new URLSearchParams(window.location.search);
     const qHome = queryParams.get('home');
@@ -139,6 +141,8 @@ export const MatchPredictionPage: React.FC = () => {
                     awayTeam: DB_TO_SPANISH_TEAM_NAME[data.away_team] || data.away_team,
                     homeTeamLogo: data.home_team_logo,
                     awayTeamLogo: data.away_team_logo,
+                    homeTeamId: data.home_team_id,
+                    awayTeamId: data.away_team_id,
                     date: data.start_time.split('T')[0],
                     time: data.start_time.split('T')[1]?.substring(0, 5) || '00:00',
                     stadium: data.metadata?.stadium || 'Estadio',
@@ -244,7 +248,7 @@ export const MatchPredictionPage: React.FC = () => {
 
                             <div className="flex items-center justify-between w-full max-w-xl">
                                 <div 
-                                    onClick={() => navigate(`/worldcup/team/${encodeURIComponent(match.homeTeam)}/squad`)}
+                                    onClick={() => match.homeTeamId && openTeamModal(parseInt(match.homeTeamId))}
                                     className="flex flex-col items-center gap-4 group cursor-pointer"
                                 >
                                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
@@ -256,7 +260,7 @@ export const MatchPredictionPage: React.FC = () => {
                                 <div className="text-4xl md:text-6xl font-black text-blue-600 italic">VS</div>
 
                                 <div 
-                                    onClick={() => navigate(`/worldcup/team/${encodeURIComponent(match.awayTeam)}/squad`)}
+                                    onClick={() => match.awayTeamId && openTeamModal(parseInt(match.awayTeamId))}
                                     className="flex flex-col items-center gap-4 group cursor-pointer"
                                 >
                                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
@@ -319,12 +323,12 @@ export const MatchPredictionPage: React.FC = () => {
                             </h4>
                             <div className="flex flex-col gap-3 flex-1">
                                 {[
-                                    { name: match.homeTeam, team: homeTeam, flag: homeFlag, continent: homeTeam?.continent || 'América' },
-                                    { name: match.awayTeam, team: awayTeam, flag: awayFlag, continent: awayTeam?.continent || 'América' }
+                                    { name: match.homeTeam, team: homeTeam, flag: homeFlag, continent: homeTeam?.continent || 'América', id: match.homeTeamId },
+                                    { name: match.awayTeam, team: awayTeam, flag: awayFlag, continent: awayTeam?.continent || 'América', id: match.awayTeamId }
                                 ].map((item: any, idx: number) => (
                                     <div 
                                         key={idx} 
-                                        onClick={() => navigate(`/worldcup/team/${encodeURIComponent(item.name)}/squad`)}
+                                        onClick={() => item.id && openTeamModal(parseInt(item.id))}
                                         className="bg-[#0F131A]/40 border border-white/5 rounded-[1.5rem] p-4 flex items-center justify-between flex-1 cursor-pointer hover:border-blue-500/30 hover:bg-white/[0.05] transition-all group"
                                     >
                                         <div className="flex items-center gap-3">
