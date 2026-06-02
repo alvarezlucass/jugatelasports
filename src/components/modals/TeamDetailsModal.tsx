@@ -37,9 +37,14 @@ export const TeamDetailsModal: React.FC<TeamDetailsModalProps> = ({
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (isOpen && teamId) {
+        if (isOpen) {
+            if (!teamId || isNaN(Number(teamId))) {
+                setLoading(false);
+                setTeam(null);
+                return;
+            }
             loadDetails();
-        } else if (!isOpen) {
+        } else {
             setTeam(null);
             setDetails({ players: [], coaches: [], trophies: [] });
             setActiveTab('history');

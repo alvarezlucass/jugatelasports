@@ -252,13 +252,13 @@ export const MatchPredictionPage: React.FC = () => {
                                         if (match.homeTeamId) openTeamModal(parseInt(match.homeTeamId));
                                         else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
                                     }}
-                                    className={`flex flex-col items-center gap-4 group ${match.homeTeamId ? 'cursor-pointer' : 'cursor-default'}`}
+                                    className="flex flex-col items-center gap-4 group cursor-pointer"
                                     title={match.homeTeamId ? `Ver expediente de ${match.homeTeam}` : 'Expediente no disponible'}
                                 >
-                                    <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform shadow-2xl ${match.homeTeamId ? 'group-hover:scale-110 group-hover:shadow-blue-500/20' : ''}`}>
+                                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
                                         <img src={homeFlag} alt="" className="w-full h-full object-cover" />
                                     </div>
-                                    <h3 className={`text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center transition-colors ${match.homeTeamId ? 'group-hover:text-blue-400' : ''}`}>{match.homeTeam}</h3>
+                                    <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center group-hover:text-blue-400 transition-colors">{match.homeTeam}</h3>
                                 </div>
 
                                 <div className="text-4xl md:text-6xl font-black text-blue-600 italic">VS</div>
@@ -268,13 +268,13 @@ export const MatchPredictionPage: React.FC = () => {
                                         if (match.awayTeamId) openTeamModal(parseInt(match.awayTeamId));
                                         else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
                                     }}
-                                    className={`flex flex-col items-center gap-4 group ${match.awayTeamId ? 'cursor-pointer' : 'cursor-default'}`}
+                                    className="flex flex-col items-center gap-4 group cursor-pointer"
                                     title={match.awayTeamId ? `Ver expediente de ${match.awayTeam}` : 'Expediente no disponible'}
                                 >
-                                    <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform shadow-2xl ${match.awayTeamId ? 'group-hover:scale-110 group-hover:shadow-blue-500/20' : ''}`}>
+                                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
                                         <img src={awayFlag} alt="" className="w-full h-full object-cover" />
                                     </div>
-                                    <h3 className={`text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center transition-colors ${match.awayTeamId ? 'group-hover:text-blue-400' : ''}`}>{match.awayTeam}</h3>
+                                    <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center group-hover:text-blue-400 transition-colors">{match.awayTeam}</h3>
                                 </div>
                             </div>
 
