@@ -34,6 +34,10 @@ import { IndustrialSim } from './pages/admin/IndustrialSim';
 import { GenericLeagueHub } from './pages/GenericLeagueHub';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { TeamProfile } from './pages/TeamProfile';
+import { TermsPage } from './pages/legal/TermsPage';
+import { PrivacyPage } from './pages/legal/PrivacyPage';
+import { RulesPage } from './pages/legal/RulesPage';
+import { DisclaimerPage } from './pages/legal/DisclaimerPage';
 
 import { TeamModalProvider } from './context/TeamModalContext';
 
@@ -63,6 +67,10 @@ function App() {
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
               <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="terminos" element={<TermsPage />} />
+              <Route path="privacidad" element={<PrivacyPage />} />
+              <Route path="reglas" element={<RulesPage />} />
+              <Route path="disclaimer" element={<DisclaimerPage />} />
               <Route path="notify" element={<NotifyMe />} />
               <Route path="worldcup" element={<WorldCupLayout />}>
                 <Route index element={<WorldCup />} />

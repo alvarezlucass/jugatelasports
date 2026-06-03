@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { Trophy, ArrowLeft, MapPin } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { Footer } from './Footer';
 
 export const WorldCupLayout: React.FC = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const WorldCupLayout: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#0A0D12] pb-24 md:pb-8">
+        <div className="min-h-screen bg-[#0A0D12] pb-24 md:pb-8 flex flex-col">
             {/* World Cup Contextual Navigation */}
             <div className="sticky top-14 md:top-16 z-30 w-full bg-[#131822]/95 backdrop-blur-md border-b border-white/5 shadow-xl">
                 <div className="container mx-auto px-4 h-12 flex items-center gap-1 md:gap-4 overflow-x-auto no-scrollbar">
@@ -53,9 +54,11 @@ export const WorldCupLayout: React.FC = () => {
             </div>
 
             {/* Nested Content */}
-            <main>
+            <main className="flex-1">
                 <Outlet />
             </main>
+            
+            <Footer />
         </div>
     );
 };

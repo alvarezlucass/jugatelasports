@@ -11,6 +11,7 @@ import { InstallPrompt } from '../ui/InstallPrompt';
 import { BonusModal } from '../ui/BonusModal';
 import { CategoryFAB } from './CategoryFAB';
 import { ProfileCompletionModal } from '../modals/ProfileCompletionModal';
+import { Footer } from './Footer';
 
 export const Layout: React.FC = () => {
     const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile, signOut } = useUser();
@@ -55,7 +56,7 @@ export const Layout: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 pb-safe-area-pb">
+        <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 pb-safe-area-pb flex flex-col">
             {/* Top Navigation Bar - Compact on mobile */}
             <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
@@ -128,11 +129,13 @@ export const Layout: React.FC = () => {
 
             {/* Main Content - Added padding bottom for mobile nav */}
             <main className={cn(
-                "mx-auto min-h-[calc(100vh-4rem)] pb-24 md:pb-8",
+                "mx-auto flex-1 min-h-[calc(100vh-4rem)] pb-24 md:pb-8",
                 isWorldCup ? "w-full px-0 py-0" : "container px-4 py-6 md:py-8"
             )}>
                 <Outlet />
             </main>
+
+            {!isAuthRoute && <Footer />}
 
             {/* Bottom Navigation for Mobile */}
             <BottomNavigation />
