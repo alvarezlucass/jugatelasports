@@ -1,5 +1,6 @@
 import { supabase } from '../lib/supabase';
 import { WORLD_CUP_TEAMS_HISTORY, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
+import { calculatePoints } from '../utils/pointsCalculator';
 
 export const databaseService = {
     /**
@@ -88,8 +89,6 @@ export const databaseService = {
                 .eq('status', 'PENDING');
 
             if (predError) throw predError;
-
-            const { calculatePoints } = await import('../utils/pointsCalculator');
 
             // 2. Procesar cada predicción
             const results = [];
