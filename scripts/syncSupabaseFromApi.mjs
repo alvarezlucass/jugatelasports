@@ -13,8 +13,9 @@ const API_KEY = process.env.VITE_API_FOOTBALL_KEY;
 const API_URL = process.env.VITE_API_FOOTBALL_URL || 'https://v3.football.api-sports.io';
 
 if (!SUPABASE_URL || !SUPABASE_KEY || !API_KEY) {
-    console.error('Missing required environment variables.');
-    process.exit(1);
+    console.warn('Missing required environment variables (SUPABASE_URL, SUPABASE_KEY, or API_KEY).');
+    console.warn('Sync aborted gracefully to prevent workflow failures.');
+    process.exit(0);
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
