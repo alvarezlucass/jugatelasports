@@ -77,6 +77,9 @@ export const predictionService = {
                 .eq('match_id', prediction.matchId)
                 .maybeSingle();
 
+            // Validar que opponent_id sea un UUID válido, de lo contrario Postgres fallará si la columna es tipo uuid
+            const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+
             const predictionObj = {
                 user_id: prediction.userId,
                 match_id: prediction.matchId,
@@ -84,14 +87,10 @@ export const predictionService = {
                 stake: prediction.stake,
                 potential_return: 0,
                 status: 'PENDING',
-                metadata: {
-                    exact_score: {
-                        home: prediction.homeScore,
-                        away: prediction.awayScore
-                    },
-                    opponent_type: prediction.opponentType || 'CPU',
-                    opponent_id: prediction.opponentId || null
-                }
+                home_score_pred: prediction.homeScore,
+                away_score_pred: prediction.awayScore,
+                opponent_type: prediction.opponentType || 'CPU',
+                opponent_id: (prediction.opponentId && isValidUUID(prediction.opponentId)) ? prediction.opponentId : null
             };
 
             let response;

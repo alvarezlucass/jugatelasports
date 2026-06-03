@@ -169,6 +169,26 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
 
             setIsSimulating(false);
             if (success) {
+                if (user && session) {
+                    await predictionService.savePrediction({
+                        matchId: matchId,
+                        userId: user.id,
+                        homeScore: parseInt(homeScore) || 0,
+                        awayScore: parseInt(awayScore) || 0,
+                        stake: stakeAmount,
+                        opponentType: 'FRIEND',
+                        opponentId: rival.id,
+                        wagerItemId: selectedItem ? selectedItem.id : undefined,
+                        boosterId: selectedBooster ? selectedBooster.id : undefined,
+                        advanceMethod: isKnockout ? advanceMethod : 'REGULAR',
+                        mockMatchDetails: matchDetailsData ? {
+                            homeTeam: typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam?.name || 'Local',
+                            awayTeam: typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam?.name || 'Visita',
+                            date: matchDetailsData.date || new Date().toISOString().split('T')[0]
+                        } : undefined
+                    });
+                }
+                
                 setChallengeSent(true);
                 // Registrar Actividad Social
                 await databaseService.recordActivity(user?.id || 'guest', 'PVP_CHALLENGE', {
@@ -178,6 +198,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                     opponentName: rival.name,
                     amount: stakeAmount
                 });
+                refreshProfile();
             } else {
                 alert('Hubo un error al crear el reto.');
             }

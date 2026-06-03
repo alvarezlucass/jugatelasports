@@ -293,13 +293,50 @@ export const Profile: React.FC = () => {
     }, [user, userPredictions]);
 
 
+    const combinedPredictions = React.useMemo(() => {
+        const pvpPreds = (pvpChallenges || [])
+            .filter(c => c.creatorId === user?.id)
+            .map(c => ({
+                id: `pvp-${c.id}`,
+                userId: c.creatorId,
+                matchId: c.matchId,
+                selection: c.creatorSelection,
+                stake: c.amount,
+                potentialReturn: c.status === 'FINISHED' ? (c.winnerId === user?.id ? c.amount * 2 : 0) : c.amount * 2,
+                status: c.status === 'FINISHED' ? (c.winnerId === user?.id ? 'WON' : 'LOST') : 'PENDING' as any,
+                timestamp: c.createdAt,
+                exactScore: { home: c.creatorHomeScore, away: c.creatorAwayScore },
+                matchDetails: {
+                    homeTeam: c.matchHomeTeam,
+                    awayTeam: c.matchAwayTeam,
+                    date: c.createdAt,
+                    status: 'UPCOMING' as any,
+                    betItemName: c.itemReward
+                }
+            }));
+            
+        // Eliminar posibles duplicados si el backend ahora guarda el PVP también como prediction
+        const uniquePreds = [...userPredictions];
+        pvpPreds.forEach(pvp => {
+            const exists = uniquePreds.some(p => 
+                p.matchId === pvp.matchId && p.stake === pvp.stake && Math.abs(new Date(p.timestamp).getTime() - new Date(pvp.timestamp).getTime()) < 60000
+            );
+            if (!exists) {
+                uniquePreds.push(pvp);
+            }
+        });
+            
+        return uniquePreds.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    }, [userPredictions, pvpChallenges, user?.id]);
+
     const receivedChallenges = pvpChallenges?.filter(c => c.targetId === user?.id) || [];
     const sentChallenges = pvpChallenges?.filter(c => c.creatorId === user?.id) || [];
 
-    const totalPredictions = userPredictions.length;
-    const wonPredictions = user && user.stats ? (user.stats.wonCount || 0) : 0;
-    const lostPredictions = user && user.stats ? (user.stats.lostCount || 0) : 0;
-    const winRate = user && user.stats ? (user.stats.accuracy || 0) : 0;
+    const totalPredictions = combinedPredictions.length;
+    const wonPredictions = combinedPredictions.filter(p => p.status === 'WON').length;
+    const lostPredictions = combinedPredictions.filter(p => p.status === 'LOST').length;
+    const concludedPredictions = wonPredictions + lostPredictions;
+    const winRate = concludedPredictions > 0 ? Math.round((wonPredictions / concludedPredictions) * 100) : 0;
 
     // Efecto para auto-navegar al desafío preseleccionado desde una notificación
     useEffect(() => {
@@ -426,13 +463,15 @@ export const Profile: React.FC = () => {
 
                     {/* Quick Config */}
                     <div className="flex flex-col gap-2">
-                        <button
-                            onClick={handleSyncData}
-                            disabled={syncing}
-                            className="p-4 bg-blue-600/10 hover:bg-blue-600/20 text-blue-500 rounded-2xl border border-blue-500/20 transition-all font-black text-[9px] uppercase tracking-widest disabled:opacity-50"
-                        >
-                            {syncing ? 'Sincronizando...' : 'Sincronizar DB'}
-                        </button>
+                        {user.role === 'ADMIN' && (
+                            <button
+                                onClick={handleSyncData}
+                                disabled={syncing}
+                                className="p-4 bg-blue-600/10 hover:bg-blue-600/20 text-blue-500 rounded-2xl border border-blue-500/20 transition-all font-black text-[9px] uppercase tracking-widest disabled:opacity-50"
+                            >
+                                {syncing ? 'Sincronizando...' : 'Sincronizar DB'}
+                            </button>
+                        )}
                         <button className="p-4 hover:bg-white/5 text-zinc-500 hover:text-white rounded-2xl border border-transparent hover:border-white/5 transition-all">
                             <Settings size={22} />
                         </button>
@@ -557,8 +596,8 @@ export const Profile: React.FC = () => {
             <div className="space-y-6 px-2">
                 {activeTab === 'PREDICTIONS' ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-bottom-4 duration-500">
-                        {userPredictions.length > 0 ? (
-                            userPredictions.map(pred => (
+                        {combinedPredictions.length > 0 ? (
+                            combinedPredictions.map(pred => (
                                 <div 
                                     key={pred.id} 
                                     onClick={() => navigate(`/match/${pred.matchId}`)}
@@ -662,10 +701,10 @@ export const Profile: React.FC = () => {
                         )}
                     </div>
                 ) : activeTab === 'PERFORMANCE' ? (
-                    <PerformanceStats transactions={transactions} predictions={userPredictions} />
+                    <PerformanceStats transactions={transactions} predictions={combinedPredictions} />
                 ) : activeTab === 'SOCIAL' ? (
                     <div className="max-w-xl mx-auto py-4">
-                        <ActivityFeed listType="FOLLOWING" />
+                        <ActivityFeed listType="GLOBAL" />
                     </div>
                 ) : (
                     <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-500">

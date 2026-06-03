@@ -293,7 +293,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 potentialReturn: p.potential_return,
                 status: p.status,
                 timestamp: p.created_at,
-                exactScore: p.metadata?.exact_score,
+                exactScore: p.home_score_pred !== undefined && p.away_score_pred !== undefined ? { home: p.home_score_pred, away: p.away_score_pred } : undefined,
                 matchDetails: p.matches ? {
                     homeTeam: p.matches.home_team,
                     awayTeam: p.matches.away_team,
