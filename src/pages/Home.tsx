@@ -122,7 +122,7 @@ export const Home: React.FC = () => {
             subtitle: 'Champions, Premier y LaLiga', 
             status: 'live', 
             bgGradient: 'from-indigo-800/90 to-blue-950/90', 
-            image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800",
+            image: "/europe_map.png",
             icon: Trophy, 
             link: '/leagues?region=europe' 
         },
@@ -132,7 +132,7 @@ export const Home: React.FC = () => {
             subtitle: 'Libertadores, Brasileirão y más', 
             status: 'live', 
             bgGradient: 'from-amber-600/90 to-yellow-950/90', 
-            image: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?auto=format&fit=crop&q=80&w=800",
+            image: "/america_cup.png",
             icon: Globe, 
             link: '/leagues?region=america' 
         },
@@ -162,7 +162,7 @@ export const Home: React.FC = () => {
             subtitle: 'Campeonato Mundial', 
             status: 'teaser', 
             bgGradient: 'from-rose-600/90 to-zinc-900/90', 
-            image: "https://images.unsplash.com/photo-1510006721543-b2daecf2b1d6?auto=format&fit=crop&q=80&w=800",
+            image: "/f1_background.png",
             icon: Flag, 
             link: '/f1' 
         }

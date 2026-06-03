@@ -71,7 +71,11 @@ export const F1Hub: React.FC = () => {
 
             <main className="container mx-auto px-4 py-8 space-y-8">
                 {/* Hero Section */}
-                <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-rose-600/20 to-red-950/40 border border-rose-500/10 p-8 shadow-2xl">
+                <section 
+                    className="relative overflow-hidden rounded-[2.5rem] border border-rose-500/10 p-8 shadow-2xl bg-cover bg-center"
+                    style={{ backgroundImage: `url('/f1_background.png')` }}
+                >
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-rose-950/40 mix-blend-multiply" />
                     <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
                          <Flag size={400} className="absolute -top-20 -right-20 text-white rotate-12" />
                     </div>
