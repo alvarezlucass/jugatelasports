@@ -294,6 +294,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 status: p.status,
                 timestamp: p.created_at,
                 exactScore: p.home_score_pred !== undefined && p.away_score_pred !== undefined ? { home: p.home_score_pred, away: p.away_score_pred } : undefined,
+                targetSelection: p.target_selection,
+                targetHomeScore: p.target_home_score,
+                targetAwayScore: p.target_away_score,
+                targetName: p.target_name,
+                opponentType: p.opponent_type,
+                opponentId: p.opponent_id,
                 matchDetails: p.matches ? {
                     homeTeam: p.matches.home_team,
                     awayTeam: p.matches.away_team,
@@ -525,11 +531,13 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             status: data.status || 'PENDING'
         });
 
-        if (!error) {
-            await fetchPvpChallenges(user.id);
-            return true;
+        if (error) {
+            console.error('Error creating PvP challenge:', error);
+            return false;
         }
-        return false;
+
+        await fetchPvpChallenges(user.id);
+        return true;
     };
 
     const acceptPvpChallenge = async (id: string, targetSelection?: PredictionOutcome, targetHomeScore?: number, targetAwayScore?: number) => {

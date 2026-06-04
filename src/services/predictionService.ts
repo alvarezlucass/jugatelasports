@@ -14,6 +14,10 @@ export interface PredictionData {
     wagerItemId?: string;
     boosterId?: string;
     advanceMethod?: 'REGULAR' | 'EXTRA' | 'PENALTIES';
+    targetSelection?: 'HOME' | 'DRAW' | 'AWAY';
+    targetHomeScore?: number;
+    targetAwayScore?: number;
+    targetName?: string;
     mockMatchDetails?: {
         homeTeam: string;
         awayTeam: string;
@@ -69,17 +73,10 @@ export const predictionService = {
             const selection = prediction.homeScore > prediction.awayScore ? 'HOME' :
                 prediction.homeScore < prediction.awayScore ? 'AWAY' : 'DRAW';
 
-            // Check if prediction already exists
-            const { data: existing } = await supabase
-                .from('predictions')
-                .select('id')
-                .eq('user_id', prediction.userId)
-                .eq('match_id', prediction.matchId)
-                .maybeSingle();
-
             // Validar que opponent_id sea un UUID válido, de lo contrario Postgres fallará si la columna es tipo uuid
             const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 
+            // We allow multiple predictions per user per match now!
             const predictionObj = {
                 user_id: prediction.userId,
                 match_id: prediction.matchId,
@@ -90,24 +87,18 @@ export const predictionService = {
                 home_score_pred: prediction.homeScore,
                 away_score_pred: prediction.awayScore,
                 opponent_type: prediction.opponentType || 'CPU',
-                opponent_id: (prediction.opponentId && isValidUUID(prediction.opponentId)) ? prediction.opponentId : null
+                opponent_id: (prediction.opponentId && isValidUUID(prediction.opponentId)) ? prediction.opponentId : null,
+                target_selection: prediction.targetSelection,
+                target_home_score: prediction.targetHomeScore,
+                target_away_score: prediction.targetAwayScore,
+                target_name: prediction.targetName
             };
 
-            let response;
-            if (existing) {
-                response = await supabase
-                    .from('predictions')
-                    .update(predictionObj)
-                    .eq('id', existing.id)
-                    .select()
-                    .single();
-            } else {
-                response = await supabase
-                    .from('predictions')
-                    .insert([predictionObj])
-                    .select()
-                    .single();
-            }
+            const response = await supabase
+                .from('predictions')
+                .insert([predictionObj])
+                .select()
+                .single();
 
             const { error, data } = response;
 

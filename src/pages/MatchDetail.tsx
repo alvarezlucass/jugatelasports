@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Trophy, Users, BarChart2, Clock, MapPin, Shield } from 'lucide-react';
+import { ChevronLeft, Trophy, Users, BarChart2, Clock, MapPin, Shield, Calendar, Globe, History, Info, Sparkles, Eye, Lock } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { supabase } from '../lib/supabase';
 import { databaseService } from '../services/databaseService';
 import { useTeamModal } from '../context/TeamModalContext';
+import { useUser } from '../contexts/UserContext';
+import { PredictionListItem } from '../components/profile/PredictionListItem';
 import { AlertTriangle, Terminal, Play, CheckCircle2 } from 'lucide-react';
 import type { MatchLineup, MatchEvent, MatchStats, Player } from '../types';
 
@@ -131,6 +133,48 @@ const MatchDetail: React.FC = () => {
     const [showDevTools, setShowDevTools] = useState(false);
     const [simScore, setSimScore] = useState({ home: 0, away: 0 });
     const [isSimulating, setIsSimulating] = useState(false);
+    
+    const { userPredictions, pvpChallenges, user } = useUser();
+
+    const existingPredictions = React.useMemo(() => {
+        if (!id) return [];
+        
+        const pvpPreds = (pvpChallenges || [])
+            .filter(c => c.creatorId === user?.id && c.matchId === id && c.status !== 'CANCELLED' && c.status !== 'REJECTED')
+            .map(c => ({
+                id: `pvp-${c.id}`,
+                userId: c.creatorId,
+                matchId: c.matchId,
+                selection: c.creatorSelection,
+                stake: c.amount,
+                potentialReturn: c.status === 'FINISHED' ? (c.winnerId === user?.id ? c.amount * 2 : 0) : c.amount * 2,
+                status: c.status === 'FINISHED' ? (c.winnerId === user?.id ? 'WON' : 'LOST') : 'PENDING' as any,
+                timestamp: c.createdAt,
+                exactScore: { home: c.creatorHomeScore, away: c.creatorAwayScore },
+                matchDetails: {
+                    homeTeam: c.matchHomeTeam,
+                    awayTeam: c.matchAwayTeam,
+                    date: c.createdAt,
+                    status: 'UPCOMING' as any,
+                    betItemName: c.itemReward
+                },
+                targetSelection: c.targetSelection,
+                targetHomeScore: c.targetHomeScore,
+                targetAwayScore: c.targetAwayScore,
+                targetName: c.targetName
+            }));
+
+        const uniquePreds: any[] = [...pvpPreds];
+        const normalPreds = userPredictions.filter(p => p.matchId === id && p.status !== 'CANCELLED' && p.status !== 'REJECTED');
+        
+        for (const np of normalPreds) {
+            if (!uniquePreds.find(up => up.timestamp === np.timestamp || up.id === np.id)) {
+                uniquePreds.push(np);
+            }
+        }
+        
+        return uniquePreds.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    }, [id, userPredictions, pvpChallenges, user?.id]);
 
     React.useEffect(() => {
         if (!id) return;
@@ -403,6 +447,31 @@ const MatchDetail: React.FC = () => {
                                         <p className="text-[9px] text-zinc-500 uppercase font-black tracking-widest">Ciudad</p>
                                         <p className="text-sm font-bold mt-1">{tacticalMetadata.city || 'TBD'}</p>
                                     </div>
+                                </div>
+                                {/* User's Predictions for this match */}
+                                <div className="bg-[#121820] rounded-[2.5rem] p-6 border border-white/5 space-y-6 mt-6">
+                                    <h3 className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                                        <Sparkles size={14} className="text-blue-500" /> Tus Jugadas ({existingPredictions.length})
+                                    </h3>
+                                    
+                                    {existingPredictions.length > 0 ? (
+                                        <div className="flex flex-col gap-3">
+                                            {existingPredictions.map(pred => (
+                                                <PredictionListItem key={pred.id} pred={pred} />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="text-center py-8 border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
+                                            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Aún no tienes jugadas en este partido</p>
+                                        </div>
+                                    )}
+                                    
+                                    <button 
+                                        onClick={() => navigate(`/predictions/match/${id}`)}
+                                        className="w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-widest transition-all border border-white/5 active:scale-95"
+                                    >
+                                        {existingPredictions.length > 0 ? 'Hacer Otra Jugada' : 'Crear mi Primera Jugada'}
+                                    </button>
                                 </div>
                             </div>
 

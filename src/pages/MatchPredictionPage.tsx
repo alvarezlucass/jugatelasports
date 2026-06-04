@@ -1,11 +1,14 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info, Sparkles, Lock, Eye, Coins, TrendingUp, RefreshCw } from 'lucide-react';
+import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info, Sparkles, Lock, Eye, Coins, TrendingUp, RefreshCw, Bot, Users, Sword } from 'lucide-react';
 import { WORLD_CUP_GROUP_MATCHES, getTeamStaticData, WORLD_CUP_VENUES, getTeamFlagUrl } from '../data/worldCupPersistence';
 import { PredictionForm } from '../components/competition/PredictionForm';
 import { MatchChat } from '../components/social/MatchChat';
+import { PredictionCard } from '../components/profile/PredictionCard';
+import { PredictionListItem } from '../components/profile/PredictionListItem';
 import { databaseService } from '../services/databaseService';
 import { useTeamModal } from '../context/TeamModalContext';
+import { useUser } from '../contexts/UserContext';
 import { supabase } from '../lib/supabase';
 
 
@@ -13,10 +16,13 @@ export const MatchPredictionPage: React.FC = () => {
     const { matchId } = useParams<{ matchId: string }>();
     const navigate = useNavigate();
     const { openTeamModal } = useTeamModal();
+    const { userPredictions, pvpChallenges, user } = useUser();
 
     const queryParams = new URLSearchParams(window.location.search);
     const qHome = queryParams.get('home');
     const qAway = queryParams.get('away');
+    const opponentId = queryParams.get('opponentId');
+    const selectedMode = queryParams.get('mode') as 'MACHINE' | 'OPPONENT' | 'GROUP';
 
     const [match, setMatch] = useState<any | null>(null);
     const [loadingMatch, setLoadingMatch] = useState(true);
@@ -199,10 +205,46 @@ export const MatchPredictionPage: React.FC = () => {
         return getTeamFlagUrl(match?.awayTeam || '');
     }, [match]);
 
-    // Opponent logic
-    const opponentId = queryParams.get('opponentId');
-    const selectedMode = queryParams.get('mode') as 'MACHINE' | 'OPPONENT' | 'GROUP';
 
+    const existingPredictions = useMemo(() => {
+        if (!matchId) return [];
+        
+        const pvpPreds = (pvpChallenges || [])
+            .filter(c => c.creatorId === user?.id && c.matchId === matchId && c.status !== 'CANCELLED' && c.status !== 'REJECTED')
+            .map(c => ({
+                id: `pvp-${c.id}`,
+                userId: c.creatorId,
+                matchId: c.matchId,
+                selection: c.creatorSelection,
+                stake: c.amount,
+                potentialReturn: c.status === 'FINISHED' ? (c.winnerId === user?.id ? c.amount * 2 : 0) : c.amount * 2,
+                status: c.status === 'FINISHED' ? (c.winnerId === user?.id ? 'WON' : 'LOST') : 'PENDING' as any,
+                timestamp: c.createdAt,
+                exactScore: { home: c.creatorHomeScore, away: c.creatorAwayScore },
+                matchDetails: {
+                    homeTeam: c.matchHomeTeam,
+                    awayTeam: c.matchAwayTeam,
+                    date: c.createdAt,
+                    status: 'UPCOMING' as any,
+                    betItemName: c.itemReward
+                },
+                targetSelection: c.targetSelection,
+                targetHomeScore: c.targetHomeScore,
+                targetAwayScore: c.targetAwayScore,
+                targetName: c.targetName
+            }));
+
+        const uniquePreds: any[] = [...pvpPreds];
+        const normalPreds = userPredictions.filter(p => p.matchId === matchId && p.status !== 'CANCELLED' && p.status !== 'REJECTED');
+        
+        for (const np of normalPreds) {
+            if (!uniquePreds.find(up => up.timestamp === np.timestamp || up.id === np.id)) {
+                uniquePreds.push(np);
+            }
+        }
+        
+        return uniquePreds.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    }, [matchId, userPredictions, pvpChallenges, user?.id]);
 
     if (loadingMatch) {
         return (
@@ -385,24 +427,23 @@ export const MatchPredictionPage: React.FC = () => {
                                         <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">El Oráculo no tiene predicción lista para este partido.</p>
                                     </div>
                                 ) : !unlocked ? (
-                                    <div className="flex flex-col items-center justify-center py-12 text-center relative overflow-hidden bg-[#131822] rounded-3xl border border-white/5">
+                                    <div className="flex flex-col items-center justify-center py-6 md:py-8 text-center relative overflow-hidden bg-[#131822] rounded-3xl border border-white/5">
                                         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full pointer-events-none" />
                                         <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-500/10 blur-3xl rounded-full pointer-events-none" />
                                         
-                                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-6 relative z-10 border border-white/10">
-                                            <Lock size={32} className="text-zinc-400" />
+                                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-4 relative z-10 border border-white/10">
+                                            <Lock size={24} className="text-zinc-400" />
                                         </div>
                                         <h3 className="text-2xl font-black uppercase tracking-wider mb-2 text-white relative z-10">Oráculo Bloqueado</h3>
                                         <p className="text-zinc-400 max-w-md mx-auto mb-4 relative z-10 font-medium">
                                             Descubre la predicción oficial calculada por nuestra Inteligencia Artificial.
                                         </p>
                                         
-                                        <div className="flex flex-col gap-2 text-left bg-black/30 border border-white/5 rounded-2xl p-4 mb-8 max-w-sm w-full mx-auto relative z-10">
-                                            <p className="text-xs text-zinc-300 font-bold uppercase tracking-widest border-b border-white/5 pb-2 mb-2 text-center text-blue-400">El modelo analiza:</p>
-                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Últimos 10 partidos y forma actual</span></div>
-                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Historial directo (H2H)</span></div>
-                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Efectividad de ataque y defensa</span></div>
-                                            <div className="flex items-center gap-2"><Sparkles size={12} className="text-purple-400" /><span className="text-xs font-medium text-zinc-300">Clasificación y estadísticas avanzadas</span></div>
+                                        <div className="flex flex-col gap-1.5 text-left bg-black/30 border border-white/5 rounded-2xl p-4 mb-6 max-w-sm w-full mx-auto relative z-10">
+                                            <p className="text-[10px] text-zinc-300 font-bold uppercase tracking-widest border-b border-white/5 pb-2 mb-1 text-center text-blue-400">El modelo analiza:</p>
+                                            <div className="flex items-center gap-2"><Sparkles size={10} className="text-purple-400" /><span className="text-[10px] font-medium text-zinc-300">Últimos 10 partidos y forma actual</span></div>
+                                            <div className="flex items-center gap-2"><Sparkles size={10} className="text-purple-400" /><span className="text-[10px] font-medium text-zinc-300">Historial directo (H2H)</span></div>
+                                            <div className="flex items-center gap-2"><Sparkles size={10} className="text-purple-400" /><span className="text-[10px] font-medium text-zinc-300">Efectividad ataque/defensa</span></div>
                                         </div>
 
                                         <button
@@ -515,14 +556,34 @@ export const MatchPredictionPage: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* List of Previous Predictions */}
+                    <div className="pt-4">
+                        <div className="bg-[#0F131A] rounded-[2rem] p-4 md:p-6 border border-white/5">
+                            <h3 className="text-[10px] font-black uppercase tracking-widest text-white mb-4">Tus Jugadas ({existingPredictions.length})</h3>
+                            {existingPredictions.length > 0 ? (
+                                <div className="flex flex-col gap-3">
+                                    {existingPredictions.map(pred => (
+                                        <PredictionListItem key={pred.id} pred={pred} />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-6 border border-dashed border-white/5 rounded-xl bg-white/[0.02]">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Aún no tienes jugadas en este partido</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Match Chat / Community Tribuna */}
-                    <div className="pt-8">
-                        <MatchChat matchId={match.id} />
+                    <div className="pt-4">
+                        <div className="bg-[#0F131A] rounded-[2rem] p-4 md:p-6 border border-white/5">
+                            <MatchChat matchId={match.id} />
+                        </div>
                     </div>
                 </div>
 
                 {/* Right Side: Prediction Form */}
-                <div className="lg:col-span-5 mt-12 lg:mt-0">
+                <div className="lg:col-span-5 mt-8 lg:mt-0">
                     <div className="sticky top-24">
                         <div className="relative p-1 rounded-[2.5rem] bg-gradient-to-b from-blue-500/20 to-transparent">
                             <div className="bg-[#0F131A] rounded-[2.4rem] p-8 border border-white/5 shadow-2xl">
@@ -542,6 +603,8 @@ export const MatchPredictionPage: React.FC = () => {
                                         mode={selectedMode || 'MACHINE'}
                                         opponentId={opponentId}
                                         matchStatus={match.status}
+                                        homeTeamName={typeof match.homeTeam === 'string' ? match.homeTeam : match.homeTeam?.name}
+                                        awayTeamName={typeof match.awayTeam === 'string' ? match.awayTeam : match.awayTeam?.name}
                                     />
                                 </div>
                             </div>

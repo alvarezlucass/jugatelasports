@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { History, LogOut, ChevronRight, CheckCircle2, XCircle, Shield, Award, Users, Bot, Gamepad2, Settings, AlertTriangle, Zap, ExternalLink, Activity, Target, TrendingUp, HelpCircle, MapPin, Search, Grid, List as ListIcon, Trophy } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
-import { User as UserIcon, Settings, LogOut, Wallet, ChevronRight, Trophy, Zap, Star, X, RefreshCw } from 'lucide-react';
 import { databaseService } from '../services/databaseService';
 import { cn } from '../lib/utils';
 import { fireVictoryConfetti } from '../utils/confetti';
 import type { PvpChallenge } from '../types';
-import { Info, BarChart3, TrendingUp, Target } from 'lucide-react';
 import { PointsRulesModal } from '../components/modals/PointsRulesModal';
 import { PerformanceStats } from '../components/profile/PerformanceStats';
 import { ActivityFeed } from '../components/social/ActivityFeed';
+import { PredictionCard } from '../components/profile/PredictionCard';
 import { 
     ResponsiveContainer, 
     AreaChart, 
@@ -301,6 +301,7 @@ export const Profile: React.FC = () => {
     const [activeTab, setActiveTab] = React.useState<'SOCIAL' | 'PREDICTIONS' | 'PVP' | 'PERFORMANCE' | 'ACTIVITY'>('PREDICTIONS');
     const [pvpView, setPvpView] = React.useState<'SUMMARY' | 'RECEIVED' | 'SENT'>('SUMMARY');
     const [showRulesModal, setShowRulesModal] = React.useState(false);
+    const [predictionFilter, setPredictionFilter] = React.useState('');
 
     // Redirect to login if user is not logged in after loading finishes
     useEffect(() => {
@@ -362,7 +363,7 @@ export const Profile: React.FC = () => {
                 selection: c.creatorSelection,
                 stake: c.amount,
                 potentialReturn: c.status === 'FINISHED' ? (c.winnerId === user?.id ? c.amount * 2 : 0) : c.amount * 2,
-                status: c.status === 'FINISHED' ? (c.winnerId === user?.id ? 'WON' : 'LOST') : 'PENDING' as any,
+                status: c.status === 'FINISHED' ? (c.winnerId === user?.id ? 'WON' : 'LOST') : (c.status === 'REJECTED' || c.status === 'CANCELLED') ? c.status : 'PENDING' as any,
                 timestamp: c.createdAt,
                 exactScore: { home: c.creatorHomeScore, away: c.creatorAwayScore },
                 matchDetails: {
@@ -371,17 +372,37 @@ export const Profile: React.FC = () => {
                     date: c.createdAt,
                     status: 'UPCOMING' as any,
                     betItemName: c.itemReward
-                }
+                },
+                targetSelection: c.targetSelection,
+                targetHomeScore: c.targetHomeScore,
+                targetAwayScore: c.targetAwayScore,
+                targetName: c.targetName
             }));
             
-        // Eliminar posibles duplicados si el backend ahora guarda el PVP también como prediction
-        const uniquePreds = [...userPredictions];
-        pvpPreds.forEach(pvp => {
-            const exists = uniquePreds.some(p => 
+        // Las predicciones PvP (reales de la DB) tienen prioridad sobre las mockeadas locales
+        const uniquePreds: any[] = [...pvpPreds];
+        
+        let localMocks: any[] = [];
+        try {
+            localMocks = JSON.parse(localStorage.getItem('wc_local_mock_predictions') || '[]');
+        } catch (e) {}
+
+        userPredictions.forEach(p => {
+            const exists = uniquePreds.some(pvp => 
                 p.matchId === pvp.matchId && p.stake === pvp.stake && Math.abs(new Date(p.timestamp).getTime() - new Date(pvp.timestamp).getTime()) < 60000
             );
             if (!exists) {
-                uniquePreds.push(pvp);
+                const mock = localMocks.find((m: any) => m.matchId === p.matchId && Math.abs(new Date(m.timestamp).getTime() - new Date(p.timestamp).getTime()) < 120000);
+                if (mock && mock.targetSelection) {
+                    p = {
+                        ...p,
+                        targetSelection: mock.targetSelection,
+                        targetHomeScore: mock.targetHomeScore,
+                        targetAwayScore: mock.targetAwayScore,
+                        targetName: mock.targetName
+                    };
+                }
+                uniquePreds.push(p);
             }
         });
             
@@ -396,6 +417,17 @@ export const Profile: React.FC = () => {
     const lostPredictions = combinedPredictions.filter(p => p.status === 'LOST').length;
     const concludedPredictions = wonPredictions + lostPredictions;
     const winRate = concludedPredictions > 0 ? Math.round((wonPredictions / concludedPredictions) * 100) : 0;
+
+    const filteredPredictions = React.useMemo(() => {
+        if (!predictionFilter.trim()) return combinedPredictions;
+        const q = predictionFilter.toLowerCase();
+        return combinedPredictions.filter(p => {
+            const hTeam = (p.matchDetails?.homeTeam || '').toLowerCase();
+            const aTeam = (p.matchDetails?.awayTeam || '').toLowerCase();
+            const target = p.opponentType === 'CPU' ? 'ia' : (p.targetName || 'oponente').toLowerCase();
+            return hTeam.includes(q) || aTeam.includes(q) || target.includes(q);
+        });
+    }, [combinedPredictions, predictionFilter]);
 
     // Efecto para auto-navegar al desafío preseleccionado desde una notificación
     useEffect(() => {
@@ -654,77 +686,30 @@ export const Profile: React.FC = () => {
             {/* Content Area */}
             <div className="space-y-6 px-2">
                 {activeTab === 'PREDICTIONS' ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-bottom-4 duration-500">
-                        {combinedPredictions.length > 0 ? (
-                            combinedPredictions.map(pred => (
-                                <div 
-                                    key={pred.id} 
-                                    onClick={() => navigate(`/match/${pred.matchId}`)}
-                                    className="bg-[#121820] rounded-[2.5rem] p-6 border border-white/5 hover:border-blue-500/20 hover:scale-[1.01] transition-all flex flex-col gap-6 group cursor-pointer"
-                                >
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2">
-                                            <div className={cn(
-                                                "w-2 h-2 rounded-full",
-                                                pred.status === 'WON' ? 'bg-emerald-500' : pred.status === 'LOST' ? 'bg-red-500' : 'bg-amber-500'
-                                            )} />
-                                            <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">
-                                                {pred.status === 'WON' ? 'Acierto' : pred.status === 'LOST' ? 'Fallido' : 'Pendiente'}
-                                            </span>
-                                        </div>
-                                        <div className="text-[9px] font-bold text-zinc-600 uppercase">
-                                            {new Date(pred.timestamp).toLocaleDateString()}
-                                        </div>
-                                    </div>
+                    <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
+                        {/* Toolbar */}
+                        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white/5 border border-white/5 p-4 rounded-2xl">
+                            <div className="relative w-full">
+                                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+                                <input 
+                                    type="text" 
+                                    placeholder="Buscar partido o rival..."
+                                    value={predictionFilter}
+                                    onChange={e => setPredictionFilter(e.target.value)}
+                                    className="w-full bg-black/20 border border-white/10 rounded-xl py-2 pl-9 pr-4 text-[10px] uppercase font-bold text-white placeholder:text-zinc-600 focus:outline-none focus:border-blue-500/50 transition-colors"
+                                />
+                            </div>
+                        </div>
 
-                                    <div className="flex items-center justify-between gap-4">
-                                        <div className="flex-1 text-center font-black text-xs text-white uppercase truncate">
-                                            {pred.matchDetails?.homeTeam}
-                                        </div>
-                                        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/5">
-                                            <span className="text-xl font-black text-white italic">{pred.exactScore?.home}</span>
-                                            <span className="text-zinc-700 font-black italic">-</span>
-                                            <span className="text-xl font-black text-white italic">{pred.exactScore?.away}</span>
-                                        </div>
-                                        <div className="flex-1 text-center font-black text-xs text-white uppercase truncate">
-                                            {pred.matchDetails?.awayTeam}
-                                        </div>
-                                    </div>
-
-                                    <div className="pt-4 border-t border-white/[0.03] flex justify-between items-center">
-                                        <div className="flex items-center gap-2">
-                                            {pred.matchDetails?.betItemName && (
-                                                <div className="px-2 py-1 bg-blue-500/10 border border-blue-500/20 rounded-lg flex items-center gap-1.5 animate-pulse">
-                                                    <span className="text-[10px]">
-                                                        {(() => {
-                                                            const item = storeItems.find(i => i.name === pred.matchDetails?.betItemName);
-                                                            if (!item) return '🎁';
-                                                            const name = item.name.toLowerCase();
-                                                            if (name.includes('fernet')) return '🥃';
-                                                            if (name.includes('cerveza')) return '🍺';
-                                                            if (name.includes('asado')) return '🥩';
-                                                            if (name.includes('pizza')) return '🍕';
-                                                            if (name.includes('coca')) return '🥤';
-                                                            return '🎁';
-                                                        })()}
-                                                    </span>
-                                                    <span className="text-[8px] font-black text-blue-400 uppercase tracking-tight">{pred.matchDetails.betItemName}</span>
-                                                </div>
-                                            )}
-                                            <div className="text-[9px] font-bold text-zinc-500 uppercase">Inversión: {pred.stake} TKNS</div>
-                                        </div>
-                                        <div className={cn(
-                                            "font-black tracking-tighter",
-                                            pred.potentialReturn > 0 ? 'text-emerald-500' : 'text-zinc-700'
-                                        )}>
-                                            {pred.status === 'WON' ? `+${pred.potentialReturn}` : pred.status === 'LOST' ? '-' + pred.stake : '---'}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
+                        {filteredPredictions.length > 0 ? (
+                            <div className="flex flex-col gap-3">
+                                {filteredPredictions.map(pred => (
+                                    <PredictionListItem key={pred.id} pred={pred} />
+                                ))}
+                            </div>
                         ) : (
                             <div className="col-span-full text-center py-20 text-zinc-700 bg-white/2 rounded-[3.5rem] border border-dashed border-white/5 font-black uppercase text-xs tracking-widest italic">
-                                Aún no has realizado ninguna jugada
+                                {predictionFilter ? 'No hay jugadas que coincidan con la búsqueda' : 'Aún no has realizado ninguna jugada'}
                             </div>
                         )}
                     </div>

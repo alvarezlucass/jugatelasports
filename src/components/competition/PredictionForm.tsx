@@ -13,9 +13,11 @@ interface PredictionFormProps {
     mode: 'MACHINE' | 'OPPONENT' | 'GROUP';
     opponentId?: string | null;
     matchStatus?: string;
+    homeTeamName?: string;
+    awayTeamName?: string;
 }
 
-export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, opponentId, matchStatus }) => {
+export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, opponentId, matchStatus, homeTeamName, awayTeamName }) => {
     const { user, session, opponents, canAfford, spendTokens, addTokens, refreshProfile, addLocalPrediction, useItem, createPvpChallenge, storeItems } = useUser();
     const { getMatch } = useGame();
     const [localOpponentId, setLocalOpponentId] = useState<string | null>(opponentId || null);
@@ -34,6 +36,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
     const [advanceMethod, setAdvanceMethod] = useState<'REGULAR' | 'EXTRA' | 'PENALTIES'>('REGULAR');
     const [challengeSent, setChallengeSent] = useState(false);
     const [isItemModalOpen, setIsItemModalOpen] = useState(false);
+    const [aiPredictionResult, setAiPredictionResult] = useState<any>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const queryParams = new URLSearchParams(window.location.search);
@@ -41,8 +44,8 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
     const qAway = queryParams.get('away');
 
     const matchDetailsData = getMatch(matchId);
-    const matchHomeTeamStr = typeof matchDetailsData?.homeTeam === 'string' ? matchDetailsData.homeTeam : (matchDetailsData?.homeTeam?.name || qHome || 'Local');
-    const matchAwayTeamStr = typeof matchDetailsData?.awayTeam === 'string' ? matchDetailsData.awayTeam : (matchDetailsData?.awayTeam?.name || qAway || 'Visitante');
+    const matchHomeTeamStr = homeTeamName || (typeof matchDetailsData?.homeTeam === 'string' ? matchDetailsData.homeTeam : (matchDetailsData?.homeTeam?.name || qHome || 'Local'));
+    const matchAwayTeamStr = awayTeamName || (typeof matchDetailsData?.awayTeam === 'string' ? matchDetailsData.awayTeam : (matchDetailsData?.awayTeam?.name || qAway || 'Visitante'));
 
     const isKnockout = useMemo(() => {
         const midLower = matchId.toLowerCase();
@@ -157,10 +160,11 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
             let aiPredForSimulation: any = null;
 
             if (isAIOpponent) {
-                aiPredForSimulation = aiService.generatePrediction(rival.id, null, selection, parseInt(homeScore), parseInt(awayScore));
-                targetSelection = aiPredForSimulation.selection;
-                targetHomeScore = aiPredForSimulation.homeScore;
-                targetAwayScore = aiPredForSimulation.awayScore;
+                const aiPred = aiService.generatePrediction(rival.id, null, selection, parseInt(homeScore), parseInt(awayScore));
+                targetSelection = aiPred.selection;
+                targetHomeScore = aiPred.homeScore;
+                targetAwayScore = aiPred.awayScore;
+                setAiPredictionResult(aiPred);
                 challengeStatus = 'ACCEPTED';
             }
 
@@ -236,14 +240,20 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
 
             // Si es IA y el partido no está programado, simulamos el resultado INMEDIATAMENTE
             setTimeout(async () => {
-                const predHome = parseInt(homeScore);
-                const predAway = parseInt(awayScore);
+                // En modo OPPONENT (PVP)
+                let aiPredForSimulation: any = null;
+                if (isAIOpponent && rival) {
+                    const predHome = parseInt(homeScore);
+                    const predAway = parseInt(awayScore);
+                    aiPredForSimulation = aiService.generatePrediction(rival.id, null, selection, predHome, predAway);
+                    setAiPredictionResult(aiPredForSimulation);
+                }
                 const actualHome = Math.floor(Math.random() * 6);
                 const actualAway = Math.floor(Math.random() * 6);
 
                 const result = calculatePoints(
                     {
-                        score: { home: predHome, away: predAway },
+                        score: { home: parseInt(homeScore), away: parseInt(awayScore) },
                         outcome: selection as any,
                         definition: isKnockout ? advanceMethod : 'REGULAR'
                     },
@@ -309,7 +319,11 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         actualScore: { home: actualHome, away: actualAway },
                         betItemId: selectedItem?.id,
                         betItemName: selectedItem?.name
-                    }
+                    },
+                    targetSelection: targetSelection,
+                    targetHomeScore: targetHomeScore,
+                    targetAwayScore: targetAwayScore,
+                    targetName: rival?.name || 'Oponente'
                 });
 
                 setIsSimulating(false);
@@ -335,6 +349,15 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
 
         // Get opponent data already defined as 'rival'
 
+        let aiPredictionStr = '';
+        let aiPredictionForSuccess: any = null;
+
+        if (isAIOpponent && rival) {
+            aiPredictionForSuccess = aiService.generatePrediction(rival.id, null, selection, parseInt(homeScore), parseInt(awayScore));
+            setAiPredictionResult(aiPredictionForSuccess);
+            aiPredictionStr = ` (La IA eligió ${aiPredictionForSuccess.selection === 'HOME' ? 'Local' : aiPredictionForSuccess.selection === 'AWAY' ? 'Visitante' : 'Empate'} ${aiPredictionForSuccess.homeScore}-${aiPredictionForSuccess.awayScore})`;
+        }
+
         // Guardar en Supabase via predictionService
         if (user && session) {
             const saveRes = await predictionService.savePrediction({
@@ -352,7 +375,11 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                     homeTeam: typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam?.name || 'Local',
                     awayTeam: typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam?.name || 'Visita',
                     date: matchDetailsData.date || new Date().toISOString().split('T')[0]
-                } : undefined
+                } : undefined,
+                targetSelection: aiPredictionForSuccess?.selection,
+                targetHomeScore: aiPredictionForSuccess?.homeScore,
+                targetAwayScore: aiPredictionForSuccess?.awayScore,
+                targetName: rival?.name || (localMode === 'MACHINE' ? 'IA' : 'Oponente')
             });
 
             if (!saveRes.success) {
@@ -369,8 +396,31 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
         const effStatus = matchStatus || matchDetailsData?.status;
         const isScheduled = effStatus === 'scheduled' || effStatus?.toLowerCase() === 'upcoming' || effStatus?.toLowerCase() === 'not_started' || isKnockout;
 
+
+
         if (isScheduled) {
             setTimeout(() => {
+                addLocalPrediction({
+                    id: `local-${Date.now()}`,
+                    userId: user?.id || 'guest',
+                    matchId: matchId,
+                    selection: selection,
+                    stake: stakeAmount,
+                    potentialReturn: stakeAmount * 2,
+                    status: 'PENDING',
+                    timestamp: new Date().toISOString(),
+                    exactScore: { home: parseInt(homeScore), away: parseInt(awayScore) },
+                    matchDetails: {
+                        homeTeam: matchHomeTeamStr || 'Local',
+                        awayTeam: matchAwayTeamStr || 'Visita',
+                        date: new Date().toISOString(),
+                        status: 'UPCOMING'
+                    },
+                    targetSelection: aiPredictionForSuccess?.selection,
+                    targetHomeScore: aiPredictionForSuccess?.homeScore,
+                    targetAwayScore: aiPredictionForSuccess?.awayScore,
+                    targetName: rival?.name
+                });
                 setIsSimulating(false);
                 setShowSuccess(true);
                 refreshProfile();
@@ -399,22 +449,15 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
 
             // Determinamos winnings para simulación instantánea (solo si el partido ya terminó o es modo demo)
             let isPush = false;
-            let aiPredictionStr = '';
 
-            if (isAIOpponent && rival) {
-                // To fetch odds, we'd need the real match object, but we mock it here if not available
-                const aiPred = aiService.generatePrediction(rival.id, null, selection, predHome, predAway);
-
-                aiPredictionStr = ` (La IA eligió ${aiPred.selection === 'HOME' ? 'Local' : aiPred.selection === 'AWAY' ? 'Visitante' : 'Empate'} ${aiPred.homeScore}-${aiPred.awayScore})`;
-
+            if (isAIOpponent && rival && aiPredictionForSuccess) {
                 const aiResult = calculatePoints(
-                    { score: { home: aiPred.homeScore, away: aiPred.awayScore }, outcome: aiPred.selection },
+                    { score: { home: aiPredictionForSuccess.homeScore, away: aiPredictionForSuccess.awayScore }, outcome: aiPredictionForSuccess.selection },
                     { score: { home: actualHome, away: actualAway }, definition: 'REGULAR' },
                     isKnockout
                 );
 
-                // Si ambos eligieron lo mismo en selection Y ambos puntuaron > 0, es Push
-                if (aiPred.selection === selection && result.points > 0 && aiResult.points > 0) {
+                if (aiPredictionForSuccess.selection === selection && result.points > 0 && aiResult.points > 0) {
                     isPush = true;
                 }
             }
@@ -453,17 +496,18 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                     away: predAway
                 },
                 matchDetails: {
-                    homeTeam: 'Team H',
-                    awayTeam: 'Team V',
+                    homeTeam: matchHomeTeamStr || 'Local',
+                    awayTeam: matchAwayTeamStr || 'Visita',
                     date: new Date().toISOString(),
                     status: 'FINISHED',
-                    actualScore: {
-                        home: actualHome,
-                        away: actualAway
-                    },
+                    actualScore: { home: actualHome, away: actualAway },
                     betItemId: selectedItem?.id,
                     betItemName: selectedItem?.name
-                }
+                },
+                targetSelection: aiPredictionForSuccess?.selection,
+                targetHomeScore: aiPredictionForSuccess?.homeScore,
+                targetAwayScore: aiPredictionForSuccess?.awayScore,
+                targetName: rival?.name
             });
 
             setIsSimulating(false);
@@ -1008,18 +1052,21 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         Tu desafío ha sido enviado a <span className="text-blue-400 font-black">{rival?.name}</span>.<br />
                         Los tokens en juego quedan en garantía hasta su respuesta.
                     </p>
-                    <button
-                        onClick={() => {
-                            setChallengeSent(false);
-                            setSelection(null);
-                            setHomeScore('');
-                            setAwayScore('');
-                            setStake('');
-                        }}
-                        className="mt-6 w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-widest transition-all border border-white/5"
-                    >
-                        Hacer Otra Jugada
-                    </button>
+                        <button
+                            onClick={() => {
+                                setChallengeSent(false);
+                                setSelection(null);
+                                setHomeScore('');
+                                setAwayScore('');
+                                setStake('');
+                                setLocalOpponentId(null);
+                                const newUrl = window.location.pathname;
+                                window.history.pushState({}, '', newUrl);
+                            }}
+                            className="mt-6 w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-widest transition-all border border-white/5"
+                        >
+                            Elegir Otro Contrincante
+                        </button>
                 </div>
             ) : showSuccess ? (
                 <div className="p-8 rounded-[2.5rem] border bg-emerald-500/5 border-emerald-500/20 animate-in zoom-in duration-500 shadow-2xl text-center space-y-4">
@@ -1031,6 +1078,16 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         Tu predicción para <span className="text-blue-400 font-black">{matchHomeTeamStr} vs {matchAwayTeamStr}</span> ha sido guardada con éxito.<br />
                         Recibirás tus tokens una vez que termine el partido real (Julio 2026).
                     </p>
+                    {aiPredictionResult && (
+                        <div className="mt-4 p-4 rounded-2xl bg-blue-500/10 border border-blue-500/20">
+                            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">
+                                {rival?.name || 'Tu Oponente'} eligió:
+                                            </p>
+                            <p className="text-xl font-black text-white italic">
+                                {aiPredictionResult.selection === 'HOME' ? 'Local' : aiPredictionResult.selection === 'AWAY' ? 'Visitante' : 'Empate'} ({aiPredictionResult.homeScore} - {aiPredictionResult.awayScore})
+                            </p>
+                        </div>
+                    )}
                     <div className="flex flex-col gap-3 pt-4">
                         <button
                             onClick={() => {
@@ -1039,10 +1096,14 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                                 setHomeScore('');
                                 setAwayScore('');
                                 setStake('');
+                                setLocalOpponentId(null);
+                                // remove ?mode= and ?opponentId= from URL without reloading
+                                const newUrl = window.location.pathname;
+                                window.history.pushState({}, '', newUrl);
                             }}
                             className="w-full py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] uppercase tracking-widest transition-all border border-blue-500/20 active:scale-95 shadow-lg shadow-blue-600/20"
                         >
-                            Ver Próximo Partido
+                            Elegir Otro Contrincante
                         </button>
                         <button
                             onClick={() => window.history.back()}
@@ -1067,15 +1128,33 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         <div className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">{simulationResult.description}</div>
                         <button
                             onClick={() => {
+                                setChallengeSent(false);
+                                setSelection(null);
+                                setHomeScore('');
+                                setAwayScore('');
+                                setStake('');
+                                setLocalOpponentId(null);
+                                const newUrl = window.location.pathname;
+                                window.history.pushState({}, '', newUrl);
+                            }}
+                            className="mt-6 w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-widest transition-all border border-white/5"
+                        >
+                            Elegir Otro Contrincante
+                        </button>
+                        <button
+                            onClick={() => {
                                 setSimulationResult(null);
                                 setSelection(null);
                                 setHomeScore('');
                                 setAwayScore('');
                                 setStake('');
+                                setLocalOpponentId(null);
+                                const newUrl = window.location.pathname;
+                                window.history.pushState({}, '', newUrl);
                             }}
                             className="w-full py-4 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-[10px] uppercase tracking-widest transition-all border border-white/5 active:scale-95"
                         >
-                            Nueva Predicción
+                            Elegir Otro Contrincante
                         </button>
                     </div>
                 </div>

@@ -5,19 +5,22 @@ dotenv.config();
 
 const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_ANON_KEY);
 
-async function check() {
-    const { data: pvp, error: err1 } = await supabase.from('pvp_challenges').select('*');
-    const { data: preds, error: err2 } = await supabase.from('predictions').select('*');
+    const { data: pvp, error: err1 } = await supabase.from('pvp_challenges').insert({
+        creator_id: 'test-user',
+        creator_name: 'test',
+        target_id: 'ai-ia',
+        target_name: 'AI',
+        match_id: '123',
+        match_home_team: 'A',
+        match_away_team: 'B',
+        amount: 5,
+        creator_selection: 'HOME',
+        creator_home_score: 1,
+        creator_away_score: 0,
+        target_selection: 'AWAY',
+        target_home_score: 0,
+        target_away_score: 1,
+        status: 'ACCEPTED'
+    });
     
-    console.log('PVP:', pvp?.length, err1);
-    console.log('PREDS:', preds?.length, err2);
-    
-    if (pvp?.length > 0) {
-        console.log('Last PVP:', pvp[pvp.length - 1]);
-    }
-    if (preds?.length > 0) {
-        console.log('Last PRED:', preds[preds.length - 1]);
-    }
-}
-
-check();
+    console.log('PVP INSERT ERROR:', err1);

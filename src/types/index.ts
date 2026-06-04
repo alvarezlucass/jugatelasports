@@ -210,7 +210,7 @@ export interface MatchPrediction extends Prediction {
         homeTeam: string;
         awayTeam: string;
         date: string;
-        status: MatchStatus;
+        status: 'scheduled' | 'live' | 'finished' | 'UPCOMING' | 'FINISHED';
         actualScore?: {
             home: number;
             away: number;
@@ -218,6 +218,12 @@ export interface MatchPrediction extends Prediction {
         betItemId?: string;
         betItemName?: string;
     };
+    targetSelection?: 'HOME' | 'DRAW' | 'AWAY';
+    targetHomeScore?: number;
+    targetAwayScore?: number;
+    targetName?: string;
+    opponentType?: 'CPU' | 'FRIEND' | 'COMMUNITY' | 'RANDOM';
+    opponentId?: string | null;
 }
 
 export interface AppNotification {

@@ -59,7 +59,7 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
             case 'MATCH_WON':
                 return (
                     <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> ganó <span className="text-amber-500 font-black">+{content.points} PKTS</span> en el partido <span className="text-white font-bold italic">{content.matchId}</span>.
+                        <span className="font-black text-white uppercase tracking-tight">{name}</span> ganó <span className="text-amber-500 font-black">+{content.points} PKTS</span> en el partido <span className="text-white font-bold italic">{content.matchDescription || content.matchId}</span>.
                     </p>
                 );
             case 'PVP_CHALLENGE':
@@ -77,7 +77,7 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
             case 'PREDICTION_MADE':
                 return (
                     <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> armó una jugada para <span className="text-white font-bold italic">{content.matchId}</span>.
+                        <span className="font-black text-white uppercase tracking-tight">{name}</span> armó una jugada para <span className="text-white font-bold italic">{content.matchDescription || content.matchId}</span>.
                     </p>
                 );
             default:
