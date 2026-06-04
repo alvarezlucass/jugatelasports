@@ -191,6 +191,9 @@ export interface PvpChallenge {
     creatorSelection: PredictionOutcome; // HOME, DRAW or AWAY
     creatorHomeScore: number;
     creatorAwayScore: number;
+    targetSelection?: PredictionOutcome; // HOME, DRAW or AWAY
+    targetHomeScore?: number;
+    targetAwayScore?: number;
     status: 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'FINISHED';
     winnerId?: string; // Set when finished
     createdAt: string;

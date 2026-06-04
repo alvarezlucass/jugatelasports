@@ -36,8 +36,11 @@ const ChallengeCard: React.FC<{
     navigate: any;
 }> = ({ challenge, user, acceptPvpChallenge, rejectPvpChallenge, cancelPvpChallenge, resolvePvpChallenge, navigate }) => {
     const [showResolvePanel, setShowResolvePanel] = React.useState(false);
+    const [showAcceptPanel, setShowAcceptPanel] = React.useState(false);
     const [realHome, setRealHome] = React.useState('');
     const [realAway, setRealAway] = React.useState('');
+    const [acceptHome, setAcceptHome] = React.useState('');
+    const [acceptAway, setAcceptAway] = React.useState('');
 
     const isCreator = challenge.creatorId === user?.id;
     const opponentName = isCreator ? challenge.targetName : challenge.creatorName;
@@ -121,12 +124,68 @@ const ChallengeCard: React.FC<{
                         {challenge.matchAwayTeam}
                     </div>
                 </div>
-                <div className="text-center bg-white/5 mx-6 py-1.5 rounded-xl border border-white/5">
-                    <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
-                        {isCreator ? 'Predijiste:' : `${challenge.creatorName} predijo:`} <span className="text-white font-black">{challenge.creatorSelection === 'HOME' ? 'Local' : challenge.creatorSelection === 'AWAY' ? 'Visitante' : 'Empate'} ({challenge.creatorHomeScore} - {challenge.creatorAwayScore})</span>
-                    </span>
+                <div className="flex flex-col gap-2 mx-6">
+                    <div className="text-center bg-white/5 py-1.5 rounded-xl border border-white/5">
+                        <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+                            {isCreator ? 'Predijiste:' : `${challenge.creatorName} predijo:`} <span className="text-white font-black">{challenge.creatorSelection === 'HOME' ? 'Local' : challenge.creatorSelection === 'AWAY' ? 'Visitante' : 'Empate'} ({challenge.creatorHomeScore} - {challenge.creatorAwayScore})</span>
+                        </span>
+                    </div>
+                    {challenge.targetSelection && (
+                        <div className="text-center bg-blue-500/10 py-1.5 rounded-xl border border-blue-500/20">
+                            <span className="text-[9px] font-bold text-blue-400 uppercase tracking-widest">
+                                {!isCreator ? 'Predijiste:' : `${challenge.targetName} predijo:`} <span className="text-white font-black">{challenge.targetSelection === 'HOME' ? 'Local' : challenge.targetSelection === 'AWAY' ? 'Visitante' : 'Empate'} ({challenge.targetHomeScore} - {challenge.targetAwayScore})</span>
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* Smart Accept Panel */}
+            {showAcceptPanel && challenge.status === 'PENDING' && !isCreator && (
+                <div className="relative z-10 bg-[#0A0E14] border border-emerald-500/20 rounded-2xl p-4 animate-in slide-in-from-top-2 duration-200 space-y-3">
+                    <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest text-center">Tu Predicción</p>
+                    <div className="flex items-center justify-center gap-4">
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="text-[8px] text-zinc-500 uppercase tracking-widest font-bold truncate max-w-[70px] text-center">{challenge.matchHomeTeam}</span>
+                            <input
+                                type="number" min="0" max="20" value={acceptHome}
+                                onChange={e => setAcceptHome(e.target.value)}
+                                placeholder="0"
+                                className="w-16 h-16 bg-[#1A1F26] border border-white/10 rounded-2xl text-center text-3xl font-black text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                            />
+                        </div>
+                        <span className="text-2xl font-black text-zinc-600 mt-4">—</span>
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="text-[8px] text-zinc-500 uppercase tracking-widest font-bold truncate max-w-[70px] text-center">{challenge.matchAwayTeam}</span>
+                            <input
+                                type="number" min="0" max="20" value={acceptAway}
+                                onChange={e => setAcceptAway(e.target.value)}
+                                placeholder="0"
+                                className="w-16 h-16 bg-[#1A1F26] border border-white/10 rounded-2xl text-center text-3xl font-black text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <button onClick={() => setShowAcceptPanel(false)} className="flex-1 py-2 bg-white/5 hover:bg-white/10 text-zinc-400 font-black text-[9px] uppercase tracking-widest rounded-xl transition-colors">
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={() => {
+                                const h = parseInt(acceptHome);
+                                const a = parseInt(acceptAway);
+                                if (isNaN(h) || isNaN(a)) return;
+                                const selection = h > a ? 'HOME' : a > h ? 'AWAY' : 'DRAW';
+                                acceptPvpChallenge(challenge.id, selection, h, a);
+                                setShowAcceptPanel(false);
+                            }}
+                            disabled={acceptHome === '' || acceptAway === ''}
+                            className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-black font-black text-[9px] uppercase tracking-widest rounded-xl transition-colors"
+                        >
+                            Confirmar y Aceptar
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Smart Resolve Panel */}
             {showResolvePanel && challenge.status === 'ACCEPTED' && (
@@ -193,7 +252,7 @@ const ChallengeCard: React.FC<{
                             <button onClick={() => rejectPvpChallenge(challenge.id)} className="w-8 h-8 rounded-full bg-red-500/10 hover:bg-red-500/20 text-red-500 flex items-center justify-center transition-colors">
                                 <X size={14} />
                             </button>
-                            <button onClick={() => acceptPvpChallenge(challenge.id)} className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-[9px] uppercase tracking-widest rounded-full transition-colors">
+                            <button onClick={() => setShowAcceptPanel(!showAcceptPanel)} className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-[9px] uppercase tracking-widest rounded-full transition-colors">
                                 Aceptar Reto
                             </button>
                         </>

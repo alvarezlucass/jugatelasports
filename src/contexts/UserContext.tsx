@@ -29,8 +29,8 @@ interface UserContextType {
     redeemReward: (reward: Reward) => Promise<void>;
 
     pvpChallenges: PvpChallenge[];
-    createPvpChallenge: (data: Omit<PvpChallenge, 'id' | 'createdAt' | 'status'>) => Promise<boolean>;
-    acceptPvpChallenge: (id: string) => Promise<void>;
+    createPvpChallenge: (data: Omit<PvpChallenge, 'id' | 'createdAt'>) => Promise<boolean>;
+    acceptPvpChallenge: (id: string, targetSelection?: PredictionOutcome, targetHomeScore?: number, targetAwayScore?: number) => Promise<void>;
     rejectPvpChallenge: (id: string) => Promise<void>;
     cancelPvpChallenge: (id: string) => Promise<void>;
     resolvePvpChallenge: (id: string, winnerId: string) => Promise<void>;
@@ -334,6 +334,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 creatorSelection: c.creator_selection,
                 creatorHomeScore: c.creator_home_score,
                 creatorAwayScore: c.creator_away_score,
+                targetSelection: c.target_selection,
+                targetHomeScore: c.target_home_score,
+                targetAwayScore: c.target_away_score,
                 status: c.status,
                 winnerId: c.winner_id || undefined,
                 createdAt: c.created_at
@@ -495,7 +498,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     // Challenges Logic
-    const createPvpChallenge = async (data: Omit<PvpChallenge, 'id' | 'createdAt' | 'status'>) => {
+    const createPvpChallenge = async (data: Omit<PvpChallenge, 'id' | 'createdAt'>) => {
         if (!user || !session) return false;
         
         const transactionId = await spendTokens(data.amount, `Reto PVP a ${data.targetName}`);
@@ -516,7 +519,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             creator_selection: data.creatorSelection,
             creator_home_score: data.creatorHomeScore,
             creator_away_score: data.creatorAwayScore,
-            status: 'PENDING'
+            target_selection: data.targetSelection || null,
+            target_home_score: data.targetHomeScore ?? null,
+            target_away_score: data.targetAwayScore ?? null,
+            status: data.status || 'PENDING'
         });
 
         if (!error) {
@@ -526,14 +532,19 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return false;
     };
 
-    const acceptPvpChallenge = async (id: string) => {
+    const acceptPvpChallenge = async (id: string, targetSelection?: PredictionOutcome, targetHomeScore?: number, targetAwayScore?: number) => {
         if (!user || !session) return;
         const challenge = pvpChallenges.find(c => c.id === id);
         if (challenge && challenge.amount > 0) {
             const transactionId = await spendTokens(challenge.amount, `Reto acepado vs ${challenge.creatorName}`);
             if (!transactionId) return;
         }
-        await supabase.from('pvp_challenges').update({ status: 'ACCEPTED' }).eq('id', id);
+        await supabase.from('pvp_challenges').update({ 
+            status: 'ACCEPTED',
+            target_selection: targetSelection,
+            target_home_score: targetHomeScore,
+            target_away_score: targetAwayScore
+        }).eq('id', id);
         await fetchPvpChallenges(user.id);
     };
 
