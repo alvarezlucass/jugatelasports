@@ -5,6 +5,8 @@ import { Trophy, Swords, Zap, MessageSquare, TrendingUp, Users, Clock } from 'lu
 import { cn } from '../../lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { WORLD_CUP_GROUP_MATCHES } from '../../data/worldCupPersistence';
+import { supabase } from '../../lib/supabase';
 
 interface Activity {
     id: string;
@@ -23,12 +25,39 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
     const { user } = useUser();
     const [activities, setActivities] = useState<Activity[]>([]);
     const [loading, setLoading] = useState(true);
+    const [dynamicMatchNames, setDynamicMatchNames] = useState<Record<string, string>>({});
 
     const loadActivities = async () => {
         setLoading(true);
         const { data, error } = await databaseService.fetchActivities(user?.id, listType);
         if (!error && data) {
-            setActivities(data as Activity[]);
+            const acts = data as Activity[];
+            setActivities(acts);
+            
+            // Extract unique match IDs that might need resolving
+            const matchIds = new Set<string>();
+            acts.forEach(a => {
+                if (a.content?.matchId && !a.content.matchDescription && !WORLD_CUP_GROUP_MATCHES.some(m => m.id === a.content.matchId)) {
+                    matchIds.add(a.content.matchId);
+                }
+            });
+
+            if (matchIds.size > 0) {
+                const { data: matches } = await supabase
+                    .from('matches')
+                    .select('id, home_team, away_team')
+                    .in('id', Array.from(matchIds));
+                
+                if (matches) {
+                    const names: Record<string, string> = {};
+                    matches.forEach(m => {
+                        const hTeam = typeof m.home_team === 'string' ? m.home_team : m.home_team?.name || 'Local';
+                        const aTeam = typeof m.away_team === 'string' ? m.away_team : m.away_team?.name || 'Visita';
+                        names[m.id] = `${hTeam} vs ${aTeam}`;
+                    });
+                    setDynamicMatchNames(prev => ({ ...prev, ...names }));
+                }
+            }
         }
         setLoading(false);
     };
@@ -41,7 +70,21 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
         return () => clearInterval(interval);
     }, [user?.id, listType]);
 
-    const renderActivityIcon = (type: Activity['type']) => {
+    const renderActivityIcon = (activity: Activity) => {
+        const { type, content } = activity;
+        
+        if ((type === 'PREDICTION_MADE' || type === 'PVP_CHALLENGE') && content.opponentName) {
+            return (
+                <div className="w-5 h-5 rounded-full overflow-hidden border border-white/20 bg-[#1A1F26]">
+                    <img 
+                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${content.opponentId || content.opponentName}`} 
+                        alt="Opponent" 
+                        className="w-full h-full object-cover" 
+                    />
+                </div>
+            );
+        }
+
         switch (type) {
             case 'MATCH_WON': return <Trophy className="w-4 h-4 text-amber-500" />;
             case 'PVP_CHALLENGE': return <Swords className="w-4 h-4 text-red-500" />;
@@ -51,21 +94,34 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
         }
     };
 
+    const resolveMatchName = (matchId: string) => {
+        if (!matchId) return 'Partido Desconocido';
+        if (dynamicMatchNames[matchId]) return dynamicMatchNames[matchId];
+        const match = WORLD_CUP_GROUP_MATCHES.find(m => m.id === matchId);
+        if (match) {
+            const hTeam = typeof match.homeTeam === 'string' ? match.homeTeam : match.homeTeam?.name;
+            const aTeam = typeof match.awayTeam === 'string' ? match.awayTeam : match.awayTeam?.name;
+            return `${hTeam} vs ${aTeam}`;
+        }
+        return matchId;
+    };
+
     const renderActivityContent = (activity: Activity) => {
         const { type, content, profiles } = activity;
         const name = profiles?.nickname || profiles?.first_name || 'Alguien';
+        const displayMatch = content.matchDescription || resolveMatchName(content.matchId);
 
         switch (type) {
             case 'MATCH_WON':
                 return (
                     <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> ganó <span className="text-amber-500 font-black">+{content.points} PKTS</span> en el partido <span className="text-white font-bold italic">{content.matchDescription || content.matchId}</span>.
+                        <span className="font-black text-white uppercase tracking-tight">{name}</span> ganó <span className="text-amber-500 font-black">+{content.points} PKTS</span> en el partido <span className="text-white font-bold italic">{displayMatch}</span>.
                     </p>
                 );
             case 'PVP_CHALLENGE':
                 return (
                     <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> lanzó un <span className="text-red-500 font-black">RETO PVP</span> para <span className="text-white font-bold italic">{content.matchDescription}</span>.
+                        <span className="font-black text-white uppercase tracking-tight">{name}</span> lanzó un <span className="text-red-500 font-black">RETO PVP</span> {content.opponentName ? <span>a <span className="text-white font-bold">{content.opponentName}</span></span> : ''} para <span className="text-white font-bold italic">{content.matchDescription}</span>.
                     </p>
                 );
             case 'LEVEL_UP':
@@ -74,12 +130,25 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
                         <span className="font-black text-white uppercase tracking-tight">{name}</span> alcanzó el <span className="text-primary font-black">NIVEL {content.level}</span>.
                     </p>
                 );
-            case 'PREDICTION_MADE':
+            case 'PREDICTION_MADE': {
+                if (content.opponentName && content.homeTeam) {
+                    const resultText = content.homeScore > content.awayScore ? `victoria de ${content.homeTeam}` 
+                        : content.awayScore > content.homeScore ? `victoria de ${content.awayTeam}` 
+                        : 'empate';
+                        
+                    return (
+                        <p className="text-[13px] leading-relaxed text-zinc-400">
+                            <span className="font-black text-white uppercase tracking-tight">{name}</span> jugó contra <span className="text-white font-bold">{content.opponentName}</span> pronosticando <span className="text-blue-400 font-bold">{resultText}</span> en <span className="text-white italic">{displayMatch}</span>.
+                        </p>
+                    );
+                }
+                
                 return (
                     <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> armó una jugada para <span className="text-white font-bold italic">{content.matchDescription || content.matchId}</span>.
+                        <span className="font-black text-white uppercase tracking-tight">{name}</span> armó una jugada para <span className="text-white font-bold italic">{displayMatch}</span>.
                     </p>
                 );
+            }
             default:
                 return <p className="text-[13px] leading-relaxed text-zinc-400">Actividad reciente de <span className="font-black text-white uppercase tracking-tight">{name}</span>.</p>;
         }
@@ -132,8 +201,8 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                                         />
                                     </div>
-                                    <div className="absolute -bottom-1 -right-1 bg-[#121820] border border-white/10 p-1.5 rounded-xl shadow-xl group-hover:scale-110 transition-transform">
-                                        {renderActivityIcon(activity.type)}
+                                    <div className="absolute -bottom-1 -right-1 bg-[#121820] border border-white/10 p-0.5 rounded-full shadow-xl group-hover:scale-110 transition-transform">
+                                        {renderActivityIcon(activity)}
                                     </div>
                                 </div>
                                 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { History, LogOut, ChevronRight, CheckCircle2, XCircle, Shield, Award, Users, Bot, Gamepad2, Settings, AlertTriangle, Zap, ExternalLink, Activity, Target, TrendingUp, HelpCircle, MapPin, Search, Grid, List as ListIcon, Trophy } from 'lucide-react';
+import { History, LogOut, ChevronRight, CheckCircle2, XCircle, Shield, Award, Users, Bot, Gamepad2, Settings, AlertTriangle, Zap, ExternalLink, Activity, Target, TrendingUp, HelpCircle, MapPin, Search, Grid, List as ListIcon, Trophy, Info, Wallet, RefreshCw, Star, X } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
 import { databaseService } from '../services/databaseService';
 import { cn } from '../lib/utils';
@@ -10,7 +10,7 @@ import type { PvpChallenge } from '../types';
 import { PointsRulesModal } from '../components/modals/PointsRulesModal';
 import { PerformanceStats } from '../components/profile/PerformanceStats';
 import { ActivityFeed } from '../components/social/ActivityFeed';
-import { PredictionCard } from '../components/profile/PredictionCard';
+import { PredictionListItem } from '../components/profile/PredictionListItem';
 import { 
     ResponsiveContainer, 
     AreaChart, 

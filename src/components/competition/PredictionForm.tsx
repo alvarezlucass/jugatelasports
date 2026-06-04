@@ -203,11 +203,11 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         wagerItemId: selectedItem ? selectedItem.id : undefined,
                         boosterId: selectedBooster ? selectedBooster.id : undefined,
                         advanceMethod: isKnockout ? advanceMethod : 'REGULAR',
-                        mockMatchDetails: matchDetailsData ? {
-                            homeTeam: typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam?.name || 'Local',
-                            awayTeam: typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam?.name || 'Visita',
-                            date: matchDetailsData.date || new Date().toISOString().split('T')[0]
-                        } : undefined
+                        mockMatchDetails: {
+                            homeTeam: matchDetailsData?.homeTeam ? (typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam.name) : homeTeamName || 'Local',
+                            awayTeam: matchDetailsData?.awayTeam ? (typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam.name) : awayTeamName || 'Visita',
+                            date: matchDetailsData?.date || new Date().toISOString().split('T')[0]
+                        }
                     });
                 }
                 
@@ -371,11 +371,11 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                 wagerItemId: selectedItem ? selectedItem.id : undefined,
                 boosterId: selectedBooster ? selectedBooster.id : undefined,
                 advanceMethod: isKnockout ? advanceMethod : 'REGULAR',
-                mockMatchDetails: matchDetailsData ? {
-                    homeTeam: typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam?.name || 'Local',
-                    awayTeam: typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam?.name || 'Visita',
-                    date: matchDetailsData.date || new Date().toISOString().split('T')[0]
-                } : undefined,
+                mockMatchDetails: {
+                    homeTeam: matchDetailsData?.homeTeam ? (typeof matchDetailsData.homeTeam === 'string' ? matchDetailsData.homeTeam : matchDetailsData.homeTeam.name) : homeTeamName || 'Local',
+                    awayTeam: matchDetailsData?.awayTeam ? (typeof matchDetailsData.awayTeam === 'string' ? matchDetailsData.awayTeam : matchDetailsData.awayTeam.name) : awayTeamName || 'Visita',
+                    date: matchDetailsData?.date || new Date().toISOString().split('T')[0]
+                },
                 targetSelection: aiPredictionForSuccess?.selection,
                 targetHomeScore: aiPredictionForSuccess?.homeScore,
                 targetAwayScore: aiPredictionForSuccess?.awayScore,

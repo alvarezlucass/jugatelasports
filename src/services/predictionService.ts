@@ -107,7 +107,15 @@ export const predictionService = {
             // Registrar Actividad Social
             await databaseService.recordActivity(prediction.userId, 'PREDICTION_MADE', {
                 matchId: prediction.matchId,
-                stake: prediction.stake
+                stake: prediction.stake,
+                matchDescription: prediction.mockMatchDetails ? `${prediction.mockMatchDetails.homeTeam} vs ${prediction.mockMatchDetails.awayTeam}` : staticMatch ? `${staticMatch.homeTeam} vs ${staticMatch.awayTeam}` : prediction.matchId,
+                homeTeam: prediction.mockMatchDetails?.homeTeam || staticMatch?.homeTeam || 'Local',
+                awayTeam: prediction.mockMatchDetails?.awayTeam || staticMatch?.awayTeam || 'Visita',
+                homeScore: prediction.homeScore,
+                awayScore: prediction.awayScore,
+                opponentType: prediction.opponentType,
+                opponentName: prediction.targetName || (prediction.opponentType === 'CPU' ? 'IA Analista' : 'Oponente'),
+                opponentId: prediction.opponentId
             });
 
             return { success: true, data };
