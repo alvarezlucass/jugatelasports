@@ -154,6 +154,8 @@ export const MatchPredictionPage: React.FC = () => {
                     stadium: data.metadata?.stadium || 'Estadio',
                     city: data.metadata?.city || 'Ciudad',
                     status: data.status.toLowerCase() === 'finished' ? 'finished' : data.status.toLowerCase() === 'live' ? 'live' : 'scheduled',
+                    homeScore: data.home_score,
+                    awayScore: data.away_score,
                     h2h: data.metadata?.h2h || [],
                     ai_prediction: data.metadata?.ai_prediction || null
                 });
@@ -303,7 +305,15 @@ export const MatchPredictionPage: React.FC = () => {
                                     <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tighter text-center group-hover:text-blue-400 transition-colors">{match.homeTeam}</h3>
                                 </div>
 
-                                <div className="text-4xl md:text-6xl font-black text-blue-600 italic">VS</div>
+                                {match.status === 'finished' ? (
+                                    <div className="flex items-center gap-4 text-4xl md:text-6xl font-black text-white">
+                                        <span>{match.homeScore ?? 0}</span>
+                                        <span className="text-zinc-500">-</span>
+                                        <span>{match.awayScore ?? 0}</span>
+                                    </div>
+                                ) : (
+                                    <div className="text-4xl md:text-6xl font-black text-blue-600 italic">VS</div>
+                                )}
 
                                 <div 
                                     onClick={() => {

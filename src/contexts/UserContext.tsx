@@ -91,14 +91,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [pvpChallenges, setPvpChallenges] = useState<PvpChallenge[]>([]);
     const [loading, setLoading] = useState(true);
     const [followingIds, setFollowingIds] = useState<string[]>([]);
-    const [notifications, setNotifications] = useState<AppNotification[]>(() => {
-        const saved = localStorage.getItem('wc_user_notifications');
-        try {
-            return saved ? JSON.parse(saved) : [];
-        } catch (e) {
-            return [];
-        }
-    });
+    const [notifications, setNotifications] = useState<AppNotification[]>([]);
 
     const [lastDailyClaim, setLastDailyClaim] = useState<string | null>(null);
     const [lastVideoClaim, setLastVideoClaim] = useState<string | null>(localStorage.getItem('lastVideoClaim'));
@@ -217,6 +210,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 await fetchOpponents(userId);
                 await fetchFollowing(userId);
                 await fetchStoreItems();
+                await fetchNotifications(userId);
             }
         } catch (err) {
             console.error('Error fetching profile:', err);
@@ -536,6 +530,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             return false;
         }
 
+        await databaseService.addNotification(
+            data.targetId,
+            'PVP_INVITE',
+            '¡Nuevo Reto PVP!',
+            `${data.creatorName} te ha desafiado en el partido ${data.matchHomeTeam} vs ${data.matchAwayTeam} por ${data.amount} tokens.`,
+            `/profile`
+        );
+
         await fetchPvpChallenges(user.id);
         return true;
     };
@@ -553,11 +555,34 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             target_home_score: targetHomeScore,
             target_away_score: targetAwayScore
         }).eq('id', id);
+
+        if (challenge) {
+            await databaseService.addNotification(
+                challenge.creatorId,
+                'CHALLENGE_ACCEPTED',
+                '¡Reto PVP Aceptado!',
+                `${challenge.targetName} ha aceptado tu reto por ${challenge.amount} tokens.`,
+                `/profile`
+            );
+        }
+
         await fetchPvpChallenges(user.id);
     };
 
     const rejectPvpChallenge = async (id: string) => {
+        const challenge = pvpChallenges.find(c => c.id === id);
         if (session) await supabase.from('pvp_challenges').update({ status: 'REJECTED' }).eq('id', id);
+
+        if (challenge) {
+            await databaseService.addNotification(
+                challenge.creatorId,
+                'CHALLENGE_REJECTED',
+                'Reto PVP Rechazado',
+                `${challenge.targetName} ha rechazado tu reto.`,
+                `/profile`
+            );
+        }
+
         await fetchPvpChallenges(user!.id);
     };
 
@@ -667,9 +692,35 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    const fetchNotifications = async (userId: string) => {
+        const { data, error } = await supabase
+            .from('notifications')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(20);
+            
+        if (!error && data) {
+            setNotifications(data.map(n => ({
+                id: n.id,
+                userId: n.user_id,
+                type: n.type as any,
+                title: n.title,
+                message: n.message,
+                path: n.path,
+                isRead: n.is_read,
+                createdAt: n.created_at,
+                metadata: n.metadata
+            })));
+        }
+    };
+
     // Helpers
-    const markNotificationAsRead = (id: string) => {
+    const markNotificationAsRead = async (id: string) => {
         setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+        if (session) {
+            await supabase.from('notifications').update({ is_read: true }).eq('id', id);
+        }
     };
 
     const addLocalPrediction = (prediction: MatchPrediction) => {

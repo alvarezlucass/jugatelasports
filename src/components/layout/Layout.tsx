@@ -11,12 +11,22 @@ import { InstallPrompt } from '../ui/InstallPrompt';
 import { BonusModal } from '../ui/BonusModal';
 import { CategoryFAB } from './CategoryFAB';
 import { ProfileCompletionModal } from '../modals/ProfileCompletionModal';
+import { WinCelebrationModal } from '../modals/WinCelebrationModal';
 import { Footer } from './Footer';
+import { databaseService } from '../../services/databaseService';
 
 export const Layout: React.FC = () => {
-    const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile, signOut } = useUser();
+    const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile, signOut, pvpChallenges, userPredictions } = useUser();
     const location = useLocation();
     const navigate = useNavigate();
+
+    // Redirección si no está logueado (protección de rutas)
+    useEffect(() => {
+        const publicRoutes = ['/login', '/register', '/forgot-password'];
+        if (!user && !publicRoutes.includes(location.pathname)) {
+            navigate('/login');
+        }
+    }, [user, navigate]);
 
     // OAuth Post-Redirect Redirection Handler
     useEffect(() => {
@@ -30,9 +40,64 @@ export const Layout: React.FC = () => {
     }, [user, navigate]);
     
     const [isBonusOpen, setIsBonusOpen] = useState(false);
-    const [dismissCompletionModal, setDismissCompletionModal] = useState(false);
+    const [dismissCompletionModal, setDismissCompletionModal] = useState(() => localStorage.getItem('hideProfileModal') === 'true');
+    
+    const handleDismissModal = () => {
+        setDismissCompletionModal(true);
+        localStorage.setItem('hideProfileModal', 'true');
+    };
     
     const anyBonusAvailable = dailyBonusAvailable || videoBonusAvailable || socialBonusAvailable;
+
+    // Temporal Dev Auto-Resolver
+    useEffect(() => {
+        if (user) {
+            const hasResolved = localStorage.getItem('sim-copa-4-resolved-v2');
+            if (!hasResolved) {
+                databaseService.resolveMatch('sim-copa-4', 1, 0).then(() => {
+                    localStorage.setItem('sim-copa-4-resolved-v2', 'true');
+                    window.location.reload(); // Recargar para que los cambios surtan efecto y salte el confeti
+                });
+            }
+        }
+    }, [user]);
+
+    // Celebration state
+    const [celebrationData, setCelebrationData] = useState<{isOpen: boolean, tokens: number, count: number}>({isOpen: false, tokens: 0, count: 0});
+    
+    useEffect(() => {
+        if (!user) return;
+        
+        const celebratedStr = localStorage.getItem('celebrated_wins');
+        const celebratedIds: string[] = celebratedStr ? JSON.parse(celebratedStr) : [];
+        
+        let newTokens = 0;
+        let newCount = 0;
+        let newIds: string[] = [];
+        
+        // Check PVP Challenges
+        pvpChallenges?.forEach(c => {
+            if (c.status === 'FINISHED' && c.winnerId === user.id && !celebratedIds.includes(c.id)) {
+                newTokens += c.amount * 2;
+                newCount++;
+                newIds.push(c.id);
+            }
+        });
+        
+        // Check User Predictions
+        userPredictions?.forEach(p => {
+             if (p.status === 'WON' && !celebratedIds.includes(p.id)) {
+                 newTokens += (p.potentialReturn || p.stake * 2 || 0);
+                 newCount++;
+                 newIds.push(p.id);
+             }
+        });
+        
+        if (newCount > 0) {
+            setCelebrationData({ isOpen: true, tokens: newTokens, count: newCount });
+            localStorage.setItem('celebrated_wins', JSON.stringify([...celebratedIds, ...newIds]));
+        }
+    }, [user, pvpChallenges, userPredictions]);
 
     // Mostrar modal de completar perfil SOLO para usuarios OAuth sin datos obligatorios
     // No se muestra en las rutas de Auth para no interrumpir el flujo normal
@@ -172,11 +237,18 @@ export const Layout: React.FC = () => {
                     const { error } = await updateProfile(data);
                     if (error) throw error;
                 }}
-                onClose={() => setDismissCompletionModal(true)}
+                onClose={handleDismissModal}
                 onSignOut={async () => {
                     await signOut();
                     setDismissCompletionModal(false);
                 }}
+            />
+
+            <WinCelebrationModal 
+                isOpen={celebrationData.isOpen}
+                onClose={() => setCelebrationData(prev => ({...prev, isOpen: false}))}
+                totalTokens={celebrationData.tokens}
+                winCount={celebrationData.count}
             />
         </div >
     );

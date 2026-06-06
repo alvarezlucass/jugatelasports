@@ -170,6 +170,15 @@ export const databaseService = {
                                 score: `${homeScore}-${awayScore}`
                             });
                         }
+
+                        // 2.c Emitir Notificación de ganancia
+                        await this.addNotification(
+                            pred.user_id,
+                            'SYSTEM',
+                            '¡Predicción Ganada!',
+                            `Has sumado ${finalPoints} puntos y ${creditedAmount} tokens en tu predicción del partido.`,
+                            `/match/${matchId}`
+                        );
                     }
                 }
 
@@ -181,6 +190,60 @@ export const databaseService = {
                 }).eq('id', pred.id);
 
                 results.push({ userId: pred.user_id, points: finalPoints });
+            }
+
+            // 2.b Procesar PVP Challenges (solo los que el usuario logueado tiene acceso por RLS)
+            const { data: challenges } = await supabase
+                .from('pvp_challenges')
+                .select('*')
+                .eq('match_id', matchId)
+                .in('status', ['PENDING', 'ACCEPTED']);
+
+            if (challenges && challenges.length > 0) {
+                for (const challenge of challenges) {
+                    if (challenge.status === 'PENDING') {
+                        // Refund creator
+                        const { data: creatorProfile } = await supabase.from('profiles').select('total_balance').eq('id', challenge.creator_id).single();
+                        if (creatorProfile) {
+                            await supabase.from('profiles').update({ total_balance: (creatorProfile.total_balance || 0) + challenge.amount }).eq('id', challenge.creator_id);
+                        }
+                        await supabase.from('pvp_challenges').update({ status: 'CANCELLED' }).eq('id', challenge.id);
+                    } else if (challenge.status === 'ACCEPTED') {
+                        // Determine real outcome
+                        let realOutcome: 'HOME' | 'DRAW' | 'AWAY';
+                        if (homeScore > awayScore) realOutcome = 'HOME';
+                        else if (awayScore > homeScore) realOutcome = 'AWAY';
+                        else realOutcome = 'DRAW';
+
+                        const creatorCorrect = challenge.creator_selection === realOutcome;
+                        const winnerId = creatorCorrect ? challenge.creator_id : challenge.target_id;
+
+                        // Give prize to winner
+                        const { data: winnerProfile } = await supabase.from('profiles').select('total_balance').eq('id', winnerId).single();
+                        if (winnerProfile) {
+                            await supabase.from('profiles').update({ total_balance: (winnerProfile.total_balance || 0) + (challenge.amount * 2) }).eq('id', winnerId);
+                        }
+                        await supabase.from('pvp_challenges').update({ status: 'FINISHED', winner_id: winnerId }).eq('id', challenge.id);
+
+                        // Notify winner
+                        const loserId = winnerId === challenge.creator_id ? challenge.target_id : challenge.creator_id;
+                        await this.addNotification(
+                            winnerId,
+                            'CHALLENGE_FINISHED',
+                            '¡Reto PVP Ganado!',
+                            `Has ganado el reto por ${challenge.amount * 2} tokens.`,
+                            `/profile`
+                        );
+                        // Notify loser
+                        await this.addNotification(
+                            loserId,
+                            'CHALLENGE_FINISHED',
+                            'Reto PVP Perdido',
+                            `Has perdido el reto de ${challenge.amount} tokens.`,
+                            `/profile`
+                        );
+                    }
+                }
             }
 
             // 3. Actualizar estado del partido
@@ -196,6 +259,21 @@ export const databaseService = {
             console.error('Error al resolver partido:', error);
             return { success: false, error };
         }
+    },
+
+    // --- NOTIFICATIONS SYSTEM ---
+    addNotification: async (userId: string, type: string, title: string, message: string, path: string, metadata?: any) => {
+        const { error } = await supabase
+            .from('notifications')
+            .insert({
+                user_id: userId,
+                type,
+                title,
+                message,
+                path,
+                metadata
+            });
+        return { success: !error, error };
     },
 
     // --- SOCIAL SYSTEM ---
