@@ -232,7 +232,7 @@ export const databaseService = {
                             'CHALLENGE_FINISHED',
                             '¡Reto PVP Ganado!',
                             `Has ganado el reto por ${challenge.amount * 2} tokens.`,
-                            `/profile`
+                            `/profile?tab=ACTIVITY`
                         );
                         // Notify loser
                         await this.addNotification(
@@ -240,7 +240,7 @@ export const databaseService = {
                             'CHALLENGE_FINISHED',
                             'Reto PVP Perdido',
                             `Has perdido el reto de ${challenge.amount} tokens.`,
-                            `/profile`
+                            `/profile?tab=PVP&view=SUMMARY`
                         );
                     }
                 }

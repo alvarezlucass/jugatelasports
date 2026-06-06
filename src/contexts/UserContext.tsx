@@ -535,7 +535,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             'PVP_INVITE',
             '¡Nuevo Reto PVP!',
             `${data.creatorName} te ha desafiado en el partido ${data.matchHomeTeam} vs ${data.matchAwayTeam} por ${data.amount} tokens.`,
-            `/profile`
+            `/profile?tab=PVP&view=RECEIVED`
         );
 
         await fetchPvpChallenges(user.id);
@@ -562,7 +562,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 'CHALLENGE_ACCEPTED',
                 '¡Reto PVP Aceptado!',
                 `${challenge.targetName} ha aceptado tu reto por ${challenge.amount} tokens.`,
-                `/profile`
+                `/profile?tab=PVP&view=SENT`
             );
         }
 
@@ -578,8 +578,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 challenge.creatorId,
                 'CHALLENGE_REJECTED',
                 'Reto PVP Rechazado',
-                `${challenge.targetName} ha rechazado tu reto.`,
-                `/profile`
+                `${challenge.targetName} no ha aceptado tu reto. Se te han devuelto los tokens.`,
+                `/profile?tab=PVP&view=SENT`
             );
         }
 
