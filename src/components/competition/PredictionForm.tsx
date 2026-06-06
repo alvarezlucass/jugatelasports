@@ -39,6 +39,26 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
     const [aiPredictionResult, setAiPredictionResult] = useState<any>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
+    const isScoreLogicallyValid = () => {
+        if (!selection || homeScore === '' || awayScore === '') return false;
+        const h = parseInt(homeScore);
+        const a = parseInt(awayScore);
+        
+        if (isKnockout) {
+            if (advanceMethod === 'PENALTIES') {
+                return h === a;
+            }
+            if (selection === 'HOME') return h > a;
+            if (selection === 'AWAY') return h < a;
+            return false;
+        }
+
+        if (selection === 'HOME') return h > a;
+        if (selection === 'AWAY') return h < a;
+        if (selection === 'DRAW') return h === a;
+        return false;
+    };
+
     const queryParams = new URLSearchParams(window.location.search);
     const qHome = queryParams.get('home');
     const qAway = queryParams.get('away');
@@ -1159,35 +1179,42 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                     </div>
                 </div>
             ) : (
-                <button
-                    onClick={() => {
-                        if (!user) {
-                            // En modo desarrollo permitimos simular para que el usuario/AI vea el flujo
-                            // pero para producción esto debería ser restrictivo. 
-                            // Por ahora dejamos el alert pero lo hacemos más visible.
-                            alert('⚠️ Debes iniciar sesión para realizar esta jugada.');
-                            return;
-                        }
-                        handleSimulate();
-                    }}
-                    disabled={isLocked || !selection || homeScore === '' || awayScore === '' || stake === '' || isSimulating || (localMode !== 'GROUP' && !rival) || (localMode === 'GROUP' && !localGroupId)}
-                    className="w-full py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed text-white font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
-                >
-                    {isLocked ? (
-                        'Predicciones Cerradas'
-                    ) : isSimulating ? (
-                        <span className="flex items-center justify-center gap-3">
-                            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                            Procesando...
-                        </span>
-                    ) : (
-                        <div className="relative">
-                            {!user && <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-amber-500 text-black text-[7px] px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Requiere Inicio de Sesión</div>}
-                            {localMode === 'GROUP' ? 'Participar en Liga' : (localMode === 'OPPONENT' && !isAIOpponent ? 'Enviar Reto PvP' : '¡Jugátela!')}
-                        </div>
-                    )}
-                </button>
-            )}
+                  <div className="flex flex-col gap-2">
+                      {selection && homeScore !== '' && awayScore !== '' && !isScoreLogicallyValid() && (
+                          <div className="text-[10px] text-red-400 font-black uppercase text-center bg-red-500/10 py-2 rounded-xl border border-red-500/20 animate-in fade-in slide-in-from-top-2">
+                              ⚠️ El marcador exacto no coincide con el resultado (1X2)
+                          </div>
+                      )}
+                      <button
+                          onClick={() => {
+                              if (!user) {
+                                  // En modo desarrollo permitimos simular para que el usuario/AI vea el flujo
+                                  // pero para producción esto debería ser restrictivo. 
+                                  // Por ahora dejamos el alert pero lo hacemos más visible.
+                                  alert('⚠️ Debes iniciar sesión para realizar esta jugada.');
+                                  return;
+                              }
+                              handleSimulate();
+                          }}
+                          disabled={isLocked || !selection || homeScore === '' || awayScore === '' || stake === '' || isSimulating || (localMode !== 'GROUP' && !rival) || (localMode === 'GROUP' && !localGroupId) || !isScoreLogicallyValid()}
+                          className="w-full py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed text-white font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+                      >
+                          {isLocked ? (
+                              'Predicciones Cerradas'
+                          ) : isSimulating ? (
+                              <span className="flex items-center justify-center gap-3">
+                                  <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                  Procesando...
+                              </span>
+                          ) : (
+                              <div className="relative">
+                                  {!user && <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-amber-500 text-black text-[7px] px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Requiere Inicio de Sesión</div>}
+                                  {localMode === 'GROUP' ? 'Participar en Liga' : (localMode === 'OPPONENT' && !isAIOpponent ? 'Enviar Reto PvP' : '¡Jugátela!')}
+                              </div>
+                          )}
+                      </button>
+                  </div>
+              )}
 
             {isItemModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">

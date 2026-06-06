@@ -500,9 +500,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Challenges Logic
     const createPvpChallenge = async (data: Omit<PvpChallenge, 'id' | 'createdAt'>) => {
         if (!user || !session) return false;
-        
-        const transactionId = await spendTokens(data.amount, `Reto PVP a ${data.targetName}`);
-        if (!transactionId) return false;
 
         const { error } = await supabase.from('pvp_challenges').insert({
             creator_id: data.creatorId,

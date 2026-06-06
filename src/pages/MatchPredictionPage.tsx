@@ -240,6 +240,16 @@ export const MatchPredictionPage: React.FC = () => {
         const normalPreds = userPredictions.filter(p => p.matchId === matchId && p.status !== 'CANCELLED' && p.status !== 'REJECTED');
         
         for (const np of normalPreds) {
+            // Filter out duplicate normal predictions that are actually part of a PvP challenge.
+            // If the normal prediction has a targetName (meaning it was created alongside a PvP challenge)
+            // we check if a PvP challenge for the same match and stake already exists.
+            if (np.targetName && np.targetName !== '') {
+                const isPvpDup = uniquePreds.some(up => 
+                     up.id.startsWith('pvp-') && up.matchId === np.matchId && up.stake === np.stake
+                );
+                if (isPvpDup) continue;
+            }
+
             if (!uniquePreds.find(up => up.timestamp === np.timestamp || up.id === np.id)) {
                 uniquePreds.push(np);
             }
