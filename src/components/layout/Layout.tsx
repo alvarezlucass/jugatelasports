@@ -49,19 +49,6 @@ export const Layout: React.FC = () => {
     
     const anyBonusAvailable = dailyBonusAvailable || videoBonusAvailable || socialBonusAvailable;
 
-    // Temporal Dev Auto-Resolver
-    useEffect(() => {
-        if (user) {
-            const hasResolved = localStorage.getItem('sim-copa-4-resolved-v2');
-            if (!hasResolved) {
-                databaseService.resolveMatch('sim-copa-4', 1, 0).then(() => {
-                    localStorage.setItem('sim-copa-4-resolved-v2', 'true');
-                    window.location.reload(); // Recargar para que los cambios surtan efecto y salte el confeti
-                });
-            }
-        }
-    }, [user]);
-
     // Celebration state
     const [celebrationData, setCelebrationData] = useState<{isOpen: boolean, tokens: number, count: number}>({isOpen: false, tokens: 0, count: 0});
     

@@ -207,7 +207,7 @@ export const databaseService = {
                         if (creatorProfile) {
                             await supabase.from('profiles').update({ total_balance: (creatorProfile.total_balance || 0) + challenge.amount }).eq('id', challenge.creator_id);
                         }
-                        await supabase.from('pvp_challenges').update({ status: 'CANCELLED' }).eq('id', challenge.id);
+                        await supabase.from('pvp_challenges').delete().eq('id', challenge.id);
                     } else if (challenge.status === 'ACCEPTED') {
                         // Determine real outcome
                         let realOutcome: 'HOME' | 'DRAW' | 'AWAY';
