@@ -138,6 +138,12 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
     }, [matchId]);
 
     const handleSimulate = async () => {
+        if (!user) {
+            alert('Debes iniciar sesión para confirmar tu jugada.');
+            window.location.href = '/login?from=' + encodeURIComponent(window.location.pathname + window.location.search);
+            return;
+        }
+
         if (localMode !== 'GROUP' && !rival) {
             setIsChangingOpponent(true);
             alert('Por favor selecciona un oponente primero.');
@@ -1109,6 +1115,24 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                         </div>
                     )}
                     <div className="flex flex-col gap-3 pt-4">
+                        <button
+                            onClick={() => {
+                                const shareText = `¡Acabo de pronosticar que ${matchHomeTeamStr} y ${matchAwayTeamStr} saldrán ${homeScore}-${awayScore} en Jugátela Sports! ¿Te animás a superarme? ⚽👉 https://jugatelasports.com/predictions`;
+                                if (navigator.share) {
+                                    navigator.share({
+                                        title: 'Jugátela Sports',
+                                        text: shareText
+                                    }).catch(() => {
+                                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+                                    });
+                                } else {
+                                    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+                                }
+                            }}
+                            className="w-full py-4 rounded-2xl bg-[#25D366] hover:bg-[#1DA851] text-white font-black text-[10px] uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2"
+                        >
+                            Compartir en WhatsApp
+                        </button>
                         <button
                             onClick={() => {
                                 setShowSuccess(false);

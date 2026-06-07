@@ -78,15 +78,15 @@ function App() {
                 <Route path="group/:id" element={<GroupFixturePage />} />
                 <Route path="team/:teamName/squad" element={<TeamSquadPage />} />
               </Route>
-              <Route path="groups" element={<ProtectedRoute><GroupDashboard /></ProtectedRoute>} />
-              <Route path="groups/:id" element={<ProtectedRoute><GroupDetail /></ProtectedRoute>} />
-              <Route path="groups/create" element={<ProtectedRoute><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="create" /></ProtectedRoute>} />
-              <Route path="groups/join" element={<ProtectedRoute><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="join" /></ProtectedRoute>} />
-              <Route path="predictions" element={<ProtectedRoute><Predictions /></ProtectedRoute>} />
-              <Route path="predictions/match/:matchId" element={<ProtectedRoute><MatchPredictionPage /></ProtectedRoute>} />
+              <Route path="groups" element={<GroupDashboard />} />
+              <Route path="groups/:id" element={<GroupDetail />} />
+              <Route path="groups/create" element={<><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="create" /></>} />
+              <Route path="groups/join" element={<><GroupDashboard /><GroupModal isOpen={true} onClose={() => window.history.back()} initialMode="join" /></>} />
+              <Route path="predictions" element={<Predictions />} />
+              <Route path="predictions/match/:matchId" element={<MatchPredictionPage />} />
+              <Route path="history" element={<ProtectedRoute><History /></ProtectedRoute>} />
               <Route path="match/:id" element={<MatchDetail />} />
               <Route path="team/:id" element={<TeamProfile />} />
-              <Route path="history" element={<ProtectedRoute><History /></ProtectedRoute>} />
             </Route>
             </Routes>
           </TeamModalProvider>

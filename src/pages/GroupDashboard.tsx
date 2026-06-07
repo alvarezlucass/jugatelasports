@@ -32,7 +32,14 @@ export const GroupDashboard: React.FC = () => {
                 {/* Actions */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button
-                        onClick={() => navigate('/groups/create')}
+                        onClick={() => {
+                            if (!user) {
+                                alert('Debes iniciar sesión para crear un grupo.');
+                                navigate('/login', { state: { from: '/groups' } });
+                                return;
+                            }
+                            navigate('/groups/create');
+                        }}
                         className="p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-900/40 to-[#0F131A] border border-blue-500/20 hover:border-blue-500/50 transition-all group flex flex-col items-center justify-center text-center gap-4"
                     >
                         <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] group-hover:scale-110 transition-transform">
@@ -45,7 +52,14 @@ export const GroupDashboard: React.FC = () => {
                     </button>
 
                     <button
-                        onClick={() => navigate('/groups/join')}
+                        onClick={() => {
+                            if (!user) {
+                                alert('Debes iniciar sesión para unirte a un grupo.');
+                                navigate('/login', { state: { from: '/groups' } });
+                                return;
+                            }
+                            navigate('/groups/join');
+                        }}
                         className="p-8 rounded-[2.5rem] bg-gradient-to-br from-purple-900/20 to-[#0F131A] border border-purple-500/20 hover:border-purple-500/50 transition-all group flex flex-col items-center justify-center text-center gap-4"
                     >
                         <div className="w-16 h-16 rounded-full bg-purple-600/20 border-2 border-purple-500 flex items-center justify-center text-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.2)] group-hover:scale-110 transition-transform">

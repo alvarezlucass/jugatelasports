@@ -49,8 +49,20 @@ export const GroupDetail: React.FC = () => {
         .slice(0, 20);
 
     const handleShare = () => {
-        navigator.clipboard?.writeText(group.id.toUpperCase()).catch(() => {});
-        alert(`Código de liga copiado: ${group.id.toUpperCase()}`);
+        const shareText = `¡Únete a mi liga privada "${group.name}" en Jugátela Sports! 🏆\nIngresa el PIN: ${group.id.toUpperCase()} 👉 https://jugatelasports.com/groups/join`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'Jugátela Sports',
+                text: shareText
+            }).catch(() => {
+                const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+        } else {
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+            window.open(whatsappUrl, '_blank');
+        }
     };
 
     return (
