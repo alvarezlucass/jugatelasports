@@ -73,8 +73,8 @@ function mapStatus(apiStatus) {
         case 'FT':
         case 'AET':
         case 'PEN': return 'FINISHED';
-        case 'PST':
-        case 'CANC':
+        case 'PST': return 'POSTPONED';
+        case 'CANC': return 'CANCELLED';
         case 'ABD':
         case 'AWD':
         case 'WO': return 'POSTPONED';

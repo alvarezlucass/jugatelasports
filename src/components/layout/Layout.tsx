@@ -20,13 +20,8 @@ export const Layout: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Redirección si no está logueado (protección de rutas)
-    useEffect(() => {
-        const publicRoutes = ['/login', '/register', '/forgot-password'];
-        if (!user && !publicRoutes.includes(location.pathname)) {
-            navigate('/login');
-        }
-    }, [user, navigate]);
+    // Redirección si no está logueado movida a ProtectedRoute.tsx
+    // (Layout ya no bloquea las rutas públicas)
 
     // OAuth Post-Redirect Redirection Handler
     useEffect(() => {

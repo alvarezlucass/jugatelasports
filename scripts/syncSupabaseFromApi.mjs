@@ -105,8 +105,8 @@ function mapStatus(apiStatus) {
         case 'FT':
         case 'AET':
         case 'PEN': return 'FINISHED';
-        case 'CANC':
-        case 'PST': return 'CANCELLED';
+        case 'CANC': return 'CANCELLED';
+        case 'PST': return 'POSTPONED';
         default: return 'UPCOMING';
     }
 }
