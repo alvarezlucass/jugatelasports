@@ -5,7 +5,7 @@ dotenv.config();
 
 const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY);
 
-async function checkDuplicates() {
+async function deleteDuplicates() {
     let allMatches = [];
     let from = 0;
     const step = 1000;
@@ -33,12 +33,37 @@ async function checkDuplicates() {
 
     const wcMatches = allMatches.filter(m => m.league_id === 'world-cup-2026' || m.league_id === '128' || m.league_id === 'World Cup' || (m.home_team && m.home_team.toLowerCase().includes('brazil')));
 
-    console.log(`Found ${wcMatches.length} matches that might be World Cup.`);
+    // We keep the Spanish manual ones (IDs like m1, m2...)
+    // We delete the English API ones (IDs that are purely numeric)
+    const toDelete = wcMatches.filter(m => /^\d+$/.test(m.id));
+
+    console.log(`Found ${toDelete.length} matches to delete (numeric IDs, english names).`);
     
-    const byTeams = new Map();
-    for(const m of wcMatches) {
-        console.log(`ID: ${m.id} | ${m.home_team} vs ${m.away_team} | League: ${m.league_id} | Group: ${m.metadata?.group || m.metadata?.round}`);
+    const idsToDelete = toDelete.map(m => m.id);
+    
+    if (idsToDelete.length === 0) {
+        console.log('No matches to delete.');
+        return;
     }
+
+    // Delete in batches of 50 to avoid any limits
+    let deletedCount = 0;
+    for (let i = 0; i < idsToDelete.length; i += 50) {
+        const batch = idsToDelete.slice(i, i + 50);
+        const { error } = await supabase
+            .from('matches')
+            .delete()
+            .in('id', batch);
+            
+        if (error) {
+            console.error('Error deleting batch:', error);
+        } else {
+            deletedCount += batch.length;
+            console.log(`Deleted batch of ${batch.length} matches. (${deletedCount}/${idsToDelete.length})`);
+        }
+    }
+    
+    console.log('Finished deleting duplicate World Cup matches.');
 }
 
-checkDuplicates();
+deleteDuplicates();
