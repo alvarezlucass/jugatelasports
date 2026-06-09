@@ -4,6 +4,7 @@ import { ArrowLeft, History, Trophy, Zap, Globe, MapPin, Calendar, Info, Sparkle
 import { WORLD_CUP_GROUP_MATCHES, getTeamStaticData, WORLD_CUP_VENUES, getTeamFlagUrl } from '../data/worldCupPersistence';
 import { PredictionForm } from '../components/competition/PredictionForm';
 import { MatchChat } from '../components/social/MatchChat';
+import { MatchNews } from '../components/competition/MatchNews';
 import { PredictionCard } from '../components/profile/PredictionCard';
 import { PredictionListItem } from '../components/profile/PredictionListItem';
 import { databaseService } from '../services/databaseService';
@@ -594,10 +595,19 @@ export const MatchPredictionPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Match Chat / Community Tribuna */}
+                    {/* Match Chat / Community Tribuna (Temporalmente Oculto) */}
+                    {/* 
                     <div className="pt-4">
                         <div className="bg-[#0F131A] rounded-[2rem] p-4 md:p-6 border border-white/5">
                             <MatchChat matchId={match.id} />
+                        </div>
+                    </div> 
+                    */}
+
+                    {/* Match News */}
+                    <div className="pt-4">
+                        <div className="bg-[#0F131A] rounded-[2rem] p-4 md:p-6 border border-white/5">
+                            <MatchNews />
                         </div>
                     </div>
                 </div>

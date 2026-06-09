@@ -98,7 +98,8 @@ export const Layout: React.FC = () => {
         // ACCESO ADMINISTRADOR
         ...(user?.role === 'ADMIN' ? [
             { to: '/admin/store', label: 'Admin Tienda', icon: Settings },
-            { to: '/admin/sim', label: 'Admin Sim', icon: Zap }
+            { to: '/admin/sim', label: 'Admin Sim', icon: Zap },
+            { to: '/admin/news', label: 'Admin News', icon: Gift }
         ] : [])
     ];
 

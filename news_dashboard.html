@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jugatela Sports - Panel de Moderación de Noticias</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #020c1b;
+    }
+    .font-sports {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .neon-border {
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+    .neon-text {
+      text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+    }
+    @keyframes pulse-cyan {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    .pulse-db {
+      animation: pulse-cyan 2s infinite;
+    }
+  </style>
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col">
+
+  <!-- PANTALLA DE LOGIN (FILTRO ADMIN DE SEGURIDAD) -->
+  <div id="login-gate" class="fixed inset-0 bg-[#020c1b] z-50 flex items-center justify-center p-4 transition-all duration-500">
+    <div class="bg-[#0a1128] border border-[#1e293b] rounded-3xl p-8 max-w-md w-full text-center space-y-6 shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#00d2ff] to-[#0072ff]"></div>
+      
+      <div class="w-16 h-16 mx-auto">
+        <svg viewBox="0 0 100 110" class="w-full h-full text-[#00d2ff] fill-current">
+          <path d="M50 5 L90 20 L90 60 C90 85 50 105 50 105 C50 105 10 85 10 60 L10 20 Z" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M50 12 L82 24 L82 58 C82 78 50 94 50 94 C50 94 18 78 18 58 L18 24 Z" fill="#020c1b"/>
+          <circle cx="50" cy="45" r="22" fill="none" stroke="white" stroke-width="4"/>
+          <path d="M48 20 L35 52 L48 52 L42 80 L65 42 L52 42 Z" fill="#00d2ff"/>
+        </svg>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-xl font-black font-sports tracking-wider">ACCESO DE ADMINISTRADOR</h2>
+        <p class="text-xs text-gray-400">Ingresá tu correo de Jugatela Sports para activar la central de curación.</p>
+      </div>
+
+      <div class="space-y-4 text-left">
+        <div>
+          <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Correo de Administrador:</label>
+          <input type="email" id="login-email" value="admin@jugatelasports.com" class="w-full bg-[#0d1117] border border-gray-800 rounded-xl p-3.5 text-sm text-white focus:outline-none focus:border-[#00d2ff]" placeholder="ejemplo@jugatelasports.com">
+          <p id="login-error" class="hidden text-xs text-red-500 mt-1 font-semibold">⚠️ Acceso denegado. Solo cuentas autorizadas.</p>
+        </div>
+        <button id="btn-login" class="w-full bg-gradient-to-r from-[#00d2ff] to-[#0072ff] text-black font-black py-3 rounded-xl text-xs tracking-widest uppercase font-sports hover:shadow-[0_0_20px_rgba(0,210,255,0.4)] transition-all">
+          AUTENTICAR Y ENTRAR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL (SÓLO VISIBLE TRAS AUTENTICARSE EN FIREBASE) -->
+  <div id="main-panel" class="hidden flex-1 flex flex-col">
+    <!-- Header -->
+    <header class="bg-[#0a1128] border-b border-[#1e293b] py-4 px-6 sticky top-0 z-45 shadow-md">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10">
+            <svg viewBox="0 0 100 110" class="w-full h-full text-[#00d2ff] fill-current">
+              <path d="M50 5 L90 20 L90 60 C90 85 50 105 50 105 C50 105 10 85 10 60 L10 20 Z" fill="none" stroke="#00d2ff" stroke-width="6" stroke-linejoin="round"/>
+              <path d="M50 12 L82 24 L82 58 C82 78 50 94 50 94 C50 94 18 78 18 58 L18 24 Z" fill="#020c1b"/>
+              <circle cx="50" cy="45" r="22" fill="none" stroke="white" stroke-width="4"/>
+              <path d="M48 20 L35 52 L48 52 L42 80 L65 42 L52 42 Z" fill="#00d2ff"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-black tracking-tight text-white font-sports leading-none">JUGATELA <span class="text-[#00d2ff] neon-text">SPORTS</span></h1>
+            <p class="text-xs text-gray-400 mt-1">Consola de Moderación y Curación de Prensa</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="bg-[#1e293b] px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span> Firestore Sincronizado
+          </span>
+          <button id="btn-logout" class="text-xs text-gray-500 hover:text-red-400 font-semibold transition-all">Salir ➜</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Grid -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Left sidebar: Tabs and Config -->
+      <div class="lg:col-span-3 space-y-4">
+        <div class="bg-[#0a1128]/80 rounded-2xl p-4 border border-[#1e293b] space-y-1">
+          <span class="text-[10px] font-bold text-[#00d2ff] tracking-widest uppercase px-3 block mb-2">Moderación</span>
+          
+          <button onclick="switchTab('curator')" id="tab-btn-curator" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 bg-[#00d2ff] text-black">
+            📢 Cola de Entrada (Intake)
+          </button>
+          <button onclick="switchTab('prompts')" id="tab-btn-prompts" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:bg-[#161b22] hover:text-white transition-all flex items-center gap-2">
+            ⚙️ Prompt de Antigravity
+          </button>
+          <button onclick="switchTab('firebase')" id="tab-btn-firebase" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:bg-[#161b22] hover:text-white transition-all flex items-center gap-2">
+            📊 Noticias en Tu Web
+          </button>
+        </div>
+
+        <div class="bg-gradient-to-b from-[#0a1128] to-[#020c1b] rounded-2xl p-4 border border-[#1e293b] space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider font-sports text-[#00d2ff]">Sincronización</h3>
+            <span class="text-[9px] bg-cyan-500/10 text-[#00d2ff] px-2 py-0.5 rounded font-bold">Mundial 2026</span>
+          </div>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            Los ganchos de incentivos en X deben referenciar los tokens oficiales del código de tu plataforma.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right content area -->
+      <div class="lg:col-span-9">
+
+        <!-- TAB 1: COLA DE ENTRADA Y MODERACIÓN -->
+        <div id="tab-curator" class="space-y-6">
+          <div class="bg-[#0a1128]/80 p-5 rounded-2xl border border-[#1e293b]">
+            <h2 class="text-lg font-black text-white font-sports uppercase tracking-tight">Noticias Entrantes (Antigravity Intake)</h2>
+            <p class="text-xs text-gray-400 mt-1">Estas noticias provienen del Scraper automático de tu flujo. Editá las sugerencias de la IA y aprobalas.</p>
+          </div>
+
+          <!-- Inbox Grid (Sincronizado con Firebase 'noticias_pendientes') -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="inbox-news-grid">
+            <!-- Empty state when no pending news -->
+            <div id="empty-inbox-state" class="col-span-2 bg-[#161b22]/50 border border-dashed border-gray-800 rounded-2xl p-8 text-center text-xs text-gray-500">
+              📭 No hay noticias pendientes en la cola. Antigravity las inyectará automáticamente aquí.
+            </div>
+          </div>
+
+          <!-- Moderation Workspace (The curation editor) -->
+          <div id="moderation-workspace" class="hidden bg-[#0a1128]/80 rounded-2xl p-6 border border-[#00d2ff]/30 space-y-6">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">🛠️</span>
+                <div>
+                  <h3 class="text-sm font-black text-white font-sports">ÁREA DE EDICIÓN Y CURACIÓN HUMANA</h3>
+                  <p class="text-[10px] text-gray-400">Modificá los textos generados por la IA antes de impactar en Jugatela Sports.</p>
+                </div>
+              </div>
+              <button onclick="closeWorkspace()" class="text-gray-400 hover:text-white text-xs">✕ Cancelar</button>
+            </div>
+
+            <!-- Inputs fields to moderate website news text -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs text-gray-400 mb-1 uppercase font-bold">Título de la Noticia en tu Web:</label>
+                <input type="text" id="edit-headline" class="w-full bg-[#0d1117] border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00d2ff]">
+              </div>
+              <div>
+                <label class="block text-xs text-gray-400 mb-1 uppercase font-bold">Categoría / Tag:</label>
+                <input type="text" id="edit-tag" class="w-full bg-[#0d1117] border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00d2ff]">
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-xs text-gray-400 mb-1 uppercase font-bold">Link de la Nota de Origen:</label>
+                <input type="text" id="edit-source-url" class="w-full bg-[#0d1117] border border-gray-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00d2ff]">
+              </div>
+            </div>
+
+            <!-- Tweets Outputs -->
+            <div class="border-t border-gray-800 pt-6 space-y-4">
+              <h4 class="text-xs font-bold text-[#00d2ff] uppercase tracking-wider font-sports">Copia para Redes Sociales (X / Twitter)</h4>
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Tweet 1 (Gancho) -->
+                <div class="bg-[#111827] p-4 rounded-xl border border-gray-800 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-[10px] text-gray-400 font-bold uppercase">TUIT 1: EL GANCHO</span>
+                      <span id="char-1" class="text-[9px] font-bold text-[#00d2ff]">0/240</span>
+                    </div>
+                    <textarea id="edit-tuit-1" rows="5" class="w-full bg-black/40 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#00d2ff] resize-none leading-relaxed" oninput="countChars(1)"></textarea>
+                  </div>
+                  <button onclick="copyTuit(1)" class="w-full bg-[#1e293b] hover:bg-[#00d2ff] hover:text-black py-1.5 rounded-lg text-[10px] font-bold mt-3 transition-all">Copiar Borrador 1</button>
+                </div>
+
+                <!-- Tweet 2 (Pulso) -->
+                <div class="bg-[#111827] p-4 rounded-xl border border-gray-800 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-[10px] text-gray-400 font-bold uppercase">TUIT 2: EL PULSO</span>
+                      <span id="char-2" class="text-[9px] font-bold text-[#00d2ff]">0/240</span>
+                    </div>
+                    <textarea id="edit-tuit-2" rows="5" class="w-full bg-black/40 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#00d2ff] resize-none leading-relaxed" oninput="countChars(2)"></textarea>
+                  </div>
+                  <button onclick="copyTuit(2)" class="w-full bg-[#1e293b] hover:bg-[#00d2ff] hover:text-black py-1.5 rounded-lg text-[10px] font-bold mt-3 transition-all">Copiar Borrador 2</button>
+                </div>
+
+                <!-- Tweet 3 (Desafío) -->
+                <div class="bg-[#111827] p-4 rounded-xl border border-gray-800 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-[10px] text-gray-400 font-bold uppercase">TUIT 3: EL DESAFÍO</span>
+                      <span id="char-3" class="text-[9px] font-bold text-[#00d2ff]">0/240</span>
+                    </div>
+                    <textarea id="edit-tuit-3" rows="5" class="w-full bg-black/40 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#00d2ff] resize-none leading-relaxed" oninput="countChars(3)"></textarea>
+                  </div>
+                  <button onclick="copyTuit(3)" class="w-full bg-[#1e293b] hover:bg-[#00d2ff] hover:text-black py-1.5 rounded-lg text-[10px] font-bold mt-3 transition-all">Copiar Borrador 3</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="border-t border-gray-800 pt-5 flex flex-col sm:flex-row justify-between items-center gap-3">
+              <span class="text-[10px] text-gray-500 font-semibold">⚠️ Recordá comprobar la veracidad de la noticia antes de aprobar.</span>
+              <div class="flex gap-2 w-full sm:w-auto">
+                <button id="btn-reject" class="flex-1 sm:flex-none bg-red-600/20 text-red-400 border border-red-500/30 px-6 py-2.5 rounded-xl text-xs font-bold hover:bg-red-600 hover:text-white transition-all">
+                  Rechazar Noticia
+                </button>
+                <button id="btn-approve" class="flex-1 sm:flex-none bg-gradient-to-r from-[#00d2ff] to-[#0072ff] text-black font-extrabold px-8 py-2.5 rounded-xl text-xs uppercase tracking-wider font-sports hover:shadow-[0_0_15px_rgba(0,210,255,0.4)] transition-all">
+                  Aprobar e Inyectar en Web
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TAB 2: PROMPT DEFINITIVO PARA ANTIGRAVITY (n8n/MAKE) -->
+        <div id="tab-prompts" class="hidden space-y-6">
+          <div class="bg-[#0a1128]/80 p-5 rounded-xl border border-[#1e293b]">
+            <h2 class="text-lg font-black text-white font-sports uppercase tracking-tight">Prompt de Inteligencia Artificial</h2>
+            <p class="text-xs text-gray-400 mt-1">
+              Copiá y pegá este prompt en tu nodo de Gemini dentro de tu automatización (Make o n8n). Esto asegura que la noticia se estructure siempre en el formato JSON correcto.
+            </p>
+          </div>
+
+          <div class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-[#00d2ff] tracking-wider uppercase font-sports">Prompt del Sistema (System Prompt)</span>
+              <button onclick="copyPromptText()" class="text-xs text-[#00d2ff] hover:underline font-bold">Copiar Prompt</button>
+            </div>
+
+            <pre id="prompt-content" class="bg-black/40 rounded-xl p-4 text-[11px] text-gray-300 font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">
+Eres el redactor jefe de prensa y redes sociales para la plataforma "Jugatela Sports" (un sitio web free-to-play de predicciones deportivas y duelos entre amigos para el Mundial 2026). Tu tono es directo, picante, futbolero y agresivo de la "vieja escuela" de Twitter (X). Odias el lenguaje corporativo y el humo comercial.
+
+Tu tarea es recibir una noticia deportiva cruda (o un tweet informativo) y procesarla en un formato JSON estricto con la siguiente estructura:
+
+{
+  "tag": "Una etiqueta corta en mayúsculas como 'ÚLTIMO MOMENTO', 'INFO SELECCIÓN', 'MUNDIALISTA' o 'CURIOSIDAD'",
+  "headline": "Un resumen limpio de máximo 80 caracteres en español de la noticia para mostrar en nuestra sección de noticias en la web.",
+  "sourceUrl": "El link de la nota original provisto",
+  "tweet_1": "Post de X (Máx 240 caracteres). Compara la noticia de manera graciosa o picante con los grandes (#Messi, #FIFA, #AFA, #Mundial2026) obligando al hincha a tomar partido con una pregunta.",
+  "tweet_2": "Post de X (Máx 240 caracteres). Simula picardía o duelos ficticios en la web de Jugatela entre usuarios como 'pocket', 'Lucas', 'El Profe' o la 'IA Analista' en base a la noticia.",
+  "tweet_3": "Post de X (Máx 240 caracteres). El llamado a la acción agresivo. Desafía al lector a dejar el sillón, registrarse y reclamar sus 1000 tokens gratis de bienvenida para apostar por este partido. Obligatorio incluir el enlace: jugatelasports.com"
+}
+
+REGLAS DE TONO:
+- No saludes, no te disculpes, no uses palabras de relleno.
+- Toca el orgullo futbolero del hincha. Usa frases como "¿Arrugaron antes de jugar?" o "Ni con los contratos de la AFA...".
+- Devuelve ÚNICAMENTE el bloque JSON limpio sin comentarios ni envoltorios markdown.</pre>
+          </div>
+        </div>
+
+        <!-- TAB 3: BASE DE DATOS DE NOTICIAS SIMULADA -->
+        <div id="tab-firebase" class="hidden space-y-6">
+          <div class="bg-[#0a1128]/80 p-5 rounded-xl border border-[#1e293b]">
+            <h2 class="text-lg font-black text-white font-sports uppercase tracking-tight">Central de Datos (Firestore)</h2>
+            <p class="text-xs text-gray-400 mt-1">Visualizá y eliminá las noticias aprobadas que impactarán en tiempo real en tu sección de noticias de JugatelaSports.com.</p>
+          </div>
+
+          <div class="bg-[#161b22] rounded-2xl border border-gray-800 p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+              <span class="text-xs font-bold text-[#00d2ff] tracking-wider uppercase font-sports">Noticias en Colección Firestore Pública</span>
+              <span class="text-[10px] text-gray-400 font-semibold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 pulse-db"></span> /public/data/noticias
+              </span>
+            </div>
+
+            <!-- Curated news list -->
+            <div id="approved-news-list" class="space-y-4">
+              <!-- Empty State by default -->
+              <div id="empty-approved-state" class="text-center py-8 text-gray-500 text-xs">
+                <span>📭 No hay noticias aprobadas en Firestore en este momento. Las aprobadas se guardarán acá.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Toast system -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-[#00d2ff] text-black font-extrabold text-xs py-3.5 px-6 rounded-xl shadow-lg z-50 flex items-center gap-2 transition-all">
+    <span>⚽</span> <span id="toast-message">Proceso exitoso</span>
+  </div>
+
+  <!-- Firebase Scripts integrados según RULES 1, 2 y 3 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, query, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Configuración Firebase Dinámica de tu entorno de Canvas
+    const firebaseConfig = JSON.parse(__firebase_config);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+    let currentUser = null;
+    let pendingNews = [];
+    let activeModeratingId = null;
+
+    // RULE 3 - Auth Before Queries
+    const initAuth = async () => {
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+      } catch (error) {
+        console.error("Error en autenticación Firebase:", error);
+      }
+    };
+
+    initAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        // Iniciar listeners una vez autenticado
+        startFirebaseListeners();
+      }
+    });
+
+    // Escuchadores en tiempo real (Firestore) - RULE 1: Strict Paths
+    function startFirebaseListeners() {
+      // 1. Cola de Noticias Pendientes (Inyectadas por Antigravity)
+      const pendingCol = collection(db, 'artifacts', appId, 'public', 'data', 'noticias_pendientes');
+      onSnapshot(pendingCol, (snapshot) => {
+        pendingNews = [];
+        snapshot.forEach((doc) => {
+          pendingNews.push({ id: doc.id, ...doc.data() });
+        });
+        renderPendingNews();
+      }, (error) => {
+        console.error("Error en onSnapshot noticias_pendientes:", error);
+      });
+
+      // 2. Noticias Aprobadas (Mostradas en jugatelasports.com)
+      const approvedCol = collection(db, 'artifacts', appId, 'public', 'data', 'noticias');
+      onSnapshot(approvedCol, (snapshot) => {
+        const approvedNews = [];
+        snapshot.forEach((doc) => {
+          approvedNews.push({ id: doc.id, ...doc.data() });
+        });
+        renderApprovedNews(approvedNews);
+      }, (error) => {
+        console.error("Error en onSnapshot noticias:", error);
+      });
+    }
+
+    // Renderizadores del DOM
+    function renderPendingNews() {
+      const container = document.getElementById('inbox-news-grid');
+      const emptyState = document.getElementById('empty-inbox-state');
+      
+      // Quitar tarjetas viejas
+      container.querySelectorAll('.pending-card').forEach(el => el.remove());
+
+      if (pendingNews.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      pendingNews.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "pending-card bg-[#161b22] rounded-2xl border border-gray-800/80 p-5 flex flex-col justify-between hover:border-[#00d2ff]/30 transition-all";
+        card.id = `card-news-${item.id}`;
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-[9px] bg-red-500/10 text-red-400 px-2.5 py-0.5 rounded-full font-bold uppercase">${item.tag || 'NOTICIA'}</span>
+              ${item.sourceUrl ? `
+                <a href="${item.sourceUrl}" target="_blank" class="text-[10px] text-[#00d2ff] hover:underline flex items-center gap-1 font-semibold">
+                  🔗 Ver fuente original ↗
+                </a>
+              ` : '<span class="text-[10px] text-gray-500 font-semibold">Sin enlace</span>'}
+            </div>
+            <h3 class="text-sm font-bold text-white leading-snug">${item.headline}</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">${item.body || 'Carga lista para analizar por inteligencia artificial.'}</p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-800/50 flex gap-2">
+            <button id="btn-reject-${item.id}" class="bg-[#111827] hover:bg-red-500/20 text-gray-400 hover:text-red-400 px-3 py-2 rounded-xl text-xs font-bold transition-all">
+              Rechazar
+            </button>
+            <button id="btn-moderate-${item.id}" class="flex-1 bg-[#1e293b] hover:bg-[#00d2ff] text-white hover:text-black py-2 rounded-xl text-xs font-bold transition-all">
+              Analizar con IA (Tono Picante)
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+
+        // Eventos a botones dinámicos
+        document.getElementById(`btn-reject-${item.id}`).onclick = () => deletePending(item.id);
+        document.getElementById(`btn-moderate-${item.id}`).onclick = () => loadWorkspace(item);
+      });
+    }
+
+    function renderApprovedNews(list) {
+      const container = document.getElementById('approved-news-list');
+      const emptyState = document.getElementById('empty-approved-state');
+
+      container.querySelectorAll('.news-item-approved').forEach(el => el.remove());
+
+      if (list.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      list.forEach(item => {
+        const row = document.createElement('div');
+        row.className = "news-item-approved bg-[#0d1117] border border-gray-800 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-all";
+        row.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[9px] bg-[#00d2ff]/10 text-[#00d2ff] px-2 py-0.5 rounded font-black tracking-wider uppercase">${item.tag}</span>
+              <span class="text-[9px] text-gray-500">• Publicada</span>
+            </div>
+            <h4 class="text-sm font-semibold text-white">${item.headline}</h4>
+            ${item.sourceUrl ? `<a href="${item.sourceUrl}" target="_blank" class="text-[10px] text-gray-400 hover:text-white underline">Ver fuente ↗</a>` : ''}
+          </div>
+          <button id="btn-del-approved-${item.id}" class="text-xs text-red-500 hover:text-red-400 hover:underline font-bold self-end sm:self-auto">
+            Eliminar de la Web
+          </button>
+        `;
+        container.appendChild(row);
+
+        document.getElementById(`btn-del-approved-${item.id}`).onclick = () => deleteApproved(item.id);
+      });
+    }
+
+    // Funciones de acción de Base de Datos
+    async function deletePending(id) {
+      if (!currentUser) return;
+      try {
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'noticias_pendientes', id));
+        showToast("Noticia rechazada de la cola.");
+        if (activeModeratingId === id) {
+          closeWorkspace();
+        }
+      } catch (e) {
+        console.error("Error al borrar noticia pendiente:", e);
+      }
+    }
+
+    async function deleteApproved(id) {
+      if (!currentUser) return;
+      try {
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'noticias', id));
+        showToast("Noticia removida de tu web.");
+      } catch (e) {
+        console.error("Error al remover noticia aprobada:", e);
+      }
+    }
+
+    // Cargar espacio de trabajo con IA
+    function loadWorkspace(item) {
+      activeModeratingId = item.id;
+      document.getElementById('moderation-workspace').classList.remove('hidden');
+      document.getElementById('moderation-workspace').scrollIntoView({ behavior: 'smooth' });
+
+      document.getElementById('edit-headline').value = item.headline || "";
+      document.getElementById('edit-tag').value = item.tag || "MUNDIALISTA";
+      document.getElementById('edit-source-url').value = item.sourceUrl || "";
+
+      // Autocompletar borradores de tuits generados en Antigravity
+      document.getElementById('edit-tuit-1').value = item.tweet_1 || `🚨 MUNDIAL 2026: ${item.headline}. Ni #Messi te salva si no estás al día con los datos. ¿Vos cómo la ves? #FIFA #AFA`;
+      document.getElementById('edit-tuit-2').value = item.tweet_2 || `En la web de #Jugatela, pocket y Lucas ya se están sacando chispas y debatiendo qué pasará con esta primicia. La pica arde.`;
+      document.getElementById('edit-tuit-3').value = item.tweet_3 || `Dejá de mirar de afuera como un jubilado. Llevate tus 1000 tokens gratis de bienvenida y demostrá quién sabe más acá: jugatelasports.com`;
+
+      countChars(1);
+      countChars(2);
+      countChars(3);
+    }
+
+    // Aprobar e Inyectar Definitivo
+    async function approveAndPublish() {
+      if (!currentUser || !activeModeratingId) return;
+
+      const headline = document.getElementById('edit-headline').value.trim();
+      const tag = document.getElementById('edit-tag').value.trim();
+      const sourceUrl = document.getElementById('edit-source-url').value.trim();
+
+      if (!headline || !tag) {
+        showToast("⚠️ Completá título y categoría.");
+        return;
+      }
+
+      try {
+        // 1. Guardar noticia aprobada en Firestore
+        const approvedDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'noticias', activeModeratingId);
+        await setDoc(approvedDocRef, {
+          headline,
+          tag,
+          sourceUrl,
+          timestamp: Date.now()
+        });
+
+        // 2. Eliminar de pendientes
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'noticias_pendientes', activeModeratingId));
+
+        showToast("¡Aprobado e inyectado con éxito en Firebase!");
+        closeWorkspace();
+      } catch (err) {
+        console.error("Error al aprobar noticia:", err);
+      }
+    }
+
+    // Binders para botones de UI
+    document.getElementById('btn-login').onclick = attemptLogin;
+    document.getElementById('btn-logout').onclick = logout;
+    document.getElementById('btn-approve').onclick = approveAndPublish;
+    document.getElementById('btn-reject').onclick = () => {
+      if (activeModeratingId) deletePending(activeModeratingId);
+    };
+
+    window.closeWorkspace = () => {
+      document.getElementById('moderation-workspace').classList.add('hidden');
+      activeModeratingId = null;
+    };
+
+    // Fictitious initial auth login simulation
+    function attemptLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      const errorEl = document.getElementById('login-error');
+      
+      if (email === 'admin@jugatelasports.com') {
+        document.getElementById('login-gate').classList.add('opacity-0');
+        setTimeout(() => {
+          document.getElementById('login-gate').classList.add('hidden');
+          document.getElementById('main-panel').classList.remove('hidden');
+          showToast("¡Autenticado como admin!");
+        }, 500);
+      } else {
+        errorEl.classList.remove('hidden');
+      }
+    }
+
+    function logout() {
+      document.getElementById('login-gate').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('login-gate').classList.remove('opacity-0');
+        document.getElementById('main-panel').classList.add('hidden');
+        document.getElementById('login-error').classList.add('hidden');
+      }, 50);
+    }
+  </script>
+
+  <script>
+    // Tab switching engine
+    window.switchTab = function(tabName) {
+      document.getElementById('tab-curator').classList.add('hidden');
+      document.getElementById('tab-prompts').classList.add('hidden');
+      document.getElementById('tab-firebase').classList.add('hidden');
+
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+      const tabs = ['curator', 'prompts', 'firebase'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabName) {
+          btn.className = "w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 bg-[#00d2ff] text-black";
+        } else {
+          btn.className = "w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:bg-[#161b22] hover:text-white transition-all flex items-center gap-2";
+        }
+      });
+    }
+
+    window.countChars = function(id) {
+      const text = document.getElementById(`edit-tuit-${id}`).value;
+      const counter = document.getElementById(`char-${id}`);
+      counter.textContent = `${text.length}/240`;
+      if (text.length > 240) {
+        counter.className = "text-[9px] text-red-500 font-black";
+      } else {
+        counter.className = "text-[9px] text-[#00d2ff] font-bold";
+      }
+    }
+
+    window.copyTuit = function(id) {
+      const tuit = document.getElementById(`edit-tuit-${id}`);
+      tuit.select();
+      document.execCommand('copy');
+      showToast(`¡Borrador del Tuit ${id} copiado para X!`);
+    }
+
+    window.copyPromptText = function() {
+      const text = document.getElementById('prompt-content').textContent;
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast("¡System Prompt copiado al portapapeles!");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

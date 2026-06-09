@@ -22,6 +22,7 @@ export const BonusModal: React.FC<BonusModalProps> = ({ isOpen, onClose }) => {
     const [videoRewardReady, setVideoRewardReady] = useState(false);
 
     const [isSocialClicked, setIsSocialClicked] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
 
     // Reset state on close
     useEffect(() => {
@@ -47,12 +48,33 @@ export const BonusModal: React.FC<BonusModalProps> = ({ isOpen, onClose }) => {
     if (!isOpen || !user) return null;
 
     const handleCopyRef = () => {
-        navigator.clipboard.writeText(`https://jugatela.com/r/${user.nickname || user.id}`);
+        const url = `https://jugatelasports.com/r/${user.nickname || user.id}`;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url).then(() => {
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+            });
+        } else {
+            const textArea = document.createElement("textarea");
+            textArea.value = url;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+            } catch (err) {
+                console.error('Unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
     };
 
     const handleShare = () => {
         setIsSocialClicked(true);
-        window.open(`https://twitter.com/intent/tweet?text=¡Súmate a Jugatela Sports y armá tus pronósticos! Registrate acá: https://jugatela.com/r/${user.nickname || user.id}`, '_blank');
+        const url = `https://jugatelasports.com/r/${user.nickname || user.id}`;
+        window.open(`https://twitter.com/intent/tweet?text=¡Súmate a Jugatela Sports y armá tus pronósticos! Registrate acá: ${encodeURIComponent(url)}`, '_blank');
     };
 
     return (
@@ -282,13 +304,14 @@ export const BonusModal: React.FC<BonusModalProps> = ({ isOpen, onClose }) => {
                             
                             <div className="w-full bg-black/40 border border-white/10 rounded-xl p-4 flex items-center justify-between gap-4">
                                 <code className="text-primary font-mono text-xs md:text-sm truncate">
-                                    https://jugatela.com/r/{user.nickname || user.id}
+                                    https://jugatelasports.com/r/{user.nickname || user.id}
                                 </code>
                                 <button 
                                     onClick={handleCopyRef}
                                     className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors flex-shrink-0"
+                                    title="Copiar link"
                                 >
-                                    <Copy className="w-4 h-4" />
+                                    {isCopied ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                                 </button>
                             </div>
                             

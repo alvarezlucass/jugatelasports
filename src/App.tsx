@@ -29,6 +29,7 @@ import { LineupsPage } from './pages/LineupsPage';
 import { MarketPage } from './pages/MarketPage';
 import { StorePage } from './pages/StorePage';
 import { StoreAdminPage } from './pages/admin/StoreAdminPage';
+import { AdminNewsDashboard } from './pages/admin/AdminNewsDashboard';
 import MatchDetail from './pages/MatchDetail';
 import { IndustrialSim } from './pages/admin/IndustrialSim';
 import { GenericLeagueHub } from './pages/GenericLeagueHub';
@@ -41,6 +42,8 @@ import { DisclaimerPage } from './pages/legal/DisclaimerPage';
 
 import { TeamModalProvider } from './context/TeamModalContext';
 
+import { ReferralRoute } from './pages/ReferralRoute';
+
 function App() {
   return (
     <BrowserRouter>
@@ -51,6 +54,7 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
+              <Route path="r/:refId" element={<ReferralRoute />} />
               <Route path="leagues" element={<LeaguesTeaserPage />} />
               <Route path="leagues/:leagueId" element={<GenericLeagueHub />} />
               <Route path="basketball" element={<BasketballHub />} />
@@ -61,6 +65,7 @@ function App() {
               <Route path="rankings" element={<Rankings />} />
               <Route path="store" element={<StorePage />} />
               <Route path="admin/store" element={<StoreAdminPage />} />
+              <Route path="admin/news" element={<AdminNewsDashboard />} />
               <Route path="admin/sim" element={<IndustrialSim />} />
               <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="profile/:userId" element={<PublicProfile />} />
