@@ -4,7 +4,6 @@ import { LayoutDashboard, Settings, Zap, Medal, Store, Users, Gift } from 'lucid
 import { TokenWallet } from '../ui/TokenWallet';
 import { cn } from '../../lib/utils';
 import { useUser } from '../../contexts/UserContext';
-import { NotificationSimulator } from '../debug/NotificationSimulator';
 import { NotificationBell, PvpNotificationToast } from '../ui/NotificationSystem';
 import { BottomNavigation } from './BottomNavigation';
 import { InstallPrompt } from '../ui/InstallPrompt';
@@ -14,6 +13,7 @@ import { ProfileCompletionModal } from '../modals/ProfileCompletionModal';
 import { WinCelebrationModal } from '../modals/WinCelebrationModal';
 import { Footer } from './Footer';
 import { databaseService } from '../../services/databaseService';
+import { WhatsAppFloat } from '../ui/WhatsAppFloat';
 
 export const Layout: React.FC = () => {
     const { user, dailyBonusAvailable, videoBonusAvailable, socialBonusAvailable, profileIsComplete, updateProfile, signOut, pvpChallenges, userPredictions } = useUser();
@@ -210,7 +210,7 @@ export const Layout: React.FC = () => {
 
             <BonusModal isOpen={isBonusOpen} onClose={() => setIsBonusOpen(false)} />
             
-            {user?.role === 'ADMIN' && <NotificationSimulator />}
+            <WhatsAppFloat />
             <PvpNotificationToast />
 
             {/* Modal de completar perfil para usuarios que entraron con Google */}
