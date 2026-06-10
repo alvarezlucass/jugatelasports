@@ -64,6 +64,9 @@ export const BottomNavigation = () => {
                                         <NavLink to="/admin/news" onClick={() => setShowAdminMenu(false)} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 rounded-xl whitespace-nowrap text-white font-bold transition-colors">
                                             <Newspaper className="w-4 h-4 text-amber-400" /> Noticias
                                         </NavLink>
+                                        <NavLink to="/admin/dashboard" onClick={() => setShowAdminMenu(false)} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 rounded-xl whitespace-nowrap text-white font-bold transition-colors">
+                                            <LayoutDashboard className="w-4 h-4 text-emerald-400" /> Dashboard
+                                        </NavLink>
                                     </div>
                                 )}
                             </div>

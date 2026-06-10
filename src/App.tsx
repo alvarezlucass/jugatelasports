@@ -30,6 +30,7 @@ import { MarketPage } from './pages/MarketPage';
 import { StorePage } from './pages/StorePage';
 import { StoreAdminPage } from './pages/admin/StoreAdminPage';
 import { AdminNewsDashboard } from './pages/admin/AdminNewsDashboard';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
 import MatchDetail from './pages/MatchDetail';
 import { IndustrialSim } from './pages/admin/IndustrialSim';
 import { GenericLeagueHub } from './pages/GenericLeagueHub';
@@ -67,6 +68,7 @@ function App() {
               <Route path="admin/store" element={<StoreAdminPage />} />
               <Route path="admin/news" element={<AdminNewsDashboard />} />
               <Route path="admin/sim" element={<IndustrialSim />} />
+              <Route path="admin/dashboard" element={<AdminDashboard />} />
               <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="profile/:userId" element={<PublicProfile />} />
               <Route path="register" element={<Register />} />

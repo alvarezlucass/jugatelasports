@@ -12,6 +12,14 @@ interface NewsItem {
     created_at: string;
 }
 
+const getDomain = (url: string) => {
+    try {
+        return new URL(url).hostname.replace('www.', '');
+    } catch {
+        return 'Enlace';
+    }
+};
+
 export const MatchNews: React.FC = () => {
     const [news, setNews] = useState<NewsItem[]>([]);
     const [loading, setLoading] = useState(true);
@@ -92,14 +100,19 @@ export const MatchNews: React.FC = () => {
                                 {item.headline}
                             </h4>
                             {item.source_url && (
-                                <a 
-                                    href={item.source_url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="self-end flex items-center gap-1 text-[10px] text-cyan-400 hover:text-cyan-300 font-bold uppercase transition-colors"
-                                >
-                                    Ver nota completa <ExternalLink size={10} />
-                                </a>
+                                <div className="flex justify-between items-center mt-2">
+                                    <span className="text-[10px] font-bold text-zinc-400">
+                                        Fuente: {getDomain(item.source_url)}
+                                    </span>
+                                    <a 
+                                        href={item.source_url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 text-[10px] text-cyan-400 hover:text-cyan-300 font-bold uppercase transition-colors"
+                                    >
+                                        Leer <ExternalLink size={10} />
+                                    </a>
+                                </div>
                             )}
                         </div>
                     ))
