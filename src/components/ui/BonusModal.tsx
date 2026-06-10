@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Gift, Play, Share2, Users, CheckCircle2, Copy } from 'lucide-react';
+import { X, Gift, Play, Share2, Users, CheckCircle2, Copy, Facebook, Instagram } from 'lucide-react';
 import { useUser } from '../../contexts/UserContext';
 import { cn } from '../../lib/utils';
 
@@ -75,6 +75,22 @@ export const BonusModal: React.FC<BonusModalProps> = ({ isOpen, onClose }) => {
         setIsSocialClicked(true);
         const url = `https://jugatelasports.com/r/${user.nickname || user.id}`;
         window.open(`https://twitter.com/intent/tweet?text=¡Súmate a Jugatela Sports y armá tus pronósticos! Registrate acá: ${encodeURIComponent(url)}`, '_blank');
+    };
+
+    const handleShareFB = () => {
+        setIsSocialClicked(true);
+        const url = `https://jugatelasports.com/r/${user.nickname || user.id}`;
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+    };
+
+    const handleShareIG = () => {
+        setIsSocialClicked(true);
+        const url = `https://jugatelasports.com/r/${user.nickname || user.id}`;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(`¡Súmate a Jugatela Sports y armá tus pronósticos! Registrate acá: ${url}`);
+        }
+        alert('¡Texto y link copiados! Pégalos en tu Historia o Bio de Instagram.');
+        window.open('https://instagram.com', '_blank');
     };
 
     return (
@@ -258,12 +274,28 @@ export const BonusModal: React.FC<BonusModalProps> = ({ isOpen, onClose }) => {
                             
                             {socialBonusAvailable ? (
                                 <div className="space-y-4 w-full max-w-xs">
-                                    <button 
-                                        onClick={handleShare}
-                                        className="w-full px-6 py-3 rounded-xl font-bold bg-[#1DA1F2] text-white hover:bg-[#1a91da] transition-colors flex items-center justify-center gap-2"
-                                    >
-                                        <Share2 className="w-4 h-4" /> Compartir en X
-                                    </button>
+                                    <div className="flex flex-col gap-2">
+                                        <button 
+                                            onClick={handleShare}
+                                            className="w-full px-6 py-3 rounded-xl font-bold bg-[#1DA1F2] text-white hover:bg-[#1a91da] transition-colors flex items-center justify-center gap-2"
+                                        >
+                                            <Share2 className="w-4 h-4" /> Compartir en X
+                                        </button>
+                                        
+                                        <button 
+                                            onClick={handleShareFB}
+                                            className="w-full px-6 py-3 rounded-xl font-bold bg-[#1877F2] text-white hover:bg-[#166fe5] transition-colors flex items-center justify-center gap-2"
+                                        >
+                                            <Facebook className="w-4 h-4" /> Compartir en Facebook
+                                        </button>
+
+                                        <button 
+                                            onClick={handleShareIG}
+                                            className="w-full px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F56040] text-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                                        >
+                                            <Instagram className="w-4 h-4" /> Compartir en Instagram
+                                        </button>
+                                    </div>
                                     
                                     <button 
                                         onClick={claimSocialBonus}
