@@ -12,6 +12,7 @@ interface OfficialMatchListProps {
     onMatchClick?: (matchId: string) => void;
     showGroupLink?: boolean;
     leagueBadge?: string;
+    sortDirection?: 'asc' | 'desc';
 }
 
 const LEAGUE_NAMES: Record<string, string> = {
@@ -65,7 +66,8 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
     matches, 
     onMatchClick,
     showGroupLink = true,
-    leagueBadge
+    leagueBadge,
+    sortDirection = 'asc'
 }) => {
     const navigate = useNavigate();
     const { openTeamModal } = useTeamModal();
@@ -79,7 +81,9 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
         return acc;
     }, {} as Record<string, (GroupMatch & { league_id?: string })[]>);
 
-    const sortedDates = Object.keys(groupedMatches).sort();
+    const sortedDates = Object.keys(groupedMatches).sort((a, b) => {
+        return sortDirection === 'desc' ? b.localeCompare(a) : a.localeCompare(b);
+    });
 
     if (matches.length === 0) {
         return (

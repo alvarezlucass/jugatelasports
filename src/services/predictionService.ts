@@ -1,7 +1,7 @@
 
 import { supabase } from '../lib/supabase';
 import { databaseService } from './databaseService';
-import { WORLD_CUP_GROUP_MATCHES, WORLD_CUP_TEAMS_HISTORY } from '../data/worldCupPersistence';
+import { WORLD_CUP_GROUP_MATCHES, WORLD_CUP_TEAMS_HISTORY, getTeamFlagUrl } from '../data/worldCupPersistence';
 
 export interface PredictionData {
     matchId: string;
@@ -60,6 +60,8 @@ export const predictionService = {
                     status: staticMatch.status.toUpperCase(),
                     home_score: staticMatch.homeScore || 0,
                     away_score: staticMatch.awayScore || 0,
+                    home_team_logo: getTeamFlagUrl(staticMatch.homeTeam),
+                    away_team_logo: getTeamFlagUrl(staticMatch.awayTeam),
                     metadata: {
                         group: staticMatch.group,
                         stadium: staticMatch.stadium,

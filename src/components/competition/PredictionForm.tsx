@@ -78,6 +78,9 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
     }, [matchId]);
 
     const isLocked = useMemo(() => {
+        if (matchStatus === 'live' || matchStatus === 'finished' || matchStatus === 'LIVE' || matchStatus === 'FINISHED') {
+            return true;
+        }
         if (!matchDetailsData) return false;
         if (matchDetailsData.status === 'live' || matchDetailsData.status === 'finished') {
             return true;
@@ -90,7 +93,7 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
             return diffMs < 300000;
         }
         return false;
-    }, [matchDetailsData]);
+    }, [matchDetailsData, matchStatus]);
 
 
     const scroll = (direction: 'left' | 'right') => {

@@ -29,7 +29,7 @@ export const Predictions: React.FC = () => {
             if (matchState === 'UPCOMING') {
                 fetchOptions = { upcomingOnly: true, daysLimit: 30 };
             } else if (matchState === 'LIVE') {
-                fetchOptions = { status: ['LIVE', 'IN_PLAY', 'IN_PROGRESS', 'PAUSED', 'HALFTIME'] };
+                fetchOptions = { liveOnly: true };
             } else if (matchState === 'FINISHED') {
                 fetchOptions = { status: ['FINISHED'], limit: 50, daysLimit: 30 };
             }
@@ -201,6 +201,7 @@ export const Predictions: React.FC = () => {
                         <OfficialMatchList 
                             matches={matches} 
                             onMatchClick={handleMatchClick}
+                            sortDirection={matchState === 'FINISHED' ? 'desc' : 'asc'}
                         />
                     </div>
                 </div>

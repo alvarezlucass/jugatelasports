@@ -154,7 +154,8 @@ export const MatchPredictionPage: React.FC = () => {
                     time: data.start_time.split('T')[1]?.substring(0, 5) || '00:00',
                     stadium: data.metadata?.stadium || 'Estadio',
                     city: data.metadata?.city || 'Ciudad',
-                    status: data.status.toLowerCase() === 'finished' ? 'finished' : data.status.toLowerCase() === 'live' ? 'live' : 'scheduled',
+                    status: data.status.toLowerCase() === 'finished' ? 'finished' : 
+                            (data.status.toLowerCase() === 'live' || new Date(data.start_time).getTime() <= Date.now()) ? 'live' : 'scheduled',
                     homeScore: data.home_score,
                     awayScore: data.away_score,
                     h2h: data.metadata?.h2h || [],

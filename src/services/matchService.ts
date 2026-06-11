@@ -2,11 +2,10 @@ import { supabase } from '../lib/supabase';
 import { type GroupMatch } from '../data/worldCupPersistence';
 
 export const matchService = {
-    async getMatches(leagueId?: string, options?: { upcomingOnly?: boolean; status?: string[]; daysLimit?: number; season?: number; limit?: number }): Promise<GroupMatch[]> {
+    async getMatches(leagueId?: string, options?: { upcomingOnly?: boolean; liveOnly?: boolean; status?: string[]; daysLimit?: number; season?: number; limit?: number }): Promise<GroupMatch[]> {
         let query = supabase
             .from('matches')
-            .select('*')
-            .order('start_time', { ascending: true });
+            .select('*');
 
         if (leagueId) {
             // league_id in DB uses dbId strings (e.g., 'lpf', 'ucl', 'world-cup-2026')
@@ -32,6 +31,15 @@ export const matchService = {
             } else {
                 query = query.order('start_time', { ascending: true });
             }
+        } else if (options?.liveOnly) {
+            const now = new Date();
+            const nowStr = now.toISOString();
+            // Restar 4 horas para atrapar partidos que recién empezaron (un partido dura ~2h)
+            const fourHoursAgo = new Date(now.getTime() - 4 * 60 * 60 * 1000).toISOString();
+            
+            // Buscar partidos con estado en vivo, O partidos programados que debieron empezar en las ultimas 4 horas
+            query = query.or(`status.in.(LIVE,IN_PLAY,IN_PROGRESS,PAUSED,HALFTIME),and(status.in.(SCHEDULED,UPCOMING),start_time.lte.${nowStr},start_time.gte.${fourHoursAgo})`)
+                         .order('start_time', { ascending: true });
         } else if (options?.upcomingOnly) {
             const now = new Date().toISOString();
             query = query.gte('start_time', now)
@@ -63,12 +71,27 @@ export const matchService = {
 
         // Map DB fields to GroupMatch interface
         return data.map((m: any) => {
-            const dateObj = new Date(m.start_time);
-            const date = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
-            const time = `${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`;
+            let status: 'scheduled' | 'live' | 'finished' = this.mapStatus(m.status);
+            
+            // Forzar LIVE/FINISHED si es programado pero la fecha de inicio ya pasó
+            if ((status === 'scheduled' || status === 'live') && m.start_time) {
+                const matchTime = new Date(m.start_time).getTime();
+                const now = Date.now();
+                const elapsedMins = (now - matchTime) / 60000;
+                
+                if (elapsedMins >= 0 && elapsedMins < 115) {
+                    status = 'live';
+                } else if (elapsedMins >= 115) {
+                    status = 'finished';
+                }
+            }
+            
+            let homeScore = m.home_score;
+            let awayScore = m.away_score;
+            let time = m.start_time ? m.start_time.split('T')[1].substring(0, 5) : '00:00';
 
             return {
-                id: m.id,
+                id: m.id.toString(),
                 league_id: m.league_id,
                 group: m.metadata?.group || m.metadata?.round || 'U',
                 homeTeam: m.home_team,
@@ -77,14 +100,14 @@ export const matchService = {
                 awayTeamLogo: m.away_team_logo,
                 homeTeamId: m.metadata?.home_id || (m.home_team_logo ? m.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
                 awayTeamId: m.metadata?.away_id || (m.away_team_logo ? m.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
-                date,
-                time,
+                date: m.start_time ? m.start_time.split('T')[0] : '2026-06-11',
+                time: time,
                 startTime: m.start_time,
                 stadium: m.metadata?.stadium || 'TBD',
                 city: m.metadata?.city || 'TBD',
-                status: this.mapStatus(m.status),
-                homeScore: m.home_score,
-                awayScore: m.away_score,
+                status: status,
+                homeScore: homeScore,
+                awayScore: awayScore,
                 h2h: m.metadata?.h2h || [],
                 metadata: m.metadata
             };

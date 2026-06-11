@@ -18,71 +18,9 @@ import { AdvancedStatsPanel } from '../components/match/AdvancedStatsPanel';
 import { MatchTimeline } from '../components/match/MatchTimeline';
 import { PlayerDetailModal } from '../components/match/PlayerDetailModal';
 
+import { footballApiService } from '../services/footballApiService';
+import { mapApiFootballEvents, mapApiFootballLineups, mapApiFootballStatistics } from '../utils/footballApiMapper';
 // Mocks mejorados para desarrollo visual (Mundial 2026 Style)
-const MOCK_MATCH = {
-    home: { id: 't1', name: 'Brasil', flag: '🇧🇷' },
-    away: { id: 't2', name: 'Argentina', flag: '🇦🇷' },
-    score: { home: 2, away: 1 },
-    time: 67,
-    venue: 'Mercedes-Benz Stadium',
-    city: 'Atlanta, USA'
-};
-
-const MOCK_LINEUP_HOME: MatchLineup = {
-    teamId: 't1',
-    formation: '4-3-3',
-    startXI: [
-        { player: { id: 'p1', name: 'Alisson' }, pos: 'GK', grid: '1:2' },
-        { player: { id: 'p2', name: 'Marquinhos' }, pos: 'DEF', grid: '2:1' },
-        { player: { id: 'p3', name: 'E. Militao' }, pos: 'DEF', grid: '2:3' },
-        { player: { id: 'p4', name: 'C. Augusto' }, pos: 'DEF', grid: '2:0.8' },
-        { player: { id: 'p5', name: 'Yan Couto' }, pos: 'DEF', grid: '2:3.2' },
-        { player: { id: 'p6', name: 'Casemiro' }, pos: 'MID', grid: '3:2' },
-        { player: { id: 'p7', name: 'Paquetá' }, pos: 'MID', grid: '3:1' },
-        { player: { id: 'p8', name: 'B. Guimarães' }, pos: 'MID', grid: '3:3' },
-        { player: { id: 'p9', name: 'Neymar Jr' }, pos: 'FWD', grid: '4:2' },
-        { player: { id: 'p10', name: 'Vinicius Jr' }, pos: 'FWD', grid: '4:1' },
-        { player: { id: 'p11', name: 'Richarlison' }, pos: 'FWD', grid: '4:3' },
-    ],
-    substitutes: [],
-    staff: [{ name: 'Dorival Júnior', role: 'Head Coach' }, { name: 'Lucas Silvestre', role: 'Assistant' }]
-};
-
-const MOCK_LINEUP_AWAY: MatchLineup = {
-    teamId: 't2',
-    formation: '4-4-2',
-    startXI: [
-        { player: { id: 'p101', name: 'E. Martínez' }, pos: 'GK', grid: '1:2' },
-        { player: { id: 'p102', name: 'C. Romero' }, pos: 'DEF', grid: '2:1.5' },
-        { player: { id: 'p103', name: 'N. Otamendi' }, pos: 'DEF', grid: '2:2.5' },
-        { player: { id: 'p104', name: 'N. Molina' }, pos: 'DEF', grid: '2:0.5' },
-        { player: { id: 'p105', name: 'N. Tagliafico' }, pos: 'DEF', grid: '2:3.5' },
-        { player: { id: 'p106', name: 'R. De Paul' }, pos: 'MID', grid: '3:1' },
-        { player: { id: 'p107', name: 'Enzo F.' }, pos: 'MID', grid: '3:2' },
-        { player: { id: 'p108', name: 'A. Mac Allister' }, pos: 'MID', grid: '3:3' },
-        { player: { id: 'p109', name: 'L. Messi' }, pos: 'FWD', grid: '4:1.5' },
-        { player: { id: 'p110', name: 'J. Álvarez' }, pos: 'FWD', grid: '4:2.5' },
-        { player: { id: 'p111', name: 'Á. Di María' }, pos: 'MID', grid: '3:4' },
-    ],
-    substitutes: [],
-    staff: [{ name: 'Lionel Scaloni', role: 'Head Coach' }, { name: 'Pablo Aimar', role: 'Assistant' }]
-};
-
-const MOCK_EVENTS: MatchEvent[] = [
-    { id: 'e1', time: 12, type: 'GOAL', teamId: 't1', player: { id: 'p10', name: 'Vinicius Jr' }, assistPlayer: { id: 'p9', name: 'Neymar Jr' }, detail: 'Gol' },
-    { id: 'e2', time: 34, type: 'CARD', teamId: 't2', player: { id: 'p106', name: 'R. De Paul' }, detail: 'Yellow Card' },
-    { id: 'e3', time: 45, type: 'GOAL', teamId: 't2', player: { id: 'p109', name: 'L. Messi' }, detail: 'Freekick Goal' },
-    { id: 'e4', time: 62, type: 'GOAL', teamId: 't1', player: { id: 'p11', name: 'Richarlison' }, assistPlayer: { id: 'p10', name: 'Vinicius Jr' }, detail: 'Header' },
-    { id: 'e5', time: 65, type: 'VAR', teamId: 't2', player: { id: 'p110', name: 'J. Álvarez' }, detail: 'Gol anulado por fuera de juego' },
-];
-
-const MOCK_STATS: MatchStats = {
-    possession: { home: 58, away: 42 },
-    shots: { home: 12, away: 8 },
-    shotsOnGoal: { home: 5, away: 3 },
-    passes: { home: 450, away: 310 },
-    corners: { home: 6, away: 2 }
-};
 
 const getLeagueDisplayName = (leagueId: string | number | undefined) => {
     if (!leagueId) return 'Torneo Oficial';
@@ -133,6 +71,12 @@ const MatchDetail: React.FC = () => {
     const [showDevTools, setShowDevTools] = useState(false);
     const [simScore, setSimScore] = useState({ home: 0, away: 0 });
     const [isSimulating, setIsSimulating] = useState(false);
+    const [liveMetadata, setLiveMetadata] = useState<{
+        events?: MatchEvent[];
+        stats?: MatchStats;
+        lineup_home?: MatchLineup;
+        lineup_away?: MatchLineup;
+    } | null>(null);
     
     const { userPredictions, pvpChallenges, user } = useUser();
 
@@ -200,6 +144,49 @@ const MatchDetail: React.FC = () => {
         return () => { supabase.removeChannel(channel); };
     }, [id]);
 
+    React.useEffect(() => {
+        if (!matchData?.api_id && !matchData?.id) return;
+        const apiId = matchData.api_id || matchData.id;
+        const isPastStart = matchData.start_time ? new Date(matchData.start_time).getTime() <= Date.now() : false;
+        const elapsedForEff = matchData.start_time ? Math.floor((Date.now() - new Date(matchData.start_time).getTime()) / 60000) : 0;
+        const effStatus = (matchData.status === 'SCHEDULED' || matchData.status === 'scheduled') && isPastStart 
+            ? (elapsedForEff >= 115 ? 'FINISHED' : 'LIVE') 
+            : matchData.status.toUpperCase();
+        
+        // Solo llamamos a la API si el partido está en vivo o terminado
+        if (effStatus !== 'LIVE' && effStatus !== 'FINISHED') {
+            return;
+        }
+
+        const fetchLiveInfo = async () => {
+            const { success, data } = await footballApiService.getMatchDetails(apiId.toString());
+            if (success && data) {
+                const homeId = data.teams?.home?.id?.toString();
+                const awayId = data.teams?.away?.id?.toString();
+                const lineups = mapApiFootballLineups(data.lineups);
+                
+                setLiveMetadata({
+                    events: mapApiFootballEvents(data.events, homeId, awayId),
+                    stats: mapApiFootballStatistics(data.statistics),
+                    lineup_home: lineups.home || undefined,
+                    lineup_away: lineups.away || undefined
+                });
+            }
+        };
+
+        fetchLiveInfo();
+
+        let interval: NodeJS.Timeout;
+        if (effStatus === 'LIVE') {
+            // Refrescar cada 2 minutos
+            interval = setInterval(fetchLiveInfo, 120000);
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [matchData?.id, matchData?.api_id, matchData?.status]);
+
     if (loading) {
         return (
             <div className="min-h-screen bg-[#0A0D12] flex items-center justify-center">
@@ -218,8 +205,11 @@ const MatchDetail: React.FC = () => {
         );
     }
 
-    const score = { home: matchData.home_score ?? 0, away: matchData.away_score ?? 0 };
-    const tacticalMetadata = matchData.metadata || {};
+    const score = { 
+        home: matchData.home_score ?? matchData.homeScore ?? 0, 
+        away: matchData.away_score ?? matchData.awayScore ?? 0 
+    };
+    const tacticalMetadata = liveMetadata || matchData.metadata || {};
     const events = tacticalMetadata.events || null;
     const stats = tacticalMetadata.stats || null;
     const lineupHome = tacticalMetadata.lineup_home || null;
@@ -340,13 +330,13 @@ const MatchDetail: React.FC = () => {
                         </div>
 
                         <div className="text-center">
-                            <div className={cn("backdrop-blur-md px-6 py-2 rounded-full border mb-4 inline-block", matchData.status === 'LIVE' ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/10")}>
-                                <span className={cn("text-[10px] font-black uppercase tracking-[0.3em]", matchData.status === 'LIVE' ? "text-red-500 animate-pulse" : "text-blue-400")}>
-                                    {matchData.status === 'LIVE' ? 'En Vivo' : matchData.status === 'FINISHED' ? 'Finalizado' : 'Programado'}
+                            <div className={cn("backdrop-blur-md px-6 py-2 rounded-full border mb-4 inline-block", matchData.status === 'LIVE' || matchData.status === 'live' ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/10")}>
+                                <span className={cn("text-[10px] font-black uppercase tracking-[0.3em]", matchData.status === 'LIVE' || matchData.status === 'live' ? "text-red-500 animate-pulse" : "text-blue-400")}>
+                                    {matchData.status === 'LIVE' || matchData.status === 'live' ? 'En Vivo' : matchData.status === 'FINISHED' || matchData.status === 'finished' ? 'Finalizado' : 'Programado'}
                                 </span>
                             </div>
                             <div className="flex items-center gap-4">
-                                {matchData.status === 'FINISHED' || matchData.status === 'LIVE' ? (
+                                {matchData.status === 'FINISHED' || matchData.status === 'finished' || matchData.status === 'LIVE' || matchData.status === 'live' ? (
                                     <>
                                         <span className="text-5xl font-black md:text-7xl">{score.home}</span>
                                         <span className="text-xl md:text-3xl font-light text-white/30">:</span>
@@ -358,8 +348,8 @@ const MatchDetail: React.FC = () => {
                             </div>
                             <div className="mt-4 text-zinc-500 font-bold text-xs flex flex-col items-center justify-center gap-1.5">
                                 <div className="flex items-center gap-2">
-                                    <Clock size={12} className={cn("text-blue-500", matchData.status === 'LIVE' && "animate-pulse")} /> 
-                                    {matchData.status === 'LIVE' ? `${matchData.minute || 0}'` : matchData.status === 'FINISHED' ? 'FT' : matchData.start_time ? matchData.start_time.split('T')[1].substring(0, 5) : ''}
+                                    <Clock size={12} className={cn("text-blue-500", (matchData.status === 'LIVE' || matchData.status === 'live') && "animate-pulse")} /> 
+                                    {matchData.status === 'LIVE' || matchData.status === 'live' ? `${matchData.minute || 0}'` : matchData.status === 'FINISHED' || matchData.status === 'finished' ? 'FT' : matchData.start_time ? matchData.start_time.split('T')[1].substring(0, 5) : ''}
                                 </div>
                                 {matchData.start_time && (
                                     <div className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.1em] mt-1 text-center bg-white/5 px-3 py-1 rounded-full border border-white/5">
