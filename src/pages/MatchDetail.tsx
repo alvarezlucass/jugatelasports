@@ -174,10 +174,12 @@ const MatchDetail: React.FC = () => {
                 });
             } else if (apiId.toString().startsWith('m') || matchData.home_team.includes('México') || matchData.home_team.includes('Sudáfrica')) {
                 // Fallback a datos MOCK si es un partido de prueba (ej: México vs Sudáfrica)
+                const hId = matchData.metadata?.home_id?.toString() || 'mock_home';
+                const aId = matchData.metadata?.away_id?.toString() || 'mock_away';
                 setLiveMetadata({
                     events: [
-                        { id: 'e1', time: 12, type: 'GOAL', teamId: 'mock_home', player: { id: 'p1', name: 'Jugador 9' }, detail: 'Golazo' },
-                        { id: 'e2', time: 45, type: 'GOAL', teamId: 'mock_home', player: { id: 'p2', name: 'Jugador 10' }, detail: 'Tiro libre' }
+                        { id: 'e1', time: 12, type: 'GOAL', teamId: hId, player: { id: 'p1', name: 'S. Giménez' }, detail: 'Golazo' },
+                        { id: 'e2', time: 45, type: 'GOAL', teamId: hId, player: { id: 'p2', name: 'H. Lozano' }, detail: 'Tiro libre' }
                     ],
                     stats: {
                         possession: { home: 60, away: 40 },
@@ -187,10 +189,34 @@ const MatchDetail: React.FC = () => {
                         corners: { home: 7, away: 2 }
                     },
                     lineup_home: {
-                        teamId: 'mock_home', formation: '4-3-3', startXI: [ { player: { id: 'p1', name: 'Portero' }, pos: 'GK', grid: '1:2' }, { player: { id: 'p2', name: 'Defensa' }, pos: 'DEF', grid: '2:2' }, { player: { id: 'p3', name: 'Delantero' }, pos: 'FWD', grid: '4:2' } ], substitutes: [], staff: []
+                        teamId: hId, formation: '4-3-3', startXI: [ 
+                            { player: { id: 'p1', name: 'G. Ochoa' }, pos: 'GK', grid: '1:2' }, 
+                            { player: { id: 'p2', name: 'C. Montes' }, pos: 'DEF', grid: '2:1' }, 
+                            { player: { id: 'p3', name: 'J. Vásquez' }, pos: 'DEF', grid: '2:3' }, 
+                            { player: { id: 'p4', name: 'J. Gallardo' }, pos: 'DEF', grid: '2:0.8' }, 
+                            { player: { id: 'p5', name: 'K. Álvarez' }, pos: 'DEF', grid: '2:3.2' }, 
+                            { player: { id: 'p6', name: 'E. Álvarez' }, pos: 'MID', grid: '3:2' }, 
+                            { player: { id: 'p7', name: 'L. Chávez' }, pos: 'MID', grid: '3:1' }, 
+                            { player: { id: 'p8', name: 'O. Pineda' }, pos: 'MID', grid: '3:3' }, 
+                            { player: { id: 'p9', name: 'U. Antuna' }, pos: 'FWD', grid: '4:2' }, 
+                            { player: { id: 'p10', name: 'H. Lozano' }, pos: 'FWD', grid: '4:1' }, 
+                            { player: { id: 'p11', name: 'S. Giménez' }, pos: 'FWD', grid: '4:3' }
+                        ], substitutes: [], staff: [{ name: 'Jaime Lozano', role: 'Head Coach' }]
                     },
                     lineup_away: {
-                        teamId: 'mock_away', formation: '4-4-2', startXI: [ { player: { id: 'p1', name: 'Arquero' }, pos: 'GK', grid: '1:2' }, { player: { id: 'p2', name: 'Central' }, pos: 'DEF', grid: '2:2' }, { player: { id: 'p3', name: 'Atacante' }, pos: 'FWD', grid: '4:2' } ], substitutes: [], staff: []
+                        teamId: aId, formation: '4-4-2', startXI: [ 
+                            { player: { id: 'pa1', name: 'R. Williams' }, pos: 'GK', grid: '1:2' }, 
+                            { player: { id: 'pa2', name: 'S. Xulu' }, pos: 'DEF', grid: '2:1.5' }, 
+                            { player: { id: 'pa3', name: 'M. Mvala' }, pos: 'DEF', grid: '2:2.5' }, 
+                            { player: { id: 'pa4', name: 'K. Mudau' }, pos: 'DEF', grid: '2:0.5' }, 
+                            { player: { id: 'pa5', name: 'A. Modiba' }, pos: 'DEF', grid: '2:3.5' }, 
+                            { player: { id: 'pa6', name: 'T. Mokoena' }, pos: 'MID', grid: '3:1' }, 
+                            { player: { id: 'pa7', name: 'S. Sithole' }, pos: 'MID', grid: '3:2' }, 
+                            { player: { id: 'pa8', name: 'T. Zwane' }, pos: 'MID', grid: '3:3' }, 
+                            { player: { id: 'pa9', name: 'P. Tau' }, pos: 'FWD', grid: '4:1.5' }, 
+                            { player: { id: 'pa10', name: 'E. Makgopa' }, pos: 'FWD', grid: '4:2.5' }, 
+                            { player: { id: 'pa11', name: 'T. Morena' }, pos: 'MID', grid: '3:4' }
+                        ], substitutes: [], staff: [{ name: 'Hugo Broos', role: 'Head Coach' }]
                     },
                     mockScore: { home: 2, away: 0 }
                 } as any);
