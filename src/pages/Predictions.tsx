@@ -29,9 +29,9 @@ export const Predictions: React.FC = () => {
             if (matchState === 'UPCOMING') {
                 fetchOptions = { upcomingOnly: true, daysLimit: 30 };
             } else if (matchState === 'LIVE') {
-                fetchOptions = { status: ['LIVE', 'IN_PLAY'] };
+                fetchOptions = { status: ['LIVE', 'IN_PLAY', 'IN_PROGRESS', 'PAUSED', 'HALFTIME'] };
             } else if (matchState === 'FINISHED') {
-                fetchOptions = { status: ['FINISHED'], limit: 50 };
+                fetchOptions = { status: ['FINISHED'], limit: 50, daysLimit: 30 };
             }
 
             const data = await matchService.getMatches(

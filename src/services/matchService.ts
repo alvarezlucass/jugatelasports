@@ -22,6 +22,13 @@ export const matchService = {
             // Si incluye FINISHED, ordernar descendente (del mas nuevo al mas viejo)
             if (options.status.includes('FINISHED')) {
                 query = query.order('start_time', { ascending: false });
+                
+                // Si piden terminados, opcionalmente filtrar por ultimo mes
+                if (options.daysLimit) {
+                    const limitDate = new Date();
+                    limitDate.setDate(limitDate.getDate() - options.daysLimit);
+                    query = query.gte('start_time', limitDate.toISOString());
+                }
             } else {
                 query = query.order('start_time', { ascending: true });
             }
@@ -88,6 +95,10 @@ export const matchService = {
         switch (dbStatus) {
             case 'UPCOMING': return 'scheduled';
             case 'LIVE': return 'live';
+            case 'IN_PLAY': return 'live';
+            case 'IN_PROGRESS': return 'live';
+            case 'PAUSED': return 'live';
+            case 'HALFTIME': return 'live';
             case 'FINISHED': return 'finished';
             default: return 'scheduled';
         }
