@@ -566,8 +566,12 @@ export const Profile: React.FC = () => {
                             </button>
                         )}
                         <button 
-                            onClick={() => setShowEditProfile(true)}
-                            className="p-4 hover:bg-white/5 text-zinc-500 hover:text-white rounded-2xl border border-transparent hover:border-white/5 transition-all"
+                            id="settings-btn"
+                            onClick={() => {
+                                console.log('Settings button clicked!');
+                                setShowEditProfile(true);
+                            }}
+                            className="p-4 hover:bg-white/5 text-zinc-500 hover:text-white rounded-2xl border border-transparent hover:border-white/5 transition-all cursor-pointer"
                         >
                             <Settings size={22} />
                         </button>
