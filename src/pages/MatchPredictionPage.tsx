@@ -304,11 +304,14 @@ export const MatchPredictionPage: React.FC = () => {
                             <div className="flex items-center justify-between w-full max-w-xl">
                                 <div 
                                     onClick={() => {
-                                        if (match.homeTeamId) openTeamModal(parseInt(match.homeTeamId));
-                                        else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
+                                        if (match.homeTeamId) {
+                                            openTeamModal(parseInt(match.homeTeamId));
+                                        } else {
+                                            navigate(`/worldcup/team/${encodeURIComponent(match.homeTeam)}/squad`);
+                                        }
                                     }}
                                     className="flex flex-col items-center gap-4 group cursor-pointer"
-                                    title={match.homeTeamId ? `Ver expediente de ${match.homeTeam}` : 'Expediente no disponible'}
+                                    title={`Ver expediente de ${match.homeTeam}`}
                                 >
                                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
                                         <img src={homeFlag} alt="" className="w-full h-full object-cover" />
@@ -328,11 +331,14 @@ export const MatchPredictionPage: React.FC = () => {
 
                                 <div 
                                     onClick={() => {
-                                        if (match.awayTeamId) openTeamModal(parseInt(match.awayTeamId));
-                                        else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
+                                        if (match.awayTeamId) {
+                                            openTeamModal(parseInt(match.awayTeamId));
+                                        } else {
+                                            navigate(`/worldcup/team/${encodeURIComponent(match.awayTeam)}/squad`);
+                                        }
                                     }}
                                     className="flex flex-col items-center gap-4 group cursor-pointer"
-                                    title={match.awayTeamId ? `Ver expediente de ${match.awayTeam}` : 'Expediente no disponible'}
+                                    title={`Ver expediente de ${match.awayTeam}`}
                                 >
                                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/5 bg-white/5 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-110 shadow-2xl group-hover:shadow-blue-500/20">
                                         <img src={awayFlag} alt="" className="w-full h-full object-cover" />

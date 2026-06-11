@@ -319,8 +319,11 @@ const MatchDetail: React.FC = () => {
                                 onClick={(e) => { 
                                     e.stopPropagation(); 
                                     const homeId = matchData.metadata?.home_id || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined);
-                                    if (homeId) openTeamModal(parseInt(homeId as string));
-                                    else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
+                                    if (homeId) {
+                                        openTeamModal(parseInt(homeId as string));
+                                    } else {
+                                        navigate(`/worldcup/team/${encodeURIComponent(matchData.home_team)}/squad`);
+                                    }
                                 }}
                             >
                                 {matchData.home_team_logo ? (
@@ -377,8 +380,11 @@ const MatchDetail: React.FC = () => {
                                 onClick={(e) => { 
                                     e.stopPropagation(); 
                                     const awayId = matchData.metadata?.away_id || (matchData.away_team_logo ? matchData.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined);
-                                    if (awayId) openTeamModal(parseInt(awayId as string));
-                                    else alert('Este equipo aún no tiene un expediente registrado en la base de datos (Ej: Equipos del Mundial).');
+                                    if (awayId) {
+                                        openTeamModal(parseInt(awayId as string));
+                                    } else {
+                                        navigate(`/worldcup/team/${encodeURIComponent(matchData.away_team)}/squad`);
+                                    }
                                 }}
                             >
                                 {matchData.away_team_logo ? (
