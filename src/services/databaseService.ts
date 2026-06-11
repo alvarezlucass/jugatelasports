@@ -319,7 +319,7 @@ export const databaseService = {
             .from('user_activities')
             .select('*, profiles(nickname, avatar_url, first_name)')
             .order('created_at', { ascending: false })
-            .limit(40);
+            .limit(10);
 
         if (listType === 'FOLLOWING' && userId) {
             const { data: following } = await supabase
