@@ -1,11 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { registerSW } from 'virtual:pwa-register'
 import './index.css'
 import App from './App.tsx'
 
-// Registrar el Service Worker para la PWA
-registerSW({ immediate: true })
+// Eliminar Service Workers antiguos si existen para evitar problemas de caché agresiva
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister();
+    }
+  });
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
