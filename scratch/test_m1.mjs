@@ -5,8 +5,8 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 const supabase = createClient(process.env.VITE_SUPABASE_URL, process.env.VITE_SUPABASE_ANON_KEY);
 
-async function checkMatches() {
-    const { data: matches } = await supabase.from('matches').select('id, home_team, away_team, start_time').eq('status', 'SCHEDULED').order('start_time').limit(5);
-    console.log(matches);
+async function run() {
+    const { data } = await supabase.from('matches').select('*').eq('id', 'm1').single();
+    console.log("DB METADATA:", JSON.stringify(data.metadata, null, 2));
 }
-checkMatches();
+run();
