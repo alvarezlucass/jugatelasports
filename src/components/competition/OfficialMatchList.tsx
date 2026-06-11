@@ -146,7 +146,13 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                                     whileHover={{ scale: 1.01, backgroundColor: 'rgba(255,255,255,0.05)' }}
                                     transition={{ duration: 0.2 }}
                                     key={match.id}
-                                    onClick={() => onMatchClick?.(match.id)}
+                                    onClick={() => {
+                                        if (match.status === 'live' || match.status === 'finished') {
+                                            navigate(`/match/${match.id}`);
+                                        } else if (onMatchClick) {
+                                            onMatchClick(match.id);
+                                        }
+                                    }}
                                     className="group relative cursor-pointer border border-white/5 bg-[#0F131A]/60 backdrop-blur-md rounded-2xl mb-4 transition-all py-4 md:py-8 px-4 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] hover:shadow-[0_8px_30px_-4px_rgba(59,130,246,0.15)] hover:border-blue-500/20"
                                 >
                                     <div className="flex flex-col items-center max-w-4xl mx-auto">
@@ -241,7 +247,7 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                                             <BarChart2 size={12} /> Hub Datos
                                         </button>
                                         <div className="text-[9px] font-black text-blue-500 uppercase tracking-widest bg-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/20 hidden md:block">
-                                            Armar Jugada ⚔️
+                                            {match.status === 'live' || match.status === 'finished' ? 'Ver Partido' : 'Armar Jugada ⚔️'}
                                         </div>
                                     </div>
                                 </motion.div>

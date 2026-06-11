@@ -2,7 +2,7 @@ import { supabase } from '../lib/supabase';
 import { type GroupMatch } from '../data/worldCupPersistence';
 
 export const matchService = {
-    async getMatches(leagueId?: string, options?: { upcomingOnly?: boolean; daysLimit?: number; season?: number }): Promise<GroupMatch[]> {
+    async getMatches(leagueId?: string, options?: { upcomingOnly?: boolean; status?: string[]; daysLimit?: number; season?: number; limit?: number }): Promise<GroupMatch[]> {
         let query = supabase
             .from('matches')
             .select('*')
@@ -17,15 +17,30 @@ export const matchService = {
             query = query.eq('season', options.season);
         }
 
-        if (options?.upcomingOnly) {
+        if (options?.status) {
+            query = query.in('status', options.status);
+            // Si incluye FINISHED, ordernar descendente (del mas nuevo al mas viejo)
+            if (options.status.includes('FINISHED')) {
+                query = query.order('start_time', { ascending: false });
+            } else {
+                query = query.order('start_time', { ascending: true });
+            }
+        } else if (options?.upcomingOnly) {
             const now = new Date().toISOString();
-            query = query.gte('start_time', now);
+            query = query.gte('start_time', now)
+                         .order('start_time', { ascending: true });
             
             if (options?.daysLimit) {
                 const limitDate = new Date();
                 limitDate.setDate(limitDate.getDate() + options.daysLimit);
                 query = query.lte('start_time', limitDate.toISOString());
             }
+        } else {
+            query = query.order('start_time', { ascending: true });
+        }
+
+        if (options?.limit) {
+            query = query.limit(options.limit);
         }
 
         const { data, error } = await query;

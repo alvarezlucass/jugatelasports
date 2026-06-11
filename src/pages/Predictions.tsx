@@ -17,21 +17,32 @@ export const Predictions: React.FC = () => {
     const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
     const [viewingOpponent, setViewingOpponent] = useState<any | null>(null);
     const [selectedLeague, setSelectedLeague] = useState<string>('all'); // Default to Todas
+    const [matchState, setMatchState] = useState<'UPCOMING' | 'LIVE' | 'FINISHED'>('UPCOMING');
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
         const loadMatches = async () => {
             setMatchesLoading(true);
+            let fetchOptions: any = {};
+            
+            if (matchState === 'UPCOMING') {
+                fetchOptions = { upcomingOnly: true, daysLimit: 30 };
+            } else if (matchState === 'LIVE') {
+                fetchOptions = { status: ['LIVE', 'IN_PLAY'] };
+            } else if (matchState === 'FINISHED') {
+                fetchOptions = { status: ['FINISHED'], limit: 50 };
+            }
+
             const data = await matchService.getMatches(
                 selectedLeague === 'all' ? undefined : selectedLeague,
-                { upcomingOnly: true, daysLimit: 30 }
+                fetchOptions
             );
             setMatches(data);
             setMatchesLoading(false);
         };
         loadMatches();
-    }, [selectedLeague]);
+    }, [selectedLeague, matchState]);
 
     // Handle pre-selected challenge from URL parameters
     useEffect(() => {
@@ -132,6 +143,29 @@ export const Predictions: React.FC = () => {
                         <div className="text-center md:text-left">
                             <h2 className="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em] mb-2">Selecciona un enfrentamiento</h2>
                             <h3 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">Partidos Disponibles</h3>
+                        </div>
+
+                        {/* Match State Selector */}
+                        <div className="flex flex-wrap justify-center md:justify-start gap-2 bg-[#0F131A] p-2 rounded-2xl border border-white/5 w-fit mx-auto md:mx-0">
+                            {[
+                                { id: 'UPCOMING', name: 'Próximos', icon: '⏱️' },
+                                { id: 'LIVE', name: 'En Curso', icon: '🔴' },
+                                { id: 'FINISHED', name: 'Terminados', icon: '🏁' }
+                            ].map((state) => (
+                                <button
+                                    key={state.id}
+                                    onClick={() => setMatchState(state.id as any)}
+                                    className={cn(
+                                        "flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all",
+                                        matchState === state.id
+                                            ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                                            : "text-zinc-500 hover:text-white hover:bg-white/5"
+                                    )}
+                                >
+                                    <span>{state.icon}</span>
+                                    {state.name}
+                                </button>
+                            ))}
                         </div>
                         
                         {/* League Selector */}

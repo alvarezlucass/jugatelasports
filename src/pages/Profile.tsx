@@ -881,6 +881,13 @@ export const Profile: React.FC = () => {
                 isOpen={showRulesModal} 
                 onClose={() => setShowRulesModal(false)} 
             />
+
+            <EditProfileModal 
+                isOpen={showEditProfile}
+                user={user}
+                onSave={updateProfile}
+                onClose={() => setShowEditProfile(false)}
+            />
         </div>
     );
 };
