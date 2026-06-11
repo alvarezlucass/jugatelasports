@@ -369,13 +369,13 @@ export const MatchPredictionPage: React.FC = () => {
                     {/* Stats Sections */}
                     <div className="grid md:grid-cols-2 gap-8 items-stretch">
                         {/* H2H History */}
-                        <div className="flex flex-col gap-4">
-                            <h4 className="flex items-center gap-2 text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] px-2 h-4">
-                                <History size={14} className="text-blue-500" /> Historial Reciente (H2H)
-                            </h4>
-                            <div className="bg-[#0F131A]/40 border border-white/5 rounded-[2rem] p-6 flex flex-col justify-center gap-3 flex-1">
-                                {match.h2h && match.h2h.length > 0 ? (
-                                    match.h2h.map((entry: any, idx: number) => (
+                        {match.h2h && match.h2h.length > 0 && (
+                            <div className="flex flex-col gap-4">
+                                <h4 className="flex items-center gap-2 text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] px-2 h-4">
+                                    <History size={14} className="text-blue-500" /> Historial Reciente (H2H)
+                                </h4>
+                                <div className="bg-[#0F131A]/40 border border-white/5 rounded-[2rem] p-6 flex flex-col justify-center gap-3 flex-1">
+                                    {match.h2h.map((entry: any, idx: number) => (
                                         <div key={idx} className="flex justify-between items-center p-3 bg-white/[0.02] rounded-xl border border-white/5">
                                             <div className="flex flex-col">
                                                 <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">{entry.competition}</span>
@@ -383,15 +383,10 @@ export const MatchPredictionPage: React.FC = () => {
                                             </div>
                                             <span className="text-[10px] font-bold text-zinc-600">{entry.date.split('-')[0]}</span>
                                         </div>
-                                    ))
-                                ) : (
-                                    <div className="py-8 text-center space-y-2 opacity-50">
-                                        <Globe size={24} className="mx-auto text-zinc-700" />
-                                        <p className="text-[10px] font-bold uppercase tracking-widest">Sin registros previos recientes</p>
-                                    </div>
-                                )}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Team Info / Ranking */}
                         <div className="flex flex-col gap-4">
@@ -580,6 +575,45 @@ export const MatchPredictionPage: React.FC = () => {
                         </div>
                     )}
 
+                    {/* TU JUGADA (MÓVIL SOLAMENTE) */}
+                    <div className="block lg:hidden pt-6">
+                        {match.status === 'finished' ? (
+                            <div className="bg-[#0F131A] rounded-[2.5rem] p-8 border border-white/5 text-center space-y-4">
+                                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6">
+                                    <Trophy size={28} className="text-zinc-500" />
+                                </div>
+                                <h3 className="text-xl font-black uppercase tracking-wider text-white">Partido Finalizado</h3>
+                                <p className="text-sm text-zinc-400 font-medium">
+                                    Ya no se pueden hacer más jugadas para este partido. Los resultados están siendo procesados.
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="p-1 rounded-[2.5rem] bg-gradient-to-b from-blue-500/20 to-transparent">
+                                <div className="bg-[#0F131A] rounded-[2.4rem] p-8 border border-white/5 shadow-2xl">
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-4 mb-2">
+                                            <div className="w-12 h-12 rounded-2xl bg-blue-600/10 flex items-center justify-center text-blue-500">
+                                                <Trophy size={24} />
+                                            </div>
+                                            <div>
+                                                <h2 className="text-xl font-black text-white uppercase tracking-tighter">Tu Jugada</h2>
+                                                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Completa los datos de tu Jugada</p>
+                                            </div>
+                                        </div>
+                                        <PredictionForm
+                                            matchId={match.id}
+                                            mode={selectedMode || 'MACHINE'}
+                                            opponentId={opponentId}
+                                            matchStatus={match.status}
+                                            homeTeamName={typeof match.homeTeam === 'string' ? match.homeTeam : match.homeTeam?.name}
+                                            awayTeamName={typeof match.awayTeam === 'string' ? match.awayTeam : match.awayTeam?.name}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     {/* List of Previous Predictions */}
                     <div className="pt-4">
                         <div className="bg-[#0F131A] rounded-[2rem] p-4 md:p-6 border border-white/5">
@@ -606,8 +640,8 @@ export const MatchPredictionPage: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Right Side: Prediction Form */}
-                <div className="lg:col-span-5 mt-8 lg:mt-0">
+                {/* Right Side: Prediction Form (DESKTOP ONLY) */}
+                <div className="hidden lg:block lg:col-span-5">
                     <div className="sticky top-24">
                         <div className="relative p-1 rounded-[2.5rem] bg-gradient-to-b from-blue-500/20 to-transparent">
                             <div className="bg-[#0F131A] rounded-[2.4rem] p-8 border border-white/5 shadow-2xl">

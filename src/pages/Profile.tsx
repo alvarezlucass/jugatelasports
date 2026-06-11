@@ -11,6 +11,7 @@ import { PointsRulesModal } from '../components/modals/PointsRulesModal';
 import { PerformanceStats } from '../components/profile/PerformanceStats';
 import { ActivityFeed } from '../components/social/ActivityFeed';
 import { PredictionListItem } from '../components/profile/PredictionListItem';
+import { EditProfileModal } from '../components/modals/EditProfileModal';
 import { 
     ResponsiveContainer, 
     AreaChart, 
@@ -288,12 +289,19 @@ const ChallengeCard: React.FC<{
                     )}
                 </div>
             </div>
+
+            <EditProfileModal 
+                isOpen={showEditProfile}
+                user={user}
+                onSave={updateProfile}
+                onClose={() => setShowEditProfile(false)}
+            />
         </div>
     );
 };
 
 export const Profile: React.FC = () => {
-    const { user, loading, transactions, userPredictions, pvpChallenges, acceptPvpChallenge, rejectPvpChallenge, cancelPvpChallenge, resolvePvpChallenge, signOut, storeItems } = useUser();
+    const { user, loading, transactions, userPredictions, pvpChallenges, acceptPvpChallenge, rejectPvpChallenge, cancelPvpChallenge, resolvePvpChallenge, signOut, storeItems, updateProfile } = useUser();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -301,6 +309,7 @@ export const Profile: React.FC = () => {
     const [activeTab, setActiveTab] = React.useState<'SOCIAL' | 'PREDICTIONS' | 'PVP' | 'PERFORMANCE' | 'ACTIVITY'>('PREDICTIONS');
     const [pvpView, setPvpView] = React.useState<'SUMMARY' | 'RECEIVED' | 'SENT'>('SUMMARY');
     const [showRulesModal, setShowRulesModal] = React.useState(false);
+    const [showEditProfile, setShowEditProfile] = React.useState(false);
     const [predictionFilter, setPredictionFilter] = React.useState('');
 
     // Redirect to login if user is not logged in after loading finishes
@@ -563,7 +572,10 @@ export const Profile: React.FC = () => {
                                 {syncing ? 'Sincronizando...' : 'Sincronizar DB'}
                             </button>
                         )}
-                        <button className="p-4 hover:bg-white/5 text-zinc-500 hover:text-white rounded-2xl border border-transparent hover:border-white/5 transition-all">
+                        <button 
+                            onClick={() => setShowEditProfile(true)}
+                            className="p-4 hover:bg-white/5 text-zinc-500 hover:text-white rounded-2xl border border-transparent hover:border-white/5 transition-all"
+                        >
                             <Settings size={22} />
                         </button>
                     </div>
