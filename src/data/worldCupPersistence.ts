@@ -369,14 +369,14 @@ export const WORLD_CUP_VENUES: Venue[] = [
 
     {
         id: "v-gdl", name: "Estadio Akron", city: "Guadalajara", country: "México", capacity: 48000,
-        image: "https://images.unsplash.com/photo-1518091043644-c1d44570a2c9?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop",
         description: "Diseñado con una forma espectacular de volcán y una cubierta que simula una nube, es considerado uno de los estadios más modernos y ecológicamente amigables de toda América Latina.",
         website: "https://estadioakron.mx/"
     },
 
     {
         id: "v-mty", name: "Estadio BBVA", city: "Monterrey", country: "México", capacity: 53500,
-        image: "https://images.unsplash.com/photo-1628045995772-233bbd4546ae?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=2000&auto=format&fit=crop",
         description: "Conocido popularmente como 'El Gigante de Acero', este vanguardista estadio ofrece a los aficionados unas vistas panorámicas inigualables y majestuosas del icónico Cerro de la Silla desde sus tribunas.",
         website: "https://estadio-bbva.mx//"
     },
@@ -392,7 +392,7 @@ export const WORLD_CUP_VENUES: Venue[] = [
 
     {
         id: "v-tor", name: "BMO Field", city: "Toronto", country: "Canadá", capacity: 45000,
-        image: "https://images.unsplash.com/photo-1508344928928-7137b29de216?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?q=80&w=2000&auto=format&fit=crop",
         description: "La fortaleza de la Selección Nacional de Canadá. Originalmente construido para el fútbol, el estadio será significativamente ampliado temporalmente para cumplir con las exigencias de aforo de la FIFA.",
         website: "https://www.bmofield.com/"
     },
@@ -415,14 +415,14 @@ export const WORLD_CUP_VENUES: Venue[] = [
 
     {
         id: "v-la", name: "SoFi Stadium", city: "Los Ángeles", country: "USA", capacity: 70240,
-        image: "https://images.unsplash.com/photo-1627993074092-23c348f3b143?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000&auto=format&fit=crop",
         description: "Una auténtica obra maestra de la arquitectura e ingeniería contemporánea. Destaca por su techo translúcido y la revolucionaria pantalla 'Infinity Screen' ovalada de doble cara que ofrece repeticiones en 4K.",
         website: "https://www.sofistadium.com/"
     },
 
     {
         id: "v-atl", name: "Mercedes-Benz Stadium", city: "Atlanta", country: "USA", capacity: 71000,
-        image: "https://images.unsplash.com/photo-1533088214300-84cfcaacd6dd?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=2000&auto=format&fit=crop",
         description: "Una maravilla del diseño, célebre por su techo retráctil automatizado compuesto por ocho inmensos paneles triangulares de cristal que se abren y cierran asemejando el diafragma de una cámara fotográfica.",
         website: "https://mercedesbenzstadium.com/"
     },
@@ -436,14 +436,14 @@ export const WORLD_CUP_VENUES: Venue[] = [
 
     {
         id: "v-phi", name: "Lincoln Financial Field", city: "Filadelfia", country: "USA", capacity: 69796,
-        image: "https://images.unsplash.com/photo-1517540203598-356c321de625?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop",
         description: "La joya deportiva de la ciudad del amor fraternal. Un estadio donde reverbera la historia, situado en la misma metrópolis en donde los padres fundadores firmaron la histórica Declaración de Independencia.",
         website: "https://www.lincolnfinancialfield.com/"
     },
 
     {
         id: "v-sea", name: "Lumen Field", city: "Seattle", country: "USA", capacity: 69000,
-        image: "https://images.unsplash.com/photo-1518090886591-6458564e98f0?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop",
         description: "Mundialmente temido y respetado por ser uno de los ambientes más ruidosos del deporte gracias a su apasionada afición. Su icónico diseño en forma de herradura captura el estruendo maravillosamente.",
         website: "https://www.lumenfield.com/"
     },
@@ -457,20 +457,20 @@ export const WORLD_CUP_VENUES: Venue[] = [
 
     {
         id: "v-bos", name: "Gillette Stadium", city: "Boston", country: "USA", capacity: 65878,
-        image: "https://images.unsplash.com/photo-1627993074092-23c348f3b143?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000&auto=format&fit=crop",
         description: "Hogar de un sólido legado de triunfos y de una rica tradición futbolística en Nueva Inglaterra. Es famoso por su icónico puente y faro ubicados justo en una de las cabeceras del campo de juego.",
         website: "https://www.gillettestadium.com/"
     },
     {
         id: "v-mia", name: "Hard Rock Stadium", city: "Miami", country: "USA", capacity: 64767,
-        image: "https://images.unsplash.com/photo-1605335198038-f8d95dbff39d?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=2000&auto=format&fit=crop",
         description: "Recientemente renovado para brindar una experiencia de lujo, el recinto brilla con un elegante e innovador techo cuadrado concebido a cielo abierto que provee de sombra al 90% de los espectadores ante el sol de la Florida.",
         website: "https://www.hardrockstadium.com/"
     },
 
     {
         id: "v-kc", name: "Arrowhead Stadium", city: "Kansas City", country: "USA", capacity: 76416,
-        image: "https://images.unsplash.com/photo-1508344928928-7137b29de216?q=80&w=2000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?q=80&w=2000&auto=format&fit=crop",
         description: "Ubicado en el auténtico corazón del país norteamericano. Es famoso porque ostenta el asombroso récord mundial Guinness de la ovación más ruidosa registrada en un estadio presencial deportivo al aire libre.",
         website: "https://www.chiefs.com/stadium/"
     }
@@ -478,3 +478,4 @@ export const WORLD_CUP_VENUES: Venue[] = [
 ];
 
 export const getVenues = (): Venue[] => WORLD_CUP_VENUES;
+

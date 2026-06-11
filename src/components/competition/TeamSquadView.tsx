@@ -339,7 +339,7 @@ export const TeamSquadView: React.FC<TeamSquadViewProps> = ({ team, topPerformer
 
                         {/* Tabs Navigation */}
                         <div className="flex p-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl self-start xl:self-center shadow-xl w-full sm:w-auto overflow-x-auto no-scrollbar relative z-20">
-                            {(['FIXTURES', 'SQUAD', 'STAFF', 'HISTORY', 'LEADERS'] as TeamTab[]).map(tab => (
+                            {(['FIXTURES', 'SQUAD', 'STAFF', 'HISTORY'] as TeamTab[]).map(tab => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
