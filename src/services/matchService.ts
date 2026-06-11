@@ -17,7 +17,13 @@ export const matchService = {
         }
 
         if (options?.status) {
-            query = query.in('status', options.status);
+            if (options.status.includes('FINISHED')) {
+                const liveWindowAgo = new Date(new Date().getTime() - 2.5 * 60 * 60 * 1000).toISOString();
+                query = query.or(`status.in.(${options.status.join(',')}),and(status.in.(SCHEDULED,UPCOMING,scheduled,upcoming),start_time.lt.${liveWindowAgo})`);
+            } else {
+                query = query.in('status', options.status);
+            }
+            
             // Si incluye FINISHED, ordernar descendente (del mas nuevo al mas viejo)
             if (options.status.includes('FINISHED')) {
                 query = query.order('start_time', { ascending: false });
@@ -34,11 +40,11 @@ export const matchService = {
         } else if (options?.liveOnly) {
             const now = new Date();
             const nowStr = now.toISOString();
-            // Restar 4 horas para atrapar partidos que recién empezaron (un partido dura ~2h)
-            const fourHoursAgo = new Date(now.getTime() - 4 * 60 * 60 * 1000).toISOString();
+            // Restar 2.5 horas para atrapar partidos que recién empezaron (un partido dura ~2h)
+            const liveWindowAgo = new Date(now.getTime() - 2.5 * 60 * 60 * 1000).toISOString();
             
-            // Buscar partidos con estado en vivo, O partidos programados que debieron empezar en las ultimas 4 horas
-            query = query.or(`status.in.(LIVE,IN_PLAY,IN_PROGRESS,PAUSED,HALFTIME),and(status.in.(SCHEDULED,UPCOMING),start_time.lte.${nowStr},start_time.gte.${fourHoursAgo})`)
+            // Buscar partidos con estado en vivo, O partidos programados que debieron empezar en las ultimas 2.5 horas
+            query = query.or(`status.in.(LIVE,IN_PLAY,IN_PROGRESS,PAUSED,HALFTIME),and(status.in.(SCHEDULED,UPCOMING),start_time.lte.${nowStr},start_time.gte.${liveWindowAgo})`)
                          .order('start_time', { ascending: true });
         } else if (options?.upcomingOnly) {
             const now = new Date().toISOString();
