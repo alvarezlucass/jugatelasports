@@ -95,14 +95,6 @@ export const matchService = {
             let homeScore = m.home_score;
             let awayScore = m.away_score;
 
-            // Inyectar datos MOCK para partidos de prueba (Ej: México vs Sudáfrica)
-            if (m.id.toString().startsWith('m') || m.home_team.includes('México') || m.home_team.includes('Sudáfrica')) {
-                if ((status === 'live' || status === 'finished') && (!homeScore && !awayScore || (homeScore === 0 && awayScore === 0))) {
-                    homeScore = 2;
-                    awayScore = 0;
-                }
-            }
-
             let dateStr = '2026-06-11';
             let time = '00:00';
             if (m.start_time) {

@@ -41,7 +41,20 @@ export const Predictions: React.FC = () => {
             setMatches(data);
             setMatchesLoading(false);
         };
+        
         loadMatches();
+
+        let interval: NodeJS.Timeout;
+        if (matchState === 'LIVE') {
+            // Auto-refrescar la lista de partidos en curso cada 2 minutos
+            interval = setInterval(() => {
+                loadMatches();
+            }, 120000);
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
     }, [selectedLeague, matchState]);
 
     // Handle pre-selected challenge from URL parameters
