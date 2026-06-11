@@ -7,6 +7,7 @@ import { useUser } from '../../contexts/UserContext';
 import { NotificationBell, PvpNotificationToast } from '../ui/NotificationSystem';
 import { BottomNavigation } from './BottomNavigation';
 import { InstallPrompt } from '../ui/InstallPrompt';
+import { StreakBadge } from '../ui/StreakBadge';
 import { BonusModal } from '../ui/BonusModal';
 import { CategoryFAB } from './CategoryFAB';
 import { ProfileCompletionModal } from '../modals/ProfileCompletionModal';
@@ -141,6 +142,7 @@ export const Layout: React.FC = () => {
                     <div className="flex items-center gap-3 md:gap-4">
                         {user ? (
                             <>
+                                <StreakBadge />
                                 <TokenWallet />
 
                                 <NotificationBell />
@@ -153,11 +155,19 @@ export const Layout: React.FC = () => {
                                 <div className="h-8 w-px bg-border hidden md:block" />
 
                                 <Link to="/profile" className="hidden md:flex items-center gap-3 pl-2">
-                                    <div className="text-right">
-                                        <div className="text-sm font-medium leading-none">{user.name}</div>
-                                        <div className="text-xs text-muted-foreground mt-0.5">Lvl {user.level}</div>
+                                    <div className="text-right flex flex-col items-end">
+                                        <div className="text-sm font-bold leading-none mb-1 text-white">{user.name}</div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="text-[10px] text-zinc-400 font-black tracking-widest uppercase">Nv. {user.level}</div>
+                                            <div className="w-12 h-1 bg-white/10 rounded-full overflow-hidden">
+                                                <div 
+                                                    className="h-full bg-gradient-to-r from-blue-500 to-emerald-500" 
+                                                    style={{ width: `${(user.points || 0) % 100}%` }}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="relative h-9 w-9 rounded-full overflow-hidden border-2 border-primary/20 ring-2 ring-background">
+                                    <div className="relative h-9 w-9 rounded-full overflow-hidden border-2 border-primary/20 ring-2 ring-background hover:scale-110 transition-transform">
                                         <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
                                     </div>
                                 </Link>

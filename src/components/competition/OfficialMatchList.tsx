@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { type GroupMatch, getTeamStaticData, getTeamFlagUrl } from '../../data/worldCupPersistence';
 import { BarChart2, Shield } from 'lucide-react';
 import { useTeamModal } from '../../context/TeamModalContext';
+import { motion } from 'framer-motion';
 
 interface OfficialMatchListProps {
     matches: (GroupMatch & { league_id?: string })[];
@@ -139,10 +140,14 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                             const awayFlag = match.awayTeamLogo || getTeamFlagUrl(match.awayTeam);
 
                             return (
-                                <div
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    whileHover={{ scale: 1.01, backgroundColor: 'rgba(255,255,255,0.05)' }}
+                                    transition={{ duration: 0.2 }}
                                     key={match.id}
                                     onClick={() => onMatchClick?.(match.id)}
-                                    className="group relative cursor-pointer border-t border-white/5 bg-[#0F131A]/40 hover:bg-white/5 transition-all py-4 md:py-8 px-4"
+                                    className="group relative cursor-pointer border border-white/5 bg-[#0F131A]/60 backdrop-blur-md rounded-2xl mb-4 transition-all py-4 md:py-8 px-4 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)] hover:shadow-[0_8px_30px_-4px_rgba(59,130,246,0.15)] hover:border-blue-500/20"
                                 >
                                     <div className="flex flex-col items-center max-w-4xl mx-auto">
                                         {/* Match Content */}
@@ -239,7 +244,7 @@ export const OfficialMatchList: React.FC<OfficialMatchListProps> = ({
                                             Armar Jugada ⚔️
                                         </div>
                                     </div>
-                                </div>
+                                </motion.div>
                             );
                         })}
                     </div>

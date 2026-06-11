@@ -107,27 +107,25 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
     };
 
     const renderActivityContent = (activity: Activity) => {
-        const { type, content, profiles } = activity;
-        const name = profiles?.nickname || profiles?.first_name || 'Alguien';
-        const displayMatch = content.matchDescription || resolveMatchName(content.matchId);
+        const { type, content } = activity;
 
         switch (type) {
             case 'MATCH_WON':
                 return (
-                    <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> ganó <span className="text-amber-500 font-black">+{content.points} PKTS</span> en el partido <span className="text-white font-bold italic">{displayMatch}</span>.
+                    <p className="text-xs md:text-[13px] leading-relaxed text-zinc-400">
+                        Acertó la predicción y ganó <span className="text-amber-500 font-black">+{content.points} PKTS</span>.
                     </p>
                 );
             case 'PVP_CHALLENGE':
                 return (
-                    <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> lanzó un <span className="text-red-500 font-black">RETO PVP</span> {content.opponentName ? <span>a <span className="text-white font-bold">{content.opponentName}</span></span> : ''} para <span className="text-white font-bold italic">{content.matchDescription}</span>.
+                    <p className="text-xs md:text-[13px] leading-relaxed text-zinc-400">
+                        Lanzó un <span className="text-red-500 font-black">RETO PVP</span> {content.opponentName ? <span>contra <span className="text-white font-bold">{content.opponentName}</span></span> : 'abierto'}.
                     </p>
                 );
             case 'LEVEL_UP':
                 return (
-                    <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> alcanzó el <span className="text-primary font-black">NIVEL {content.level}</span>.
+                    <p className="text-xs md:text-[13px] leading-relaxed text-zinc-400">
+                        Alcanzó el <span className="text-primary font-black">NIVEL {content.level}</span>.
                     </p>
                 );
             case 'PREDICTION_MADE': {
@@ -137,20 +135,20 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
                         : 'empate';
                         
                     return (
-                        <p className="text-[13px] leading-relaxed text-zinc-400">
-                            <span className="font-black text-white uppercase tracking-tight">{name}</span> jugó contra <span className="text-white font-bold">{content.opponentName}</span> pronosticando <span className="text-blue-400 font-bold">{resultText}</span> en <span className="text-white italic">{displayMatch}</span>.
+                        <p className="text-xs md:text-[13px] leading-relaxed text-zinc-400">
+                            Aceptó el reto de <span className="text-white font-bold">{content.opponentName}</span> pronosticando <span className="text-blue-400 font-bold">{resultText}</span>.
                         </p>
                     );
                 }
                 
                 return (
-                    <p className="text-[13px] leading-relaxed text-zinc-400">
-                        <span className="font-black text-white uppercase tracking-tight">{name}</span> armó una jugada para <span className="text-white font-bold italic">{displayMatch}</span>.
+                    <p className="text-xs md:text-[13px] leading-relaxed text-zinc-400">
+                        Armó una jugada para este partido.
                     </p>
                 );
             }
             default:
-                return <p className="text-[13px] leading-relaxed text-zinc-400">Actividad reciente de <span className="font-black text-white uppercase tracking-tight">{name}</span>.</p>;
+                return <p className="text-xs md:text-[13px] leading-relaxed text-zinc-400">Interactuó con este evento.</p>;
         }
     };
 
@@ -185,37 +183,59 @@ export const ActivityFeed: React.FC<{ listType?: 'GLOBAL' | 'FOLLOWING' }> = ({ 
                 </div>
             ) : (
                 <div className="space-y-3">
-                    {activities.map((activity) => (
-                        <div 
-                            key={activity.id}
-                            className="group bg-gradient-to-r from-white/[0.03] to-transparent hover:from-white/[0.05] border border-white/5 p-5 rounded-3xl transition-all duration-500 hover:scale-[1.01] hover:border-white/10 relative overflow-hidden active:scale-[0.99]"
-                        >
-                            <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-white/[0.02] to-transparent" />
-                            
-                            <div className="flex gap-4 items-center relative z-10">
-                                <div className="relative shrink-0">
-                                    <div className="w-12 h-12 rounded-[1.2rem] overflow-hidden border border-white/10 group-hover:border-primary/30 transition-colors shadow-lg">
-                                        <img 
-                                            src={activity.profiles?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${activity.user_id}`} 
-                                            alt="" 
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                                        />
-                                    </div>
-                                    <div className="absolute -bottom-1 -right-1 bg-[#121820] border border-white/10 p-0.5 rounded-full shadow-xl group-hover:scale-110 transition-transform">
-                                        {renderActivityIcon(activity)}
-                                    </div>
-                                </div>
+                    {activities.map((activity) => {
+                        const match = activity.content?.matchId ? WORLD_CUP_GROUP_MATCHES.find(m => m.id === activity.content.matchId) : null;
+                        const matchName = match ? `${match.homeTeam} vs ${match.awayTeam}` : resolveMatchName(activity.content?.matchId);
+                        
+                        return (
+                            <div 
+                                key={activity.id}
+                                className="group bg-[#0F131A]/60 backdrop-blur-md border border-white/5 p-4 md:p-5 rounded-2xl md:rounded-3xl transition-all duration-300 hover:scale-[1.01] hover:border-white/10 hover:bg-white/5 relative overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.5)]"
+                            >
+                                <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white/[0.02] to-transparent pointer-events-none" />
                                 
-                                <div className="flex-1 space-y-0.5">
-                                    {renderActivityContent(activity)}
-                                    <div className="flex items-center gap-2 text-[9px] font-black text-zinc-600 uppercase tracking-widest">
-                                        <Clock size={10} />
-                                        <span>Hace {formatDistanceToNow(new Date(activity.created_at), { locale: es })}</span>
+                                <div className="flex flex-col gap-3 relative z-10">
+                                    {/* Cabecera del Evento (Protagonista) */}
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            {renderActivityIcon(activity)}
+                                            <span className="text-[10px] font-black text-white uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                                                {activity.type === 'MATCH_WON' ? 'Recompensa' : activity.type === 'PVP_CHALLENGE' ? 'Reto PVP' : activity.type === 'PREDICTION_MADE' ? 'Predicción' : 'Nivel'}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-[9px] font-black text-zinc-500 uppercase tracking-widest">
+                                            <Clock size={10} />
+                                            <span>Hace {formatDistanceToNow(new Date(activity.created_at), { locale: es })}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Contenido (El "Qué") */}
+                                    <div className="flex-1">
+                                        {matchName && activity.type !== 'LEVEL_UP' ? (
+                                            <div className="text-sm md:text-base font-black text-white uppercase tracking-tight mb-1">
+                                                {matchName}
+                                            </div>
+                                        ) : null}
+                                        {renderActivityContent(activity)}
+                                    </div>
+
+                                    {/* Usuario (El "Quién", ahora secundario) */}
+                                    <div className="flex items-center gap-2 mt-1 pt-3 border-t border-white/5">
+                                        <div className="w-5 h-5 rounded-full overflow-hidden border border-white/10 opacity-80">
+                                            <img 
+                                                src={activity.profiles?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${activity.user_id}`} 
+                                                alt="" 
+                                                className="w-full h-full object-cover" 
+                                            />
+                                        </div>
+                                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                            {activity.profiles?.nickname || activity.profiles?.first_name || 'Alguien'}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>
