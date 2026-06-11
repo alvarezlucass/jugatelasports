@@ -126,23 +126,23 @@ export interface GroupMatch {
 
 export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     // Grupo A - México, Sudáfrica, Corea del Sur, República Checa
-    { id: 'm1', group: 'A', homeTeam: 'México', awayTeam: 'Sudáfrica', date: '2026-06-11', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
-    { id: 'm2', group: 'A', homeTeam: 'Corea del Sur', awayTeam: 'República Checa', date: '2026-06-11', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
+    { id: 'm1', group: 'A', homeTeam: 'México', awayTeam: 'Sudáfrica', date: '2026-06-11', time: '19:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
+    { id: 'm2', group: 'A', homeTeam: 'Corea del Sur', awayTeam: 'República Checa', date: '2026-06-12', time: '02:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
     { id: 'm3', group: 'A', homeTeam: 'México', awayTeam: 'Corea del Sur', date: '2026-06-16', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: 'm4', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'República Checa', date: '2026-06-16', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: 'm5', group: 'A', homeTeam: 'República Checa', awayTeam: 'México', date: '2026-06-21', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: 'm6', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'Corea del Sur', date: '2026-06-21', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
 
     // Grupo B - Canadá, Bosnia, Qatar, Suiza
-    { id: 'm7', group: 'B', homeTeam: 'Canadá', awayTeam: 'Bosnia', date: '2026-06-12', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
-    { id: 'm8', group: 'B', homeTeam: 'Qatar', awayTeam: 'Suiza', date: '2026-06-12', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
+    { id: 'm7', group: 'B', homeTeam: 'Canadá', awayTeam: 'Bosnia', date: '2026-06-12', time: '19:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
+    { id: 'm8', group: 'B', homeTeam: 'Qatar', awayTeam: 'Suiza', date: '2026-06-13', time: '19:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
     { id: 'm9', group: 'B', homeTeam: 'Canadá', awayTeam: 'Qatar', date: '2026-06-17', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
     { id: 'm10', group: 'B', homeTeam: 'Bosnia', awayTeam: 'Suiza', date: '2026-06-17', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
     { id: 'm11', group: 'B', homeTeam: 'Suiza', awayTeam: 'Canadá', date: '2026-06-22', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: 'm12', group: 'B', homeTeam: 'Bosnia', awayTeam: 'Qatar', date: '2026-06-22', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
 
     // Grupo C - Brasil, Marruecos, Haití, Escocia
-    { id: 'm13', group: 'C', homeTeam: 'Brasil', awayTeam: 'Marruecos', date: '2026-06-13', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
+    { id: 'm13', group: 'C', homeTeam: 'Brasil', awayTeam: 'Marruecos', date: '2026-06-13', time: '22:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: 'm14', group: 'C', homeTeam: 'Haití', awayTeam: 'Escocia', date: '2026-06-13', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
     { id: 'm15', group: 'C', homeTeam: 'Brasil', awayTeam: 'Haití', date: '2026-06-18', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
     { id: 'm16', group: 'C', homeTeam: 'Marruecos', awayTeam: 'Escocia', date: '2026-06-18', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
@@ -150,7 +150,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm18', group: 'C', homeTeam: 'Marruecos', awayTeam: 'Haití', date: '2026-06-23', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
 
     // Grupo D - USA, Paraguay, Australia, Turquía
-    { id: 'm19', group: 'D', homeTeam: 'USA', awayTeam: 'Paraguay', date: '2026-06-14', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
+    { id: 'm19', group: 'D', homeTeam: 'USA', awayTeam: 'Paraguay', date: '2026-06-13', time: '01:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: 'm20', group: 'D', homeTeam: 'Australia', awayTeam: 'Turquía', date: '2026-06-14', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: 'm21', group: 'D', homeTeam: 'USA', awayTeam: 'Australia', date: '2026-06-19', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: 'm22', group: 'D', homeTeam: 'Paraguay', awayTeam: 'Turquía', date: '2026-06-19', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
