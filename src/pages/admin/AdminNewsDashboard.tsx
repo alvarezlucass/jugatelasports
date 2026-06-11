@@ -42,10 +42,15 @@ export const AdminNewsDashboard: React.FC = () => {
     }, [user, navigate]);
 
     const loadNews = async () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const startOfDay = today.toISOString();
+
         const { data: pending } = await supabase
             .from('news')
             .select('*')
             .eq('status', 'PENDING')
+            .gte('created_at', startOfDay)
             .order('created_at', { ascending: false });
         
         if (pending) setPendingNews(pending as NewsItem[]);
@@ -54,6 +59,7 @@ export const AdminNewsDashboard: React.FC = () => {
             .from('news')
             .select('*')
             .eq('status', 'APPROVED')
+            .gte('created_at', startOfDay)
             .order('created_at', { ascending: false });
         
         if (approved) setApprovedNews(approved as NewsItem[]);

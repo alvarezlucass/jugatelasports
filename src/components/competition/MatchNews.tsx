@@ -25,10 +25,15 @@ export const MatchNews: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     const loadNews = async () => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const startOfDay = today.toISOString();
+
         const { data, error } = await supabase
             .from('news')
             .select('*')
             .eq('status', 'APPROVED')
+            .gte('created_at', startOfDay)
             .order('created_at', { ascending: false })
             .limit(10);
 
