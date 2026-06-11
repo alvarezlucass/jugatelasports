@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { NATIONAL_TEAMS_POWER } from './powerRankings';
 
 interface Match {
     id: string;
@@ -19,6 +20,10 @@ export async function enhanceMatchWithDynamicData(matchData: Match) {
         const homeName = matchData.home_team;
         const awayName = matchData.away_team;
         const matchId = matchData.id;
+
+        // Check if teams exist in power rankings
+        const homePowerInfo = (NATIONAL_TEAMS_POWER as any)[homeName];
+        const awayPowerInfo = (NATIONAL_TEAMS_POWER as any)[awayName];
 
         // Initialize metadata if not present
         if (!matchData.metadata) {
@@ -89,7 +94,18 @@ export async function enhanceMatchWithDynamicData(matchData: Match) {
                 let score = 50;
                 let goalsScored = 0;
                 let goalsConceded = 0;
-                if (!recent || recent.length === 0) return { score, goalsScored, goalsConceded };
+                if (!recent || recent.length === 0) {
+                    const powerInfo = (NATIONAL_TEAMS_POWER as any)[teamName];
+                    if (powerInfo) {
+                        return { 
+                            score: powerInfo.power, 
+                            goalsScored: Math.round(powerInfo.att / 10), 
+                            goalsConceded: Math.round((100 - powerInfo.def) / 10),
+                            fromPowerRankings: true
+                        };
+                    }
+                    return { score, goalsScored, goalsConceded, fromPowerRankings: false };
+                }
                 
                 recent.forEach(m => {
                     const isHome = m.home_team === teamName;
@@ -103,7 +119,7 @@ export async function enhanceMatchWithDynamicData(matchData: Match) {
                     else if (teamScore === oppScore) score += 3;
                     else score -= 8;
                 });
-                return { score: Math.max(10, Math.min(90, score)), goalsScored, goalsConceded };
+                return { score: Math.max(10, Math.min(90, score)), goalsScored, goalsConceded, fromPowerRankings: false };
             };
 
             const homeStats = calculateForm(homeRecent || [], homeName);
@@ -111,6 +127,8 @@ export async function enhanceMatchWithDynamicData(matchData: Match) {
 
             homeFormScore = homeStats.score;
             awayFormScore = awayStats.score;
+
+            const usedPowerRankings = homeStats.fromPowerRankings || awayStats.fromPowerRankings;
 
             // H2H calculation
             let homeH2HWins = 0;
@@ -188,13 +206,24 @@ export async function enhanceMatchWithDynamicData(matchData: Match) {
                     advice += `Ambos equipos llegan con un nivel similar, lo que augura un duelo cerrado.`;
                 }
             } else {
-                advice = `No hay enfrentamientos previos recientes registrados. `;
-                if (homeFormScore > awayFormScore + 10) {
-                    advice += `Basados en la forma de los últimos 5 partidos, ${homeName} se perfila como sólido favorito gracias a su gran racha.`;
-                } else if (awayFormScore > homeFormScore + 10) {
-                    advice += `${awayName} llega con mucho mejor nivel individual. A pesar de ser visitantes, son favoritos.`;
+                if (usedPowerRankings) {
+                    advice = `Análisis basado en métricas de selecciones nacionales para el Mundial. `;
+                    if (homeFormScore > awayFormScore + 10) {
+                        advice += `${homeName} tiene una plantilla estadísticamente superior y llega como claro favorito para llevarse el encuentro.`;
+                    } else if (awayFormScore > homeFormScore + 10) {
+                        advice += `El poderío de ${awayName} supera claramente a su rival. A pesar de todo, son amplios favoritos para ganar.`;
+                    } else {
+                        advice += `Ambas selecciones tienen un poderío y estadísticas muy similares. Se pronostica un partido táctico y muy parejo.`;
+                    }
                 } else {
-                    advice += `Ambos clubes han tenido un rendimiento irregular. Se espera un partido muy parejo y el empate es altamente probable.`;
+                    advice = `No hay enfrentamientos previos recientes registrados. `;
+                    if (homeFormScore > awayFormScore + 10) {
+                        advice += `Basados en la forma de los últimos 5 partidos, ${homeName} se perfila como sólido favorito gracias a su gran racha.`;
+                    } else if (awayFormScore > homeFormScore + 10) {
+                        advice += `${awayName} llega con mucho mejor nivel individual. A pesar de ser visitantes, son favoritos.`;
+                    } else {
+                        advice += `Ambos clubes han tenido un rendimiento irregular. Se espera un partido muy parejo y el empate es altamente probable.`;
+                    }
                 }
             }
 
@@ -227,8 +256,8 @@ export async function enhanceMatchWithDynamicData(matchData: Match) {
                 },
                 predictedScore: predictedScore,
                 keyFactors: [
-                    h2hMatches.length > 0 ? "Historial directo analizado" : "Sin historial directo - Análisis individual puro",
-                    "Rendimiento de los últimos 5 partidos",
+                    h2hMatches.length > 0 ? "Historial directo analizado" : (usedPowerRankings ? "Ranking FIFA y métricas de selecciones" : "Sin historial directo - Análisis individual puro"),
+                    usedPowerRankings ? "Poderío ofensivo y solidez defensiva base" : "Rendimiento de los últimos 5 partidos",
                     "Ventaja de localía calculada",
                     "Efectividad goleadora y solidez defensiva"
                 ]
