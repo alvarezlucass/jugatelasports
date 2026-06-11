@@ -149,7 +149,8 @@ const MatchDetail: React.FC = () => {
         const apiId = matchData.api_id || matchData.id;
         const isPastStart = matchData.start_time ? new Date(matchData.start_time).getTime() <= Date.now() : false;
         const elapsedForEff = matchData.start_time ? Math.floor((Date.now() - new Date(matchData.start_time).getTime()) / 60000) : 0;
-        const effStatus = (matchData.status === 'SCHEDULED' || matchData.status === 'scheduled') && isPastStart 
+        const isScheduled = matchData.status === 'SCHEDULED' || matchData.status === 'scheduled' || matchData.status === 'UPCOMING' || matchData.status === 'upcoming';
+        const effStatus = isScheduled && isPastStart 
             ? (elapsedForEff >= 115 ? 'FINISHED' : 'LIVE') 
             : matchData.status.toUpperCase();
         
