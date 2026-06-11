@@ -14,7 +14,7 @@ export interface ApiMatchResponse {
 }
 
 class FootballApiService {
-    private readonly API_KEY = import.meta.env.VITE_FOOTBALL_API_KEY;
+    private readonly API_KEY = import.meta.env.VITE_API_FOOTBALL_KEY;
     private readonly BASE_URL = 'https://v3.football.api-sports.io';
     private readonly WORLD_CUP_LEAGUE_ID = 1; // World Cup League ID in API-Football
     private readonly SEASON = 2026;
