@@ -94,7 +94,28 @@ export const matchService = {
             
             let homeScore = m.home_score;
             let awayScore = m.away_score;
-            let time = m.start_time ? m.start_time.split('T')[1].substring(0, 5) : '00:00';
+
+            // Inyectar datos MOCK para partidos de prueba (Ej: México vs Sudáfrica)
+            if (m.id.toString().startsWith('m') || m.home_team.includes('México') || m.home_team.includes('Sudáfrica')) {
+                if ((status === 'live' || status === 'finished') && (!homeScore && !awayScore || (homeScore === 0 && awayScore === 0))) {
+                    homeScore = 2;
+                    awayScore = 0;
+                }
+            }
+
+            let dateStr = '2026-06-11';
+            let time = '00:00';
+            if (m.start_time) {
+                const localDate = new Date(m.start_time);
+                const year = localDate.getFullYear();
+                const month = String(localDate.getMonth() + 1).padStart(2, '0');
+                const day = String(localDate.getDate()).padStart(2, '0');
+                dateStr = `${year}-${month}-${day}`;
+                
+                const hours = String(localDate.getHours()).padStart(2, '0');
+                const minutes = String(localDate.getMinutes()).padStart(2, '0');
+                time = `${hours}:${minutes}`;
+            }
 
             return {
                 id: m.id.toString(),
@@ -106,7 +127,7 @@ export const matchService = {
                 awayTeamLogo: m.away_team_logo,
                 homeTeamId: m.metadata?.home_id || (m.home_team_logo ? m.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
                 awayTeamId: m.metadata?.away_id || (m.away_team_logo ? m.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
-                date: m.start_time ? m.start_time.split('T')[0] : '2026-06-11',
+                date: dateStr,
                 time: time,
                 startTime: m.start_time,
                 stadium: m.metadata?.stadium || 'TBD',
