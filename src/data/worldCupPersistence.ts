@@ -303,7 +303,7 @@ export const getTeamMatches = (teamName: string): GroupMatch[] => {
     return WORLD_CUP_GROUP_MATCHES.filter(m => m.homeTeam === teamName || m.awayTeam === teamName);
 };
 
-export const getGroupStandings = (letter: string, predictions: any[] = []) => {
+export const getGroupStandings = (letter: string, predictions: any[] = [], realMatches: any[] = []) => {
     const matches = getGroupMatches(letter);
     const teams = Array.from(new Set(matches.flatMap(m => [m.homeTeam, m.awayTeam])));
 
@@ -318,31 +318,48 @@ export const getGroupStandings = (letter: string, predictions: any[] = []) => {
             gf: 0,
             gc: 0,
             dg: 0,
-            pts: 0
+            pts: 0,
+            form: [] as ('W'|'D'|'L')[]
         };
 
-        // Calculate stats from predictions
+        // Calculate stats from predictions or real matches
         matches.forEach(m => {
-            const pred = predictions.find(p => p.matchId === m.id);
-            if (!pred || !pred.exactScore) return;
-
             const isHome = m.homeTeam === teamName;
             const isAway = m.awayTeam === teamName;
+            if (!isHome && !isAway) return;
+
+            // Try to find a real match result first
+            const realMatch = realMatches.find(rm => rm.id === m.id);
+            const pred = predictions.find(p => p.matchId === m.id);
+
+            let hScore: number | undefined;
+            let aScore: number | undefined;
+
+            if (realMatch && (realMatch.status === 'FINISHED' || realMatch.status === 'finished')) {
+                // Use real score
+                hScore = realMatch.home_score;
+                aScore = realMatch.away_score;
+            } else if (pred && pred.exactScore) {
+                // Fallback to user prediction
+                hScore = pred.exactScore.home;
+                aScore = pred.exactScore.away;
+            }
+
+            if (hScore === undefined || aScore === undefined || hScore === null || aScore === null) return;
 
             stats.pj += 1;
-            const hScore = pred.exactScore.home;
-            const aScore = pred.exactScore.away;
-
             if (isHome) {
                 stats.gf += hScore;
                 stats.gc += aScore;
-                if (hScore > aScore) stats.pts += 3;
-                else if (hScore === aScore) stats.pts += 1;
+                if (hScore > aScore) { stats.pts += 3; stats.form.push('W'); }
+                else if (hScore === aScore) { stats.pts += 1; stats.form.push('D'); }
+                else { stats.form.push('L'); }
             } else if (isAway) {
                 stats.gf += aScore;
                 stats.gc += hScore;
-                if (aScore > hScore) stats.pts += 3;
-                else if (aScore === hScore) stats.pts += 1;
+                if (aScore > hScore) { stats.pts += 3; stats.form.push('W'); }
+                else if (aScore === hScore) { stats.pts += 1; stats.form.push('D'); }
+                else { stats.form.push('L'); }
             }
         });
 

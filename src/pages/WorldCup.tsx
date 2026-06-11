@@ -24,7 +24,8 @@ export const WorldCup: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [activeGroup, setActiveGroup] = useState<string>('ALL');
-    const [isLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [realMatches, setRealMatches] = useState<any[]>([]);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     // Sync state with URL groups param and deep link bracket
@@ -41,7 +42,23 @@ export const WorldCup: React.FC = () => {
         }
     }, [location.search]);
 
-    // Note: Local persistent data from worldCupPersistence.ts is used instead of API.
+    // Fetch real matches from Supabase to correctly update tables
+    React.useEffect(() => {
+        const fetchRealMatches = async () => {
+            setIsLoading(true);
+            try {
+                // Import matchService dynamically to avoid circular dependencies if any
+                const { matchService } = await import('../services/matchService');
+                const matches = await matchService.getMatches();
+                setRealMatches(matches);
+            } catch (err) {
+                console.error("Error fetching real matches", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchRealMatches();
+    }, []);
 
     const groups: ('A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L')[] = ['A','B','C','D','E','F','G','H','I','J','K','L'];
     const selectorOptions: ('A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'ALL')[] = ['ALL', ...groups];
@@ -49,18 +66,18 @@ export const WorldCup: React.FC = () => {
     const groupTeamsMap = React.useMemo(() => {
         const map: Record<string, {name: string, flag: string}[]> = {};
         groups.forEach(letter => {
-            map[letter] = getGroupStandings(letter, userPredictions).map(t => ({
+            map[letter] = getGroupStandings(letter, userPredictions, realMatches).map(t => ({
                 name: t.name,
                 flag: t.flag || ''
             }));
         });
         return map;
-    }, [userPredictions]);
+    }, [userPredictions, realMatches]);
 
     const computedBracket = React.useMemo(() => {
         const allStandings: Record<string, any[]> = {};
         groups.forEach(letter => {
-            const teamsToRender = getGroupStandings(letter, userPredictions);
+            const teamsToRender = getGroupStandings(letter, userPredictions, realMatches);
             allStandings[letter] = teamsToRender.map((t: any) => ({
                 id: t.id,
                 name: t.name || 'Por Definir',
