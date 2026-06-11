@@ -289,13 +289,6 @@ const ChallengeCard: React.FC<{
                     )}
                 </div>
             </div>
-
-            <EditProfileModal 
-                isOpen={showEditProfile}
-                user={user}
-                onSave={updateProfile}
-                onClose={() => setShowEditProfile(false)}
-            />
         </div>
     );
 };
