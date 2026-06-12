@@ -72,6 +72,7 @@ const MatchDetail: React.FC = () => {
     const [showDevTools, setShowDevTools] = useState(false);
     const [simScore, setSimScore] = useState({ home: 0, away: 0 });
     const [isSimulating, setIsSimulating] = useState(false);
+    const [debugError, setDebugError] = useState<string>('');
     const [liveMetadata, setLiveMetadata] = useState<{
         events?: MatchEvent[];
         stats?: MatchStats;
@@ -162,18 +163,25 @@ const MatchDetail: React.FC = () => {
         }
 
         const fetchLiveInfo = async () => {
-            const { success, data } = await footballApiService.getMatchDetails(apiId.toString());
-            if (success && data) {
-                const homeId = data.teams?.home?.id?.toString();
-                const awayId = data.teams?.away?.id?.toString();
-                const lineups = mapApiFootballLineups(data.lineups);
-                
-                setLiveMetadata({
-                    events: mapApiFootballEvents(data.events, homeId, awayId),
-                    stats: mapApiFootballStatistics(data.statistics),
-                    lineup_home: lineups.home || undefined,
-                    lineup_away: lineups.away || undefined
-                });
+            try {
+                const { success, data, error } = await footballApiService.getMatchDetails(apiId.toString());
+                if (success && data) {
+                    const homeId = data.teams?.home?.id?.toString();
+                    const awayId = data.teams?.away?.id?.toString();
+                    const lineups = mapApiFootballLineups(data.lineups);
+                    
+                    setLiveMetadata({
+                        events: mapApiFootballEvents(data.events, homeId, awayId),
+                        stats: mapApiFootballStatistics(data.statistics),
+                        lineup_home: lineups.home || undefined,
+                        lineup_away: lineups.away || undefined
+                    });
+                    setDebugError('');
+                } else {
+                    setDebugError(`FallA3 success: ${success}, err: ${error}, data: ${data ? JSON.stringify(data).substring(0,60) : 'no'}`);
+                }
+            } catch (e: any) {
+                setDebugError(`Crash: ${e.message}`);
             }
         };
 
@@ -290,6 +298,12 @@ const MatchDetail: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-[#0A0D12] text-white pb-20">
+            {debugError && (
+                <div className="bg-red-500 text-white p-3 text-xs font-bold text-center z-50 rounded-xl mt-4 max-w-lg mx-auto">
+                    DEBUG: {debugError} <br/>
+                    KEY: {import.meta.env.VITE_API_FOOTBALL_KEY ? 'PRESENT' : 'MISSING'}
+                </div>
+            )}
             <div className="relative h-80 overflow-hidden border-b border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-transparent" />
                 <div className="relative z-10 p-6">
