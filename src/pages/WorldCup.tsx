@@ -155,7 +155,7 @@ export const WorldCup: React.FC = () => {
                                 const allowedGroups = activeGroup.split(',');
                                 return allowedGroups.includes(letter);
                             }).map((letter) => {
-                                const teamsToRender = getGroupStandings(letter, userPredictions);
+                                const teamsToRender = getGroupStandings(letter, userPredictions, realMatches);
 
                                 return (
                                     <GroupCard

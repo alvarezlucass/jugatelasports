@@ -173,8 +173,8 @@ const MatchDetail: React.FC = () => {
                     lineup_away: lineups.away || undefined
                 });
             } else if (apiId.toString().startsWith('m') || matchData.home_team.includes('México') || matchData.home_team.includes('Sudáfrica')) {
-                const hId = matchData.metadata?.home_id?.toString() || 'mock_home';
-                const aId = matchData.metadata?.away_id?.toString() || 'mock_away';
+                const hId = matchData.metadata?.home_id?.toString() || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : 'mock_home');
+                const aId = matchData.metadata?.away_id?.toString() || (matchData.away_team_logo ? matchData.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : 'mock_away');
                 setLiveMetadata({
                     events: [
                         { id: 'e1', time: 12, type: 'GOAL', teamId: hId, player: { id: '16300', name: 'S. Giménez' }, detail: 'Golazo' },
@@ -519,7 +519,10 @@ const MatchDetail: React.FC = () => {
                                 </div>
                             </div>
 
-                            <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} />
+                            {/* El usuario solicitó ocultar la sección de Sucesos Clave temporalmente
+                                <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} /> 
+                            */}
+                            {/* <div className="text-center py-4 border border-dashed border-white/5 rounded-2xl bg-white/[0.02] text-zinc-500 text-xs font-black uppercase tracking-widest">Sucesos Clave Ocultos Temporalmente</div> */}
                         </motion.div>
                     )}
 
