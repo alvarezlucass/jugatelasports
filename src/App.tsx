@@ -44,10 +44,12 @@ import { DisclaimerPage } from './pages/legal/DisclaimerPage';
 import { TeamModalProvider } from './context/TeamModalContext';
 
 import { ReferralRoute } from './pages/ReferralRoute';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <UserProvider>
         <GameProvider>
           <TeamModalProvider>

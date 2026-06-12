@@ -260,41 +260,43 @@ export const Register: React.FC = () => {
                                 </div>
                             </label>
 
-                            <label className="flex items-start gap-4 p-4 rounded-2xl border border-border/50 bg-muted/10 hover:bg-muted/20 hover:border-border transition-all cursor-pointer group">
-                                <div className={cn(
-                                    "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 mt-0.5",
-                                    legalData.acceptedTerms ? "bg-primary border-primary" : "border-muted-foreground group-hover:border-primary"
-                                )}>
-                                    {legalData.acceptedTerms && <Check className="w-3.5 h-3.5 text-black font-bold" />}
-                                </div>
-                                <input
-                                    type="checkbox"
-                                    className="hidden"
-                                    checked={legalData.acceptedTerms}
-                                    onChange={(e) => setLegalData({ ...legalData, acceptedTerms: e.target.checked })}
-                                />
-                                <div>
+                            <div className="flex flex-col gap-2 p-4 rounded-2xl border border-border/50 bg-muted/10 transition-all">
+                                <label className="flex items-center gap-4 cursor-pointer group w-full">
+                                    <div className={cn(
+                                        "w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors shrink-0",
+                                        legalData.acceptedTerms ? "bg-primary border-primary" : "border-muted-foreground group-hover:border-primary"
+                                    )}>
+                                        {legalData.acceptedTerms && <Check className="w-3.5 h-3.5 text-black font-bold" />}
+                                    </div>
+                                    <input
+                                        type="checkbox"
+                                        className="hidden"
+                                        checked={legalData.acceptedTerms}
+                                        onChange={(e) => setLegalData({ ...legalData, acceptedTerms: e.target.checked })}
+                                    />
                                     <span className="block font-bold text-foreground">Acuerdo Legal</span>
-                                    <span className="text-xs text-muted-foreground block mt-1">
+                                </label>
+                                <div className="ml-10">
+                                    <span className="text-xs text-muted-foreground block">
                                         He leído y acepto los{' '}
-                                        <Link to="/terminos" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                        <Link to="/terminos" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
                                             Términos de Servicio
                                         </Link>
                                         , la{' '}
-                                        <Link to="/privacidad" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                        <Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
                                             Política de Privacidad
                                         </Link>
                                         , las{' '}
-                                        <Link to="/reglas" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                        <Link to="/reglas" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
                                             Reglas del Juego
                                         </Link>
                                         {' '}y el{' '}
-                                        <Link to="/disclaimer" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                        <Link to="/disclaimer" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
                                             Juego Responsable
                                         </Link>.
                                     </span>
                                 </div>
-                            </label>
+                            </div>
                         </div>
 
                         <button
