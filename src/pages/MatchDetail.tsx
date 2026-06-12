@@ -178,7 +178,10 @@ const MatchDetail: React.FC = () => {
                 setLiveMetadata({
                     events: [
                         { id: 'e1', time: 12, type: 'GOAL', teamId: hId, player: { id: '16300', name: 'S. Giménez' }, detail: 'Golazo' },
-                        { id: 'e2', time: 45, type: 'GOAL', teamId: hId, player: { id: '2288', name: 'H. Lozano' }, detail: 'Tiro libre' }
+                        { id: 'e3', time: 25, type: 'CARD', teamId: aId, player: { id: '53526', name: 'S. Xulu' }, detail: 'Yellow Card' },
+                        { id: 'e2', time: 45, type: 'GOAL', teamId: hId, player: { id: '2288', name: 'H. Lozano' }, detail: 'Tiro libre' },
+                        { id: 'e4', time: 66, type: 'SUB', teamId: hId, player: { id: '16301', name: 'L. Chávez' }, assistPlayer: { id: '2285', name: 'O. Pineda' }, detail: 'Substitution' },
+                        { id: 'e5', time: 74, type: 'CARD', teamId: aId, player: { id: '53527', name: 'M. Mvala' }, detail: 'Yellow Card' },
                     ],
                     stats: {
                         possession: { home: 65, away: 35 },
@@ -519,10 +522,7 @@ const MatchDetail: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* El usuario solicitó ocultar la sección de Sucesos Clave temporalmente
-                                <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} /> 
-                            */}
-                            {/* <div className="text-center py-4 border border-dashed border-white/5 rounded-2xl bg-white/[0.02] text-zinc-500 text-xs font-black uppercase tracking-widest">Sucesos Clave Ocultos Temporalmente</div> */}
+                            <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id?.toString() || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} />
                         </motion.div>
                     )}
 
