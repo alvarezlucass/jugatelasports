@@ -41,7 +41,7 @@ export const Home: React.FC = () => {
                 let { data: matches, error: matchesError } = await supabase
                     .from('matches')
                     .select('*')
-                    .eq('status', 'UPCOMING')
+                    .in('status', ['UPCOMING', 'SCHEDULED', 'upcoming', 'scheduled'])
                     .gte('start_time', nowIso)
                     .order('start_time', { ascending: true })
                     .limit(3);
@@ -51,7 +51,7 @@ export const Home: React.FC = () => {
                     const { data: fallbackMatches, error: fallbackError } = await supabase
                         .from('matches')
                         .select('*')
-                        .eq('status', 'UPCOMING')
+                        .in('status', ['UPCOMING', 'SCHEDULED', 'upcoming', 'scheduled'])
                         .order('start_time', { ascending: false })
                         .limit(3);
                     if (!fallbackError && fallbackMatches) {

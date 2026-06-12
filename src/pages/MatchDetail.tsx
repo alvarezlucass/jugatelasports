@@ -154,25 +154,16 @@ const MatchDetail: React.FC = () => {
             ? (elapsedForEff >= 115 ? 'FINISHED' : 'LIVE') 
             : matchData.status.toUpperCase();
         
-        // Solo llamamos a la API si el partido está en vivo o terminado
-        if (effStatus !== 'LIVE' && effStatus !== 'FINISHED') {
+        const isBypass = (apiId?.toString() === '1158072' || matchData?.home_team?.includes('México') || matchData?.home_team?.includes('Sudáfrica'));
+        
+        // Solo llamamos a la API si el partido está en vivo o terminado (excepto bypass)
+        if (!isBypass && effStatus !== 'LIVE' && effStatus !== 'FINISHED') {
             return;
         }
 
         const fetchLiveInfo = async () => {
-            const { success, data } = await footballApiService.getMatchDetails(apiId.toString());
-            if (success && data) {
-                const homeId = data.teams?.home?.id?.toString();
-                const awayId = data.teams?.away?.id?.toString();
-                const lineups = mapApiFootballLineups(data.lineups);
-                
-                setLiveMetadata({
-                    events: mapApiFootballEvents(data.events, homeId, awayId),
-                    stats: mapApiFootballStatistics(data.statistics),
-                    lineup_home: lineups.home || undefined,
-                    lineup_away: lineups.away || undefined
-                });
-            } else if (apiId.toString().startsWith('m') || matchData.home_team.includes('México') || matchData.home_team.includes('Sudáfrica')) {
+            // FORZAMOS MOCK PARA EL MUNDIAL (México vs Sudáfrica)
+            if (isBypass) {
                 const hId = matchData.metadata?.home_id?.toString() || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : 'mock_home');
                 const aId = matchData.metadata?.away_id?.toString() || (matchData.away_team_logo ? matchData.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : 'mock_away');
                 setLiveMetadata({

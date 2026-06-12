@@ -1,55 +1,7 @@
-export interface TeamHistory {
-    id: string;
-    name: string;
-    titles: number;
-    bestResult: string;
-    appearances: number;
-    lastResults: ('W' | 'D' | 'L')[];
-    fifaRanking?: number;
-    continent?: string;
-    description: string;
-    detailedHistory?: string;
-    culture?: {
-        capital: string;
-        population: string;
-        curiosity: string;
-    };
-    coachingStaff?: StaffMember[];
-    players?: Player[];
-}
-
-export interface Venue {
-    id: string;
-    name: string;
-    city: string;
-    country: string;
-    capacity: number;
-    image: string;
-    description: string;
-    website?: string;
-}
-
-
-
-export interface StaffMember {
-    id: string;
-    name: string;
-    role: string;
-    image?: string;
-}
-
-export interface Player {
-    id: string;
-    name: string;
-    position: 'G' | 'D' | 'M' | 'F'; // Goalkeeper, Defender, Midfielder, Forward
-    number: number;
-    club: string;
-    age: number;
-    isStar?: boolean;
-    image?: string;
-}
-
-export const WORLD_CUP_TEAMS_HISTORY: Record<string, TeamHistory> = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getVenues = exports.WORLD_CUP_VENUES = exports.getTeamStaticData = exports.getGroupStandings = exports.getTeamMatches = exports.getTeamFlagUrl = exports.getGroupMatches = exports.WORLD_CUP_GROUP_MATCHES = exports.WORLD_CUP_TEAMS_HISTORY = void 0;
+exports.WORLD_CUP_TEAMS_HISTORY = {
     "Argentina": { id: "ARG", name: "Argentina", titles: 3, bestResult: "Campeón (1978, 1986, 2022)", appearances: 18, lastResults: ['W', 'W', 'D', 'W', 'W'], fifaRanking: 1, continent: "Sudamérica", description: "Vigente campeón mundial." },
     "México": { id: "MEX", name: "México", titles: 0, bestResult: "Cuartos (1970, 1986)", appearances: 17, lastResults: ['D', 'W', 'L', 'W', 'D'], fifaRanking: 15, continent: "Concacaf", description: "Anfitrión." },
     "Brasil": { id: "BRA", name: "Brasil", titles: 5, bestResult: "Campeón (x5)", appearances: 22, lastResults: ['W', 'L', 'W', 'W', 'D'], fifaRanking: 5, continent: "Sudamérica", description: "El Pentacampeón." },
@@ -99,32 +51,7 @@ export const WORLD_CUP_TEAMS_HISTORY: Record<string, TeamHistory> = {
     "Ghana": { id: "GHA", name: "Ghana", titles: 0, bestResult: "Cuartos", appearances: 5, lastResults: ['L', 'W', 'D', 'L', 'W'], fifaRanking: 60, continent: "África", description: "Black Stars." },
     "Panamá": { id: "PAN", name: "Panamá", titles: 0, bestResult: "Fase de Grupos", appearances: 2, lastResults: ['W', 'L', 'W', 'D', 'W'], fifaRanking: 41, continent: "Concacaf", description: "Los Canaleros." },
 };
-
-export interface GroupMatch {
-    id: string;
-    group: string;
-    homeTeam: string;
-    awayTeam: string;
-    homeTeamId?: string;
-    awayTeamId?: string;
-    date: string;
-    time: string;
-    stadium: string;
-    city: string;
-    status: 'scheduled' | 'live' | 'finished';
-    homeScore?: number;
-    awayScore?: number;
-    homeTeamLogo?: string;
-    awayTeamLogo?: string;
-    h2h?: {
-        date: string;
-        result: string;
-        competition: string;
-    }[];
-    metadata?: any;
-}
-
-export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
+exports.WORLD_CUP_GROUP_MATCHES = [
     // Grupo A - México, Sudáfrica, Corea del Sur, República Checa
     { id: 'm1', group: 'A', homeTeam: 'México', awayTeam: 'Sudáfrica', date: '2026-06-11', time: '19:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: 'm2', group: 'A', homeTeam: 'Corea del Sur', awayTeam: 'República Checa', date: '2026-06-12', time: '02:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
@@ -132,7 +59,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm4', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'República Checa', date: '2026-06-16', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: 'm5', group: 'A', homeTeam: 'República Checa', awayTeam: 'México', date: '2026-06-21', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: 'm6', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'Corea del Sur', date: '2026-06-21', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
-
     // Grupo B - Canadá, Bosnia, Qatar, Suiza
     { id: 'm7', group: 'B', homeTeam: 'Canadá', awayTeam: 'Bosnia', date: '2026-06-12', time: '19:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: 'm8', group: 'B', homeTeam: 'Qatar', awayTeam: 'Suiza', date: '2026-06-13', time: '19:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
@@ -140,7 +66,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm10', group: 'B', homeTeam: 'Bosnia', awayTeam: 'Suiza', date: '2026-06-17', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
     { id: 'm11', group: 'B', homeTeam: 'Suiza', awayTeam: 'Canadá', date: '2026-06-22', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: 'm12', group: 'B', homeTeam: 'Bosnia', awayTeam: 'Qatar', date: '2026-06-22', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
-
     // Grupo C - Brasil, Marruecos, Haití, Escocia
     { id: 'm13', group: 'C', homeTeam: 'Brasil', awayTeam: 'Marruecos', date: '2026-06-13', time: '22:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: 'm14', group: 'C', homeTeam: 'Haití', awayTeam: 'Escocia', date: '2026-06-13', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
@@ -148,7 +73,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm16', group: 'C', homeTeam: 'Marruecos', awayTeam: 'Escocia', date: '2026-06-18', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
     { id: 'm17', group: 'C', homeTeam: 'Escocia', awayTeam: 'Brasil', date: '2026-06-23', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: 'm18', group: 'C', homeTeam: 'Marruecos', awayTeam: 'Haití', date: '2026-06-23', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
-
     // Grupo D - USA, Paraguay, Australia, Turquía
     { id: 'm19', group: 'D', homeTeam: 'USA', awayTeam: 'Paraguay', date: '2026-06-13', time: '01:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: 'm20', group: 'D', homeTeam: 'Australia', awayTeam: 'Turquía', date: '2026-06-14', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
@@ -156,7 +80,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm22', group: 'D', homeTeam: 'Paraguay', awayTeam: 'Turquía', date: '2026-06-19', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
     { id: 'm23', group: 'D', homeTeam: 'Turquía', awayTeam: 'USA', date: '2026-06-24', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: 'm24', group: 'D', homeTeam: 'Paraguay', awayTeam: 'Australia', date: '2026-06-24', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
-
     // Grupo E - Alemania, Curazao, Costa de Marfil, Ecuador
     { id: 'm25', group: 'E', homeTeam: 'Alemania', awayTeam: 'Curazao', date: '2026-06-15', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
     { id: 'm26', group: 'E', homeTeam: 'Costa de Marfil', awayTeam: 'Ecuador', date: '2026-06-15', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
@@ -164,7 +87,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm28', group: 'E', homeTeam: 'Curazao', awayTeam: 'Ecuador', date: '2026-06-20', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
     { id: 'm29', group: 'E', homeTeam: 'Ecuador', awayTeam: 'Alemania', date: '2026-06-25', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: 'm30', group: 'E', homeTeam: 'Curazao', awayTeam: 'Costa de Marfil', date: '2026-06-25', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
-
     // Grupo F - Países Bajos, Japón, Suecia, Túnez
     { id: 'm31', group: 'F', homeTeam: 'Países Bajos', awayTeam: 'Japón', date: '2026-06-16', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
     { id: 'm32', group: 'F', homeTeam: 'Suecia', awayTeam: 'Túnez', date: '2026-06-16', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
@@ -172,7 +94,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm34', group: 'F', homeTeam: 'Japón', awayTeam: 'Túnez', date: '2026-06-21', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
     { id: 'm35', group: 'F', homeTeam: 'Túnez', awayTeam: 'Países Bajos', date: '2026-06-26', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: 'm36', group: 'F', homeTeam: 'Japón', awayTeam: 'Suecia', date: '2026-06-26', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
-
     // Grupo G - Bélgica, Egipto, Irán, Nueva Zelanda
     { id: 'm37', group: 'G', homeTeam: 'Bélgica', awayTeam: 'Egipto', date: '2026-06-17', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: 'm38', group: 'G', homeTeam: 'Irán', awayTeam: 'Nueva Zelanda', date: '2026-06-17', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
@@ -180,7 +101,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm40', group: 'G', homeTeam: 'Egipto', awayTeam: 'Nueva Zelanda', date: '2026-06-22', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
     { id: 'm41', group: 'G', homeTeam: 'Nueva Zelanda', awayTeam: 'Bélgica', date: '2026-06-27', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
     { id: 'm42', group: 'G', homeTeam: 'Egipto', awayTeam: 'Irán', date: '2026-06-27', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
-
     // Grupo H - España, Cabo Verde, Arabia Saudita, Uruguay
     { id: 'm43', group: 'H', homeTeam: 'España', awayTeam: 'Cabo Verde', date: '2026-06-18', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: 'm44', group: 'H', homeTeam: 'Arabia Saudita', awayTeam: 'Uruguay', date: '2026-06-18', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
@@ -188,7 +108,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm46', group: 'H', homeTeam: 'Cabo Verde', awayTeam: 'Uruguay', date: '2026-06-23', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
     { id: 'm47', group: 'H', homeTeam: 'Uruguay', awayTeam: 'España', date: '2026-06-28', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
     { id: 'm48', group: 'H', homeTeam: 'Cabo Verde', awayTeam: 'Arabia Saudita', date: '2026-06-28', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
-
     // Grupo I - Francia, Senegal, Irak, Noruega
     { id: 'm49', group: 'I', homeTeam: 'Francia', awayTeam: 'Senegal', date: '2026-06-19', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: 'm50', group: 'I', homeTeam: 'Irak', awayTeam: 'Noruega', date: '2026-06-19', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
@@ -196,7 +115,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm52', group: 'I', homeTeam: 'Senegal', awayTeam: 'Noruega', date: '2026-06-24', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: 'm53', group: 'I', homeTeam: 'Noruega', awayTeam: 'Francia', date: '2026-06-29', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: 'm54', group: 'I', homeTeam: 'Senegal', awayTeam: 'Irak', date: '2026-06-29', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
-
     // Grupo J - Argentina, Argelia, Austria, Jordania
     { id: 'm55', group: 'J', homeTeam: 'Argentina', awayTeam: 'Argelia', date: '2026-06-16', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: 'm56', group: 'J', homeTeam: 'Austria', awayTeam: 'Jordania', date: '2026-06-16', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
@@ -204,7 +122,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm58', group: 'J', homeTeam: 'Argelia', awayTeam: 'Jordania', date: '2026-06-22', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
     { id: 'm59', group: 'J', homeTeam: 'Jordania', awayTeam: 'Argentina', date: '2026-06-27', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: 'm60', group: 'J', homeTeam: 'Argelia', awayTeam: 'Austria', date: '2026-06-27', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
-
     // Grupo K - Portugal, RD Congo, Uzbekistán, Colombia
     { id: 'm61', group: 'K', homeTeam: 'Portugal', awayTeam: 'RD Congo', date: '2026-06-21', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: 'm62', group: 'K', homeTeam: 'Uzbekistán', awayTeam: 'Colombia', date: '2026-06-21', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
@@ -212,7 +129,6 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm64', group: 'K', homeTeam: 'RD Congo', awayTeam: 'Colombia', date: '2026-06-26', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
     { id: 'm65', group: 'K', homeTeam: 'Colombia', awayTeam: 'Portugal', date: '2026-07-01', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: 'm66', group: 'K', homeTeam: 'RD Congo', awayTeam: 'Uzbekistán', date: '2026-07-01', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
-
     // Grupo L - Inglaterra, Croacia, Ghana, Panamá
     { id: 'm67', group: 'L', homeTeam: 'Inglaterra', awayTeam: 'Croacia', date: '2026-06-22', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: 'm68', group: 'L', homeTeam: 'Ghana', awayTeam: 'Panamá', date: '2026-06-22', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
@@ -221,15 +137,15 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: 'm71', group: 'L', homeTeam: 'Panamá', awayTeam: 'Inglaterra', date: '2026-07-02', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: 'm72', group: 'L', homeTeam: 'Croacia', awayTeam: 'Ghana', date: '2026-07-02', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
 ];
-
-export const getGroupMatches = (groupLetter: string): GroupMatch[] => {
-    return WORLD_CUP_GROUP_MATCHES.filter(m => m.group === groupLetter);
+var getGroupMatches = function (groupLetter) {
+    return exports.WORLD_CUP_GROUP_MATCHES.filter(function (m) { return m.group === groupLetter; });
 };
-
-export const getTeamFlagUrl = (teamIdOrName: string): string => {
-    if (!teamIdOrName) return 'https://media.api-sports.io/football/teams/unknown.png';
-    const key = teamIdOrName.trim();
-    const flagMap: Record<string, string> = {
+exports.getGroupMatches = getGroupMatches;
+var getTeamFlagUrl = function (teamIdOrName) {
+    if (!teamIdOrName)
+        return 'https://media.api-sports.io/football/teams/unknown.png';
+    var key = teamIdOrName.trim();
+    var flagMap = {
         "Argentina": "ar", "ARG": "ar",
         "México": "mx", "Mexico": "mx", "MEX": "mx",
         "Brasil": "br", "Brazil": "br", "BRA": "br",
@@ -281,101 +197,113 @@ export const getTeamFlagUrl = (teamIdOrName: string): string => {
         "Dinamarca": "dk", "Danimarca": "dk",
         "Grecia": "gr", "Italia": "it", "Chile": "cl", "Nigeria": "ng"
     };
-
     // Try direct match
-    if (flagMap[key]) return `https://flagcdn.com/${flagMap[key]}.svg`;
-    
+    if (flagMap[key])
+        return "https://flagcdn.com/".concat(flagMap[key], ".svg");
     // Try uppercase match
-    const upperKey = key.toUpperCase();
-    if (flagMap[upperKey]) return `https://flagcdn.com/${flagMap[upperKey]}.svg`;
-    
+    var upperKey = key.toUpperCase();
+    if (flagMap[upperKey])
+        return "https://flagcdn.com/".concat(flagMap[upperKey], ".svg");
     // Try substring matching for fuzzy names
-    for (const [name, code] of Object.entries(flagMap)) {
-        if (key.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(key.toLowerCase())) {
-            return `https://flagcdn.com/${code}.svg`;
+    for (var _i = 0, _a = Object.entries(flagMap); _i < _a.length; _i++) {
+        var _b = _a[_i], name_1 = _b[0], code = _b[1];
+        if (key.toLowerCase().includes(name_1.toLowerCase()) || name_1.toLowerCase().includes(key.toLowerCase())) {
+            return "https://flagcdn.com/".concat(code, ".svg");
         }
     }
-    
     return 'https://media.api-sports.io/football/teams/unknown.png';
 };
-
-export const getTeamMatches = (teamName: string): GroupMatch[] => {
-    return WORLD_CUP_GROUP_MATCHES.filter(m => m.homeTeam === teamName || m.awayTeam === teamName);
+exports.getTeamFlagUrl = getTeamFlagUrl;
+var getTeamMatches = function (teamName) {
+    return exports.WORLD_CUP_GROUP_MATCHES.filter(function (m) { return m.homeTeam === teamName || m.awayTeam === teamName; });
 };
-
-export const getGroupStandings = (letter: string, predictions: any[] = [], realMatches: any[] = []) => {
-    const matches = getGroupMatches(letter);
-    const teams = Array.from(new Set(matches.flatMap(m => [m.homeTeam, m.awayTeam])));
-
-    if (teams.length === 0) return [];
-
-    const standings = teams.map((teamName) => {
-        const stats = {
-            id: `${letter}-${teamName}`,
+exports.getTeamMatches = getTeamMatches;
+var getGroupStandings = function (letter, predictions, realMatches) {
+    if (predictions === void 0) { predictions = []; }
+    if (realMatches === void 0) { realMatches = []; }
+    var matches = (0, exports.getGroupMatches)(letter);
+    var teams = Array.from(new Set(matches.flatMap(function (m) { return [m.homeTeam, m.awayTeam]; })));
+    if (teams.length === 0)
+        return [];
+    var standings = teams.map(function (teamName) {
+        var stats = {
+            id: "".concat(letter, "-").concat(teamName),
             name: teamName,
-            flag: getTeamFlagUrl(teamName),
+            flag: (0, exports.getTeamFlagUrl)(teamName),
             pj: 0,
             gf: 0,
             gc: 0,
             dg: 0,
             pts: 0,
-            form: [] as ('W'|'D'|'L')[]
+            form: []
         };
-
         // Calculate stats from predictions or real matches
-        matches.forEach(m => {
-            const isHome = m.homeTeam === teamName;
-            const isAway = m.awayTeam === teamName;
-            if (!isHome && !isAway) return;
-
+        matches.forEach(function (m) {
+            var isHome = m.homeTeam === teamName;
+            var isAway = m.awayTeam === teamName;
+            if (!isHome && !isAway)
+                return;
             // Try to find a real match result first
-            const realMatch = realMatches.find(rm => rm.id === m.id || rm.api_id === m.id || (rm.home_team === m.homeTeam && rm.away_team === m.awayTeam));
-            const pred = predictions.find(p => p.matchId === m.id);
-
-            let hScore: number | undefined;
-            let aScore: number | undefined;
-
+            var realMatch = realMatches.find(function (rm) { return rm.id === m.id || rm.api_id === m.id || (rm.home_team === m.homeTeam && rm.away_team === m.awayTeam); });
+            var pred = predictions.find(function (p) { return p.matchId === m.id; });
+            var hScore;
+            var aScore;
             if (realMatch && (realMatch.status === 'FINISHED' || realMatch.status === 'finished')) {
                 // Use real score
                 hScore = realMatch.home_score;
                 aScore = realMatch.away_score;
-            } else if (pred && pred.exactScore) {
+            }
+            else if (pred && pred.exactScore) {
                 // Fallback to user prediction
                 hScore = pred.exactScore.home;
                 aScore = pred.exactScore.away;
             }
-
-            if (hScore === undefined || aScore === undefined || hScore === null || aScore === null) return;
-
+            if (hScore === undefined || aScore === undefined || hScore === null || aScore === null)
+                return;
             stats.pj += 1;
             if (isHome) {
                 stats.gf += hScore;
                 stats.gc += aScore;
-                if (hScore > aScore) { stats.pts += 3; stats.form.push('W'); }
-                else if (hScore === aScore) { stats.pts += 1; stats.form.push('D'); }
-                else { stats.form.push('L'); }
-            } else if (isAway) {
+                if (hScore > aScore) {
+                    stats.pts += 3;
+                    stats.form.push('W');
+                }
+                else if (hScore === aScore) {
+                    stats.pts += 1;
+                    stats.form.push('D');
+                }
+                else {
+                    stats.form.push('L');
+                }
+            }
+            else if (isAway) {
                 stats.gf += aScore;
                 stats.gc += hScore;
-                if (aScore > hScore) { stats.pts += 3; stats.form.push('W'); }
-                else if (aScore === hScore) { stats.pts += 1; stats.form.push('D'); }
-                else { stats.form.push('L'); }
+                if (aScore > hScore) {
+                    stats.pts += 3;
+                    stats.form.push('W');
+                }
+                else if (aScore === hScore) {
+                    stats.pts += 1;
+                    stats.form.push('D');
+                }
+                else {
+                    stats.form.push('L');
+                }
             }
         });
-
         stats.dg = stats.gf - stats.gc;
         return stats;
     });
-
     // Sort by Pts, then DG, then GF (simplified FIFA rules)
-    return standings.sort((a, b) => b.pts - a.pts || b.dg - a.dg || b.gf - a.gf);
+    return standings.sort(function (a, b) { return b.pts - a.pts || b.dg - a.dg || b.gf - a.gf; });
 };
-
-export const getTeamStaticData = (teamName: string): TeamHistory | null => {
-    return WORLD_CUP_TEAMS_HISTORY[teamName] || null;
+exports.getGroupStandings = getGroupStandings;
+var getTeamStaticData = function (teamName) {
+    return exports.WORLD_CUP_TEAMS_HISTORY[teamName] || null;
 };
-
-export const WORLD_CUP_VENUES: Venue[] = [
+exports.getTeamStaticData = getTeamStaticData;
+exports.WORLD_CUP_VENUES = [
     // México
     {
         id: "v-cdmx", name: "Estadio Azteca", city: "Ciudad de México", country: "México", capacity: 83264,
@@ -383,22 +311,18 @@ export const WORLD_CUP_VENUES: Venue[] = [
         description: "El Coloso de Santa Úrsula hará historia pura: será el primer estadio en la historia en albergar encuentros de tres Copas Mundiales de la FIFA distintas (1970, 1986 y 2026), incluyendo el partido inaugural de este torneo.",
         website: "https://www.estadioazteca.com.mx/"
     },
-
     {
         id: "v-gdl", name: "Estadio Akron", city: "Guadalajara", country: "México", capacity: 48000,
         image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop",
         description: "Diseñado con una forma espectacular de volcán y una cubierta que simula una nube, es considerado uno de los estadios más modernos y ecológicamente amigables de toda América Latina.",
         website: "https://estadioakron.mx/"
     },
-
     {
         id: "v-mty", name: "Estadio BBVA", city: "Monterrey", country: "México", capacity: 53500,
         image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=2000&auto=format&fit=crop",
         description: "Conocido popularmente como 'El Gigante de Acero', este vanguardista estadio ofrece a los aficionados unas vistas panorámicas inigualables y majestuosas del icónico Cerro de la Silla desde sus tribunas.",
         website: "https://estadio-bbva.mx//"
     },
-
-
     // Canadá
     {
         id: "v-van", name: "BC Place", city: "Vancouver", country: "Canadá", capacity: 54500,
@@ -406,15 +330,12 @@ export const WORLD_CUP_VENUES: Venue[] = [
         description: "Famoso mundialmente por haber sido la sede principal de los Juegos Olímpicos de Invierno de 2010. Cuenta con un innovador techo retráctil sustentado por una inmensa red de cables y una gigantesca pantalla central.",
         website: "https://www.bcplace.com/"
     },
-
     {
         id: "v-tor", name: "BMO Field", city: "Toronto", country: "Canadá", capacity: 45000,
         image: "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?q=80&w=2000&auto=format&fit=crop",
         description: "La fortaleza de la Selección Nacional de Canadá. Originalmente construido para el fútbol, el estadio será significativamente ampliado temporalmente para cumplir con las exigencias de aforo de la FIFA.",
         website: "https://www.bmofield.com/"
     },
-
-
     // USA
     {
         id: "v-nyj", name: "MetLife Stadium", city: "NYC / Nueva Jersey", country: "USA", capacity: 82500,
@@ -422,56 +343,48 @@ export const WORLD_CUP_VENUES: Venue[] = [
         description: "El escenario elegido para la Gran Final del Mundial 2026. Ubicado en el corazón del área metropolitana neoyorquina, este monumental recinto ya albergó la gran final de la Copa América Centenario 2016.",
         website: "https://www.metlifestadium.com/"
     },
-
     {
         id: "v-dal", name: "AT&T Stadium", city: "Dallas", country: "USA", capacity: 80000,
         image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000&auto=format&fit=crop",
         description: "Uno de los recintos cubiertos más colosales del mundo, apodado cariñosamente 'Jerry World'. Su característica principal es la gigantesca pantalla de video de altísima definición suspendida sobre el campo de juego.",
         website: "https://attstadium.com/"
     },
-
     {
         id: "v-la", name: "SoFi Stadium", city: "Los Ángeles", country: "USA", capacity: 70240,
         image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000&auto=format&fit=crop",
         description: "Una auténtica obra maestra de la arquitectura e ingeniería contemporánea. Destaca por su techo translúcido y la revolucionaria pantalla 'Infinity Screen' ovalada de doble cara que ofrece repeticiones en 4K.",
         website: "https://www.sofistadium.com/"
     },
-
     {
         id: "v-atl", name: "Mercedes-Benz Stadium", city: "Atlanta", country: "USA", capacity: 71000,
         image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=2000&auto=format&fit=crop",
         description: "Una maravilla del diseño, célebre por su techo retráctil automatizado compuesto por ocho inmensos paneles triangulares de cristal que se abren y cierran asemejando el diafragma de una cámara fotográfica.",
         website: "https://mercedesbenzstadium.com/"
     },
-
     {
         id: "v-hou", name: "NRG Stadium", city: "Houston", country: "USA", capacity: 72220,
         image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=2000&auto=format&fit=crop",
         description: "Fue el primer estadio de toda la historia de la NFL en contar con un moderno techo retráctil. Es un recito sumamente versátil, brindando una climatización óptima sin importar el fuerte calor veraniego de Texas.",
         website: "https://www.nrgpark.com/"
     },
-
     {
         id: "v-phi", name: "Lincoln Financial Field", city: "Filadelfia", country: "USA", capacity: 69796,
         image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop",
         description: "La joya deportiva de la ciudad del amor fraternal. Un estadio donde reverbera la historia, situado en la misma metrópolis en donde los padres fundadores firmaron la histórica Declaración de Independencia.",
         website: "https://www.lincolnfinancialfield.com/"
     },
-
     {
         id: "v-sea", name: "Lumen Field", city: "Seattle", country: "USA", capacity: 69000,
         image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop",
         description: "Mundialmente temido y respetado por ser uno de los ambientes más ruidosos del deporte gracias a su apasionada afición. Su icónico diseño en forma de herradura captura el estruendo maravillosamente.",
         website: "https://www.lumenfield.com/"
     },
-
     {
         id: "v-sf", name: "Levi's Stadium", city: "Área de la Bahía (SF)", country: "USA", capacity: 68500,
         image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop",
         description: "La joya de Silicon Valley. Pionero global al priorizar la sustentabilidad medioambiental y ofrecer una infraestructura tecnológica líder en el mundo con conectividad de alta velocidad a lo largo de todo el estadio.",
         website: "https://www.levisstadium.com/"
     },
-
     {
         id: "v-bos", name: "Gillette Stadium", city: "Boston", country: "USA", capacity: 65878,
         image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?q=80&w=2000&auto=format&fit=crop",
@@ -484,15 +397,12 @@ export const WORLD_CUP_VENUES: Venue[] = [
         description: "Recientemente renovado para brindar una experiencia de lujo, el recinto brilla con un elegante e innovador techo cuadrado concebido a cielo abierto que provee de sombra al 90% de los espectadores ante el sol de la Florida.",
         website: "https://www.hardrockstadium.com/"
     },
-
     {
         id: "v-kc", name: "Arrowhead Stadium", city: "Kansas City", country: "USA", capacity: 76416,
         image: "https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?q=80&w=2000&auto=format&fit=crop",
         description: "Ubicado en el auténtico corazón del país norteamericano. Es famoso porque ostenta el asombroso récord mundial Guinness de la ovación más ruidosa registrada en un estadio presencial deportivo al aire libre.",
         website: "https://www.chiefs.com/stadium/"
     }
-
 ];
-
-export const getVenues = (): Venue[] => WORLD_CUP_VENUES;
-
+var getVenues = function () { return exports.WORLD_CUP_VENUES; };
+exports.getVenues = getVenues;
