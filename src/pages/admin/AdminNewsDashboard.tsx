@@ -148,8 +148,8 @@ export const AdminNewsDashboard: React.FC = () => {
                                 <button 
                                     onClick={async () => {
                                         try {
-                                            alert("Obteniendo noticias frescas desde ESPN Soccer RSS...");
-                                            const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.espn.com/espn/rss/soccer/news');
+                                            alert("Obteniendo noticias frescas desde BBC Sport RSS...");
+                                            const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=http://feeds.bbci.co.uk/sport/football/rss.xml');
                                             const data = await res.json();
                                             
                                             if (!data.items || data.items.length === 0) {
