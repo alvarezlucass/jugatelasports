@@ -525,10 +525,10 @@ const MatchDetail: React.FC = () => {
                                     {/* Starting XI by position */}
                                     {(() => {
                                         const groupPos = (list: any[]) => {
-                                            const gk = list.filter(p => p.pos === 'GK');
-                                            const def = list.filter(p => p.pos === 'DEF');
-                                            const mid = list.filter(p => p.pos === 'MID');
-                                            const fwd = list.filter(p => p.pos === 'FWD');
+                                            const gk = list.filter(p => p.pos === 'GK' || p.pos === 'G');
+                                            const def = list.filter(p => p.pos === 'DEF' || p.pos === 'D');
+                                            const mid = list.filter(p => p.pos === 'MID' || p.pos === 'M');
+                                            const fwd = list.filter(p => p.pos === 'FWD' || p.pos === 'F');
                                             return { gk, def, mid, fwd };
                                         };
 
@@ -727,7 +727,7 @@ const MatchDetail: React.FC = () => {
                                                                     {/* Details */}
                                                                     <div className={cn("flex items-center gap-1.5 mt-1", side === 'away' && "flex-row-reverse")}>
                                                                         <span className="text-[9px] text-zinc-500 uppercase">
-                                                                            {slot.pos === 'GK' ? 'Portero' : slot.pos === 'DEF' ? 'Defensor' : slot.pos === 'MID' ? 'Mediocampista' : 'Delantero'}
+                                                                            {['GK', 'G'].includes(slot.pos) ? 'Portero' : ['DEF', 'D'].includes(slot.pos) ? 'Defensor' : ['MID', 'M'].includes(slot.pos) ? 'Mediocampista' : 'Delantero'}
                                                                         </span>
                                                                         {goals.map((g, gi) => (
                                                                             <span key={gi} className="text-[10px] animate-bounce" title="Gol">⚽</span>

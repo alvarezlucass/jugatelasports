@@ -109,7 +109,8 @@ export const mapApiFootballLineups = (apiLineups: any[]): { home: MatchLineup | 
                     position: item.player.pos,
                     teamId: l.team.id?.toString(),
                     isStarter: false
-                }
+                },
+                pos: item.player.pos
             })),
             staff: l.coach?.id ? [{
                 name: l.coach.name,
