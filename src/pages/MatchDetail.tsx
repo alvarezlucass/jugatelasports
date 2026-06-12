@@ -172,6 +172,7 @@ const MatchDetail: React.FC = () => {
                     const lineups = mapApiFootballLineups(data.lineups);
                     
                     setLiveMetadata({
+                        mockScore: data.goals ? { home: data.goals.home ?? 0, away: data.goals.away ?? 0 } : undefined,
                         events: mapApiFootballEvents(data.events, homeId, awayId),
                         stats: mapApiFootballStatistics(data.statistics),
                         lineup_home: lineups.home || undefined,
@@ -221,12 +222,21 @@ const MatchDetail: React.FC = () => {
 
     const displayStatus = effStatus;
 
-    const score = { 
-        home: (liveMetadata as any)?.mockScore?.home ?? matchData.home_score ?? matchData.homeScore ?? 0, 
-        away: (liveMetadata as any)?.mockScore?.away ?? matchData.away_score ?? matchData.awayScore ?? 0 
-    };
     const tacticalMetadata = liveMetadata || matchData.metadata || {};
     const events = tacticalMetadata.events || null;
+
+    const eventHomeGoals = events ? events.filter((e: any) => e.type === 'GOAL' && e.teamId === matchData.home_team_id).length : 0;
+    const eventAwayGoals = events ? events.filter((e: any) => e.type === 'GOAL' && e.teamId === matchData.away_team_id).length : 0;
+
+    const homeDbScore = matchData.home_score ?? matchData.homeScore ?? 0;
+    const awayDbScore = matchData.away_score ?? matchData.awayScore ?? 0;
+
+    const useEventScore = homeDbScore === 0 && awayDbScore === 0 && (eventHomeGoals > 0 || eventAwayGoals > 0);
+
+    const score = { 
+        home: (liveMetadata as any)?.mockScore?.home ?? (useEventScore ? eventHomeGoals : homeDbScore), 
+        away: (liveMetadata as any)?.mockScore?.away ?? (useEventScore ? eventAwayGoals : awayDbScore) 
+    };
     const stats = tacticalMetadata.stats || null;
     const lineupHome = tacticalMetadata.lineup_home || null;
     const lineupAway = tacticalMetadata.lineup_away || null;
