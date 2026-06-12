@@ -36,13 +36,16 @@ export const Home: React.FC = () => {
     useEffect(() => {
         const fetchWidgetData = async () => {
             try {
-                // 1. Fetch next 3 upcoming future matches (after current time)
-                const nowIso = new Date().toISOString();
+                // 1. Fetch matches from the beginning of today onwards (so LIVE and recent matches don't disappear)
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayIso = today.toISOString();
+
                 let { data: matches, error: matchesError } = await supabase
                     .from('matches')
                     .select('*')
-                    .in('status', ['UPCOMING', 'SCHEDULED', 'upcoming', 'scheduled'])
-                    .gte('start_time', nowIso)
+                    .in('status', ['UPCOMING', 'SCHEDULED', 'upcoming', 'scheduled', 'LIVE', 'live'])
+                    .gte('start_time', todayIso)
                     .order('start_time', { ascending: true })
                     .limit(3);
 
@@ -51,7 +54,7 @@ export const Home: React.FC = () => {
                     const { data: fallbackMatches, error: fallbackError } = await supabase
                         .from('matches')
                         .select('*')
-                        .in('status', ['UPCOMING', 'SCHEDULED', 'upcoming', 'scheduled'])
+                        .in('status', ['UPCOMING', 'SCHEDULED', 'upcoming', 'scheduled', 'LIVE', 'live'])
                         .order('start_time', { ascending: false })
                         .limit(3);
                     if (!fallbackError && fallbackMatches) {
