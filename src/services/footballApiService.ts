@@ -34,8 +34,7 @@ class FootballApiService {
                 {
                     method: 'GET',
                     headers: {
-                        'x-apisports-key': this.API_KEY,
-                        'x-rapidapi-host': 'v3.football.api-sports.io'
+                        'x-apisports-key': this.API_KEY
                     }
                 }
             );
@@ -99,8 +98,7 @@ class FootballApiService {
                 {
                     method: 'GET',
                     headers: {
-                        'x-apisports-key': this.API_KEY,
-                        'x-rapidapi-host': 'v3.football.api-sports.io'
+                        'x-apisports-key': this.API_KEY
                     }
                 }
             );
