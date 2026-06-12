@@ -275,7 +275,24 @@ export const Register: React.FC = () => {
                                 />
                                 <div>
                                     <span className="block font-bold text-foreground">Acuerdo Legal</span>
-                                    <span className="text-xs text-muted-foreground">He leído y acepto los <span className="text-primary hover:underline">Términos de Servicio</span> y la <span className="text-primary hover:underline">Política de Privacidad</span>.</span>
+                                    <span className="text-xs text-muted-foreground block mt-1">
+                                        He leído y acepto los{' '}
+                                        <Link to="/terminos" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                            Términos de Servicio
+                                        </Link>
+                                        , la{' '}
+                                        <Link to="/privacidad" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                            Política de Privacidad
+                                        </Link>
+                                        , las{' '}
+                                        <Link to="/reglas" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                            Reglas del Juego
+                                        </Link>
+                                        {' '}y el{' '}
+                                        <Link to="/disclaimer" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-primary hover:underline font-bold">
+                                            Juego Responsable
+                                        </Link>.
+                                    </span>
                                 </div>
                             </label>
                         </div>
