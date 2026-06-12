@@ -336,9 +336,23 @@ export const getGroupStandings = (letter: string, predictions: any[] = [], realM
             let aScore: number | undefined;
 
             if (realMatch && (realMatch.status === 'FINISHED' || realMatch.status === 'finished')) {
-                // Use real score
-                hScore = realMatch.home_score;
-                aScore = realMatch.away_score;
+                // Use real score (support both snake_case from DB and camelCase from matchService)
+                hScore = realMatch.home_score ?? realMatch.homeScore ?? 0;
+                aScore = realMatch.away_score ?? realMatch.awayScore ?? 0;
+
+                // Fallback to events if score is 0-0 but goals exist in metadata
+                const events = realMatch.metadata?.events || [];
+                if (hScore === 0 && aScore === 0 && events.length > 0) {
+                    const homeId = realMatch.homeTeamId || realMatch.home_team_id;
+                    const awayId = realMatch.awayTeamId || realMatch.away_team_id;
+                    const eventHomeGoals = events.filter((e: any) => e.type === 'GOAL' && (e.teamId === homeId || e.teamId === realMatch.homeTeam || e.teamName === realMatch.homeTeam)).length;
+                    const eventAwayGoals = events.filter((e: any) => e.type === 'GOAL' && (e.teamId === awayId || e.teamId === realMatch.awayTeam || e.teamName === realMatch.awayTeam)).length;
+                    
+                    if (eventHomeGoals > 0 || eventAwayGoals > 0) {
+                        hScore = eventHomeGoals;
+                        aScore = eventAwayGoals;
+                    }
+                }
             } else if (pred && pred.exactScore) {
                 // Fallback to user prediction
                 hScore = pred.exactScore.home;
