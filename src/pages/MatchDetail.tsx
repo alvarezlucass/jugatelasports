@@ -520,9 +520,9 @@ const MatchDetail: React.FC = () => {
                                         {existingPredictions.length > 0 ? 'Hacer Otra Jugada' : 'Crear mi Primera Jugada'}
                                     </button>
                                 </div>
+                                <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id?.toString() || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} />
                             </div>
 
-                            <MatchTimeline events={events || []} homeTeamId={matchData.metadata?.home_id?.toString() || (matchData.home_team_logo ? matchData.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined)} />
                         </motion.div>
                     )}
 
