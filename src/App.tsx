@@ -9,6 +9,7 @@ import { PublicProfile } from './pages/PublicProfile';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { ForgotPassword } from './pages/ForgotPassword';
+import { UpdatePassword } from './pages/UpdatePassword';
 import { NotifyMe } from './pages/NotifyMe';
 import { WorldCup } from './pages/WorldCup';
 import { Predictions } from './pages/Predictions';
@@ -76,6 +77,7 @@ function App() {
               <Route path="register" element={<Register />} />
               <Route path="login" element={<Login />} />
               <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route path="update-password" element={<UpdatePassword />} />
               <Route path="terminos" element={<TermsPage />} />
               <Route path="privacidad" element={<PrivacyPage />} />
               <Route path="reglas" element={<RulesPage />} />

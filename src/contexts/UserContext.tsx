@@ -43,6 +43,7 @@ interface UserContextType {
     claimSocialBonus: () => Promise<void>;
     resendEmailConfirmation: (email: string) => Promise<{ error: any }>;
     resetPassword: (email: string) => Promise<{ error: any }>;
+    updatePassword: (password: string) => Promise<{ error: any }>;
     loginAsGuest: () => Promise<void>;
     loginAsMockUser: (userId: string) => Promise<void>;
     userPredictions: MatchPrediction[];
@@ -726,7 +727,16 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     // Other methods placeholders to keep interface happy
     const resendEmailConfirmation = async (email: string) => ({ error: null });
-    const resetPassword = async (email: string) => ({ error: null });
+    const resetPassword = async (email: string) => {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: `${window.location.origin}/update-password`
+        });
+        return { error };
+    };
+    const updatePassword = async (password: string) => {
+        const { error } = await supabase.auth.updateUser({ password });
+        return { error };
+    };
     const createChallenge = async () => true;
     const acceptChallenge = async () => true;
     const resolveChallenge = async () => {};
@@ -742,7 +752,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             addTokens, spendTokens, canAfford, redeemReward,
             pvpChallenges, createPvpChallenge, acceptPvpChallenge, rejectPvpChallenge, cancelPvpChallenge, resolvePvpChallenge,
             dailyBonusAvailable, claimDailyBonus, videoBonusAvailable, claimVideoBonus, socialBonusAvailable, claimSocialBonus,
-            resendEmailConfirmation, resetPassword, loginAsGuest, loginAsMockUser,
+            resendEmailConfirmation, resetPassword, updatePassword, loginAsGuest, loginAsMockUser,
             userPredictions, opponents, purchaseItem, useItem,
             challenges, createChallenge, acceptChallenge, resolveChallenge,
             notifications, markNotificationAsRead, showToast,
