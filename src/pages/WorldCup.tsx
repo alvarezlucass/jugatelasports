@@ -7,7 +7,7 @@ import { WorldCupStats } from '../components/competition/WorldCupStats';
 // Local data used instead of API for 2026 World Cup data expansion.
 import { Loader2, Calendar, Trophy } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { getGroupStandings } from '../data/worldCupPersistence';
+import { getGroupStandings, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
 import { calculateAdvancingTeams, generateInitialBracket, generateEmptyBracketTree } from '../lib/bracketLogic';
 import { useUser } from '../contexts/UserContext';
 
@@ -24,7 +24,7 @@ export const WorldCup: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [activeGroup, setActiveGroup] = useState<string>('ALL');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [realMatches, setRealMatches] = useState<any[]>([]);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -49,7 +49,9 @@ export const WorldCup: React.FC = () => {
             try {
                 // Import matchService dynamically to avoid circular dependencies if any
                 const { matchService } = await import('../services/matchService');
-                const matches = await matchService.getMatches();
+                const groupMatchIds = WORLD_CUP_GROUP_MATCHES.map(m => m.id);
+                // We pass undefined for leagueId but provide the specific IDs we want
+                const matches = await matchService.getMatches(undefined, { ids: groupMatchIds, limit: 1000 });
                 setRealMatches(matches);
             } catch (err) {
                 console.error("Error fetching real matches", err);
