@@ -146,16 +146,17 @@ const MatchDetail: React.FC = () => {
         return () => { supabase.removeChannel(channel); };
     }, [id]);
 
+    const isPastStart = matchData?.start_time ? new Date(matchData.start_time).getTime() <= Date.now() : false;
+    const elapsedForEff = matchData?.start_time ? Math.floor((Date.now() - new Date(matchData.start_time).getTime()) / 60000) : 0;
+    const isScheduled = matchData?.status === 'SCHEDULED' || matchData?.status === 'scheduled' || matchData?.status === 'UPCOMING' || matchData?.status === 'upcoming';
+    const effStatus = matchData ? (isScheduled && isPastStart 
+        ? (elapsedForEff >= 115 ? 'FINISHED' : 'LIVE') 
+        : matchData.status.toUpperCase()) : 'SCHEDULED';
+
     React.useEffect(() => {
         setLiveMetadata(null);
         if (!matchData?.api_id && !matchData?.id) return;
         const apiId = matchData.api_id || matchData.id;
-        const isPastStart = matchData.start_time ? new Date(matchData.start_time).getTime() <= Date.now() : false;
-        const elapsedForEff = matchData.start_time ? Math.floor((Date.now() - new Date(matchData.start_time).getTime()) / 60000) : 0;
-        const isScheduled = matchData.status === 'SCHEDULED' || matchData.status === 'scheduled' || matchData.status === 'UPCOMING' || matchData.status === 'upcoming';
-        const effStatus = isScheduled && isPastStart 
-            ? (elapsedForEff >= 115 ? 'FINISHED' : 'LIVE') 
-            : matchData.status.toUpperCase();
         
         // Solo llamamos a la API si el partido está en vivo o terminado
         if (effStatus !== 'LIVE' && effStatus !== 'FINISHED') {
@@ -198,7 +199,7 @@ const MatchDetail: React.FC = () => {
         return () => {
             if (interval) clearInterval(interval);
         };
-    }, [matchData?.id, matchData?.api_id, matchData?.status]);
+    }, [matchData?.id, matchData?.api_id, matchData?.status, effStatus]);
 
     if (loading) {
         return (
