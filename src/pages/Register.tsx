@@ -277,21 +277,21 @@ export const Register: React.FC = () => {
                                     <span className="block font-bold text-foreground">Acuerdo Legal</span>
                                 </label>
                                 <div className="ml-10">
-                                    <span className="text-xs text-muted-foreground block">
+                                    <span className="text-xs text-muted-foreground block relative z-20">
                                         He leído y acepto los{' '}
-                                        <Link to="/terminos" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
+                                        <Link to="/terminos" className="text-primary hover:underline font-bold p-1">
                                             Términos de Servicio
                                         </Link>
                                         , la{' '}
-                                        <Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
+                                        <Link to="/privacidad" className="text-primary hover:underline font-bold p-1">
                                             Política de Privacidad
                                         </Link>
                                         , las{' '}
-                                        <Link to="/reglas" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
+                                        <Link to="/reglas" className="text-primary hover:underline font-bold p-1">
                                             Reglas del Juego
                                         </Link>
                                         {' '}y el{' '}
-                                        <Link to="/disclaimer" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
+                                        <Link to="/disclaimer" className="text-primary hover:underline font-bold p-1">
                                             Juego Responsable
                                         </Link>.
                                     </span>
