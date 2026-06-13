@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useUser } from '../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { Users, UserPlus, Coins, Swords } from 'lucide-react';
+import { Users, UserPlus, Coins, Swords, Play, Square, Activity } from 'lucide-react';
+import { footballApiService } from '../../services/footballApiService';
 
 export const AdminDashboard: React.FC = () => {
     const { user } = useUser();
@@ -14,6 +15,103 @@ export const AdminDashboard: React.FC = () => {
         totalChallenges: 0
     });
     const [loading, setLoading] = useState(true);
+    const [isAutoSyncing, setIsAutoSyncing] = useState(false);
+    const [syncLogs, setSyncLogs] = useState<string[]>([]);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+
+        const performSync = async () => {
+            try {
+                // Find eligible matches
+                const { data: matches } = await supabase
+                    .from('matches')
+                    .select('*')
+                    .in('status', ['UPCOMING', 'LIVE']);
+
+                if (!matches || matches.length === 0) return;
+
+                const now = Date.now();
+                const eligibleMatches = matches.filter(m => {
+                    if (!m.start_time) return false;
+                    const matchTime = new Date(m.start_time).getTime();
+                    const elapsedMins = (now - matchTime) / 60000;
+                    // Match started between -10 and 300 minutes ago
+                    return elapsedMins >= -10 && elapsedMins <= 300; 
+                });
+
+                if (eligibleMatches.length === 0) {
+                    setSyncLogs(prev => [`[${new Date().toLocaleTimeString()}] No hay partidos elegibles en este momento.`, ...prev].slice(0, 50));
+                    return;
+                }
+
+                const newLogs: string[] = [];
+
+                for (const match of eligibleMatches) {
+                    const apiId = match.api_id || match.id;
+                    const { success, data } = await footballApiService.getMatchDetails(apiId.toString());
+                    
+                    if (success && data && data.fixture) {
+                        const shortStatus = data.fixture.status.short;
+                        const homeScore = data.goals?.home;
+                        const awayScore = data.goals?.away;
+                        
+                        let newStatus = match.status;
+                        if (['FT', 'AET', 'PEN'].includes(shortStatus)) newStatus = 'FINISHED';
+                        else if (['1H', 'HT', '2H', 'ET', 'BT', 'P', 'INT'].includes(shortStatus)) newStatus = 'LIVE';
+                        else if (['CANC', 'PST', 'ABD'].includes(shortStatus)) newStatus = 'CANCELLED';
+
+                        const updates: any = {};
+                        let changed = false;
+
+                        if (newStatus !== match.status) {
+                            updates.status = newStatus;
+                            changed = true;
+                        }
+
+                        if (homeScore !== null && homeScore !== undefined && homeScore !== match.home_score) {
+                            updates.home_score = homeScore;
+                            changed = true;
+                        }
+
+                        if (awayScore !== null && awayScore !== undefined && awayScore !== match.away_score) {
+                            updates.away_score = awayScore;
+                            changed = true;
+                        }
+
+                        if (changed) {
+                            updates.updated_at = new Date().toISOString();
+                            await supabase.from('matches').update(updates).eq('id', match.id);
+                            newLogs.unshift(`[${new Date().toLocaleTimeString()}] Sincronizado ${match.home_team} vs ${match.away_team} -> ${newStatus} (${homeScore}-${awayScore})`);
+                        }
+                    }
+                }
+                
+                if (newLogs.length > 0) {
+                    setSyncLogs(prev => [...newLogs, ...prev].slice(0, 50));
+                } else {
+                    setSyncLogs(prev => [`[${new Date().toLocaleTimeString()}] Escaneo completado. Sin cambios.`, ...prev].slice(0, 50));
+                }
+
+            } catch (err: any) {
+                setSyncLogs(prev => [`[${new Date().toLocaleTimeString()}] Error: ${err.message}`, ...prev].slice(0, 50));
+            }
+        };
+
+        if (isAutoSyncing) {
+            performSync();
+            interval = setInterval(performSync, 120000);
+            setSyncLogs(prev => [`[${new Date().toLocaleTimeString()}] Auto-Sync INICIADO.`, ...prev].slice(0, 50));
+        } else {
+            if (syncLogs.length > 0 && !syncLogs[0].includes('DETENIDO')) {
+                setSyncLogs(prev => [`[${new Date().toLocaleTimeString()}] Auto-Sync DETENIDO.`, ...prev].slice(0, 50));
+            }
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isAutoSyncing]);
 
     useEffect(() => {
         if (user && user.role !== 'ADMIN') {
@@ -157,6 +255,55 @@ export const AdminDashboard: React.FC = () => {
                         <h3 className="text-3xl font-black text-white">
                             {loading ? '...' : stats.totalChallenges}
                         </h3>
+                    </div>
+                </div>
+
+                {/* Auto-Sync Panel */}
+                <div className="bg-[#161b22] rounded-2xl border border-gray-800/80 p-5 flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h3 className="text-lg font-black text-white uppercase flex items-center gap-2">
+                                <Activity className={`w-5 h-5 ${isAutoSyncing ? 'text-green-500 animate-pulse' : 'text-gray-500'}`} />
+                                Sincronizador de Partidos en Vivo (Auto-Sync)
+                            </h3>
+                            <p className="text-xs text-gray-400 mt-1">
+                                Escanea partidos en curso cada 2 minutos y actualiza goles y estado en Supabase automáticamente.
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => setIsAutoSyncing(!isAutoSyncing)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                                isAutoSyncing 
+                                ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20' 
+                                : 'bg-green-500/10 text-green-400 hover:bg-green-500/20 border border-green-500/20'
+                            }`}
+                        >
+                            {isAutoSyncing ? (
+                                <>
+                                    <Square className="w-4 h-4 fill-current" />
+                                    Detener Auto-Sync
+                                </>
+                            ) : (
+                                <>
+                                    <Play className="w-4 h-4 fill-current" />
+                                    Iniciar Auto-Sync
+                                </>
+                            )}
+                        </button>
+                    </div>
+
+                    <div className="bg-black/50 border border-white/5 rounded-xl p-4 h-48 overflow-y-auto font-mono text-[10px] text-gray-400 space-y-1">
+                        {syncLogs.length === 0 ? (
+                            <div className="text-gray-600 flex h-full items-center justify-center italic">
+                                Esperando para iniciar el sincronizador...
+                            </div>
+                        ) : (
+                            syncLogs.map((log, i) => (
+                                <div key={i} className={`${log.includes('Error') ? 'text-red-400' : log.includes('Sincronizado') ? 'text-green-400' : ''}`}>
+                                    {log}
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             </main>
