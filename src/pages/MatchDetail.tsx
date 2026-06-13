@@ -385,7 +385,7 @@ const MatchDetail: React.FC = () => {
                             <div className="mt-4 text-zinc-500 font-bold text-xs flex flex-col items-center justify-center gap-1.5">
                                 <div className="flex items-center gap-2">
                                     <Clock size={12} className={cn("text-blue-500", displayStatus === 'LIVE' && "animate-pulse")} /> 
-                                    {displayStatus === 'LIVE' ? (isBypass ? "84'" : `${matchData.minute || 0}'`) : displayStatus === 'FINISHED' ? 'FT' : matchData.start_time ? matchData.start_time.split('T')[1].substring(0, 5) : ''}
+                                    {displayStatus === 'LIVE' ? `${matchData.minute || 0}'` : displayStatus === 'FINISHED' ? 'FT' : matchData.start_time ? matchData.start_time.split('T')[1].substring(0, 5) : ''}
                                 </div>
                                 {matchData.start_time && (
                                     <div className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.1em] mt-1 text-center bg-white/5 px-3 py-1 rounded-full border border-white/5">

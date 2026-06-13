@@ -335,7 +335,7 @@ export const getGroupStandings = (letter: string, predictions: any[] = [], realM
             let hScore: number | undefined;
             let aScore: number | undefined;
 
-            if (realMatch && (realMatch.status === 'FINISHED' || realMatch.status === 'finished')) {
+            if (realMatch && (realMatch.status === 'FINISHED' || realMatch.status === 'finished' || realMatch.status === 'LIVE' || realMatch.status === 'live')) {
                 // Use real score (support both snake_case from DB and camelCase from matchService)
                 hScore = realMatch.home_score ?? realMatch.homeScore ?? 0;
                 aScore = realMatch.away_score ?? realMatch.awayScore ?? 0;
