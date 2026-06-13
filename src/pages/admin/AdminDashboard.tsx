@@ -27,7 +27,7 @@ export const AdminDashboard: React.FC = () => {
                 const { data: matches } = await supabase
                     .from('matches')
                     .select('*')
-                    .in('status', ['UPCOMING', 'LIVE']);
+                    .in('status', ['UPCOMING', 'SCHEDULED', 'NS', 'LIVE', '1H', '2H', 'HT', 'ET', 'P', 'BT', 'INT']);
 
                 if (!matches || matches.length === 0) return;
 
