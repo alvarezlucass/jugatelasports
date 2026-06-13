@@ -36,8 +36,9 @@ export const AdminDashboard: React.FC = () => {
                     if (!m.start_time) return false;
                     const matchTime = new Date(m.start_time).getTime();
                     const elapsedMins = (now - matchTime) / 60000;
-                    // Match started between -10 and 300 minutes ago
-                    return elapsedMins >= -10 && elapsedMins <= 300; 
+                    // Match started between -10 and 4320 minutes ago (up to 72 horas atrás)
+                    // Esto permite atrapar partidos de ayer que quedaron "colgados" en UPCOMING
+                    return elapsedMins >= -10 && elapsedMins <= 4320; 
                 });
 
                 if (eligibleMatches.length === 0) {
