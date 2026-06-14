@@ -9,7 +9,7 @@ const API_FOOTBALL_KEY = process.env.VITE_API_FOOTBALL_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 async function syncAllMatches() {
-    console.log(`[${new Date().toISOString()}] Iniciando corrección masiva de partidos (con paginación)...`);
+    console.log(`[${new Date().toISOString()}] Iniciando actualización de scores y status...`);
 
     try {
         let allMatches = [];
@@ -36,7 +36,8 @@ async function syncAllMatches() {
             }
         }
 
-        const apiMatches = allMatches.filter(m => !isNaN(parseInt(m.id)) && m.league_id !== 'auto-generated');
+        // Include all matches with numeric ID
+        const apiMatches = allMatches.filter(m => !isNaN(parseInt(m.api_id || m.id)));
         
         console.log(`Se encontraron ${apiMatches.length} partidos totales para verificar en la API.`);
 
@@ -78,7 +79,9 @@ async function syncAllMatches() {
                         changed = true;
                     }
 
-                    if (newStartTime && new Date(newStartTime).getTime() !== new Date(dbMatch.start_time).getTime()) {
+                    // ONLY update start_time if it's NOT a world cup match!
+                    const isWorldCup = dbMatch.league_id === 'world-cup-2026' || dbMatch.league_id === 'auto-generated';
+                    if (!isWorldCup && newStartTime && new Date(newStartTime).getTime() !== new Date(dbMatch.start_time).getTime()) {
                         updates.start_time = newStartTime;
                         changed = true;
                     }
@@ -96,7 +99,7 @@ async function syncAllMatches() {
                     if (changed) {
                         updates.updated_at = new Date().toISOString();
                         await supabase.from('matches').update(updates).eq('id', dbMatch.id);
-                        console.log(` -> Actualizado [ID: ${dbMatch.id}] ${dbMatch.home_team} vs ${dbMatch.away_team}: ${newStatus} (${goals.home ?? 0}-${goals.away ?? 0}), Fecha: ${newStartTime}`);
+                        console.log(` -> Actualizado [ID: ${dbMatch.id}] ${dbMatch.home_team} vs ${dbMatch.away_team}: ${newStatus} (${goals.home ?? 0}-${goals.away ?? 0})`);
                         updatesCount++;
                     }
                 }
