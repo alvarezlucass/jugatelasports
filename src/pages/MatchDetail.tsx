@@ -178,6 +178,28 @@ const MatchDetail: React.FC = () => {
                         lineup_home: lineups.home || undefined,
                         lineup_away: lineups.away || undefined
                     });
+                    
+                    // Nivel UX: Actualizar Supabase en background si hay cambios para que la vista en vivo lo muestre al volver
+                    if (data.goals && matchData) {
+                        const apiHome = data.goals.home ?? 0;
+                        const apiAway = data.goals.away ?? 0;
+                        const shortStatus = data.fixture?.status?.short;
+                        let newStatus = matchData.status;
+
+                        if (['FT', 'AET', 'PEN'].includes(shortStatus)) newStatus = 'FINISHED';
+                        else if (['1H', 'HT', '2H', 'ET', 'BT', 'P', 'INT'].includes(shortStatus)) newStatus = 'LIVE';
+                        else if (['CANC', 'PST', 'ABD'].includes(shortStatus)) newStatus = 'CANCELLED';
+
+                        if (apiHome !== matchData.home_score || apiAway !== matchData.away_score || newStatus !== matchData.status) {
+                            supabase.from('matches').update({
+                                home_score: apiHome,
+                                away_score: apiAway,
+                                status: newStatus,
+                                updated_at: new Date().toISOString()
+                            }).eq('id', matchData.id).then();
+                        }
+                    }
+
                     setDebugError('');
                 } else {
                     setDebugError(`FallA3 success: ${success}, err: ${error}, data: ${data ? JSON.stringify(data).substring(0,60) : 'no'}`);
