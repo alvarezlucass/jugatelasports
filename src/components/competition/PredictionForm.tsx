@@ -15,9 +15,10 @@ interface PredictionFormProps {
     matchStatus?: string;
     homeTeamName?: string;
     awayTeamName?: string;
+    startTime?: string;
 }
 
-export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, opponentId, matchStatus, homeTeamName, awayTeamName }) => {
+export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, opponentId, matchStatus, homeTeamName, awayTeamName, startTime }) => {
     const { user, session, opponents, canAfford, spendTokens, addTokens, refreshProfile, addLocalPrediction, useItem, createPvpChallenge, storeItems } = useUser();
     const { getMatch } = useGame();
     const [localOpponentId, setLocalOpponentId] = useState<string | null>(opponentId || null);
@@ -81,19 +82,23 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
         if (matchStatus === 'live' || matchStatus === 'finished' || matchStatus === 'LIVE' || matchStatus === 'FINISHED') {
             return true;
         }
-        if (!matchDetailsData) return false;
-        if (matchDetailsData.status === 'live' || matchDetailsData.status === 'finished') {
-            return true;
-        }
-        if (matchDetailsData.startTime) {
-            const matchTime = new Date(matchDetailsData.startTime).getTime();
+
+        const effectiveStartTime = startTime || matchDetailsData?.startTime || matchDetailsData?.date;
+        if (effectiveStartTime) {
+            const matchTime = new Date(effectiveStartTime).getTime();
             const now = Date.now();
             const diffMs = matchTime - now;
             // Lock if start time is less than 5 minutes (300,000 ms) from now
             return diffMs < 300000;
         }
+
+        if (!matchDetailsData) return false;
+        if (matchDetailsData.status === 'live' || matchDetailsData.status === 'finished') {
+            return true;
+        }
+        
         return false;
-    }, [matchDetailsData, matchStatus]);
+    }, [matchDetailsData, matchStatus, startTime]);
 
 
     const scroll = (direction: 'left' | 'right') => {

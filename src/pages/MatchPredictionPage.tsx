@@ -152,6 +152,7 @@ export const MatchPredictionPage: React.FC = () => {
                     awayTeamId: data.metadata?.away_id || (data.away_team_logo ? data.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
                     date: data.start_time.split('T')[0],
                     time: data.start_time.split('T')[1]?.substring(0, 5) || '00:00',
+                    startTime: data.start_time,
                     stadium: data.metadata?.stadium || 'Estadio',
                     city: data.metadata?.city || 'Ciudad',
                     status: data.status.toLowerCase() === 'finished' ? 'finished' : 
@@ -606,6 +607,7 @@ export const MatchPredictionPage: React.FC = () => {
                                             mode={selectedMode || 'MACHINE'}
                                             opponentId={opponentId}
                                             matchStatus={match.status}
+                                            startTime={match.startTime || `${match.date}T${match.time}:00Z`}
                                             homeTeamName={typeof match.homeTeam === 'string' ? match.homeTeam : match.homeTeam?.name}
                                             awayTeamName={typeof match.awayTeam === 'string' ? match.awayTeam : match.awayTeam?.name}
                                         />
@@ -662,6 +664,7 @@ export const MatchPredictionPage: React.FC = () => {
                                         mode={selectedMode || 'MACHINE'}
                                         opponentId={opponentId}
                                         matchStatus={match.status}
+                                        startTime={match.startTime || `${match.date}T${match.time}:00Z`}
                                         homeTeamName={typeof match.homeTeam === 'string' ? match.homeTeam : match.homeTeam?.name}
                                         awayTeamName={typeof match.awayTeam === 'string' ? match.awayTeam : match.awayTeam?.name}
                                     />

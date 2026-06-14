@@ -1,9 +1,9 @@
 // scripts/github_auto_sync.js
 // Sincronizador automático para GitHub Actions
 
-require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
-// GitHub Actions runs Node 20+, which has native fetch.
+import dotenv from 'dotenv';
+dotenv.config();
+import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
