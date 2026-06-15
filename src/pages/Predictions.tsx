@@ -197,14 +197,14 @@ export const Predictions: React.FC = () => {
                                     key={lg.id}
                                     onClick={() => setSelectedLeague(lg.id)}
                                     className={cn(
-                                        "flex items-center gap-2 px-6 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap border shrink-0 snap-start",
+                                        "flex items-center justify-center gap-0 md:gap-2 w-14 h-14 md:w-auto md:h-auto md:px-6 md:py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap border shrink-0 snap-start",
                                         selectedLeague === lg.id 
-                                            ? "bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] scale-105" 
+                                            ? "bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)] md:scale-105" 
                                             : "bg-[#0F131A] border-white/5 text-zinc-400 hover:border-white/20 hover:text-white hover:bg-[#1A1F26]"
                                     )}
                                 >
-                                    <span className="text-lg">{lg.icon}</span>
-                                    {lg.name}
+                                    <span className="text-2xl md:text-lg">{lg.icon}</span>
+                                    <span className="hidden md:inline">{lg.name}</span>
                                 </button>
                             ))}
                         </div>
