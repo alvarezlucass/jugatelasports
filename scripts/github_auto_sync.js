@@ -35,24 +35,31 @@ async function sync() {
             process.exit(0);
         }
 
-        const eligibleMatches = matches;
+        const today = new Date().toISOString().split('T')[0];
+        console.log(`Consultando API para todos los partidos del día: ${today}...`);
+        
+        const res = await fetch(`https://v3.football.api-sports.io/fixtures?date=${today}`, {
+            headers: { 'x-apisports-key': API_FOOTBALL_KEY }
+        });
+        const data = await res.json();
+        
+        if (!data.response || data.response.length === 0) {
+            console.log('No hay partidos en la API para el día de hoy.');
+            process.exit(0);
+        }
 
-        console.log(`Se encontraron ${eligibleMatches.length} partidos elegibles.`);
+        const apiFixtures = data.response;
+        console.log(`Se encontraron ${apiFixtures.length} partidos en la API para hoy.`);
 
         let updatesCount = 0;
 
-        for (const match of eligibleMatches) {
-            const apiId = match.api_id || match.id;
-            console.log(`Consultando API para partido ID: ${match.id} (API ID: ${apiId})...`);
-
-            const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${apiId}`, {
-                headers: { 'x-apisports-key': API_FOOTBALL_KEY }
-            });
-            const data = await res.json();
+        for (const match of matches) {
+            // Find this match in the API response (either by api_id or id)
+            const fixtureData = apiFixtures.find(f => f.fixture.id.toString() === match.api_id?.toString() || f.fixture.id.toString() === match.id.toString());
             
-            if (data.response && data.response[0]) {
-                const fixture = data.response[0].fixture;
-                const goals = data.response[0].goals;
+            if (fixtureData) {
+                const fixture = fixtureData.fixture;
+                const goals = fixtureData.goals;
                 const shortStatus = fixture.status.short;
 
                 let newStatus = match.status;
@@ -83,11 +90,7 @@ async function sync() {
                     await supabase.from('matches').update(updates).eq('id', match.id);
                     console.log(` -> Sincronizado ${match.home_team} vs ${match.away_team}: ${newStatus} (${goals.home}-${goals.away})`);
                     updatesCount++;
-                } else {
-                    console.log(` -> Sin cambios para ${match.home_team} vs ${match.away_team} (${shortStatus})`);
                 }
-            } else {
-                console.log(` -> Advertencia: No se encontraron datos en la API para ID ${apiId}`);
             }
         }
 
