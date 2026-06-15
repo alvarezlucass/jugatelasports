@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGame } from '../../contexts/GameContext';
 import { useUser } from '../../contexts/UserContext';
-import { 
-    Zap, 
-    Bot, 
-    Play, 
-    CheckCircle2, 
-    AlertTriangle, 
+import {
+    Zap,
+    Bot,
+    Play,
+    CheckCircle2,
+    AlertTriangle,
     Trophy,
     Target,
     Users,
@@ -58,22 +58,22 @@ export const IndustrialSim: React.FC = () => {
     // Simulate Bot Predictions based on user rules
     const simulateBotPredictions = async () => {
         setSimState({ ...simState, status: 'SIMULATING', message: 'Generando predicciones de Bots...' });
-        
+
         try {
             for (const match of upcomingMatches) {
                 for (const bot of opponents.filter(o => o.isAI)) {
                     let selection: 'HOME' | 'DRAW' | 'AWAY' = 'DRAW';
-                    
+
                     // IA Logic: Average of last 5 matches (Simulated by team performance/odds)
                     if (bot.id === 'bot-ia' && selectedBotLogics.ia) {
                         const probHome = 1 / match.odds.home;
                         const probAway = 1 / match.odds.away;
-                        const rand = Math.random() * (probHome + probAway + (1/match.odds.draw));
+                        const rand = Math.random() * (probHome + probAway + (1 / match.odds.draw));
                         if (rand < probHome) selection = 'HOME';
                         else if (rand < probHome + probAway) selection = 'AWAY';
                         else selection = 'DRAW';
                     }
-                    
+
                     // Contra Logic: Direct antagonist to the user
                     else if (bot.id === 'bot-contra' && selectedBotLogics.contra) {
                         // Fetch current user prediction for this match
@@ -83,17 +83,17 @@ export const IndustrialSim: React.FC = () => {
                             .eq('user_id', user?.id)
                             .eq('match_id', match.id)
                             .single();
-                        
+
                         if (userPred) {
-                            selection = userPred.selection === 'HOME' ? 'AWAY' : 
-                                        userPred.selection === 'AWAY' ? 'HOME' : 'DRAW';
+                            selection = userPred.selection === 'HOME' ? 'AWAY' :
+                                userPred.selection === 'AWAY' ? 'HOME' : 'DRAW';
                         } else {
                             // Fallback if user didn't predict yet: opposite of the favorite
                             const favorite = match.odds.home < match.odds.away ? 'HOME' : 'AWAY';
                             selection = favorite === 'HOME' ? 'AWAY' : 'HOME';
                         }
                     }
-                    
+
                     // Profe Logic: Based on FIFA Ranking (Simplified strength check)
                     else if (bot.id === 'bot-profe' && selectedBotLogics.profe) {
                         // FIFA Ranking simulation: Odds are usually a good proxy for ranking strength
@@ -111,7 +111,7 @@ export const IndustrialSim: React.FC = () => {
                     });
                 }
             }
-            
+
             setSimState({ ...simState, status: 'SUCCESS', message: 'Predicciones de Bots generadas exitosamente.' });
         } catch (error: any) {
             setSimState({ ...simState, status: 'ERROR', message: `Error: ${error.message}` });
@@ -121,7 +121,7 @@ export const IndustrialSim: React.FC = () => {
     // Mass Resolution using the real Database Service logic
     const resolveMatchday = async () => {
         setSimState({ ...simState, status: 'SIMULATING', message: 'Cerrando jornada masivamente con Motor 3-2-1...' });
-        
+
         try {
             let matchesResolved = 0;
             let totalPointsProcessed = 0;
@@ -132,22 +132,22 @@ export const IndustrialSim: React.FC = () => {
                 const awayScore = Math.floor(Math.random() * 2);
 
                 const result = await databaseService.resolveMatch(match.id, homeScore, awayScore);
-                
+
                 if (result.success) {
                     matchesResolved++;
                     totalPointsProcessed += (result as any).totalPoints || 0;
                 }
             }
 
-            setSimState({ 
-                status: 'SUCCESS', 
-                message: `Jornada cerrada con Motor 3-2-1. Se procesaron ${matchesResolved} partidos.`, 
+            setSimState({
+                status: 'SUCCESS',
+                message: `Jornada cerrada con Motor 3-2-1. Se procesaron ${matchesResolved} partidos.`,
                 affectedMatches: matchesResolved,
                 pointsDistributed: totalPointsProcessed
             });
             refreshMatches();
             refreshProfile();
-            
+
         } catch (error: any) {
             setSimState({ ...simState, status: 'ERROR', message: `Error: ${error.message}` });
         }
@@ -167,7 +167,7 @@ export const IndustrialSim: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#0A0E14] text-white p-6 md:p-12">
             <div className="max-w-6xl mx-auto space-y-12">
-                
+
                 {/* Header Industrial */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div className="space-y-2">
@@ -179,9 +179,9 @@ export const IndustrialSim: React.FC = () => {
                         </div>
                         <p className="text-zinc-500 font-bold text-sm uppercase tracking-widest">Panel Administrativo de Control de Ecosistema</p>
                     </div>
-                    
+
                     <div className="flex gap-4">
-                        <button 
+                        <button
                             onClick={handleInitialSync}
                             className="bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 rounded-2xl px-6 py-3 flex items-center gap-3 transition-all"
                         >
@@ -209,7 +209,7 @@ export const IndustrialSim: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
+
                     {/* Bot Configuration Card */}
                     <div className="lg:col-span-1 space-y-6">
                         <div className="bg-[#121820] rounded-[2.5rem] p-8 border border-white/5 space-y-6">
@@ -217,9 +217,9 @@ export const IndustrialSim: React.FC = () => {
                                 <Zap className="text-amber-500 w-5 h-5" />
                                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-100">Lógicas de Bots</h3>
                             </div>
-                            
+
                             <div className="space-y-4">
-                                <button 
+                                <button
                                     onClick={() => setSelectedBotLogics(p => ({ ...p, ia: !p.ia }))}
                                     className={cn(
                                         "w-full p-4 rounded-2xl border transition-all flex items-center justify-between group",
@@ -238,7 +238,7 @@ export const IndustrialSim: React.FC = () => {
                                     <Activity size={14} className="text-zinc-600 group-hover:text-blue-500 transition-colors" />
                                 </button>
 
-                                <button 
+                                <button
                                     onClick={() => setSelectedBotLogics(p => ({ ...p, contra: !p.contra }))}
                                     className={cn(
                                         "w-full p-4 rounded-2xl border transition-all flex items-center justify-between group",
@@ -257,7 +257,7 @@ export const IndustrialSim: React.FC = () => {
                                     <Target size={14} className="text-zinc-600 group-hover:text-red-500 transition-colors" />
                                 </button>
 
-                                <button 
+                                <button
                                     onClick={() => setSelectedBotLogics(p => ({ ...p, profe: !p.profe }))}
                                     className={cn(
                                         "w-full p-4 rounded-2xl border transition-all flex items-center justify-between group",
@@ -277,7 +277,7 @@ export const IndustrialSim: React.FC = () => {
                                 </button>
                             </div>
 
-                            <button 
+                            <button
                                 onClick={simulateBotPredictions}
                                 disabled={simState.status === 'SIMULATING' || upcomingMatches.length === 0}
                                 className="w-full py-4 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-blue-600/20"
@@ -287,14 +287,14 @@ export const IndustrialSim: React.FC = () => {
                         </div>
 
                         <div className="bg-[#121820] rounded-[2.5rem] p-8 border border-white/5 space-y-4">
-                            <div className="flex items-center gap-2 mb-2">
+                            {/* <div className="flex items-center gap-2 mb-2">
                                 <AlertTriangle className="text-red-500 w-5 h-5" />
                                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-100">Zona de Cierre</h3>
-                            </div>
+                            </div> */}
                             <p className="text-[10px] text-zinc-500 font-bold uppercase leading-relaxed">
                                 Esta acción finalizará todos los partidos UPCOMING con resultados simulados complejos y distribuirá premios.
                             </p>
-                            <button 
+                            <button
                                 onClick={resolveMatchday}
                                 disabled={simState.status === 'SIMULATING' || upcomingMatches.length === 0}
                                 className="w-full py-4 bg-red-600/20 hover:bg-red-600/40 text-red-500 border border-red-500/30 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all"
@@ -326,8 +326,8 @@ export const IndustrialSim: React.FC = () => {
                                 <div className="flex-1 space-y-8">
                                     <div className={cn(
                                         "p-6 rounded-[2rem] border flex items-center gap-4",
-                                        simState.status === 'SIMULATING' ? "bg-blue-600/5 border-blue-500/20" : 
-                                        simState.status === 'SUCCESS' ? "bg-emerald-600/5 border-emerald-500/20" : "bg-red-600/5 border-red-500/20"
+                                        simState.status === 'SIMULATING' ? "bg-blue-600/5 border-blue-500/20" :
+                                            simState.status === 'SUCCESS' ? "bg-emerald-600/5 border-emerald-500/20" : "bg-red-600/5 border-red-500/20"
                                     )}>
                                         <div className="flex-1 space-y-1">
                                             <div className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Estado Actual</div>
