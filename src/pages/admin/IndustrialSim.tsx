@@ -286,11 +286,11 @@ export const IndustrialSim: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="bg-[#121820] rounded-[2.5rem] p-8 border border-white/5 space-y-4">
-                            {/* <div className="flex items-center gap-2 mb-2">
+                        {/* <div className="bg-[#121820] rounded-[2.5rem] p-8 border border-white/5 space-y-4">
+                            <div className="flex items-center gap-2 mb-2">
                                 <AlertTriangle className="text-red-500 w-5 h-5" />
                                 <h3 className="text-sm font-black uppercase tracking-widest text-zinc-100">Zona de Cierre</h3>
-                            </div> */}
+                            </div>
                             <p className="text-[10px] text-zinc-500 font-bold uppercase leading-relaxed">
                                 Esta acción finalizará todos los partidos UPCOMING con resultados simulados complejos y distribuirá premios.
                             </p>
@@ -301,7 +301,7 @@ export const IndustrialSim: React.FC = () => {
                             >
                                 <Users className="inline-block mr-2 w-4 h-4" /> Ejecutar Cierre Masivo
                             </button>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Simulation Console / Output */}

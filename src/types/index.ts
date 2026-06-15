@@ -12,6 +12,7 @@ export interface User {
     level: number;
     streak: number;
     role?: 'ADMIN' | 'USER';
+    is_bot?: boolean;
     dni?: string;
     birthDate?: string;
     phone?: string;
