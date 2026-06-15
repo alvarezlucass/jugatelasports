@@ -129,7 +129,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489369', group: 'A', homeTeam: 'México', awayTeam: 'Sudáfrica', date: '2026-06-11', time: '19:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: '1538999', group: 'A', homeTeam: 'Corea del Sur', awayTeam: 'República Checa', date: '2026-06-12', time: '02:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
     { id: '1489388', group: 'A', homeTeam: 'México', awayTeam: 'Corea del Sur', date: '2026-06-16', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
-    { id: 'm4', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'República Checa', date: '2026-06-16', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
+    { id: '1539004', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'República Checa', date: '2026-06-16', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: '1539010', group: 'A', homeTeam: 'República Checa', awayTeam: 'México', date: '2026-06-21', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: '1489407', group: 'A', homeTeam: 'Sudáfrica', awayTeam: 'Corea del Sur', date: '2026-06-21', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
 
@@ -137,7 +137,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1539000', group: 'B', homeTeam: 'Canadá', awayTeam: 'Bosnia', date: '2026-06-12', time: '19:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: '1489373', group: 'B', homeTeam: 'Qatar', awayTeam: 'Suiza', date: '2026-06-13', time: '19:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
     { id: '1489387', group: 'B', homeTeam: 'Canadá', awayTeam: 'Qatar', date: '2026-06-17', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
-    { id: 'm10', group: 'B', homeTeam: 'Bosnia', awayTeam: 'Suiza', date: '2026-06-17', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
+    { id: '1539005', group: 'B', homeTeam: 'Suiza', awayTeam: 'Bosnia', date: '2026-06-17', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
     { id: '1489408', group: 'B', homeTeam: 'Suiza', awayTeam: 'Canadá', date: '2026-06-22', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: '1539009', group: 'B', homeTeam: 'Bosnia', awayTeam: 'Qatar', date: '2026-06-22', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
 
@@ -145,7 +145,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489371', group: 'C', homeTeam: 'Brasil', awayTeam: 'Marruecos', date: '2026-06-13', time: '22:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: '1489372', group: 'C', homeTeam: 'Haití', awayTeam: 'Escocia', date: '2026-06-13', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
     { id: '1489389', group: 'C', homeTeam: 'Brasil', awayTeam: 'Haití', date: '2026-06-18', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
-    { id: 'm16', group: 'C', homeTeam: 'Marruecos', awayTeam: 'Escocia', date: '2026-06-18', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
+    { id: '1489390', group: 'C', homeTeam: 'Escocia', awayTeam: 'Marruecos', date: '2026-06-18', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
     { id: '1489406', group: 'C', homeTeam: 'Escocia', awayTeam: 'Brasil', date: '2026-06-23', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: '1489405', group: 'C', homeTeam: 'Marruecos', awayTeam: 'Haití', date: '2026-06-23', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
 
@@ -153,7 +153,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489370', group: 'D', homeTeam: 'USA', awayTeam: 'Paraguay', date: '2026-06-13', time: '01:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: '1539001', group: 'D', homeTeam: 'Australia', awayTeam: 'Turquía', date: '2026-06-14', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: '1489391', group: 'D', homeTeam: 'USA', awayTeam: 'Australia', date: '2026-06-19', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
-    { id: 'm22', group: 'D', homeTeam: 'Paraguay', awayTeam: 'Turquía', date: '2026-06-19', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
+    { id: '1539006', group: 'D', homeTeam: 'Turquía', awayTeam: 'Paraguay', date: '2026-06-19', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
     { id: '1539012', group: 'D', homeTeam: 'Turquía', awayTeam: 'USA', date: '2026-06-24', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: '1489411', group: 'D', homeTeam: 'Paraguay', awayTeam: 'Australia', date: '2026-06-24', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
 
@@ -161,7 +161,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489374', group: 'E', homeTeam: 'Alemania', awayTeam: 'Curazao', date: '2026-06-15', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
     { id: '1489375', group: 'E', homeTeam: 'Costa de Marfil', awayTeam: 'Ecuador', date: '2026-06-15', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
     { id: '1489393', group: 'E', homeTeam: 'Alemania', awayTeam: 'Costa de Marfil', date: '2026-06-20', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
-    { id: 'm28', group: 'E', homeTeam: 'Curazao', awayTeam: 'Ecuador', date: '2026-06-20', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
+    { id: '1489392', group: 'E', homeTeam: 'Ecuador', awayTeam: 'Curazao', date: '2026-06-20', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
     { id: '1489410', group: 'E', homeTeam: 'Ecuador', awayTeam: 'Alemania', date: '2026-06-25', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: '1489409', group: 'E', homeTeam: 'Curazao', awayTeam: 'Costa de Marfil', date: '2026-06-25', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
 
@@ -169,7 +169,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489376', group: 'F', homeTeam: 'Países Bajos', awayTeam: 'Japón', date: '2026-06-16', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
     { id: '1539002', group: 'F', homeTeam: 'Suecia', awayTeam: 'Túnez', date: '2026-06-16', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
     { id: '1539007', group: 'F', homeTeam: 'Países Bajos', awayTeam: 'Suecia', date: '2026-06-21', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
-    { id: 'm34', group: 'F', homeTeam: 'Japón', awayTeam: 'Túnez', date: '2026-06-21', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
+    { id: '1489394', group: 'F', homeTeam: 'Túnez', awayTeam: 'Japón', date: '2026-06-21', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
     { id: '1489412', group: 'F', homeTeam: 'Túnez', awayTeam: 'Países Bajos', date: '2026-06-26', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: '1539011', group: 'F', homeTeam: 'Japón', awayTeam: 'Suecia', date: '2026-06-26', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
 
@@ -177,7 +177,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489377', group: 'G', homeTeam: 'Bélgica', awayTeam: 'Egipto', date: '2026-06-17', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: '1489378', group: 'G', homeTeam: 'Irán', awayTeam: 'Nueva Zelanda', date: '2026-06-17', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
     { id: '1489395', group: 'G', homeTeam: 'Bélgica', awayTeam: 'Irán', date: '2026-06-22', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
-    { id: 'm40', group: 'G', homeTeam: 'Egipto', awayTeam: 'Nueva Zelanda', date: '2026-06-22', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
+    { id: '1489396', group: 'G', homeTeam: 'Nueva Zelanda', awayTeam: 'Egipto', date: '2026-06-22', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
     { id: '1489415', group: 'G', homeTeam: 'Nueva Zelanda', awayTeam: 'Bélgica', date: '2026-06-27', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
     { id: '1489414', group: 'G', homeTeam: 'Egipto', awayTeam: 'Irán', date: '2026-06-27', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
 
@@ -185,7 +185,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489380', group: 'H', homeTeam: 'España', awayTeam: 'Cabo Verde', date: '2026-06-18', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: '1489379', group: 'H', homeTeam: 'Arabia Saudita', awayTeam: 'Uruguay', date: '2026-06-18', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
     { id: '1489397', group: 'H', homeTeam: 'España', awayTeam: 'Arabia Saudita', date: '2026-06-23', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
-    { id: 'm46', group: 'H', homeTeam: 'Cabo Verde', awayTeam: 'Uruguay', date: '2026-06-23', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
+    { id: '1489398', group: 'H', homeTeam: 'Uruguay', awayTeam: 'Cabo Verde', date: '2026-06-23', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
     { id: '1489417', group: 'H', homeTeam: 'Uruguay', awayTeam: 'España', date: '2026-06-28', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
     { id: '1489413', group: 'H', homeTeam: 'Cabo Verde', awayTeam: 'Arabia Saudita', date: '2026-06-28', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
 
@@ -193,7 +193,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489383', group: 'I', homeTeam: 'Francia', awayTeam: 'Senegal', date: '2026-06-19', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: '1539016', group: 'I', homeTeam: 'Irak', awayTeam: 'Noruega', date: '2026-06-19', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
     { id: '1539017', group: 'I', homeTeam: 'Francia', awayTeam: 'Irak', date: '2026-06-24', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
-    { id: 'm52', group: 'I', homeTeam: 'Senegal', awayTeam: 'Noruega', date: '2026-06-24', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
+    { id: '1489401', group: 'I', homeTeam: 'Noruega', awayTeam: 'Senegal', date: '2026-06-24', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: '1489416', group: 'I', homeTeam: 'Noruega', awayTeam: 'Francia', date: '2026-06-29', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
     { id: '1539074', group: 'I', homeTeam: 'Senegal', awayTeam: 'Irak', date: '2026-06-29', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
 
@@ -201,7 +201,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489381', group: 'J', homeTeam: 'Argentina', awayTeam: 'Argelia', date: '2026-06-16', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: '1489382', group: 'J', homeTeam: 'Austria', awayTeam: 'Jordania', date: '2026-06-16', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
     { id: '1489399', group: 'J', homeTeam: 'Argentina', awayTeam: 'Austria', date: '2026-06-22', time: '20:00', stadium: 'Arrowhead Stadium', city: 'Kansas City', status: 'scheduled' },
-    { id: 'm58', group: 'J', homeTeam: 'Argelia', awayTeam: 'Jordania', date: '2026-06-22', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
+    { id: '1489400', group: 'J', homeTeam: 'Jordania', awayTeam: 'Argelia', date: '2026-06-22', time: '15:00', stadium: 'Gillette Stadium', city: 'Boston', status: 'scheduled' },
     { id: '1489421', group: 'J', homeTeam: 'Jordania', awayTeam: 'Argentina', date: '2026-06-27', time: '20:00', stadium: 'BC Place', city: 'Vancouver', status: 'scheduled' },
     { id: '1489418', group: 'J', homeTeam: 'Argelia', awayTeam: 'Austria', date: '2026-06-27', time: '15:00', stadium: 'BMO Field', city: 'Toronto', status: 'scheduled' },
 
@@ -209,7 +209,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1539003', group: 'K', homeTeam: 'Portugal', awayTeam: 'RD Congo', date: '2026-06-21', time: '20:00', stadium: 'Lincoln Financial Field', city: 'Philadelphia', status: 'scheduled' },
     { id: '1489386', group: 'K', homeTeam: 'Uzbekistán', awayTeam: 'Colombia', date: '2026-06-21', time: '15:00', stadium: 'AT&T Stadium', city: 'Dallas', status: 'scheduled' },
     { id: '1489404', group: 'K', homeTeam: 'Portugal', awayTeam: 'Uzbekistán', date: '2026-06-26', time: '20:00', stadium: 'Estadio Akron', city: 'Guadalajara', status: 'scheduled' },
-    { id: 'm64', group: 'K', homeTeam: 'RD Congo', awayTeam: 'Colombia', date: '2026-06-26', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
+    { id: '1539008', group: 'K', homeTeam: 'Colombia', awayTeam: 'RD Congo', date: '2026-06-26', time: '15:00', stadium: 'Estadio BBVA', city: 'Monterrey', status: 'scheduled' },
     { id: '1489419', group: 'K', homeTeam: 'Colombia', awayTeam: 'Portugal', date: '2026-07-01', time: '20:00', stadium: 'Estadio Azteca', city: 'CDMX', status: 'scheduled' },
     { id: '1539013', group: 'K', homeTeam: 'RD Congo', awayTeam: 'Uzbekistán', date: '2026-07-01', time: '15:00', stadium: 'SoFi Stadium', city: 'Los Ángeles', status: 'scheduled' },
 
@@ -217,7 +217,7 @@ export const WORLD_CUP_GROUP_MATCHES: GroupMatch[] = [
     { id: '1489384', group: 'L', homeTeam: 'Inglaterra', awayTeam: 'Croacia', date: '2026-06-22', time: '20:00', stadium: 'MetLife Stadium', city: 'New Jersey', status: 'scheduled' },
     { id: '1489385', group: 'L', homeTeam: 'Ghana', awayTeam: 'Panamá', date: '2026-06-22', time: '15:00', stadium: 'Levi\'s Stadium', city: 'Santa Clara', status: 'scheduled' },
     { id: '1489402', group: 'L', homeTeam: 'Inglaterra', awayTeam: 'Ghana', date: '2026-06-27', time: '20:00', stadium: 'Mercedes-Benz Stadium', city: 'Atlanta', status: 'scheduled' },
-    { id: 'm70', group: 'L', homeTeam: 'Croacia', awayTeam: 'Panamá', date: '2026-06-27', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
+    { id: '1489403', group: 'L', homeTeam: 'Panamá', awayTeam: 'Croacia', date: '2026-06-27', time: '15:00', stadium: 'NRG Stadium', city: 'Houston', status: 'scheduled' },
     { id: '1489422', group: 'L', homeTeam: 'Panamá', awayTeam: 'Inglaterra', date: '2026-07-02', time: '20:00', stadium: 'Lumen Field', city: 'Seattle', status: 'scheduled' },
     { id: '1489420', group: 'L', homeTeam: 'Croacia', awayTeam: 'Ghana', date: '2026-07-02', time: '15:00', stadium: 'Hard Rock Stadium', city: 'Miami', status: 'scheduled' },
 ];
