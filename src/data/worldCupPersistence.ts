@@ -353,10 +353,6 @@ export const getGroupStandings = (letter: string, predictions: any[] = [], realM
                         aScore = eventAwayGoals;
                     }
                 }
-            } else if (pred && pred.exactScore) {
-                // Fallback to user prediction
-                hScore = pred.exactScore.home;
-                aScore = pred.exactScore.away;
             }
 
             if (hScore === undefined || aScore === undefined || hScore === null || aScore === null) return;

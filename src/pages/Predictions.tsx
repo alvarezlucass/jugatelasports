@@ -27,11 +27,11 @@ export const Predictions: React.FC = () => {
             let fetchOptions: any = {};
             
             if (matchState === 'UPCOMING') {
-                fetchOptions = { upcomingOnly: true, daysLimit: 30 };
+                fetchOptions = { upcomingOnly: true, limit: 100, daysLimit: 60 };
             } else if (matchState === 'LIVE') {
                 fetchOptions = { liveOnly: true };
             } else if (matchState === 'FINISHED') {
-                fetchOptions = { status: ['FINISHED'], limit: 50, daysLimit: 30 };
+                fetchOptions = { status: ['FINISHED'], limit: 100, daysLimit: 30 };
             }
 
             const data = await matchService.getMatches(

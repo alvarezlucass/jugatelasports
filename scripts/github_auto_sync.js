@@ -35,18 +35,7 @@ async function sync() {
             process.exit(0);
         }
 
-        const now = Date.now();
-        const eligibleMatches = matches.filter(m => {
-            if (!m.start_time) return false;
-            const matchTime = new Date(m.start_time).getTime();
-            const elapsedMins = (now - matchTime) / 60000;
-            return elapsedMins >= -10 && elapsedMins <= 4320; 
-        });
-
-        if (eligibleMatches.length === 0) {
-            console.log('No hay partidos en la ventana de tiempo activa (-10 mins a 72 hs).');
-            process.exit(0);
-        }
+        const eligibleMatches = matches;
 
         console.log(`Se encontraron ${eligibleMatches.length} partidos elegibles.`);
 
