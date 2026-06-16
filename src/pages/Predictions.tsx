@@ -188,6 +188,7 @@ export const Predictions: React.FC = () => {
                                 { id: 'world-cup-2026', name: 'Mundial 2026', icon: '🏆' },
                                 { id: 'copa-lpf', name: 'Copa de la LPF', icon: '🇦🇷' },
                                 { id: 'lpf', name: 'Liga Profesional', icon: '⚽' },
+                                { id: 'primera-nacional', name: 'Primera Nacional', icon: '🇦🇷' },
                                 { id: 'libertadores', name: 'Libertadores', icon: '🌎' },
                                 { id: 'ucl', name: 'Champions League', icon: '⭐' },
                                 { id: 'premier', name: 'Premier League', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
