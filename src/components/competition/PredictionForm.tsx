@@ -750,8 +750,8 @@ export const PredictionForm: React.FC<PredictionFormProps> = ({ matchId, mode, o
                     </div>
                 )}
                 {isAIOpponent && rival && (
-                    <div className="mt-4 p-3 rounded-xl bg-black/40 border border-white/5">
-                        <p className="text-[10px] text-zinc-400 leading-relaxed italic">
+                    <div className="mt-4 p-4 rounded-xl bg-black/40 border border-white/5">
+                        <p className="text-xs md:text-sm text-zinc-300 leading-relaxed italic">
                             {rival.id === 'ai-ia' && "La IA Analista estudia la forma de los equipos y las rachas recientes para predecir el resultado más probable."}
                             {rival.id === 'ai-profe' && "El Profe analiza probabilidades y equipos basados en el Ranking FIFA. Si empatan en la predicción exacta, se considera 'Push'."}
                             {rival.id === 'ai-contra' && "El Contra siempre elegirá el resultado opuesto a ti de forma instantánea. Si eliges empate, elegirá aleatoriamente."}
