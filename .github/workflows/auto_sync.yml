@@ -2,8 +2,8 @@ name: Football API Auto Sync
 
 on:
   schedule:
-    # Runs every 5 minutes
-    - cron: '*/5 * * * *'
+    # Runs every 15 minutes (96 times a day, within 100 free tier limit)
+    - cron: '*/15 * * * *'
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
