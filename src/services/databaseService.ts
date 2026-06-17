@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { supabaseAdmin } from '../lib/supabaseAdmin';
 import { WORLD_CUP_TEAMS_HISTORY, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
 import { calculatePoints } from '../utils/pointsCalculator';
 
@@ -145,12 +146,12 @@ export const databaseService = {
                         const newBalance = (profile.total_balance || 0) + creditedAmount;
                         const newPoints = (profile.points || 0) + finalPoints;
                         
-                        await supabase.from('profiles').update({ 
+                        await supabaseAdmin.from('profiles').update({ 
                             total_balance: newBalance,
                             points: newPoints 
                         }).eq('id', pred.user_id);
                         
-                        await supabase.from('transactions').insert({
+                        await supabaseAdmin.from('transactions').insert({
                             user_id: pred.user_id,
                             type: refundAmount > 0 ? 'BET_REFUND' : 'BET_WIN',
                             amount: creditedAmount,
@@ -183,7 +184,7 @@ export const databaseService = {
                 }
 
                 // Marcar predicción como resuelta
-                await supabase.from('predictions').update({
+                await supabaseAdmin.from('predictions').update({
                     status: finalPoints > 0 ? 'WON' : (refundAmount > 0 ? 'WON' : 'LOST'), // Refund se considera "no pérdida"
                     points_won: finalPoints,
                     updated_at: new Date().toISOString()
@@ -193,7 +194,7 @@ export const databaseService = {
             }
 
             // 2.b Procesar PVP Challenges (solo los que el usuario logueado tiene acceso por RLS)
-            const { data: challenges } = await supabase
+            const { data: challenges } = await supabaseAdmin
                 .from('pvp_challenges')
                 .select('*')
                 .eq('match_id', matchId)
@@ -203,12 +204,12 @@ export const databaseService = {
                 for (const challenge of challenges) {
                     if (challenge.status === 'PENDING') {
                         // Refund creator
-                        const { data: creatorProfile } = await supabase.from('profiles').select('total_balance').eq('id', challenge.creator_id).single();
+                        const { data: creatorProfile } = await supabaseAdmin.from('profiles').select('total_balance').eq('id', challenge.creator_id).single();
                         if (creatorProfile) {
                             const newBalance = (creatorProfile.total_balance || 0) + challenge.amount;
-                            await supabase.from('profiles').update({ total_balance: newBalance }).eq('id', challenge.creator_id);
+                            await supabaseAdmin.from('profiles').update({ total_balance: newBalance }).eq('id', challenge.creator_id);
                             
-                            await supabase.from('transactions').insert({
+                            await supabaseAdmin.from('transactions').insert({
                                 user_id: challenge.creator_id,
                                 type: 'BET_REFUND',
                                 amount: challenge.amount,
@@ -218,7 +219,7 @@ export const databaseService = {
                             });
                         }
                         // Marcar como rechazado en lugar de borrar
-                        await supabase.from('pvp_challenges').update({ status: 'REJECTED' }).eq('id', challenge.id);
+                        await supabaseAdmin.from('pvp_challenges').update({ status: 'REJECTED' }).eq('id', challenge.id);
                         
                         await this.addNotification(
                             challenge.creator_id,
@@ -241,12 +242,12 @@ export const databaseService = {
                         const loserName = winnerId === challenge.creator_id ? challenge.target_name : challenge.creator_name;
 
                         // Give prize to winner
-                        const { data: winnerProfile } = await supabase.from('profiles').select('total_balance').eq('id', winnerId).single();
+                        const { data: winnerProfile } = await supabaseAdmin.from('profiles').select('total_balance').eq('id', winnerId).single();
                         if (winnerProfile) {
                             const newBalance = (winnerProfile.total_balance || 0) + (challenge.amount * 2);
-                            await supabase.from('profiles').update({ total_balance: newBalance }).eq('id', winnerId);
+                            await supabaseAdmin.from('profiles').update({ total_balance: newBalance }).eq('id', winnerId);
                             
-                            await supabase.from('transactions').insert({
+                            await supabaseAdmin.from('transactions').insert({
                                 user_id: winnerId,
                                 type: 'BET_WIN',
                                 amount: challenge.amount * 2,
@@ -255,7 +256,7 @@ export const databaseService = {
                                 balance_type: 'REDEEMABLE'
                             });
                         }
-                        await supabase.from('pvp_challenges').update({ status: 'FINISHED', winner_id: winnerId }).eq('id', challenge.id);
+                        await supabaseAdmin.from('pvp_challenges').update({ status: 'FINISHED', winner_id: winnerId }).eq('id', challenge.id);
 
                         // Notify winner
                         await this.addNotification(
@@ -278,7 +279,7 @@ export const databaseService = {
             }
 
             // 3. Actualizar estado del partido
-            await supabase.from('matches').update({
+            await supabaseAdmin.from('matches').update({
                 status: 'FINISHED',
                 home_score: homeScore,
                 away_score: awayScore,
@@ -294,17 +295,19 @@ export const databaseService = {
 
     // --- NOTIFICATIONS SYSTEM ---
     addNotification: async (userId: string, type: string, title: string, message: string, path: string, metadata?: any) => {
-        const { error } = await supabase
-            .from('notifications')
-            .insert({
+        try {
+            await supabaseAdmin.from('notifications').insert({
                 user_id: userId,
                 type,
                 title,
                 message,
                 path,
-                metadata
+                metadata,
+                is_read: false
             });
-        return { success: !error, error };
+        } catch (error) {
+            console.error('Error al emitir notificación:', error);
+        }
     },
 
     // --- SOCIAL SYSTEM ---
@@ -334,7 +337,7 @@ export const databaseService = {
 
     // --- ACTIVITY FEED SYSTEM ---
     recordActivity: async (userId: string, type: string, content: any, visibility: 'PUBLIC' | 'FOLLOWERS' = 'PUBLIC') => {
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
             .from('user_activities')
             .insert({
                 user_id: userId,
