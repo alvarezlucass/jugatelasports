@@ -10,6 +10,7 @@ import { cn } from '../lib/utils';
 import { getGroupStandings, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
 import { calculateAdvancingTeams, generateInitialBracket, generateEmptyBracketTree } from '../lib/bracketLogic';
 import { useUser } from '../contexts/UserContext';
+import { matchService } from '../services/matchService';
 
 export const WorldCup: React.FC = () => {
     const { userPredictions } = useUser();
@@ -47,8 +48,6 @@ export const WorldCup: React.FC = () => {
         const fetchRealMatches = async () => {
             setIsLoading(true);
             try {
-                // Import matchService dynamically to avoid circular dependencies if any
-                const { matchService } = await import('../services/matchService');
                 const groupMatchIds = WORLD_CUP_GROUP_MATCHES.map(m => m.id);
                 // We pass undefined for leagueId but provide the specific IDs we want
                 const matches = await matchService.getMatches(undefined, { ids: groupMatchIds, limit: 1000 });

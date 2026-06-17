@@ -4,6 +4,7 @@ import { GroupFixtureView } from '../components/competition/GroupFixtureView';
 import { getGroupMatches, getGroupStandings, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
 import { useUser } from '../contexts/UserContext';
 import { Loader2 } from 'lucide-react';
+import { matchService } from '../services/matchService';
 
 export const GroupFixturePage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -17,8 +18,7 @@ export const GroupFixturePage: React.FC = () => {
         const fetchRealMatches = async () => {
             setIsLoading(true);
             try {
-                const { matchService } = await import('../services/matchService');
-                const groupMatchIds = WORLD_CUP_GROUP_MATCHES.map(m => m.id);
+                const groupMatchIds = WORLD_CUP_GROUP_MATCHES.filter(m => m.group === groupLetter).map(m => m.id);
                 const matches = await matchService.getMatches(undefined, { ids: groupMatchIds, limit: 1000 });
                 setRealMatches(matches);
             } catch (err) {
