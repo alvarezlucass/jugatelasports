@@ -305,6 +305,56 @@ export const databaseService = {
                 metadata,
                 is_read: false
             });
+
+            // WEB PUSH LOGIC (Solo en entorno Node/Backend)
+            if (typeof process !== 'undefined' && process.env.VAPID_PRIVATE_KEY) {
+                const webpush = await import('web-push');
+                
+                const publicKey = process.env.VITE_VAPID_PUBLIC_KEY || import.meta.env.VITE_VAPID_PUBLIC_KEY;
+                const privateKey = process.env.VAPID_PRIVATE_KEY;
+                
+                if (publicKey && privateKey) {
+                    webpush.setVapidDetails(
+                        'mailto:admin@jugatelasports.com',
+                        publicKey,
+                        privateKey
+                    );
+
+                    // Fetch user subscriptions
+                    const { data: subs } = await supabaseAdmin
+                        .from('push_subscriptions')
+                        .select('*')
+                        .eq('user_id', userId);
+
+                    if (subs && subs.length > 0) {
+                        const payload = JSON.stringify({
+                            title,
+                            message,
+                            path
+                        });
+
+                        for (const sub of subs) {
+                            try {
+                                await webpush.sendNotification({
+                                    endpoint: sub.endpoint,
+                                    keys: {
+                                        p256dh: sub.p256dh,
+                                        auth: sub.auth
+                                    }
+                                }, payload);
+                            } catch (e: any) {
+                                if (e.statusCode === 410 || e.statusCode === 404) {
+                                    // Subscription expired or removed, delete it
+                                    await supabaseAdmin.from('push_subscriptions').delete().eq('id', sub.id);
+                                } else {
+                                    console.error('Error sending push notification:', e);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         } catch (error) {
             console.error('Error al emitir notificación:', error);
         }

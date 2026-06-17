@@ -127,13 +127,23 @@ export const NotificationBell: React.FC = () => {
                         transition={{ duration: 0.15 }}
                         className="absolute right-0 mt-2 w-80 bg-[#0F131A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 origin-top-right backdrop-blur-xl"
                     >
-                        <div className="p-4 border-b border-white/5 bg-white/[0.02]">
+                        <div className="p-4 border-b border-white/5 bg-white/[0.02] flex flex-col gap-2">
                             <h3 className="text-white font-black text-xs uppercase tracking-widest flex items-center justify-between">
                                 Notificaciones
                                 {hasUnread && (
                                     <span className="bg-red-500 text-white text-[9px] px-2 py-0.5 rounded-full">{pendingCount} Nuevas</span>
                                 )}
                             </h3>
+                            <button 
+                                onClick={async () => {
+                                    const { subscribeToPushNotifications } = await import('../../utils/pushNotifications');
+                                    if (user) await subscribeToPushNotifications(user.id);
+                                    alert('¡Suscripción a notificaciones configurada!');
+                                }}
+                                className="w-full text-center px-2 py-1.5 bg-blue-500/10 text-blue-400 rounded text-[9px] font-bold uppercase tracking-wider hover:bg-blue-500/20 transition-colors"
+                            >
+                                Activar Alertas en el Celular
+                            </button>
                         </div>
 
                         <div className="max-h-[350px] overflow-y-auto">
@@ -142,6 +152,16 @@ export const NotificationBell: React.FC = () => {
                                     <Bell size={24} className="mx-auto mb-3 opacity-30" />
                                     <p className="text-[10px] font-bold uppercase tracking-[0.2em]">Cero notificaciones</p>
                                     <p className="text-[9px] text-zinc-600 mt-1">Acá aparecerá la actividad de tus retos.</p>
+                                    <button 
+                                        onClick={async () => {
+                                            const { subscribeToPushNotifications } = await import('../../utils/pushNotifications');
+                                            if (user) await subscribeToPushNotifications(user.id);
+                                            alert('¡Suscripción a notificaciones configurada!');
+                                        }}
+                                        className="mt-4 px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold uppercase tracking-wider hover:bg-blue-500/30 transition-colors"
+                                    >
+                                        Activar Notificaciones Push
+                                    </button>
                                 </div>
                             ) : (
                                 <div className="divide-y divide-white/5">

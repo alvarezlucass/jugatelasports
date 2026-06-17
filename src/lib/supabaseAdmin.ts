@@ -4,8 +4,7 @@ const supabaseUrl = (typeof process !== 'undefined' && process.env.VITE_SUPABASE
 
 // Intentar usar la Service Role Key para saltar RLS en procesos backend.
 // Si no existe, usamos la Anon Key (aunque fallará al procesar PVP por culpa de RLS).
-const supabaseKey = (typeof process !== 'undefined' && process.env.VITE_SUPABASE_SERVICE_ROLE_KEY) || 
-                    (import.meta && import.meta.env && import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY) ||
+const supabaseKey = (typeof process !== 'undefined' && process.env.SUPABASE_SERVICE_ROLE_KEY) || 
                     (typeof process !== 'undefined' && process.env.VITE_SUPABASE_ANON_KEY) || 
                     (import.meta && import.meta.env && import.meta.env.VITE_SUPABASE_ANON_KEY);
 
