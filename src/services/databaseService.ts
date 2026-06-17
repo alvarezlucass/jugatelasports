@@ -273,7 +273,7 @@ export const databaseService = {
                             `${winnerName} acertó mejor el resultado. Perdiste ${challenge.amount} tokens.`,
                             `/profile?tab=PVP&view=SUMMARY`
                         );
-                    }             }
+                    }
                 }
             }
 
