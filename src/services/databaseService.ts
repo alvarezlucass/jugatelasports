@@ -205,9 +205,28 @@ export const databaseService = {
                         // Refund creator
                         const { data: creatorProfile } = await supabase.from('profiles').select('total_balance').eq('id', challenge.creator_id).single();
                         if (creatorProfile) {
-                            await supabase.from('profiles').update({ total_balance: (creatorProfile.total_balance || 0) + challenge.amount }).eq('id', challenge.creator_id);
+                            const newBalance = (creatorProfile.total_balance || 0) + challenge.amount;
+                            await supabase.from('profiles').update({ total_balance: newBalance }).eq('id', challenge.creator_id);
+                            
+                            await supabase.from('transactions').insert({
+                                user_id: challenge.creator_id,
+                                type: 'BET_REFUND',
+                                amount: challenge.amount,
+                                description: `Reembolso PvP: Rival no aceptó`,
+                                balance_after: newBalance,
+                                balance_type: 'REDEEMABLE'
+                            });
                         }
-                        await supabase.from('pvp_challenges').delete().eq('id', challenge.id);
+                        // Marcar como rechazado en lugar de borrar
+                        await supabase.from('pvp_challenges').update({ status: 'REJECTED' }).eq('id', challenge.id);
+                        
+                        await this.addNotification(
+                            challenge.creator_id,
+                            'SYSTEM',
+                            'Desafío No Aceptado',
+                            `El partido ha finalizado y tu rival no aceptó a tiempo. Se te han devuelto ${challenge.amount} tokens.`,
+                            `/profile?tab=ACTIVITY`
+                        );
                     } else if (challenge.status === 'ACCEPTED') {
                         // Determine real outcome
                         let realOutcome: 'HOME' | 'DRAW' | 'AWAY';
@@ -217,32 +236,44 @@ export const databaseService = {
 
                         const creatorCorrect = challenge.creator_selection === realOutcome;
                         const winnerId = creatorCorrect ? challenge.creator_id : challenge.target_id;
+                        const loserId = winnerId === challenge.creator_id ? challenge.target_id : challenge.creator_id;
+                        const winnerName = winnerId === challenge.creator_id ? challenge.creator_name : challenge.target_name;
+                        const loserName = winnerId === challenge.creator_id ? challenge.target_name : challenge.creator_name;
 
                         // Give prize to winner
                         const { data: winnerProfile } = await supabase.from('profiles').select('total_balance').eq('id', winnerId).single();
                         if (winnerProfile) {
-                            await supabase.from('profiles').update({ total_balance: (winnerProfile.total_balance || 0) + (challenge.amount * 2) }).eq('id', winnerId);
+                            const newBalance = (winnerProfile.total_balance || 0) + (challenge.amount * 2);
+                            await supabase.from('profiles').update({ total_balance: newBalance }).eq('id', winnerId);
+                            
+                            await supabase.from('transactions').insert({
+                                user_id: winnerId,
+                                type: 'BET_WIN',
+                                amount: challenge.amount * 2,
+                                description: `¡Victoria en PvP contra ${loserName}!`,
+                                balance_after: newBalance,
+                                balance_type: 'REDEEMABLE'
+                            });
                         }
                         await supabase.from('pvp_challenges').update({ status: 'FINISHED', winner_id: winnerId }).eq('id', challenge.id);
 
                         // Notify winner
-                        const loserId = winnerId === challenge.creator_id ? challenge.target_id : challenge.creator_id;
                         await this.addNotification(
                             winnerId,
                             'CHALLENGE_FINISHED',
-                            '¡Reto PVP Ganado!',
-                            `Has ganado el reto por ${challenge.amount * 2} tokens.`,
+                            '¡Reto PvP Ganado!',
+                            `Venciste a ${loserName} y te llevas el pozo de ${challenge.amount * 2} tokens.`,
                             `/profile?tab=ACTIVITY`
                         );
                         // Notify loser
                         await this.addNotification(
                             loserId,
                             'CHALLENGE_FINISHED',
-                            'Reto PVP Perdido',
-                            `Has perdido el reto de ${challenge.amount} tokens.`,
+                            'Reto PvP Perdido',
+                            `${winnerName} acertó mejor el resultado. Perdiste ${challenge.amount} tokens.`,
                             `/profile?tab=PVP&view=SUMMARY`
                         );
-                    }
+                    }             }
                 }
             }
 

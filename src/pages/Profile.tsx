@@ -110,7 +110,7 @@ const ChallengeCard: React.FC<{
                 )}
                 {challenge.status === 'REJECTED' && (
                     <div className="px-3 py-1 bg-red-500/10 text-red-500 rounded-lg text-[9px] font-black uppercase tracking-widest border border-red-500/20">
-                        Cancelado
+                        No Aceptado
                     </div>
                 )}
             </div>

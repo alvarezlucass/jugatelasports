@@ -4,6 +4,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import { createClient } from '@supabase/supabase-js';
+import { execSync } from 'child_process';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
@@ -89,6 +90,16 @@ async function sync() {
                     updates.updated_at = new Date().toISOString();
                     await supabase.from('matches').update(updates).eq('id', match.id);
                     console.log(` -> Sincronizado ${match.home_team} vs ${match.away_team}: ${newStatus} (${goals.home}-${goals.away})`);
+                    
+                    if (newStatus === 'FINISHED' && match.status !== 'FINISHED') {
+                        console.log(` -> Resolviendo recompensas para ${match.home_team} vs ${match.away_team}...`);
+                        try {
+                            execSync(`npx --yes tsx scripts/resolve_match.ts ${match.id} ${goals.home} ${goals.away}`, { stdio: 'inherit' });
+                        } catch (e) {
+                            console.error(`Error en la resolución del partido: ${e.message}`);
+                        }
+                    }
+                    
                     updatesCount++;
                 }
             }
