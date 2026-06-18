@@ -296,7 +296,8 @@ export const databaseService = {
     // --- NOTIFICATIONS SYSTEM ---
     addNotification: async (userId: string, type: string, title: string, message: string, path: string, metadata?: any) => {
         try {
-            await supabaseAdmin.from('notifications').insert({
+            const client = typeof window === 'undefined' ? supabaseAdmin : supabase;
+            await client.from('notifications').insert({
                 user_id: userId,
                 type,
                 title,
@@ -387,7 +388,8 @@ export const databaseService = {
 
     // --- ACTIVITY FEED SYSTEM ---
     recordActivity: async (userId: string, type: string, content: any, visibility: 'PUBLIC' | 'FOLLOWERS' = 'PUBLIC') => {
-        const { error } = await supabaseAdmin
+        const client = typeof window === 'undefined' ? supabaseAdmin : supabase;
+        const { error } = await client
             .from('user_activities')
             .insert({
                 user_id: userId,
