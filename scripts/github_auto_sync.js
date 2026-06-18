@@ -11,7 +11,10 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const API_FOOTBALL_KEY = process.env.VITE_API_FOOTBALL_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !API_FOOTBALL_KEY) {
-    console.error('ERROR: Faltan variables de entorno necesarias.');
+    console.error('ERROR: Faltan variables de entorno necesarias:');
+    if (!SUPABASE_URL) console.error('- VITE_SUPABASE_URL is missing');
+    if (!SUPABASE_SERVICE_ROLE_KEY) console.error('- SUPABASE_SERVICE_ROLE_KEY is missing');
+    if (!API_FOOTBALL_KEY) console.error('- VITE_API_FOOTBALL_KEY is missing');
     process.exit(1);
 }
 
