@@ -4,6 +4,53 @@ import { type TeamHistory, getTeamMatches } from '../../data/worldCupPersistence
 import { cn } from '../../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import { OfficialMatchList } from './OfficialMatchList';
+import { matchService } from '../../services/matchService';
+import { Loader2 } from 'lucide-react';
+
+const TeamFixturesList: React.FC<{ teamName: string }> = ({ teamName }) => {
+    const navigate = useNavigate();
+    const [matches, setMatches] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchMatches = async () => {
+            setLoading(true);
+            try {
+                // Fetch matches from DB for this team
+                const dbMatches = await matchService.getMatches('world-cup-2026', { limit: 100 });
+                const filtered = dbMatches.filter(m => m.homeTeam === teamName || m.awayTeam === teamName);
+                
+                // If DB doesn't have them or error, fallback to static matches with mapped dates
+                if (filtered.length > 0) {
+                    setMatches(filtered);
+                } else {
+                    setMatches(getTeamMatches(teamName));
+                }
+            } catch (error) {
+                console.error("Error fetching team matches", error);
+                setMatches(getTeamMatches(teamName));
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchMatches();
+    }, [teamName]);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-48">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            </div>
+        );
+    }
+
+    return (
+        <OfficialMatchList 
+            matches={matches} 
+            onMatchClick={(matchId) => navigate(`/predictions/match/${matchId}?mode=MACHINE`)}
+        />
+    );
+};
 
 interface TeamSquadViewProps {
     team: TeamHistory;
@@ -46,7 +93,6 @@ export const TeamSquadView: React.FC<TeamSquadViewProps> = ({ team, topPerformer
     const renderContent = () => {
         switch (activeTab) {
             case 'FIXTURES':
-                const teamMatches = getTeamMatches(team.name);
                 return (
                     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="flex items-center justify-between px-2">
@@ -59,10 +105,7 @@ export const TeamSquadView: React.FC<TeamSquadViewProps> = ({ team, topPerformer
                             </div>
                         </div>
                         <div className="bg-[#0F131A] border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
-                            <OfficialMatchList 
-                                matches={teamMatches} 
-                                onMatchClick={(matchId) => navigate(`/predictions/match/${matchId}?mode=MACHINE`)}
-                            />
+                            <TeamFixturesList teamName={team.name} />
                         </div>
                     </div>
                 );

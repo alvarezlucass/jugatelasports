@@ -30,7 +30,21 @@ export const GroupFixturePage: React.FC = () => {
         fetchRealMatches();
     }, []);
 
-    const matches = getGroupMatches(groupLetter);
+    const baseMatches = getGroupMatches(groupLetter);
+    const matches = baseMatches.map(m => {
+        const real = realMatches.find(rm => rm.id === m.id || (rm.homeTeam === m.homeTeam && rm.awayTeam === m.awayTeam));
+        if (real) {
+            return {
+                ...m,
+                date: real.date || m.date,
+                time: real.time || m.time,
+                status: real.status || m.status,
+                homeScore: real.homeScore ?? m.homeScore,
+                awayScore: real.awayScore ?? m.awayScore,
+            };
+        }
+        return m;
+    });
     const standings = getGroupStandings(groupLetter, userPredictions, realMatches);
 
     if (isLoading) {
