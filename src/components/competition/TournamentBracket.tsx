@@ -33,6 +33,7 @@ interface MatchProps {
     isLive?: boolean;
     liveMinute?: number;
     onChallenge?: (match: MatchupNode) => void;
+    isReadOnly?: boolean;
 }
 
 // --- Components ---
@@ -90,7 +91,7 @@ const useDraggable = () => {
 };
 
 const ProMatchCard: React.FC<MatchProps> = ({ 
-    matchData, status, isFinal, isThirdPlace, isRightSide, className, onPredict, onSelectMethod, onSelectTeam, dragDistanceRef, onChallenge 
+    matchData, status, isFinal, isThirdPlace, isRightSide, className, onPredict, onSelectMethod, onSelectTeam, dragDistanceRef, onChallenge, isReadOnly 
 }) => {
     const { team1, team2 } = matchData;
     const navigate = useNavigate();
@@ -1041,7 +1042,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                             <div className="flex flex-col relative" style={{ height: 'calc(var(--base-height) * 8)' }}>
                                 {leftR32.map((match, i) => (
                                     <div key={match.id} className="relative flex items-center h-[var(--base-height)]">
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
                                             dragDistanceRef={draggable.dragDistance}
@@ -1077,7 +1078,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                             <div className="flex flex-col relative" style={{ height: 'calc(var(--base-height) * 8)' }}>
                                 {leftR16.map((match, i) => (
                                     <div key={match.id} className="relative flex items-center h-[calc(var(--base-height)*2)]">
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
                                             dragDistanceRef={draggable.dragDistance}
@@ -1118,7 +1119,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                             <div className="flex flex-col relative" style={{ height: 'calc(var(--base-height) * 8)' }}>
                                 {leftR8.map((match, i) => (
                                     <div key={match.id} className="relative flex items-center h-[calc(var(--base-height)*4)]">
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
                                             dragDistanceRef={draggable.dragDistance}
@@ -1159,7 +1160,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                             <div className="flex flex-col relative" style={{ height: 'calc(var(--base-height) * 8)' }}>
                                 {leftR4.map((match, i) => (
                                     <div key={match.id} className="relative flex items-center h-[calc(var(--base-height)*8)]">
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             className="scale-105 shadow-[0_0_50px_rgba(234,179,8,0.1)] ring-1 ring-yellow-500/20"
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
@@ -1193,7 +1194,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                             <div className="w-full flex-grow flex flex-col items-center justify-center gap-20">
                                 <div className="flex flex-col items-center gap-12 w-full mt-[-80px]">
                                     {finalMatch && (
-                                        <ProMatchCard 
+                                        <ProMatchCard isReadOnly={isReadOnly} 
                                             isFinal 
                                             matchData={finalMatch} 
                                             dragDistanceRef={draggable.dragDistance}
@@ -1223,7 +1224,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                                         <div className="px-6 py-2 mb-4 rounded-full border border-orange-500/20 bg-orange-500/5 backdrop-blur-3xl">
                                             <h3 className="text-[10px] md:text-[11px] font-black text-orange-400 uppercase tracking-widest text-glow leading-none">Tercer Puesto</h3>
                                         </div>
-                                        <ProMatchCard 
+                                        <ProMatchCard isReadOnly={isReadOnly} 
                                             isThirdPlace
                                             matchData={thirdPlaceMatch} 
                                             dragDistanceRef={draggable.dragDistance}
@@ -1259,7 +1260,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                             <div className="flex flex-col relative" style={{ height: 'calc(var(--base-height) * 8)' }}>
                                 {rightR4.map((match, i) => (
                                     <div key={match.id} className="relative flex items-center h-[calc(var(--base-height)*8)]">
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             isRightSide
                                             className="scale-105 shadow-[0_0_50px_rgba(234,179,8,0.1)] ring-1 ring-yellow-500/20"
                                             matchData={match}
@@ -1302,7 +1303,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                                                 <div className="absolute left-[calc(var(--round-gap)*-1.2)] top-1/2 -translate-y-1/2 w-[calc(var(--round-gap)*1.2)] h-[2px] bg-white/[0.05]" />
                                             </div>
                                         )}
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             isRightSide
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
@@ -1344,7 +1345,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                                                 <div className="absolute left-[calc(var(--round-gap)*-1)] top-1/2 -translate-y-1/2 w-[var(--round-gap)] h-[2px] bg-white/[0.05]" />
                                             </div>
                                         )}
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             isRightSide
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
@@ -1386,7 +1387,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                                                 <div className="absolute left-[calc(var(--round-gap)*-1)] top-1/2 -translate-y-1/2 w-[var(--round-gap)] h-[2px] bg-white/[0.05]" />
                                             </div>
                                         )}
-                                        <ProMatchCard
+                                        <ProMatchCard isReadOnly={isReadOnly}
                                             isRightSide
                                             matchData={match}
                                             status={(match.winnerId || match.homeScore !== undefined) ? 'predicted' : 'pending'}
