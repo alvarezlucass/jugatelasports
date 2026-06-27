@@ -15,7 +15,7 @@ async function syncPredictions() {
     const { data: matches, error } = await supabase
         .from('matches')
         .select('id, metadata')
-        .in('status', ['UPCOMING']);
+        .in('status', ['UPCOMING', 'SCHEDULED']);
 
     if (error) {
         console.error('Error fetching matches:', error);

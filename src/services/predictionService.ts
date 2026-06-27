@@ -50,9 +50,10 @@ export const predictionService = {
             }
 
             if (staticMatch) {
+                const isWcMatch = WORLD_CUP_GROUP_MATCHES.some(m => m.id === staticMatch!.id);
                 await supabase.from('matches').upsert({
                     id: staticMatch.id,
-                    league_id: 'auto-generated',
+                    league_id: isWcMatch ? 'world-cup-2026' : 'auto-generated',
                     season: 2026,
                     home_team: staticMatch.homeTeam,
                     away_team: staticMatch.awayTeam,
@@ -68,7 +69,7 @@ export const predictionService = {
                         city: staticMatch.city,
                         static_data: WORLD_CUP_TEAMS_HISTORY[staticMatch.homeTeam] || null
                     }
-                }, { onConflict: 'id' });
+                }, { onConflict: 'id', ignoreDuplicates: true });
             }
 
             // Evaluamos selection clásica por si la tabla aun requiere que no sea nula en alguna versión

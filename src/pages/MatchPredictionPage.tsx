@@ -61,30 +61,6 @@ export const MatchPredictionPage: React.FC = () => {
 
         initUserSession();
 
-        const staticMatch = WORLD_CUP_GROUP_MATCHES.find(m => m.id === matchId);
-        if (staticMatch) {
-            setMatch(staticMatch);
-            setLoadingMatch(false);
-            return;
-        }
-
-        if (qHome && qAway) {
-            setMatch({
-                id: matchId,
-                homeTeam: qHome,
-                awayTeam: qAway,
-                group: 'Eliminatorias',
-                date: '19 JUL 2026',
-                time: '20:00',
-                stadium: 'MetLife Stadium',
-                city: 'New York/New Jersey',
-                status: 'scheduled' as const,
-                h2h: []
-            });
-            setLoadingMatch(false);
-            return;
-        }
-
         const DB_TO_SPANISH_TEAM_NAME: Record<string, string> = {
             "Germany": "Alemania",
             "Saudi Arabia": "Arabia Saudita",
@@ -150,20 +126,57 @@ export const MatchPredictionPage: React.FC = () => {
                     awayTeamLogo: data.away_team_logo,
                     homeTeamId: data.metadata?.home_id || (data.home_team_logo ? data.home_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
                     awayTeamId: data.metadata?.away_id || (data.away_team_logo ? data.away_team_logo.match(/\/teams\/(\d+)\.png/)?.[1] : undefined),
-                    date: data.start_time.split('T')[0],
-                    time: data.start_time.split('T')[1]?.substring(0, 5) || '00:00',
+                    date: (() => {
+                        if (!data.start_time) return '2026-06-11';
+                        const d = new Date(data.start_time);
+                        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                    })(),
+                    time: (() => {
+                        if (!data.start_time) return '00:00';
+                        const d = new Date(data.start_time);
+                        return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+                    })(),
                     startTime: data.start_time,
                     stadium: data.metadata?.stadium || 'Estadio',
                     city: data.metadata?.city || 'Ciudad',
-                    status: data.status.toLowerCase() === 'finished' ? 'finished' : 
-                            (data.status.toLowerCase() === 'live' || new Date(data.start_time).getTime() <= Date.now()) ? 'live' : 'scheduled',
+                    status: (() => {
+                        if (data.status.toLowerCase() === 'finished') return 'finished';
+                        if (data.status.toLowerCase() === 'live') return 'live';
+                        if (!data.start_time) return 'scheduled';
+                        
+                        const start = new Date(data.start_time).getTime();
+                        const now = Date.now();
+                        if (now >= start) {
+                            const elapsed = (now - start) / 60000;
+                            return elapsed >= 115 ? 'finished' : 'live';
+                        }
+                        return 'scheduled';
+                    })(),
                     homeScore: data.home_score,
                     awayScore: data.away_score,
                     h2h: data.metadata?.h2h || [],
                     ai_prediction: data.metadata?.ai_prediction || null
                 });
             } else {
-                setMatch(null);
+                const staticMatch = WORLD_CUP_GROUP_MATCHES.find(m => m.id === matchId);
+                if (staticMatch) {
+                    setMatch(staticMatch);
+                } else if (qHome && qAway) {
+                    setMatch({
+                        id: matchId,
+                        homeTeam: qHome,
+                        awayTeam: qAway,
+                        group: 'Eliminatorias',
+                        date: '19 JUL 2026',
+                        time: '20:00',
+                        stadium: 'MetLife Stadium',
+                        city: 'New York/New Jersey',
+                        status: 'scheduled' as const,
+                        h2h: []
+                    });
+                } else {
+                    setMatch(null);
+                }
             }
             setLoadingMatch(false);
         };

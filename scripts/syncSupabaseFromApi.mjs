@@ -24,7 +24,6 @@ const ADMIN_EMAIL = 'admin@jugatelasports.com';
 const ADMIN_PASSWORD = '@Marte2026';
 
 const LEAGUES_TO_SYNC = [
-    { id: 1, dbId: 'world-cup-2026', season: 2026, name: 'World Cup 2026' },
     { id: 128, dbId: 'lpf', season: 2026, name: 'Liga Profesional Argentina' },
     { id: 129, dbId: 'primera-nacional', season: 2026, name: 'Primera Nacional' },
     { id: 130, dbId: 'copa-argentina', season: 2026, name: 'Copa Argentina' },

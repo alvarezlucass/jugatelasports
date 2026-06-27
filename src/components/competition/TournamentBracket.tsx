@@ -16,6 +16,7 @@ import { type MatchupNode, generateDemoBracketTree, generateEmptyBracketTree, si
 interface Props {
     initialBracketData?: Record<string, MatchupNode[]>;
     groupTeams?: Record<string, { name: string; flag: string }[]>;
+    isReadOnly?: boolean;
 }
 
 interface MatchProps {
@@ -127,7 +128,7 @@ const ProMatchCard: React.FC<MatchProps> = ({
                                             <div className="absolute -inset-10 bg-yellow-500/30 blur-[50px] opacity-0 group-hover/trophy:opacity-100 transition-all duration-1000" />
                                             <Trophy className="w-10 h-10 md:w-20 md:h-20 text-yellow-500 drop-shadow-[0_0_30px_rgba(234,179,8,0.7)] transition-all duration-1000 group-hover/trophy:scale-125" fill="currentColor" />
                                         </div>
-                                        {team1?.name && team1.name !== 'Por Definir' && team2?.name && team2.name !== 'Por Definir' && (
+                                        {team1?.name && team1.name !== 'Por Definir' && team2?.name && team2.name !== 'Por Definir' && !isReadOnly && (
                                             <button 
                                                 onClick={(e) => {
                                                     e.stopPropagation();
@@ -274,7 +275,7 @@ const ProMatchCard: React.FC<MatchProps> = ({
             <TeamRow team={team2} score={matchData.awayScore} onClick={handlePredict2} onSelect={onSelectTeam ? () => onSelectTeam(2) : undefined} />
 
             {/* Advance Method Selector */}
-            {matchData.winnerId && (
+            {matchData.winnerId && !isReadOnly && (
                 <div className={cn(
                     "absolute top-1/2 -translate-y-1/2 flex items-center gap-1.5 z-40 bg-[#0F131A]/90 backdrop-blur-md p-1.5 rounded-xl border border-white/10 shadow-2xl transition-all animate-in fade-in zoom-in duration-300",
                     isRightSide ? "right-[calc(100%+12px)]" : "left-[calc(100%+12px)]"
@@ -306,12 +307,12 @@ const ProMatchCard: React.FC<MatchProps> = ({
             )}
 
             {/* Action overlay on hover for predictions */}
-            {team1?.name && team1.name !== 'Por Definir' && team2?.name && team2.name !== 'Por Definir' && (
+            {team1?.name && team1.name !== 'Por Definir' && team2?.name && team2.name !== 'Por Definir' && !isReadOnly && (
                 <div className="absolute inset-0 bg-blue-600/0 transition-colors pointer-events-none z-30">
                     <button 
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/predictions/match/${matchData.id}?home=${encodeURIComponent(team1.name)}&away=${encodeURIComponent(team2.name!)}&mode=MACHINE`);
+                            navigate(`/predictions/match/${matchData.id}?home=${encodeURIComponent(team1.name!)}&away=${encodeURIComponent(team2.name!)}&mode=MACHINE`);
                         }}
                         className={cn(
                             "absolute top-1/2 -translate-y-1/2 px-4 py-2 bg-blue-600 text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-[0_0_30px_rgba(37,99,235,0.5)] opacity-0 group-hover:opacity-100 hover:scale-105 active:scale-95 transition-all pointer-events-auto flex items-center gap-2 border border-blue-400/50",
@@ -337,7 +338,7 @@ const ProMatchCard: React.FC<MatchProps> = ({
 
 // --- Main Component ---
 
-export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTeams }) => {
+export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTeams, isReadOnly }) => {
     const draggable = useDraggable(); 
     const { user, userPredictions, opponents, pvpChallenges, createPvpChallenge, spendTokens, canAfford, refreshProfile } = useUser();
 
@@ -596,6 +597,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
     };
 
     const handleTeamSelect = (roundKey: string, matchIndex: number, teamSlot: 1 | 2, team: { name: string, flag: string, parentMatchIndex?: number }) => {
+        if (isReadOnly) return;
         const newBracket = { ...bracketState };
         const match = newBracket[roundKey][matchIndex];
         const slot = teamSlot === 1 ? 'team1' : 'team2';
@@ -654,6 +656,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
 
 
     const handleMatchPredict = (roundKey: keyof typeof bracketState, matchIndex: number, teamId: 1 | 2) => {
+        if (isReadOnly) return;
         let nextRoundKey: keyof typeof bracketState | null = null;
         if (roundKey === 'r32') nextRoundKey = 'r16';
         else if (roundKey === 'r16') nextRoundKey = 'r8';
@@ -743,6 +746,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
     };
 
     const handleMethodSelect = (roundKey: keyof typeof bracketState, matchIndex: number, method: 'REGULAR' | 'EXTRA' | 'PENALTIES') => {
+        if (isReadOnly) return;
         const newBracket = { ...bracketState };
         const currentMatch = newBracket[roundKey][matchIndex];
         currentMatch.advanceMethod = method;

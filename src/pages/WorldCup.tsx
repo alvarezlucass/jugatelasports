@@ -27,6 +27,7 @@ export const WorldCup: React.FC = () => {
     const [activeGroup, setActiveGroup] = useState<string>('ALL');
     const [isLoading, setIsLoading] = useState(true);
     const [realMatches, setRealMatches] = useState<any[]>([]);
+    const [bracketMode, setBracketMode] = useState<'user' | 'real'>('user');
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     // Sync state with URL groups param and deep link bracket
@@ -112,7 +113,90 @@ export const WorldCup: React.FC = () => {
         const emptyTree = generateEmptyBracketTree();
         emptyTree.r32 = scrubbedR32;
         return emptyTree;
-    }, [userPredictions]);
+    }, [userPredictions, realMatches]);
+
+    const computedRealBracket = React.useMemo(() => {
+        // Calculate group standings ignoring user predictions to get the real advancing base
+        const allStandings: Record<string, any[]> = {};
+        groups.forEach(letter => {
+            const teamsToRender = getGroupStandings(letter, [], realMatches);
+            allStandings[letter] = teamsToRender.map((t: any) => ({
+                id: t.id,
+                name: t.name || 'Por Definir',
+                flag: t.flag || '',
+                pj: t.pj || 0,
+                dg: t.dg || 0,
+                pts: t.pts || 0,
+            }));
+        });
+        
+        const totalRealPoints = Object.values(allStandings).reduce((acc, teams) => 
+            acc + teams.reduce((accT, t) => accT + t.pts, 0), 0);
+
+        const advancing = calculateAdvancingTeams(allStandings);
+        // Si no hay puntos reales aún (el torneo no empezó), forzamos placeholders para no mostrar equipos arbitrarios.
+        // Podríamos hacer esto por grupo, pero para un torneo no iniciado esto es perfecto.
+        const initialR32 = generateInitialBracket(advancing, totalRealPoints === 0);
+        
+        const realTree = generateEmptyBracketTree();
+        realTree.r32 = initialR32.map(m => ({
+            ...m,
+            winnerId: undefined,
+            homeScore: undefined,
+            awayScore: undefined,
+            team1: m.team1 ? { ...m.team1, selected: false } : undefined,
+            team2: m.team2 ? { ...m.team2, selected: false } : undefined
+        }));
+
+        // Now, we inject the actual knockout match results from realMatches if available
+        const knockoutMatches = realMatches.filter(m => m.metadata?.round && !m.metadata.round.toLowerCase().includes('group'));
+        
+        // This helper attempts to find the real match for a given bracket node
+        // In a real scenario, API matches map via home_team / away_team names
+        const findMatchAndApply = (node: MatchupNode) => {
+            if (!node.team1?.name || !node.team2?.name) return;
+            const match = knockoutMatches.find(m => 
+                (m.home_team === node.team1?.name && m.away_team === node.team2?.name) ||
+                (m.home_team === node.team2?.name && m.away_team === node.team1?.name)
+            );
+            if (match && (match.status === 'FINISHED' || match.status === 'LIVE')) {
+                const isReversed = match.home_team === node.team2?.name;
+                node.homeScore = isReversed ? match.away_score : match.home_score;
+                node.awayScore = isReversed ? match.home_score : match.away_score;
+                
+                if (match.status === 'FINISHED') {
+                    if (node.homeScore !== undefined && node.awayScore !== undefined) {
+                        if (node.homeScore > node.awayScore) {
+                            node.winnerId = node.team1.name;
+                            node.team1.selected = true;
+                        } else if (node.awayScore > node.homeScore) {
+                            node.winnerId = node.team2.name;
+                            node.team2.selected = true;
+                        } else {
+                            // Penalties case
+                            const homePen = match.metadata?.penalty_home || 0;
+                            const awayPen = match.metadata?.penalty_away || 0;
+                            if (isReversed) {
+                                if (awayPen > homePen) { node.winnerId = node.team1.name; node.team1.selected = true; }
+                                else { node.winnerId = node.team2.name; node.team2.selected = true; }
+                            } else {
+                                if (homePen > awayPen) { node.winnerId = node.team1.name; node.team1.selected = true; }
+                                else { node.winnerId = node.team2.name; node.team2.selected = true; }
+                            }
+                            node.advanceMethod = 'PENALTIES';
+                        }
+                    }
+                }
+            }
+        };
+
+        realTree.r32.forEach(findMatchAndApply);
+        // Cascading would require simulating the real tree sequentially, but since the tournament 
+        // hasn't started, returning the base R32 with real standings is a great start.
+        // Full cascade logic can be expanded once API structure for Knockouts is confirmed.
+
+        return realTree;
+    }, [realMatches]);
 
     const renderContent = () => {
         if (isLoading) {
@@ -203,7 +287,7 @@ export const WorldCup: React.FC = () => {
             case 'bracket':
                 return (
                     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <div className="text-center space-y-3 mb-10 md:mb-16">
+                        <div className="text-center space-y-3 mb-6 md:mb-10">
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 text-[9px] md:text-[10px] font-black text-blue-400 border border-blue-500/20 uppercase tracking-widest mb-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                                 Copa Mundial 2026
@@ -211,7 +295,46 @@ export const WorldCup: React.FC = () => {
                             <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none">Llaves <span className="text-blue-600">Eliminatorias</span></h2>
                             <p className="text-zinc-500 text-xs md:text-sm font-bold uppercase tracking-widest opacity-60">Camino a la Gran Final • Predicciones Abiertas</p>
                         </div>
-                        <TournamentBracket initialBracketData={computedBracket} groupTeams={groupTeamsMap} />
+                        
+                        {/* Bracket Mode Toggle */}
+                        <div className="flex justify-center mb-8">
+                            <div className="bg-[#0F131A] p-1.5 rounded-full border border-white/10 flex shadow-xl">
+                                <button
+                                    onClick={() => setBracketMode('user')}
+                                    className={cn(
+                                        "px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all",
+                                        bracketMode === 'user' 
+                                            ? "bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]" 
+                                            : "text-white/40 hover:text-white"
+                                    )}
+                                >
+                                    Mis Predicciones
+                                </button>
+                                <button
+                                    onClick={() => setBracketMode('real')}
+                                    className={cn(
+                                        "px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all",
+                                        bracketMode === 'real' 
+                                            ? "bg-amber-600 text-white shadow-[0_0_15px_rgba(217,119,6,0.4)]" 
+                                            : "text-white/40 hover:text-white"
+                                    )}
+                                >
+                                    Mundial Real
+                                </button>
+                            </div>
+                        </div>
+
+                        {bracketMode === 'real' && (
+                            <div className="text-center bg-amber-500/10 border border-amber-500/20 text-amber-400 p-3 rounded-xl mb-4 max-w-2xl mx-auto text-xs font-bold flex items-center justify-center gap-2">
+                                Estás viendo la llave oficial del Mundial. Los resultados están bloqueados en solo lectura.
+                            </div>
+                        )}
+
+                        <TournamentBracket 
+                            initialBracketData={bracketMode === 'user' ? computedBracket : computedRealBracket} 
+                            groupTeams={groupTeamsMap} 
+                            isReadOnly={bracketMode === 'real'} 
+                        />
                     </div>
                 );
 

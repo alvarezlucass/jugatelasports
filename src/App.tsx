@@ -42,6 +42,8 @@ import { PrivacyPage } from './pages/legal/PrivacyPage';
 import { RulesPage } from './pages/legal/RulesPage';
 import { DisclaimerPage } from './pages/legal/DisclaimerPage';
 
+import { ClubDossierPage } from './pages/ClubDossierPage';
+
 import { TeamModalProvider } from './context/TeamModalContext';
 
 import { ReferralRoute } from './pages/ReferralRoute';
@@ -98,6 +100,7 @@ function App() {
               <Route path="history" element={<ProtectedRoute><History /></ProtectedRoute>} />
               <Route path="match/:id" element={<MatchDetail />} />
               <Route path="team/:id" element={<TeamProfile />} />
+              <Route path="club/:id" element={<ClubDossierPage />} />
             </Route>
             </Routes>
           </TeamModalProvider>
