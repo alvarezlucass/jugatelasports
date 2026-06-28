@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { enhanceMatchWithDynamicData } from './predictionEngine';
 import { supabaseAdmin } from '../lib/supabaseAdmin';
 import { WORLD_CUP_TEAMS_HISTORY, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
 import { calculatePoints } from '../utils/pointsCalculator';
@@ -60,7 +61,6 @@ export const databaseService = {
             if (error) throw error;
             
             // Enhancing with dynamic H2H and Oracle prediction
-            const { enhanceMatchWithDynamicData } = await import('./predictionEngine');
             const enhancedData = await enhanceMatchWithDynamicData(data);
 
             return { success: true, data: enhancedData };

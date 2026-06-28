@@ -390,7 +390,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
     
     // Sync predictions with bracket state
     useEffect(() => {
-        if (!userPredictions || userPredictions.length === 0) return;
+        if (isReadOnly || !userPredictions || userPredictions.length === 0) return;
         
         setBracketState(prev => {
             const newState = JSON.parse(JSON.stringify(prev));
@@ -465,7 +465,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
     const [bracketState, setBracketState] = useState<Record<string, MatchupNode[]>>(() => {
         // Priority 1: If we have initial data from the tournament structure, use it
         // unless we have a clearly better saved state from a REAL logged-in user.
-        const saved = localStorage.getItem('wc_bracket_projection');
+        const saved = !isReadOnly ? localStorage.getItem('wc_bracket_projection') : null;
         
         // We only restore from local storage if there's a real session to avoid viciating guest views
         if (saved && user && !user.id.includes('guest')) { 
@@ -497,8 +497,10 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
 
     // Persistence
     useEffect(() => {
-        localStorage.setItem('wc_bracket_projection', JSON.stringify(bracketState));
-    }, [bracketState]);
+        if (!isReadOnly) {
+            localStorage.setItem('wc_bracket_projection', JSON.stringify(bracketState));
+        }
+    }, [bracketState, isReadOnly]);
     const bracketContainerRef = useRef<HTMLDivElement>(null);
 
     // Auto-scroll to the left on mount so users see the start of the tournament (R32)
@@ -1568,6 +1570,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
 
 
             {/* Hub */}
+            {!isReadOnly && (
             <div className={cn("fixed bottom-12 left-1/2 -translate-x-1/2 z-[100] transition-all duration-700 w-full max-w-[90vw] md:max-w-2xl", totalPredicted > 0 ? "translate-y-0 opacity-100" : "translate-y-32 opacity-0")}>
                 <div className="glass-card bg-[#0F131A]/95 border border-white/10 rounded-[2.5rem] p-4 md:p-6 shadow-3xl flex flex-col gap-6 backdrop-blur-3xl">
                     {challengeStatus === 'idle' && (
@@ -1727,6 +1730,7 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
                     )}
                 </div>
             </div>
+            )}
 
             {/* Challenge List Overlay */}
             <AnimatePresence>

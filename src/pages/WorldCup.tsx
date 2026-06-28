@@ -7,7 +7,7 @@ import { WorldCupStats } from '../components/competition/WorldCupStats';
 // Local data used instead of API for 2026 World Cup data expansion.
 import { Loader2, Calendar, Trophy } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { getGroupStandings, WORLD_CUP_GROUP_MATCHES } from '../data/worldCupPersistence';
+import { getGroupStandings, WORLD_CUP_GROUP_MATCHES, getTeamFlagUrl } from '../data/worldCupPersistence';
 import { calculateAdvancingTeams, generateInitialBracket, generateEmptyBracketTree } from '../lib/bracketLogic';
 import { useUser } from '../contexts/UserContext';
 import { matchService } from '../services/matchService';
@@ -139,26 +139,67 @@ export const WorldCup: React.FC = () => {
         const initialR32 = generateInitialBracket(advancing, totalRealPoints === 0);
         
         const realTree = generateEmptyBracketTree();
-        realTree.r32 = initialR32.map(m => ({
-            ...m,
-            winnerId: undefined,
-            homeScore: undefined,
-            awayScore: undefined,
-            team1: m.team1 ? { ...m.team1, selected: false } : undefined,
-            team2: m.team2 ? { ...m.team2, selected: false } : undefined
-        }));
+        const allKnockoutMatches = realMatches.filter(m => m.metadata?.round && !m.metadata.round.toLowerCase().includes('group'));
+        const availableKnockoutMatches = [...allKnockoutMatches];
 
-        // Now, we inject the actual knockout match results from realMatches if available
-        const knockoutMatches = realMatches.filter(m => m.metadata?.round && !m.metadata.round.toLowerCase().includes('group'));
+        realTree.r32 = initialR32.map(m => {
+            // Clonar nodo básico
+            const node = {
+                ...m,
+                winnerId: undefined,
+                homeScore: undefined,
+                awayScore: undefined,
+                team1: m.team1 ? { ...m.team1, selected: false } : undefined,
+                team2: m.team2 ? { ...m.team2, selected: false } : undefined
+            };
+
+            // Intentar encontrar si la API tiene un partido de 16avos programado para el team1 (semilla principal de esta llave)
+            const nTeam1Flag = node.team1?.name ? getTeamFlagUrl(node.team1.name) : null;
+
+            const apiMatch = availableKnockoutMatches.find(k => {
+                const kHomeFlag = getTeamFlagUrl(k.home_team);
+                const kAwayFlag = getTeamFlagUrl(k.away_team);
+                return nTeam1Flag && (nTeam1Flag === kHomeFlag || nTeam1Flag === kAwayFlag);
+            });
+
+            // Si existe en la API, sobreescribimos los equipos del nodo con la VERDADERA realidad de la API
+            if (apiMatch) {
+                node.team1 = { 
+                    name: apiMatch.home_team, 
+                    flag: getTeamFlagUrl(apiMatch.home_team), 
+                    source: 'API', 
+                    selected: false,
+                    originalId: apiMatch.home_team
+                };
+                node.team2 = { 
+                    name: apiMatch.away_team, 
+                    flag: getTeamFlagUrl(apiMatch.away_team), 
+                    source: 'API', 
+                    selected: false,
+                    originalId: apiMatch.away_team
+                };
+                // Prevent this API match from being assigned to multiple nodes
+                const index = availableKnockoutMatches.indexOf(apiMatch);
+                if (index > -1) {
+                    availableKnockoutMatches.splice(index, 1);
+                }
+            }
+            return node;
+        });
         
-        // This helper attempts to find the real match for a given bracket node
-        // In a real scenario, API matches map via home_team / away_team names
+        // This helper attempts to find the real match for a given bracket node and apply scores
         const findMatchAndApply = (node: MatchupNode) => {
             if (!node.team1?.name || !node.team2?.name) return;
-            const match = knockoutMatches.find(m => 
-                (m.home_team === node.team1?.name && m.away_team === node.team2?.name) ||
-                (m.home_team === node.team2?.name && m.away_team === node.team1?.name)
-            );
+            
+            const nTeam1Flag = getTeamFlagUrl(node.team1.name);
+            const nTeam2Flag = getTeamFlagUrl(node.team2.name);
+
+            const match = allKnockoutMatches.find(m => {
+                const mHomeFlag = getTeamFlagUrl(m.home_team);
+                const mAwayFlag = getTeamFlagUrl(m.away_team);
+                return (mHomeFlag === nTeam1Flag && mAwayFlag === nTeam2Flag) ||
+                       (mHomeFlag === nTeam2Flag && mAwayFlag === nTeam1Flag);
+            });
             if (match && (match.status === 'FINISHED' || match.status === 'LIVE')) {
                 const isReversed = match.home_team === node.team2?.name;
                 node.homeScore = isReversed ? match.away_score : match.home_score;
@@ -331,6 +372,7 @@ export const WorldCup: React.FC = () => {
                         )}
 
                         <TournamentBracket 
+                            key={bracketMode}
                             initialBracketData={bracketMode === 'user' ? computedBracket : computedRealBracket} 
                             groupTeams={groupTeamsMap} 
                             isReadOnly={bracketMode === 'real'} 
