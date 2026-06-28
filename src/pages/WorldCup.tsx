@@ -50,7 +50,7 @@ export const WorldCup: React.FC = () => {
             setIsLoading(true);
             try {
                 // Fetch all World Cup 2026 matches to include knockouts as well as group stage
-                const matches = await matchService.getMatches({ leagueId: 'world-cup-2026', season: 2026 }, { limit: 1000 });
+                const matches = await matchService.getMatches('world-cup-2026', { season: 2026, limit: 1000 });
                 setRealMatches(matches);
             } catch (err) {
                 console.error("Error fetching real matches", err);
@@ -156,26 +156,26 @@ export const WorldCup: React.FC = () => {
             const nTeam1Flag = node.team1?.name ? getTeamFlagUrl(node.team1.name) : null;
 
             const apiMatch = availableKnockoutMatches.find(k => {
-                const kHomeFlag = getTeamFlagUrl(k.home_team);
-                const kAwayFlag = getTeamFlagUrl(k.away_team);
+                const kHomeFlag = getTeamFlagUrl(k.homeTeam);
+                const kAwayFlag = getTeamFlagUrl(k.awayTeam);
                 return nTeam1Flag && (nTeam1Flag === kHomeFlag || nTeam1Flag === kAwayFlag);
             });
 
             // Si existe en la API, sobreescribimos los equipos del nodo con la VERDADERA realidad de la API
             if (apiMatch) {
                 node.team1 = { 
-                    name: apiMatch.home_team, 
-                    flag: getTeamFlagUrl(apiMatch.home_team), 
+                    name: apiMatch.homeTeam, 
+                    flag: getTeamFlagUrl(apiMatch.homeTeam), 
                     source: 'API', 
                     selected: false,
-                    originalId: apiMatch.home_team
+                    originalId: apiMatch.homeTeam
                 };
                 node.team2 = { 
-                    name: apiMatch.away_team, 
-                    flag: getTeamFlagUrl(apiMatch.away_team), 
+                    name: apiMatch.awayTeam, 
+                    flag: getTeamFlagUrl(apiMatch.awayTeam), 
                     source: 'API', 
                     selected: false,
-                    originalId: apiMatch.away_team
+                    originalId: apiMatch.awayTeam
                 };
                 // Prevent this API match from being assigned to multiple nodes
                 const index = availableKnockoutMatches.indexOf(apiMatch);
@@ -194,17 +194,17 @@ export const WorldCup: React.FC = () => {
             const nTeam2Flag = getTeamFlagUrl(node.team2.name);
 
             const match = allKnockoutMatches.find(m => {
-                const mHomeFlag = getTeamFlagUrl(m.home_team);
-                const mAwayFlag = getTeamFlagUrl(m.away_team);
+                const mHomeFlag = getTeamFlagUrl(m.homeTeam);
+                const mAwayFlag = getTeamFlagUrl(m.awayTeam);
                 return (mHomeFlag === nTeam1Flag && mAwayFlag === nTeam2Flag) ||
                        (mHomeFlag === nTeam2Flag && mAwayFlag === nTeam1Flag);
             });
-            if (match && (match.status === 'FINISHED' || match.status === 'LIVE')) {
-                const isReversed = match.home_team === node.team2?.name;
-                node.homeScore = isReversed ? match.away_score : match.home_score;
-                node.awayScore = isReversed ? match.home_score : match.away_score;
+            if (match && (match.status === 'FINISHED' || match.status === 'LIVE' || match.status === 'finished' || match.status === 'live')) {
+                const isReversed = match.homeTeam === node.team2?.name;
+                node.homeScore = isReversed ? match.awayScore : match.homeScore;
+                node.awayScore = isReversed ? match.homeScore : match.awayScore;
                 
-                if (match.status === 'FINISHED') {
+                if (match.status === 'FINISHED' || match.status === 'finished') {
                     if (node.homeScore !== undefined && node.awayScore !== undefined) {
                         if (node.homeScore > node.awayScore) {
                             node.winnerId = node.team1.name;
