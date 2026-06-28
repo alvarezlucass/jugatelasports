@@ -495,6 +495,12 @@ export const TournamentBracket: React.FC<Props> = ({ initialBracketData, groupTe
         return emptyData;
     });
 
+    useEffect(() => {
+        if (isReadOnly && initialBracketData) {
+            setBracketState(initialBracketData);
+        }
+    }, [isReadOnly, initialBracketData]);
+
     // Persistence
     useEffect(() => {
         if (!isReadOnly) {

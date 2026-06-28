@@ -68,39 +68,55 @@ export const calculateAdvancingTeams = (groupsStandings: Record<string, TeamStan
 export const generateInitialBracket = (advancingTeams: { first: TeamStanding[], second: TeamStanding[], thirds: TeamStanding[] }, forcePlaceholders: boolean = false): MatchupNode[] => {
     const { first, second, thirds } = advancingTeams;
     
-    // We have 12 firsts, 12 seconds, 8 thirds. Total 32.
-    // Let's pair them in 16 matches.
-    // To ensure a full bracket, if we don't have enough teams yet (e.g. data missing), we fallback to placeholders.
     const createPlaceholder = (source: string) => ({ name: 'Por Definir', flag: '', source, selected: false });
 
-    const getTeamFromList = (list: TeamStanding[], idx: number, source: string) => {
+    const getTeam = (list: TeamStanding[], idx: number, source: string) => {
         if (forcePlaceholders) return createPlaceholder(source);
         const t = list[idx];
         if (t) return { name: t.name, flag: t.flag, source, originalId: t.id, selected: false };
         return createPlaceholder(source);
     };
 
+    const availableThirds = [...thirds];
+    const popValidThird = (opponentGroup: string) => {
+        if (forcePlaceholders) return createPlaceholder('Mejor 3ro');
+        // Find a third-placed team that is NOT from the opponent's group
+        const idx = availableThirds.findIndex(t => t.groupId !== opponentGroup);
+        if (idx !== -1) {
+            const t = availableThirds[idx];
+            availableThirds.splice(idx, 1);
+            return { name: t.name, flag: t.flag, source: `3ro ${t.groupId}`, originalId: t.id, selected: false };
+        }
+        // Fallback if mathematically unavoidable
+        if (availableThirds.length > 0) {
+            const t = availableThirds.shift()!;
+            return { name: t.name, flag: t.flag, source: `3ro ${t.groupId}`, originalId: t.id, selected: false };
+        }
+        return createPlaceholder('Mejor 3ro');
+    };
+
     const matches: MatchupNode[] = [];
 
-    // Slot 1-8 (Lado Izquierdo)
-    matches.push({ id: 'R32_1', team1: getTeamFromList(first, 4, '1ro Grupo E'), team2: getTeamFromList(thirds, 0, 'Mejor 3ro (D/etc)') }); // Match 74: Alemania (1E) vs Paraguay
-    matches.push({ id: 'R32_2', team1: getTeamFromList(first, 8, '1ro Grupo I'), team2: getTeamFromList(second, 5, '2do Grupo F') }); // Match 77: Francia (1I) vs Suecia (2F)
-    matches.push({ id: 'R32_3', team1: getTeamFromList(second, 0, '2do Grupo A'), team2: getTeamFromList(second, 1, '2do Grupo B') }); // Match 73: Sudáfrica (2A) vs Canadá (2B)
-    matches.push({ id: 'R32_4', team1: getTeamFromList(first, 5, '1ro Grupo F'), team2: getTeamFromList(second, 2, '2do Grupo C') }); // Match 75: Países Bajos (1F) vs Marruecos (2C)
-    matches.push({ id: 'R32_5', team1: getTeamFromList(second, 10, '2do Grupo K'), team2: getTeamFromList(second, 11, '2do Grupo L') }); // Match 83: Portugal (2K) vs Croacia (2L)
-    matches.push({ id: 'R32_6', team1: getTeamFromList(first, 7, '1ro Grupo H'), team2: getTeamFromList(thirds, 1, 'Mejor 3ro') }); // Match 84: España (1H) vs Austria
-    matches.push({ id: 'R32_7', team1: getTeamFromList(first, 3, '1ro Grupo D'), team2: getTeamFromList(thirds, 2, 'Mejor 3ro') }); // Match 81: USA (1D) vs Bosnia
-    matches.push({ id: 'R32_8', team1: getTeamFromList(first, 6, '1ro Grupo G'), team2: getTeamFromList(thirds, 3, 'Mejor 3ro') }); // Match 82: Bélgica (1G) vs Senegal
+    // Oficial FIFA 2026 R32 (Matches 73-88)
+    // Left Side: 73, 74, 75, 76, 77, 78, 79, 80
+    matches.push({ id: 'R32_1', team1: getTeam(second, 0, '2do Grupo A'), team2: getTeam(second, 1, '2do Grupo B') }); // M73: 2A vs 2B
+    matches.push({ id: 'R32_2', team1: getTeam(first, 0, '1ro Grupo A'), team2: popValidThird('A') }); // M74: 1A vs 3ro
+    matches.push({ id: 'R32_3', team1: getTeam(first, 2, '1ro Grupo C'), team2: getTeam(second, 3, '2do Grupo D') }); // M75: 1C vs 2D
+    matches.push({ id: 'R32_4', team1: getTeam(first, 3, '1ro Grupo D'), team2: popValidThird('D') }); // M76: 1D vs 3ro
+    matches.push({ id: 'R32_5', team1: getTeam(first, 1, '1ro Grupo B'), team2: popValidThird('B') }); // M77: 1B vs 3ro
+    matches.push({ id: 'R32_6', team1: getTeam(second, 4, '2do Grupo E'), team2: getTeam(second, 5, '2do Grupo F') }); // M78: 2E vs 2F
+    matches.push({ id: 'R32_7', team1: getTeam(first, 4, '1ro Grupo E'), team2: popValidThird('E') }); // M79: 1E vs 3ro
+    matches.push({ id: 'R32_8', team1: getTeam(first, 5, '1ro Grupo F'), team2: getTeam(second, 2, '2do Grupo C') }); // M80: 1F vs 2C
 
-    // Slot 9-16 (Lado Derecho)
-    matches.push({ id: 'R32_9', team1: getTeamFromList(first, 2, '1ro Grupo C'), team2: getTeamFromList(thirds, 4, 'Mejor 3ro') }); // Match 76: Brasil (1C) vs Japón
-    matches.push({ id: 'R32_10', team1: getTeamFromList(second, 4, '2do Grupo E'), team2: getTeamFromList(second, 8, '2do Grupo I') }); // Match 78: Costa de Marfil (2E) vs Noruega (2I)
-    matches.push({ id: 'R32_11', team1: getTeamFromList(first, 0, '1ro Grupo A'), team2: getTeamFromList(thirds, 5, 'Mejor 3ro') }); // Match 79: México (1A) vs Ecuador
-    matches.push({ id: 'R32_12', team1: getTeamFromList(first, 11, '1ro Grupo L'), team2: getTeamFromList(thirds, 6, 'Mejor 3ro') }); // Match 80: Inglaterra (1L) vs RD Congo
-    matches.push({ id: 'R32_13', team1: getTeamFromList(first, 9, '1ro Grupo J'), team2: getTeamFromList(second, 7, '2do Grupo H') }); // Match 86: Argentina (1J) vs Cabo Verde (2H)
-    matches.push({ id: 'R32_14', team1: getTeamFromList(second, 3, '2do Grupo D'), team2: getTeamFromList(thirds, 7, 'Mejor 3ro') }); // Match 88: Australia (2D) vs Egipto
-    matches.push({ id: 'R32_15', team1: getTeamFromList(first, 1, '1ro Grupo B'), team2: getTeamFromList(second, 9, '2do Grupo J') }); // Match 85: Suiza (1B) vs Argelia (2J) - o Argelia puede ser 3ro, pero ajustamos a 2J para asegurar el match
-    matches.push({ id: 'R32_16', team1: getTeamFromList(first, 10, '1ro Grupo K'), team2: getTeamFromList(second, 6, '2do Grupo G') }); // Match 87: Colombia (1K) vs Ghana (2G o similar)
+    // Right Side: 81, 82, 83, 84, 85, 86, 87, 88
+    matches.push({ id: 'R32_9', team1: getTeam(first, 6, '1ro Grupo G'), team2: popValidThird('G') }); // M81: 1G vs 3ro
+    matches.push({ id: 'R32_10', team1: getTeam(first, 7, '1ro Grupo H'), team2: getTeam(second, 9, '2do Grupo J') }); // M82: 1H vs 2J
+    matches.push({ id: 'R32_11', team1: getTeam(first, 8, '1ro Grupo I'), team2: popValidThird('I') }); // M83: 1I vs 3ro
+    matches.push({ id: 'R32_12', team1: getTeam(second, 6, '2do Grupo G'), team2: getTeam(second, 7, '2do Grupo H') }); // M84: 2G vs 2H
+    matches.push({ id: 'R32_13', team1: getTeam(first, 9, '1ro Grupo J'), team2: getTeam(second, 8, '2do Grupo I') }); // M85: 1J vs 2I
+    matches.push({ id: 'R32_14', team1: getTeam(first, 10, '1ro Grupo K'), team2: popValidThird('K') }); // M86: 1K vs 3ro
+    matches.push({ id: 'R32_15', team1: getTeam(first, 11, '1ro Grupo L'), team2: popValidThird('L') }); // M87: 1L vs 3ro
+    matches.push({ id: 'R32_16', team1: getTeam(second, 10, '2do Grupo K'), team2: getTeam(second, 11, '2do Grupo L') }); // M88: 2K vs 2L
 
     return matches;
 };
