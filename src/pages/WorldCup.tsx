@@ -49,9 +49,8 @@ export const WorldCup: React.FC = () => {
         const fetchRealMatches = async () => {
             setIsLoading(true);
             try {
-                const groupMatchIds = WORLD_CUP_GROUP_MATCHES.map(m => m.id);
-                // We pass undefined for leagueId but provide the specific IDs we want
-                const matches = await matchService.getMatches(undefined, { ids: groupMatchIds, limit: 1000 });
+                // Fetch all World Cup 2026 matches to include knockouts as well as group stage
+                const matches = await matchService.getMatches({ leagueId: 'world-cup-2026', season: 2026 }, { limit: 1000 });
                 setRealMatches(matches);
             } catch (err) {
                 console.error("Error fetching real matches", err);
