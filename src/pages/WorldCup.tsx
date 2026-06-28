@@ -141,28 +141,30 @@ export const WorldCup: React.FC = () => {
         const allKnockoutMatches = realMatches.filter(m => m.metadata?.round && !m.metadata.round.toLowerCase().includes('group'));
         const availableKnockoutMatches = [...allKnockoutMatches];
 
-        realTree.r32 = initialR32.map(m => {
-            // Clonar nodo básico
-            const node = {
-                ...m,
-                winnerId: undefined,
-                homeScore: undefined,
-                awayScore: undefined,
-                team1: m.team1 ? { ...m.team1, selected: false } : undefined,
-                team2: m.team2 ? { ...m.team2, selected: false } : undefined
-            };
+        realTree.r32 = initialR32.map(m => ({
+            ...m,
+            winnerId: undefined,
+            homeScore: undefined,
+            awayScore: undefined,
+            team1: m.team1 ? { ...m.team1, selected: false } : undefined,
+            team2: m.team2 ? { ...m.team2, selected: false } : undefined
+        }));
 
-            // Intentar encontrar si la API tiene un partido de 16avos programado para el team1 (semilla principal de esta llave)
-            const nTeam1Flag = node.team1?.name ? getTeamFlagUrl(node.team1.name) : null;
-
-            const apiMatch = availableKnockoutMatches.find(k => {
-                const kHomeFlag = getTeamFlagUrl(k.homeTeam);
-                const kAwayFlag = getTeamFlagUrl(k.awayTeam);
+        // Pass 2: Aplicar partidos de la API y evitar equipos duplicados
+        [...availableKnockoutMatches].forEach(apiMatch => {
+            const kHomeFlag = getTeamFlagUrl(apiMatch.homeTeam);
+            const kAwayFlag = getTeamFlagUrl(apiMatch.awayTeam);
+            
+            // Buscar el nodo generado matemáticamente que le corresponde a este equipo 1ro de grupo
+            const node = realTree.r32.find(n => {
+                const nTeam1Flag = n.team1?.name ? getTeamFlagUrl(n.team1.name) : null;
                 return nTeam1Flag && (nTeam1Flag === kHomeFlag || nTeam1Flag === kAwayFlag);
             });
 
-            // Si existe en la API, sobreescribimos los equipos del nodo con la VERDADERA realidad de la API
-            if (apiMatch) {
+            if (node) {
+                const oldTeam1 = node.team1;
+                const oldTeam2 = node.team2;
+
                 node.team1 = { 
                     name: apiMatch.homeTeam, 
                     flag: getTeamFlagUrl(apiMatch.homeTeam), 
@@ -177,13 +179,31 @@ export const WorldCup: React.FC = () => {
                     selected: false,
                     originalId: apiMatch.awayTeam
                 };
-                // Prevent this API match from being assigned to multiple nodes
+
+                // Swap logic para evitar duplicados: Si apiTeam1 o apiTeam2 ya estaban en OTRO nodo, 
+                // los reemplazamos por oldTeam1 u oldTeam2 (los que acabamos de sacar)
+                realTree.r32.forEach(otherNode => {
+                    if (otherNode.id !== node.id) {
+                        if (otherNode.team1?.name === apiMatch.homeTeam) {
+                            otherNode.team1 = oldTeam1 ? { ...oldTeam1 } : undefined;
+                        } else if (otherNode.team2?.name === apiMatch.homeTeam) {
+                            otherNode.team2 = oldTeam1 ? { ...oldTeam1 } : undefined;
+                        }
+
+                        if (otherNode.team1?.name === apiMatch.awayTeam) {
+                            otherNode.team1 = oldTeam2 ? { ...oldTeam2 } : undefined;
+                        } else if (otherNode.team2?.name === apiMatch.awayTeam) {
+                            otherNode.team2 = oldTeam2 ? { ...oldTeam2 } : undefined;
+                        }
+                    }
+                });
+
+                // Remove from availableKnockoutMatches
                 const index = availableKnockoutMatches.indexOf(apiMatch);
                 if (index > -1) {
                     availableKnockoutMatches.splice(index, 1);
                 }
             }
-            return node;
         });
         
         // This helper attempts to find the real match for a given bracket node and apply scores
