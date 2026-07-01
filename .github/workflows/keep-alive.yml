@@ -1,0 +1,28 @@
+name: Mantener Base de Datos Activa
+
+on:
+  schedule:
+    # Se ejecuta todos los días a las 12:00 PM UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch: # Permite ejecutar el workflow manualmente desde GitHub Actions
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm install @supabase/supabase-js
+
+      - name: Ejecutar script de ping
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: node scripts/ping_db.mjs
